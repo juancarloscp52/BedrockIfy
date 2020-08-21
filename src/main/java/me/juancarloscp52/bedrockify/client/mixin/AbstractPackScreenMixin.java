@@ -1,0 +1,96 @@
+package me.juancarloscp52.bedrockify.client.mixin;
+
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.pack.AbstractPackScreen;
+import net.minecraft.client.gui.screen.pack.PackListWidget;
+import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+@Mixin(AbstractPackScreen.class)
+public class AbstractPackScreenMixin extends Screen {
+    int headerLeft = 0;
+    int headerWidth;
+    int headerHeight;
+    int headerTop = 32;
+    int headerBottom;
+
+    protected AbstractPackScreenMixin(Text title) {
+        super(title);
+    }
+
+    /**
+     * Render top and bottom "dirt" bars when custom rotating background is enabled.
+     */
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/pack/AbstractPackScreen;drawCenteredText(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/StringRenderable;III)V", ordinal = 0))
+    private void renderHeaderAndBottom(CallbackInfo info) {
+        if(!BedrockifyClient.getInstance().settings.isCubemapBackgroundEnabled())
+            return;
+
+        headerWidth = client.getWindow().getScaledWidth();
+        headerHeight = client.getWindow().getScaledHeight();
+        headerBottom = headerHeight - 51;
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferBuilder = tessellator.getBuffer();
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        this.client.getTextureManager().bindTexture(DrawableHelper.BACKGROUND_TEXTURE);
+        RenderSystem.enableDepthTest();
+        RenderSystem.depthFunc(519);
+        float tilingSize = 32.0F;
+        // Top and bottom bars.
+        bufferBuilder.begin(7, VertexFormats.POSITION_TEXTURE_COLOR);
+        bufferBuilder.vertex(this.headerLeft, this.headerTop, -100.0D).texture(0.0F, (float) this.headerTop / tilingSize).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex(this.headerLeft + this.headerWidth, this.headerTop, -100.0D).texture((float) this.headerWidth / tilingSize, (float) this.headerTop / tilingSize).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex(this.headerLeft + this.headerWidth, 0.0D, -100.0D).texture((float) this.headerWidth / tilingSize, 0.0F).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex(this.headerLeft, 0.0D, -100.0D).texture(0.0F, 0.0F).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex(this.headerLeft, this.headerHeight, -100.0D).texture(0.0F, (float) this.headerHeight / tilingSize).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex(this.headerLeft + this.headerWidth, this.headerHeight, -100.0D).texture((float) this.headerWidth / tilingSize, (float) this.headerHeight / tilingSize).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex(this.headerLeft + this.headerWidth, this.headerBottom, -100.0D).texture((float) this.headerWidth / tilingSize, (float) this.headerBottom / tilingSize).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex(this.headerLeft, this.headerBottom, -100.0D).texture(0.0F, (float) this.headerBottom / tilingSize).color(64, 64, 64, 255).next();
+        tessellator.draw();
+
+        RenderSystem.depthFunc(515);
+        RenderSystem.disableDepthTest();
+        RenderSystem.enableBlend();
+        RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ZERO, GlStateManager.DstFactor.ONE);
+        RenderSystem.disableAlphaTest();
+        RenderSystem.shadeModel(7425);
+        RenderSystem.disableTexture();
+
+        // Top and bottom bar shadows.
+        bufferBuilder.begin(7, VertexFormats.POSITION_TEXTURE_COLOR);
+        bufferBuilder.vertex(this.headerLeft, this.headerTop + 4, 0.0D).texture(0.0F, 1.0F).color(0, 0, 0, 0).next();
+        bufferBuilder.vertex(this.headerWidth, this.headerTop + 4, 0.0D).texture(1.0F, 1.0F).color(0, 0, 0, 0).next();
+        bufferBuilder.vertex(this.headerWidth, this.headerTop, 0.0D).texture(1.0F, 0.0F).color(0, 0, 0, 255).next();
+        bufferBuilder.vertex(this.headerLeft, this.headerTop, 0.0D).texture(0.0F, 0.0F).color(0, 0, 0, 255).next();
+        bufferBuilder.vertex(this.headerLeft, this.headerBottom, 0.0D).texture(0.0F, 1.0F).color(0, 0, 0, 255).next();
+        bufferBuilder.vertex(this.headerWidth, this.headerBottom, 0.0D).texture(1.0F, 1.0F).color(0, 0, 0, 255).next();
+        bufferBuilder.vertex(this.headerWidth, this.headerBottom - 4, 0.0D).texture(1.0F, 0.0F).color(0, 0, 0, 0).next();
+        bufferBuilder.vertex(this.headerLeft, this.headerBottom - 4, 0.0D).texture(0.0F, 0.0F).color(0, 0, 0, 0).next();
+        tessellator.draw();
+
+        RenderSystem.enableTexture();
+        RenderSystem.shadeModel(7424);
+        RenderSystem.enableAlphaTest();
+        RenderSystem.disableBlend();
+
+    }
+
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/pack/PackListWidget;render(Lnet/minecraft/client/util/math/MatrixStack;IIF)V", ordinal = 0))
+    private void renderDarkRectangle(PackListWidget packListWidget, MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        if(BedrockifyClient.getInstance().settings.isCubemapBackgroundEnabled())
+            DrawableHelper.fill(matrices, 0, this.headerTop, client.getWindow().getScaledWidth(), this.headerBottom, (60 << 24));
+        packListWidget.render(matrices, mouseX, mouseY, delta);
+    }
+}

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "id": "bedrockify",
+  "version": "${version}",
+  "name": "BedrockIfy",
+  "description": "BedrockIfy implements some Minecraft Bedrock features into Java edition.",
+  "authors": [
+    "juancarloscp52"
+  ],
+  "contact": {
+    "homepage": "",
+    "sources": ""
+  },
+  "license": "LGPL-2.0-only",
+  "icon": "assets/bedrockify/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "me.juancarloscp52.bedrockify.client.BedrockifyClient"
+    ],
+    "modmenu": ["me.juancarloscp52.bedrockify.client.BedrockifyModMenu"]
+  },
+  "mixins": [
+    "bedrockify.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "minecraft": "1.16.x"
+  },
+  "recommends": {
+    "modmenu": ">=1.14.5"
+  },
+  "custom": {
+    "modmenu:clientsideOnly": true
+  }
+}

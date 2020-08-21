@@ -1,0 +1,31 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "me.juancarloscp52.bedrockify.client.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MinecraftServerMixin"
+  ],
+  "client": [
+    "EntryListWidgetMixin",
+    "HandledScreenMixin",
+    "InGameHudMixin",
+    "MinecraftClientMixin",
+    "ScreenMixin",
+    "TitleScreenMixin",
+    "AbstractPackScreenMixin",
+    "BossBarHudMixin",
+    "ChatHudMixin",
+    "ConnectScreenMixin",
+    "DisconnectedScreenMixin",
+    "DownloadingTerrainScreenMixin",
+    "LevelLoadingScreenMixin",
+    "OptionsScreenMixin",
+    "ProgressScreenMixin",
+    "SaveLevelScreenMixin",
+    "SubtitlesHudMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
