@@ -5,7 +5,7 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.SubtitlesHud;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.StringRenderable;
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
@@ -21,8 +21,8 @@ public class SubtitlesHudMixin extends DrawableHelper {
         return textRenderer.draw(matrices, text, x - screenBorder, y - screenBorder, color);
     }
 
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/StringRenderable;FFI)I"))
-    private int drawWithScreenBorder(TextRenderer textRenderer, MatrixStack matrices, StringRenderable text, float x, float y, int color) {
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I"))
+    private int drawWithScreenBorder(TextRenderer textRenderer, MatrixStack matrices, Text text, float x, float y, int color) {
         int screenBorder = BedrockifyClient.getInstance().settings.getScreenSafeArea();
         return textRenderer.draw(matrices, text, x - screenBorder, y - screenBorder, color);
     }

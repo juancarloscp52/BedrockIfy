@@ -13,7 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.PotionItem;
 import net.minecraft.potion.PotionUtil;
-import net.minecraft.text.StringRenderable;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ChatUtil;
@@ -26,7 +25,7 @@ import java.util.Map;
 
 public class ItemTooltips {
 
-    public int drawItemWithCustomTooltips(TextRenderer fontRenderer, MatrixStack matrices, StringRenderable text, float x, float y, int color, ItemStack currentStack) {
+    public int drawItemWithCustomTooltips(TextRenderer fontRenderer, MatrixStack matrices, Text text, float x, float y, int color, ItemStack currentStack) {
         int screenBorder = BedrockifyClient.getInstance().settings.getScreenSafeArea();
         // Get the current held item tooltips.
         Map<String, Integer[]> tooltips = getTooltips(currentStack);

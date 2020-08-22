@@ -7,7 +7,10 @@ import net.minecraft.client.gui.screen.ScreenTexts;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.SliderWidget;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+
+import java.util.List;
 
 public class BedrockifyOptionsScreen extends Screen {
 
@@ -55,7 +58,7 @@ public class BedrockifyOptionsScreen extends Screen {
         this.addButton(new ButtonWidget(this.width / 2 - 159 + 160, this.height/6 -12 + 24 * 3, 158, 20, new TranslatableText("bedrockify.options.loadingScreenChunkMap").append(" ").append(settings.isShowChunkMapEnabled() ? new TranslatableText("bedrockify.options.on") : new TranslatableText("bedrockify.options.off")), (button) -> {
             settings.toggleChunkMap();
             button.setMessage(new TranslatableText("bedrockify.options.loadingScreenChunkMap").append(" ").append(settings.isShowChunkMapEnabled() ? new TranslatableText("bedrockify.options.on") : new TranslatableText("bedrockify.options.off")));
-        },(buttonWidget,matrixStack,x,y)-> renderTooltip(matrixStack,this.textRenderer.wrapLines(new TranslatableText("bedrockify.options.loadingScreenChunkMap.tooltip"),Math.max(this.width/2 - 43,170)),x,y)));
+        },(buttonWidget,matrixStack,x,y)-> renderOrderedTooltip(matrixStack,this.textRenderer.wrapLines(new TranslatableText("bedrockify.options.loadingScreenChunkMap.tooltip"),Math.max(this.width/2 - 43,170)),x,y)));
         this.addButton(new ButtonWidget(this.width / 2 - 159, this.height/6 -12 + 24 * 4, 158, 20, new TranslatableText("bedrockify.options.reachAround").append(" ").append(settings.isReacharoundEnabled() ? new TranslatableText("bedrockify.options.on") : new TranslatableText("bedrockify.options.off")), (button) -> {
             settings.toggleReacharound();
             button.setMessage(new TranslatableText("bedrockify.options.reachAround").append(" ").append(settings.isReacharoundEnabled() ? new TranslatableText("bedrockify.options.on") : new TranslatableText("bedrockify.options.off")));
@@ -78,7 +81,7 @@ public class BedrockifyOptionsScreen extends Screen {
         this.addButton(new ButtonWidget(this.width / 2 - 159, this.height/6 -12 + 24 * 6, 318, 20, new TranslatableText("bedrockify.options.rotationalBackground").append(" ").append(settings.isCubemapBackgroundEnabled() ? new TranslatableText("bedrockify.options.on") : new TranslatableText("bedrockify.options.off")), (button) -> {
             settings.toggleCubemapBackground();
             button.setMessage(new TranslatableText("bedrockify.options.rotationalBackground").append(" ").append(settings.isCubemapBackgroundEnabled() ? new TranslatableText("bedrockify.options.on") : new TranslatableText("bedrockify.options.off")));
-        },(buttonWidget,matrixStack,x,y)-> renderTooltip(matrixStack,this.textRenderer.wrapLines(new TranslatableText("bedrockify.options.rotationalBackground.tooltip"),Math.max(this.width/2 - 43,170)),x,y)));
+        },(buttonWidget,matrixStack,x,y)-> renderOrderedTooltip(matrixStack,this.textRenderer.wrapLines(new TranslatableText("bedrockify.options.rotationalBackground.tooltip"),Math.max(this.width/2 - 43,170)),x,y)));
 
         this.addButton(new ButtonWidget(this.width / 2 - 100, this.height / 6 + 168, 200, 20, ScreenTexts.DONE, (buttonWidget) -> {
             this.onClose();

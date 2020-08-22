@@ -5,10 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.StringRenderable;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
+import net.minecraft.text.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
@@ -93,7 +90,7 @@ public class LoadingScreenWidget extends DrawableHelper {
     private void renderTextBody(MatrixStack matrices, int x, int y, Text message, TextRenderer textRenderer) {
         if (message == null)
             message = getTip();
-        List<StringRenderable> text = textRenderer.getTextHandler().wrapLines(message, 230, Style.EMPTY);
+        List<OrderedText> text = textRenderer.wrapLines(message, 230);
         int maxLineWidth = getMaxLineWidth(textRenderer, text);
         for (int i = 0; i < 4 && i < text.size(); i++) {
             textRenderer.draw(matrices, text.get(i), x - maxLineWidth / 2f, y - 15 + (i * 9), 16777215);
@@ -101,7 +98,7 @@ public class LoadingScreenWidget extends DrawableHelper {
 
     }
 
-    private int getMaxLineWidth(TextRenderer textRenderer, List<StringRenderable> text) {
+    private int getMaxLineWidth(TextRenderer textRenderer, List<OrderedText> text) {
         int maxLineWidth = 0;
         for (int i = 0; i < 4 && i < text.size(); i++) {
             int lineWidth = textRenderer.getWidth(text.get(i));

@@ -5,7 +5,7 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.hud.BossBarHud;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.boss.BossBar;
-import net.minecraft.text.StringRenderable;
+import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,8 +27,8 @@ public abstract class BossBarHudMixin {
         this.renderBossBar(matrixStack, i, j + BedrockifyClient.getInstance().settings.getScreenSafeArea(), bossBar);
     }
 
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/StringRenderable;FFI)I"))
-    public int applyScreenBorderToBossName(TextRenderer textRenderer, MatrixStack matrices, StringRenderable text, float x, float y, int color) {
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I"))
+    public int applyScreenBorderToBossName(TextRenderer textRenderer, MatrixStack matrices, Text text, float x, float y, int color) {
         return textRenderer.drawWithShadow(matrices, text, x, y + BedrockifyClient.getInstance().settings.getScreenSafeArea(), color);
     }
 

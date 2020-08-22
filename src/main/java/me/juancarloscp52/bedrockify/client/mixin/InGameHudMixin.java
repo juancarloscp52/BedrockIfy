@@ -18,7 +18,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.StringRenderable;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -30,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 
 @Environment(EnvType.CLIENT)
@@ -120,7 +121,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
      */
     @Inject(method = "renderStatusEffectOverlay", at = @At("HEAD"), cancellable = true)
     public void renderStatusEffectOverlay(MatrixStack matrixStack, CallbackInfo info) {
-        Collection<StatusEffectInstance> collection = this.client.player.getStatusEffects();
+        Collection<StatusEffectInstance> collection = Objects.requireNonNull(this.client.player).getStatusEffects();
         if (!collection.isEmpty()) {
             RenderSystem.enableBlend();
             int beneficialEffects = 0;
@@ -178,8 +179,8 @@ public abstract class InGameHudMixin extends DrawableHelper {
     /**
      * Draw custom tooltips for effects and enchantments before the heldItemTooltip is rendered.
      */
-    @Redirect(method = "renderHeldItemTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/StringRenderable;FFI)I"))
-    private int drawCustomTooltips(TextRenderer fontRenderer, MatrixStack matrices, StringRenderable text, float x, float y, int color) {
+    @Redirect(method = "renderHeldItemTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I"))
+    private int drawCustomTooltips(TextRenderer fontRenderer, MatrixStack matrices, Text text, float x, float y, int color) {
         return BedrockifyClient.getInstance().itemTooltips.drawItemWithCustomTooltips(fontRenderer, matrices, text, x, y, color, currentStack);
     }
     /**
@@ -198,17 +199,17 @@ public abstract class InGameHudMixin extends DrawableHelper {
         }
     }
 
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/StringRenderable;FFI)I",ordinal = 0))
-    public int renderOverlayMessage(TextRenderer textRenderer, MatrixStack matrices, StringRenderable text, float x, float y, int color){
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I",ordinal = 0))
+    public int renderOverlayMessage(TextRenderer textRenderer, MatrixStack matrices, Text text, float x, float y, int color){
         return textRenderer.draw(matrices, text, x, y-screenBorder, color);
     }
 
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/StringRenderable;FFI)I", ordinal = 0))
-    public int drawTitle(TextRenderer textRenderer,MatrixStack matrices, StringRenderable text, float x, float y, int color){
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I", ordinal = 0))
+    public int drawTitle(TextRenderer textRenderer,MatrixStack matrices, Text text, float x, float y, int color){
         return textRenderer.drawWithShadow(matrices, text, x, y - (screenBorder/4.0f), color);
     }
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/StringRenderable;FFI)I", ordinal = 1))
-    public int drawSubtitle(TextRenderer textRenderer,MatrixStack matrices, StringRenderable text, float x, float y, int color){
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I", ordinal = 1))
+    public int drawSubtitle(TextRenderer textRenderer,MatrixStack matrices, Text text, float x, float y, int color){
         return textRenderer.drawWithShadow(matrices, text, x, y - (screenBorder/2.0f), color);
     }
     /**

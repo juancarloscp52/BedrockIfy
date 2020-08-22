@@ -8,6 +8,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.MathHelper;
@@ -24,10 +25,9 @@ import java.util.List;
 @Mixin(ChatHud.class)
 public abstract class ChatHudMixin extends DrawableHelper {
 
-    @Shadow protected abstract boolean method_23677();
     @Shadow protected abstract void method_27149();
-    @Shadow @Final private List<ChatHudLine> visibleMessages;
-    @Shadow public abstract boolean isChatFocused();
+    @Shadow @Final private List<ChatHudLine<OrderedText>> visibleMessages;
+    @Shadow protected abstract boolean isChatFocused();
     @Shadow public abstract double getChatScale();
     @Shadow public abstract int getWidth();
     @Shadow @Final private MinecraftClient client;
@@ -38,6 +38,8 @@ public abstract class ChatHudMixin extends DrawableHelper {
     @Shadow @Final private Deque<Text> field_23934;
     @Shadow private boolean hasUnreadNewMessages;
     @Shadow public abstract int getVisibleLineCount();
+
+    @Shadow protected abstract boolean isChatHidden();
 
     private int counter1 =0;
     BedrockifySettings settings = BedrockifyClient.getInstance().settings;
@@ -50,7 +52,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
         if(!settings.isBedrockChatEnabled())
             return;
 
-        if (!this.method_23677()) {
+        if (!this.isChatHidden()) {
             this.method_27149();
             int visibleLines = Math.min(this.getVisibleLineCount(),this.getAvailableLines());
             int visibleMessagesCount = this.visibleMessages.size();
@@ -69,7 +71,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
                 counter1 = 0; //Shown messages
 
                 for(int i = 0; i + this.scrolledLines < this.visibleMessages.size() && i < visibleLines; ++i) {
-                    ChatHudLine chatHudLine = this.visibleMessages.get(i + this.scrolledLines);
+                    ChatHudLine<OrderedText> chatHudLine = this.visibleMessages.get(i + this.scrolledLines);
                     if (chatHudLine != null) {
                         int ticksSinceCreation;
                         ticksSinceCreation = ticks - chatHudLine.getCreationTick();

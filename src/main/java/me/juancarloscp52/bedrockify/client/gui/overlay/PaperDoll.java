@@ -99,12 +99,10 @@ public class PaperDoll {
         player.bodyYaw = angle;
 
         // Draw the entity.
-        EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderManager();
+        EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
         entityRenderDispatcher.setRenderShadows(false);
         VertexConsumerProvider.Immediate immediate = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
-        RenderSystem.runAsFancy(() -> {
-            entityRenderDispatcher.render(player, 0, 0, 0, 0.0F, 1.0F, matrixStack, immediate, 15728880);
-        });
+        RenderSystem.runAsFancy(() -> entityRenderDispatcher.render(player, 0, 0, 0, 0.0F, 1.0F, matrixStack, immediate, 15728880));
         immediate.draw();
         entityRenderDispatcher.setRenderShadows(true);
 

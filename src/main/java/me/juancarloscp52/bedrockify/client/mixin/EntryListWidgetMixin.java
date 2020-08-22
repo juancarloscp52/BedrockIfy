@@ -6,7 +6,7 @@ import me.juancarloscp52.bedrockify.client.gui.BedrockifyRotatingCubeMapRenderer
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.screen.pack.AbstractPackScreen;
+import net.minecraft.client.gui.screen.pack.PackScreen;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
@@ -44,7 +44,7 @@ public abstract class EntryListWidgetMixin {
         if(!BedrockifyClient.getInstance().settings.isCubemapBackgroundEnabled())
             return;
 
-        if (!(this.client.currentScreen instanceof AbstractPackScreen)) {
+        if (!(this.client.currentScreen instanceof PackScreen)) {
             BedrockifyRotatingCubeMapRenderer.getInstance().render();
             DrawableHelper.fill(matrices, 0, this.top, client.getWindow().getScaledWidth(), this.bottom, (60 << 24));
         }
@@ -62,7 +62,7 @@ public abstract class EntryListWidgetMixin {
 
         this.renderList(matrices, k, l, mouseX, mouseY, delta);
 
-        if (!(this.client.currentScreen instanceof AbstractPackScreen)) {
+        if (!(this.client.currentScreen instanceof PackScreen)) {
             this.client.getTextureManager().bindTexture(DrawableHelper.BACKGROUND_TEXTURE);
             RenderSystem.enableDepthTest();
             RenderSystem.depthFunc(519);

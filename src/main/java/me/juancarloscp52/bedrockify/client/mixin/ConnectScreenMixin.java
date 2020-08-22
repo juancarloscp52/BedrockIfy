@@ -11,7 +11,6 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.text.LiteralText;
-import net.minecraft.text.StringRenderable;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import org.spongepowered.asm.mixin.Final;
@@ -34,8 +33,8 @@ public class ConnectScreenMixin extends Screen {
     /**
      * Draws the loading screen widget.
      */
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ConnectScreen;drawCenteredText(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/StringRenderable;III)V"))
-    public void drawLoadingScreenWidget(ConnectScreen downloadingTerrainScreen, MatrixStack matrices, TextRenderer textRenderer, StringRenderable text, int x, int y, int color) {
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ConnectScreen;drawCenteredText(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)V"))
+    public void drawLoadingScreenWidget(MatrixStack matrices, TextRenderer textRenderer, Text text, int x, int y, int color) {
         LoadingScreenWidget.getInstance().render(matrices, MinecraftClient.getInstance().getWindow().getScaledWidth() / 2, MinecraftClient.getInstance().getWindow().getScaledHeight() / 2, new LiteralText(text.getString()), null, -1);
     }
 

@@ -5,8 +5,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.pack.AbstractPackScreen;
 import net.minecraft.client.gui.screen.pack.PackListWidget;
+import net.minecraft.client.gui.screen.pack.PackScreen;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
@@ -18,7 +18,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(AbstractPackScreen.class)
+import java.util.Objects;
+
+@Mixin(PackScreen.class)
 public class AbstractPackScreenMixin extends Screen {
     int headerLeft = 0;
     int headerWidth;
@@ -33,12 +35,12 @@ public class AbstractPackScreenMixin extends Screen {
     /**
      * Render top and bottom "dirt" bars when custom rotating background is enabled.
      */
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/pack/AbstractPackScreen;drawCenteredText(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/StringRenderable;III)V", ordinal = 0))
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/pack/PackScreen;drawCenteredText(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)V", ordinal = 0))
     private void renderHeaderAndBottom(CallbackInfo info) {
         if(!BedrockifyClient.getInstance().settings.isCubemapBackgroundEnabled())
             return;
 
-        headerWidth = client.getWindow().getScaledWidth();
+        headerWidth = Objects.requireNonNull(client).getWindow().getScaledWidth();
         headerHeight = client.getWindow().getScaledHeight();
         headerBottom = headerHeight - 51;
         Tessellator tessellator = Tessellator.getInstance();
@@ -90,7 +92,7 @@ public class AbstractPackScreenMixin extends Screen {
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/pack/PackListWidget;render(Lnet/minecraft/client/util/math/MatrixStack;IIF)V", ordinal = 0))
     private void renderDarkRectangle(PackListWidget packListWidget, MatrixStack matrices, int mouseX, int mouseY, float delta) {
         if(BedrockifyClient.getInstance().settings.isCubemapBackgroundEnabled())
-            DrawableHelper.fill(matrices, 0, this.headerTop, client.getWindow().getScaledWidth(), this.headerBottom, (60 << 24));
+            DrawableHelper.fill(matrices, 0, this.headerTop, Objects.requireNonNull(client).getWindow().getScaledWidth(), this.headerBottom, (60 << 24));
         packListWidget.render(matrices, mouseX, mouseY, delta);
     }
 }
