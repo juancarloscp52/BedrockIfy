@@ -1,7 +1,7 @@
-#BedrockIfy
+# BedrockIfy
 BedrockIfy is a fabric Minecraft Mod that implements some useful Minecraft Bedrock Edition features into Minecraft Java Edition.
 
-##Features
+## Features
 - Bedrock-like loading screens with helpful tips.
 - Position and "paper doll" overlay.
 - Saving status overlay.
@@ -26,5 +26,5 @@ cd BedrockIfy
 gradlew build
 ```
 You can find the built JARs inside BedrockIfy/build/libs
-##License
+## License
 Bedrockify is released under the free and open-source [GPL-3.0 License](https://github.com/juancarloscp52/BedrockIfy/blob/master/LICENSE).
