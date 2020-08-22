@@ -14,7 +14,7 @@ Bedrockify also includes "eye-candy" features like the ability use the rotating 
 #### ScreenShots:
 ![HUD](https://i.imgur.com/bEn5V9C.png)
 ![Loading Screen](https://i.imgur.com/zX1QdRb.png)
-![Reach-around block placement](https://raw.githubusercontent.com/juancarloscp52/BedrockIfy/master/readme%20images/reacharound.gif?token=ACWGZ7S3DRKLGMZ3XENTX2K7JJTP2)
+![Reach-around block placement](https://github.com/juancarloscp52/BedrockIfy/blob/master/readme%20images/reacharound.gif)
 ![Rotating background on all screens](https://github.com/juancarloscp52/BedrockIfy/blob/master/readme%20images/menu.gif)
 
 ## Installation:
