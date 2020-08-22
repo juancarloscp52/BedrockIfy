@@ -200,7 +200,6 @@ public abstract class InGameHudMixin extends DrawableHelper {
 
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/StringRenderable;FFI)I",ordinal = 0))
     public int renderOverlayMessage(TextRenderer textRenderer, MatrixStack matrices, StringRenderable text, float x, float y, int color){
-        System.out.println(text.getString());
         return textRenderer.draw(matrices, text, x, y-screenBorder, color);
     }
 
