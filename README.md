@@ -6,7 +6,7 @@ BedrockIfy is a fabric Minecraft Mod that implements some useful Minecraft Bedro
 - Position and "paper doll" overlay.
 - Saving status overlay.
 - Bedrock-like chat.
-- Held item descriptions (enchantments and potions).
+- Held item descriptions (enchantments, books and potions).
 - Reach-around block placement.
 
 Bedrockify also includes "eye-candy" features like the ability use the rotating title screen background in all option screens instead of the boring vanilla dirt background.
