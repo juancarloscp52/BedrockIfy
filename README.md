@@ -12,8 +12,8 @@ BedrockIfy is a fabric Minecraft Mod that implements some useful Minecraft Bedro
 Bedrockify also includes "eye-candy" features like the ability use the rotating title screen background in all option screens instead of the boring vanilla dirt background.
 
 #### ScreenShots:
-![HUD](https://i.imgur.com/bEn5V9C.png)
-![Loading Screen](https://i.imgur.com/zX1QdRb.png)
+![HUD](https://github.com/juancarloscp52/BedrockIfy/blob/master/readme%20images/HUD.png)
+![Loading Screen](https://github.com/juancarloscp52/BedrockIfy/blob/master/readme%20images/loading%20screen.png)
 ![Reach-around block placement](https://github.com/juancarloscp52/BedrockIfy/blob/master/readme%20images/reacharound.gif)
 ![Rotating background on all screens](https://github.com/juancarloscp52/BedrockIfy/blob/master/readme%20images/menu.gif)
 
