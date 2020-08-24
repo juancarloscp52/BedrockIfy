@@ -104,7 +104,7 @@ public class ItemTooltips {
      */
     private Map<String, Integer[]> enchantmentMapToStringMap(Map<Enchantment, Integer> enchantments) {
         HashMap<String, Integer[]> stringHashMap = new HashMap<>();
-        enchantments.forEach((enchantment, value) -> stringHashMap.put(enchantment.getTranslationKey(), new Integer[]{value}));
+        enchantments.forEach((enchantment, value) -> stringHashMap.put(enchantment.getTranslationKey(), new Integer[]{enchantment.getMaxLevel()>1? value:0}));
         return stringHashMap;
     }
 
@@ -161,7 +161,7 @@ public class ItemTooltips {
             // Only show duration if it is more than 1 second.
             if (tooltipEntry.getValue()[1] >= 20)
                 tooltip.append(" (" + ChatUtil.ticksToString(tooltipEntry.getValue()[1]) + ")");
-        } else
+        } else if(tooltipEntry.getValue()[0]>0)
             tooltip.append(" ").append(new TranslatableText("enchantment.level." + tooltipEntry.getValue()[0]));
 
         return tooltip;
