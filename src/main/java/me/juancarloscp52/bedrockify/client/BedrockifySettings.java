@@ -5,14 +5,14 @@ import net.minecraft.util.math.MathHelper;
 public class BedrockifySettings {
     private boolean showPositionHUD = true;
     private byte FPSHUD = 0;
-    private byte heldItemTooltip=0;
+    private byte heldItemTooltip=2;
     private boolean showPaperDoll = true;
     private boolean showChunkMap = false;
     private boolean reacharound = true;
     private boolean reacharoundMultiplayer = true;
     private int positionHUDHeight = 50;
     private int screenSafeArea = 0;
-    private boolean cubeMapBackground = false;
+    private boolean cubeMapBackground = true;
     private boolean bedrockChat=true;
 
     public void toggleBedrockChat(){
