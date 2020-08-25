@@ -1,7 +1,11 @@
-package me.juancarloscp52.bedrockify.client.features;
+package me.juancarloscp52.bedrockify.client.features.HeldItemTooltips;
 
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.BedrockifySettings;
+import me.juancarloscp52.bedrockify.client.features.HeldItemTooltips.Tooltip.EnchantmentTooltip;
+import me.juancarloscp52.bedrockify.client.features.HeldItemTooltips.Tooltip.PotionTooltip;
+import me.juancarloscp52.bedrockify.client.features.HeldItemTooltips.Tooltip.ShulkerBoxTooltip;
+import me.juancarloscp52.bedrockify.client.features.HeldItemTooltips.Tooltip.Tooltip;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
@@ -9,26 +13,29 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.inventory.Inventories;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.PotionItem;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.ChatUtil;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-public class ItemTooltips {
+public class HeldItemTooltips {
 
     public int drawItemWithCustomTooltips(TextRenderer fontRenderer, MatrixStack matrices, Text text, float x, float y, int color, ItemStack currentStack) {
         int screenBorder = BedrockifyClient.getInstance().settings.getScreenSafeArea();
         // Get the current held item tooltips.
-        Map<String, Integer[]> tooltips = getTooltips(currentStack);
+        List<Tooltip> tooltips = getTooltips(currentStack);
         int tooltipOffset = 0;
         BedrockifySettings settings = BedrockifyClient.getInstance().settings;
 
@@ -49,17 +56,17 @@ public class ItemTooltips {
 
                 //Render background behind tooltip if enabled.
                 if(settings.getHeldItemTooltip()==2){
-                    int maxLength = getMaxTooltipLength(tooltips,fontRenderer,currentStack.getTranslationKey());
+                    int maxLength = getMaxTooltipLength(tooltips,fontRenderer,currentStack);
                     renderBackground(matrices, y, screenBorder, tooltipOffset, maxLength);
                 }
 
 
-                for (Map.Entry<String, Integer[]> elem : tooltips.entrySet()) {
+                for (Tooltip elem : tooltips) {
                     // Prevent from drawing more than 4 tooltips.
                     if (count > 3)
                         break;
                     // Render the tooltip.
-                    renderTooltip(fontRenderer, matrices, y - screenBorder - (12 * count), color, getTooltip(elem).formatted(Formatting.GRAY));
+                    renderTooltip(fontRenderer, matrices, y - screenBorder - (12 * count), color, elem.getTooltipText().formatted(Formatting.GRAY));
                     count++;
                 }
 
@@ -78,46 +85,89 @@ public class ItemTooltips {
     }
 
     /**
-     * Gets a Map with the given item tooltips.
-     * <p>The map key is the Translation key for the tooltip.</p>
-     * <p>The map value is an integer array containing the Level/Power of the tooltip and the duration (if it has one).</p>
-     *
+     * Gets a List with the given item tooltips.
      * @param currentStack Current item stack of the player.
-     * @return Map with the tooltip information.
+     * @return List with the tooltip information.
      */
-    private Map<String, Integer[]> getTooltips(ItemStack currentStack) {
+    public List<Tooltip> getTooltips(ItemStack currentStack) {
         //If the item is a enchanted book, retrieve the enchantments.
         if (currentStack.getItem() == Items.ENCHANTED_BOOK || currentStack.hasEnchantments()) {
-            return enchantmentMapToStringMap(EnchantmentHelper.get(currentStack));
+            return getTooltipsFromEnchantMap(EnchantmentHelper.get(currentStack));
             //If the item is a potion, retrieve the potion effects.
         } else if (currentStack.getItem() instanceof PotionItem) {
-            return effectListToStringMap(PotionUtil.getPotionEffects(currentStack));
+            return getTooltipsFromEffectList(PotionUtil.getPotionEffects(currentStack));
+        } else if(currentStack.getItem().toString().contains("shulker_box")){
+            CompoundTag compoundTag = currentStack.getSubTag("BlockEntityTag");
+            if(compoundTag != null && compoundTag.contains("Items", 9)){
+                return getTooltipsFromShulkerBox(compoundTag);
+            }
         }
         return null;
     }
 
     /**
-     * Gets a tooltip map from the given enchantment map.
-     *
-     * @param enchantments enchantment map of an item.
-     * @return Tooltip map.
+     * Checks if the tooltips of two items are equal.
      */
-    private Map<String, Integer[]> enchantmentMapToStringMap(Map<Enchantment, Integer> enchantments) {
-        HashMap<String, Integer[]> stringHashMap = new HashMap<>();
-        enchantments.forEach((enchantment, value) -> stringHashMap.put(enchantment.getTranslationKey(), new Integer[]{enchantment.getMaxLevel()>1? value:0}));
-        return stringHashMap;
+    public boolean equals(ItemStack item1, ItemStack item2){
+        List<Tooltip> itemTooltips1 = getTooltips(item1);
+        List<Tooltip> itemTooltips2 = getTooltips(item2);
+        if(itemTooltips1==null && itemTooltips2 == null)
+            return true;
+        else if (itemTooltips1== null || itemTooltips2==null)
+            return false;
+
+        if(itemTooltips1.size()!=itemTooltips2.size())
+            return false;
+
+        Iterator<Tooltip> iterator1 = itemTooltips1.iterator();
+        Iterator<Tooltip> iterator2 = itemTooltips2.iterator();
+        while (iterator1.hasNext()){
+            Tooltip tooltip1 = iterator1.next();
+            Tooltip tooltip2 = iterator2.next();
+            if(!tooltip1.getTooltipText().equals(tooltip2.getTooltipText()))
+                return false;
+        }
+        return true;
+    }
+    /**
+     * Gets a tooltip list from the given shulkerBox compound tag.
+     *
+     * @param compoundTag compoundTag with item information.
+     * @return Tooltip list.
+     */
+    private List<Tooltip> getTooltipsFromShulkerBox(CompoundTag compoundTag){
+        ArrayList<Tooltip> shulkerTooltips = new  ArrayList<Tooltip>();
+        DefaultedList<ItemStack> items = DefaultedList.ofSize(27, ItemStack.EMPTY);
+        Inventories.fromTag(compoundTag, items);
+        for(ItemStack item : items){
+            if(!item.isEmpty())
+            shulkerTooltips.add(new ShulkerBoxTooltip(item));
+        }
+        return shulkerTooltips;
     }
 
     /**
-     * Gets a tooltip map from the given {@link StatusEffectInstance} list.
+     * Gets a tooltip list from the given enchantment map.
+     *
+     * @param enchantments enchantment map of an item.
+     * @return Tooltip list.
+     */
+    private List<Tooltip> getTooltipsFromEnchantMap(Map<Enchantment, Integer> enchantments) {
+        ArrayList<Tooltip> enchantmentTooltips = new ArrayList<>();
+        enchantments.forEach((enchantment, value) -> enchantmentTooltips.add(new EnchantmentTooltip(enchantment,value)));
+        return enchantmentTooltips;
+    }
+
+    /**
+     * Gets a tooltip list from the given {@link StatusEffectInstance} list.
      *
      * @param effects effects list of an item.
-     * @return Tooltip map.
+     * @return Tooltip list.
      */
-    private Map<String, Integer[]> effectListToStringMap(List<StatusEffectInstance> effects) {
-        HashMap<String, Integer[]> stringHashMap = new HashMap<>();
-        effects.forEach((current) -> stringHashMap.put(current.getTranslationKey(), new Integer[]{current.getAmplifier(), current.getDuration()}));
-        return stringHashMap;
+    private List<Tooltip> getTooltipsFromEffectList(List<StatusEffectInstance> effects) {
+        ArrayList<Tooltip> effectTooltips = new ArrayList<>();
+        effects.forEach((current) -> effectTooltips.add(new PotionTooltip(current)));
+        return effectTooltips;
     }
 
     private void renderBackground(MatrixStack matrices, float y, int screenBorder, int tooltipOffset, int maxLength) {
@@ -136,11 +186,11 @@ public class ItemTooltips {
         fontRenderer.drawWithShadow(matrices, text, enchantX, y, color);
     }
 
-    private int getMaxTooltipLength(Map<String,Integer[]> tooltips, TextRenderer textRenderer, String stackTranslationKey){
+    private int getMaxTooltipLength(List<Tooltip> tooltips, TextRenderer textRenderer, ItemStack itemStack){
         int count =0;
-        int maxLength=textRenderer.getWidth(new TranslatableText(stackTranslationKey));
-        for(Map.Entry<String,Integer[]> elem : tooltips.entrySet()){
-            int tipLength = textRenderer.getWidth(getTooltip(elem));
+        int maxLength=textRenderer.getWidth(itemStack.getName());
+        for(Tooltip elem : tooltips){
+            int tipLength = textRenderer.getWidth(elem.getTooltipText());
             if (count > 3)
                 tipLength = textRenderer.getWidth(new TranslatableText("container.shulkerBox.more", tooltips.size() - 4));
             if(maxLength<tipLength)
@@ -150,20 +200,5 @@ public class ItemTooltips {
             count++ ;
         }
         return maxLength;
-    }
-
-    private TranslatableText getTooltip(Map.Entry<String,Integer[]> tooltipEntry){
-        TranslatableText tooltip = new TranslatableText(tooltipEntry.getKey());
-        // If the value has two items, set the potion potency and duration. Else, set the enchantment level.
-        if (tooltipEntry.getValue().length > 1) {
-            if (tooltipEntry.getValue()[0] > 0)
-                tooltip.append(" ").append(new TranslatableText("potion.potency." + tooltipEntry.getValue()[0]));
-            // Only show duration if it is more than 1 second.
-            if (tooltipEntry.getValue()[1] >= 20)
-                tooltip.append(" (" + ChatUtil.ticksToString(tooltipEntry.getValue()[1]) + ")");
-        } else if(tooltipEntry.getValue()[0]>0)
-            tooltip.append(" ").append(new TranslatableText("enchantment.level." + tooltipEntry.getValue()[0]));
-
-        return tooltip;
     }
 }

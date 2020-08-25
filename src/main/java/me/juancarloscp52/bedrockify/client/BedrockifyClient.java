@@ -1,7 +1,7 @@
 package me.juancarloscp52.bedrockify.client;
 
 import com.google.gson.Gson;
-import me.juancarloscp52.bedrockify.client.features.ItemTooltips;
+import me.juancarloscp52.bedrockify.client.features.HeldItemTooltips.HeldItemTooltips;
 import me.juancarloscp52.bedrockify.client.gui.overlay.Overlay;
 import me.juancarloscp52.bedrockify.client.features.ReachAroundPlacement;
 import net.fabricmc.api.ClientModInitializer;
@@ -20,7 +20,7 @@ public class BedrockifyClient implements ClientModInitializer {
     public ReachAroundPlacement reachAroundPlacement;
     public Overlay overlay;
     public BedrockifySettings settings;
-    public ItemTooltips itemTooltips;
+    public HeldItemTooltips heldItemTooltips;
 
     public static BedrockifyClient getInstance() {
         return instance;
@@ -32,7 +32,7 @@ public class BedrockifyClient implements ClientModInitializer {
         loadSettings();
         overlay = new Overlay((MinecraftClient.getInstance()));
         reachAroundPlacement = new ReachAroundPlacement(MinecraftClient.getInstance());
-        itemTooltips = new ItemTooltips();
+        heldItemTooltips = new HeldItemTooltips();
         instance = this;
     }
 

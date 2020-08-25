@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import me.juancarloscp52.bedrockify.client.features.HeldItemTooltips.HeldItemTooltips;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -18,6 +19,7 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionUtil;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Final;
@@ -28,6 +30,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -181,23 +184,13 @@ public abstract class InGameHudMixin extends DrawableHelper {
      */
     @Redirect(method = "renderHeldItemTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I"))
     private int drawCustomTooltips(TextRenderer fontRenderer, MatrixStack matrices, Text text, float x, float y, int color) {
-        return BedrockifyClient.getInstance().itemTooltips.drawItemWithCustomTooltips(fontRenderer, matrices, text, x, y, color, currentStack);
+        return BedrockifyClient.getInstance().heldItemTooltips.drawItemWithCustomTooltips(fontRenderer, matrices, text, x, y, color, currentStack);
     }
     /**
      * Draw custom tooltips for effects and enchantments before the heldItemTooltip is rendered.
      */
     @Redirect(method = "renderHeldItemTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;fill(Lnet/minecraft/client/util/math/MatrixStack;IIIII)V"))
     private void drawCustomTooltips(MatrixStack matrices, int x1, int y1, int x2, int y2, int color) {}
-
-    /**
-     * Show the item tooltip when changing from a item to another of the same type and name IFF different enchantments.
-     */
-    @Inject(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getName()Lnet/minecraft/text/Text;", ordinal = 1))
-    private void fixSameItemFade(CallbackInfo info) {
-        if (!(nextItem.getName().equals(this.currentStack.getName()) && nextItem.getEnchantments().equals(this.currentStack.getEnchantments()))) {
-            this.heldItemTooltipFade = 41;
-        }
-    }
 
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I",ordinal = 0))
     public int renderOverlayMessage(TextRenderer textRenderer, MatrixStack matrices, Text text, float x, float y, int color){
@@ -212,13 +205,19 @@ public abstract class InGameHudMixin extends DrawableHelper {
     public int drawSubtitle(TextRenderer textRenderer,MatrixStack matrices, Text text, float x, float y, int color){
         return textRenderer.drawWithShadow(matrices, text, x, y - (screenBorder/2.0f), color);
     }
+
     /**
-     * Retrieves the next itemStack that the player will use. This is used in fixSameItemFade.
+     * Show the item tooltip when changing from a item to another of the same type and name IFF different tooltips.
      */
-    @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isEmpty()Z", ordinal = 0))
-    private boolean interceptItemStack(ItemStack item) {
-        nextItem = item;
-        return item.isEmpty();
+    @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isEmpty()Z", ordinal = 1))
+    private boolean interceptItemStack(ItemStack itemStack) {
+        nextItem = this.client.player.inventory.getMainHandStack();
+        HeldItemTooltips heldItemTooltips = BedrockifyClient.getInstance().heldItemTooltips;
+        if(itemStack.getItem() == this.currentStack.getItem() && !heldItemTooltips.equals(currentStack,nextItem)){
+            this.heldItemTooltipFade = 41;
+            return true;
+        }
+        return currentStack.isEmpty();
     }
 
     /**
