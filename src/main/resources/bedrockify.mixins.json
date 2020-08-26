@@ -3,6 +3,7 @@
   "minVersion": "0.8",
   "package": "me.juancarloscp52.bedrockify.client.mixin",
   "compatibilityLevel": "JAVA_8",
+  "plugin": "me.juancarloscp52.bedrockify.client.mixin.BedrockIfyMixinPlugin",
   "mixins": [
     "MinecraftServerMixin"
   ],
