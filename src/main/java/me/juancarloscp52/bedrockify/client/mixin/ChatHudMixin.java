@@ -7,17 +7,23 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
+import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.OrderedText;
+import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.Deque;
 import java.util.List;
@@ -41,6 +47,9 @@ public abstract class ChatHudMixin extends DrawableHelper {
 
     @Shadow protected abstract boolean isChatHidden();
 
+    @Shadow public abstract void addMessage(Text message);
+
+    @Shadow private long field_23935;
     private int counter1 =0;
     BedrockifySettings settings = BedrockifyClient.getInstance().settings;
 
@@ -132,6 +141,57 @@ public abstract class ChatHudMixin extends DrawableHelper {
 
 
         info.cancel();
+    }
+
+    @Inject(method = "method_27146",at=@At("HEAD"),cancellable = true)
+    public void method_27146(double x, double y, CallbackInfoReturnable<Boolean> info){
+        if(!settings.isBedrockChatEnabled())
+            return;
+        if(this.isChatFocused() && !this.client.options.hudHidden && !this.isChatHidden() && !this.field_23934.isEmpty()){
+            int posY = settings.getPositionHUDHeight() + (settings.getPositionHUDHeight()<50? 50:0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) +  settings.getScreenSafeArea();
+            double lineSize = 9.0D * (this.client.options.chatLineSpacing + 1.0D);
+            double chatX= x - settings.getScreenSafeArea();
+            double chatY = posY+(counter1*lineSize) - y;
+
+            if(chatX<=MathHelper.floor(this.getWidth() / this.getChatScale()) && chatY < 0.0D && chatY > (double)MathHelper.floor(-9.0D * this.getChatScale())){
+                this.addMessage(this.field_23934.remove());
+                this.field_23935 = System.currentTimeMillis();
+                info.setReturnValue(true);
+            }else{
+                info.setReturnValue(false);
+            }
+        }else{
+            info.setReturnValue(false);
+        }
+    }
+
+    @Inject(method = "getText",at=@At("HEAD"),cancellable = true)
+    public void getText(double x, double y, CallbackInfoReturnable<Style> info){
+        if(!settings.isBedrockChatEnabled())
+            return;
+        int posY = settings.getPositionHUDHeight() + (settings.getPositionHUDHeight()<50? 50:0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) +  settings.getScreenSafeArea();
+        double lineSize = 9.0D * (this.client.options.chatLineSpacing + 1.0D);
+
+        if(this.isChatFocused() && !client.options.hudHidden && !this.isChatHidden()){
+            double chatX = x - settings.getScreenSafeArea();
+            double chatY = posY+(counter1*lineSize) - y;
+            chatX= MathHelper.floor(chatX/this.getChatScale());
+            chatY = MathHelper.floor(chatY/ (this.getChatScale() * (this.client.options.chatLineSpacing + 1.0D)));
+            if(chatX>=0.0D && chatY >= 0.0D){
+                int lines = Math.min(this.getVisibleLineCount(), this.visibleMessages.size());
+                if(chatX<= MathHelper.fastFloor(this.getWidth()/getChatScale())){
+                    if(chatY < 9*lines+lines){
+                        int line = (int)(chatY/9.0D + this.scrolledLines);
+                        if(line>=0 && line<this.visibleMessages.size()){
+                            ChatHudLine<OrderedText> chatHudLine = this.visibleMessages.get(line);
+                            info.setReturnValue(this.client.textRenderer.getTextHandler().getStyleAt(chatHudLine.getText(), (int)chatX));
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        info.setReturnValue(null);
     }
 
     private int getAvailableLines(){
