@@ -6,6 +6,7 @@ BedrockIfy is a fabric Minecraft Mod that implements some useful Minecraft Bedro
 - Position and "paper doll" overlay.
 - Saving status overlay.
 - Bedrock-like chat.
+- Idle hand animations.
 - Held item descriptions (enchantments, books and potions).
 - Reach-around block placement.
 
@@ -34,5 +35,11 @@ cd BedrockIfy
 gradlew build
 ```
 You can find the built JARs inside BedrockIfy/build/libs
+##Enhancing your Bedrock-like experience
+Here is a list of other Fabric Mods that can improve your BedrockLike Experience:
+- [LambdaControls](https://github.com/LambdAurora/LambdaControls) - Enables Controller/touchscreen support.
+- [BedrockWaters](https://github.com/2Retr0/BedrockWaters) - Ports all Bedrock Edition biome specific water color.
+- [Snowy Leaves](https://github.com/Ashley1227/snowy-leaves) - Leaves will turn white while snowing.
+
 ## License
 Bedrockify is released under the free and open-source [GPL-3.0 License](https://github.com/juancarloscp52/BedrockIfy/blob/master/LICENSE).
