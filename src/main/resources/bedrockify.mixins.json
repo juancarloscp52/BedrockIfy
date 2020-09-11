@@ -8,23 +8,24 @@
     "MinecraftServerMixin"
   ],
   "client": [
-    "EntryListWidgetMixin",
-    "HandledScreenMixin",
-    "InGameHudMixin",
-    "MinecraftClientMixin",
-    "ScreenMixin",
-    "TitleScreenMixin",
     "AbstractPackScreenMixin",
     "BossBarHudMixin",
     "ChatHudMixin",
     "ConnectScreenMixin",
     "DisconnectedScreenMixin",
     "DownloadingTerrainScreenMixin",
+    "EntryListWidgetMixin",
+    "HandledScreenMixin",
+    "InGameHudMixin",
     "LevelLoadingScreenMixin",
+    "MinecraftClientMixin",
     "OptionsScreenMixin",
     "ProgressScreenMixin",
     "SaveLevelScreenMixin",
-    "SubtitlesHudMixin"
+    "ScreenMixin",
+    "SubtitlesHudMixin",
+    "TitleScreenMixin",
+    "HeldItemRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1
