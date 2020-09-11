@@ -14,6 +14,7 @@ public class BedrockifySettings {
     private int screenSafeArea = 0;
     private boolean cubeMapBackground = true;
     private boolean bedrockChat=true;
+    private boolean slotHighlight = true; //TODO: Add to config screen.
 
     public void toggleBedrockChat(){
         this.bedrockChat=!this.bedrockChat;
@@ -108,5 +109,10 @@ public class BedrockifySettings {
 
     public boolean isBedrockChatEnabled() {
         return bedrockChat;
+    }
+
+    public boolean isSlotHighlightEnabled() {
+        System.out.println(slotHighlight);
+        return slotHighlight;
     }
 }
