@@ -112,7 +112,6 @@ public class BedrockifySettings {
     }
 
     public boolean isSlotHighlightEnabled() {
-        System.out.println(slotHighlight);
         return slotHighlight;
     }
 }

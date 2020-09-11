@@ -30,7 +30,6 @@ public abstract class HandledScreenMixin extends DrawableHelper {
             return;
         }
 
-        System.out.println("drawing");
         this.fillGradient(matrices, xStart - 1, yStart - 1, xEnd + 1, yEnd + 1, (255 << 8) + (255) + (255 << 16) + (255 << 24), (255 << 8) + (255) + (255 << 16) + (255 << 24));
         this.fillGradient(matrices, xStart, yStart, xEnd, yEnd, 64 + (170 << 8) + (109 << 16) + (255 << 24), 64 + (170 << 8) + (109 << 16) + (255 << 24));
         // Draw the slot again over the selected overlay.
