@@ -36,7 +36,8 @@ gradlew build
 ```
 You can find the built JARs inside BedrockIfy/build/libs
 
-##Enhancing your Bedrock-like experience
+## Enhancing your Bedrock-like experience
+
 Here is a list of other Fabric Mods that can improve your BedrockLike Experience:
 - [LambdaControls](https://github.com/LambdAurora/LambdaControls) - Enables Controller/touchscreen support.
 - [BedrockWaters](https://github.com/2Retr0/BedrockWaters) - Ports all Bedrock Edition biome specific water color.
