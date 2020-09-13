@@ -2,12 +2,12 @@ package me.juancarloscp52.bedrockify.client;
 
 import io.github.prospector.modmenu.api.ConfigScreenFactory;
 import io.github.prospector.modmenu.api.ModMenuApi;
-import me.juancarloscp52.bedrockify.client.gui.BedrockifyOptionsScreen;
+import net.minecraft.client.MinecraftClient;
 
 public class BedrockifyModMenu implements ModMenuApi {
 
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return BedrockifyOptionsScreen::new;
+        return (parent)->BedrockifyClient.getInstance().settings.getConfigScreen(parent, MinecraftClient.getInstance().world != null);
     }
 }

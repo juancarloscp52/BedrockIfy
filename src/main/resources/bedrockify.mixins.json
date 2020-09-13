@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_8",
   "plugin": "me.juancarloscp52.bedrockify.client.mixin.BedrockIfyMixinPlugin",
   "mixins": [
+    "KeyboardMixin",
     "MinecraftServerMixin"
   ],
   "client": [
@@ -16,6 +17,7 @@
     "DownloadingTerrainScreenMixin",
     "EntryListWidgetMixin",
     "HandledScreenMixin",
+    "HeldItemRendererMixin",
     "InGameHudMixin",
     "LevelLoadingScreenMixin",
     "MinecraftClientMixin",
@@ -24,8 +26,7 @@
     "SaveLevelScreenMixin",
     "ScreenMixin",
     "SubtitlesHudMixin",
-    "TitleScreenMixin",
-    "HeldItemRendererMixin"
+    "TitleScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1
