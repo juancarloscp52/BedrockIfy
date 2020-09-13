@@ -2,7 +2,6 @@ package me.juancarloscp52.bedrockify.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
-import me.juancarloscp52.bedrockify.client.gui.BedrockifyOptionsScreen;
 import me.juancarloscp52.bedrockify.client.BedrockifySettings;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -48,11 +47,11 @@ public class PaperDoll {
 
         if (client.player != null) {
             //If the player does an action that must show the player entity gui, set the counter to the current time.
-            if (client.player.isSneaking() || client.player.isSubmergedInWater() || client.player.getSpeed() > 1.11 || client.player.isFallFlying() || client.player.isBlocking() || client.player.isUsingItem())
+            if (client.player.isSneaking() || client.player.isSubmergedInWater() || client.player.isSprinting() || client.player.abilities.flying || client.player.isFallFlying() || client.player.isBlocking() || client.player.isUsingItem())
                 lastTimeShown = System.currentTimeMillis();
 
             // If the difference between the current game ticks and showTicks is less than a 100 ticks, draw the player entity.
-            if ((!client.player.isRiding() && !client.player.isSleeping() && System.currentTimeMillis() - lastTimeShown < 2000) || client.currentScreen instanceof BedrockifyOptionsScreen)
+            if ((!client.player.isRiding() && !client.player.isSleeping() && System.currentTimeMillis() - lastTimeShown < 2000))
                 drawPaperDoll(matrixStack);
         }
     }
