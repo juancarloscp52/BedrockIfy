@@ -10,7 +10,7 @@
   "bedrockify.options.screenSafeArea": "屏幕安全区域:",
   "bedrockify.options.coordinatesPosition": "坐标文本位置:",
   "bedrockify.options.showCoordinates": "显示坐标:",
-  "bedrockify.options.showFPS:": "显示 FPS:",
+  "bedrockify.options.showFPS": "显示 FPS:",
   "bedrockify.options.showPaperDoll": "显示纸娃娃:",
   "bedrockify.options.loadingScreenChunkMap": "加载界面区块地图:",
   "bedrockify.options.loadingScreenChunkMap.tooltip": "启用加载界面中的区块地图加载进度组件。",

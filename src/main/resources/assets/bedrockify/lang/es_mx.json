@@ -10,7 +10,7 @@
   "bedrockify.options.screenSafeArea": "Área segura de pantalla:",
   "bedrockify.options.coordinatesPosition": "Posición del texto de coordenadas:",
   "bedrockify.options.showCoordinates": "Mostrar coordenadas:",
-  "bedrockify.options.showFPS:": "Mostrar FPS:",
+  "bedrockify.options.showFPS": "Mostrar FPS:",
   "bedrockify.options.showPaperDoll": "Mostrar muñeco de papel:",
   "bedrockify.options.loadingScreenChunkMap": "Mostrar mapa de chunks:",
   "bedrockify.options.loadingScreenChunkMap.tooltip": "Muestra el mapa de  durante la pantalla de carga.",
@@ -20,6 +20,6 @@
   "bedrockify.options.chatStyle.bedrock": "Bedrock",
   "bedrockify.options.chatStyle.vanilla": "Vanilla",
   "bedrockify.options.tooltips": "Descripción de ítems:",
-  "bedrockify.options.rotationalBackground": "Habilitar fondo rotante en todas las pantallas:",
-  "bedrockify.options.rotationalBackground.tooltip": "EXPERIMETAL: Habilita el fondo rotante de la pantalla de título en el resto de menús. Puede romper pantallas de otras modificaciones."
+  "bedrockify.options.rotationalBackground": "Fondo panorama en todas las pantallas:",
+  "bedrockify.options.rotationalBackground.tooltip": "EXPERIMETAL: Habilita el fondo panorama de la pantalla de título en el resto de menús. Puede romper pantallas de otras modificaciones."
 }
