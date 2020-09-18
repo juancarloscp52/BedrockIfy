@@ -39,7 +39,7 @@ You can find the built JARs inside BedrockIfy/build/libs
 ## Enhancing your Bedrock-like experience
 
 Here is a list of other Fabric Mods that can improve your BedrockLike Experience:
-- [LambdaControls](https://github.com/LambdAurora/LambdaControls) - Enables Controller/touchscreen support.
+- [LambdaControls](https://github.com/LambdAurora/LambdaControls) - Enables Controller/touchscreen support and no drift flight in Creative Mode.
 - [BedrockWaters](https://github.com/2Retr0/BedrockWaters) - Ports all Bedrock Edition biome specific water color.
 - [Snowy Leaves](https://github.com/Ashley1227/snowy-leaves) - Leaves will turn white while snowing.
 
