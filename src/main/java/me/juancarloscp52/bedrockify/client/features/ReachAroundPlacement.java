@@ -1,8 +1,7 @@
 package me.juancarloscp52.bedrockify.client.features;
 
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
-import net.minecraft.block.AirBlock;
-import net.minecraft.block.FluidBlock;
+import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
@@ -32,7 +31,12 @@ public class ReachAroundPlacement {
     private boolean canReachAround() {
         if (client.player == null || client.world == null || client.crosshairTarget == null)
             return false;
-        return client.player.isSneaking() && client.player.pitch > 25 && !client.world.getBlockState(client.player.getBlockPos().down()).isAir() && client.crosshairTarget.getType().equals(HitResult.Type.MISS) && checkRelativeBlockPosition() && ((client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof FluidBlock) || (client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof AirBlock));
+        return client.player.isSneaking() && client.player.pitch > 25 && (!client.world.getBlockState(client.player.getBlockPos().down()).isAir() || isNonFullBlock()) && client.crosshairTarget.getType().equals(HitResult.Type.MISS) && checkRelativeBlockPosition() && ((client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof FluidBlock) || (client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof AirBlock));
+    }
+
+    private boolean isNonFullBlock(){
+        Block playerPosBlock = client.world.getBlockState(client.player.getBlockPos()).getBlock();
+        return playerPosBlock instanceof SlabBlock || playerPosBlock instanceof  StairsBlock || playerPosBlock instanceof ChainBlock || playerPosBlock instanceof  EndRodBlock || playerPosBlock instanceof  BedBlock || playerPosBlock instanceof  SkullBlock || playerPosBlock instanceof  StonecutterBlock || playerPosBlock instanceof AbstractChestBlock;
     }
 
     private boolean checkRelativeBlockPosition() {
@@ -57,7 +61,12 @@ public class ReachAroundPlacement {
         int count = itemStack.getCount();
         Vector3f facing = player.getHorizontalFacing().getUnitVector();
         if (canReachAround()) {
-            BlockHitResult blockHitResult = new BlockHitResult(player.getPos().add(facing.getX(), facing.getY() - 1, facing.getZ()), Direction.fromVector((int) -facing.getX(), 0, (int) -facing.getZ()), player.getBlockPos().down().offset(player.getHorizontalFacing()), false);
+            BlockHitResult blockHitResult;
+            if(isNonFullBlock()){
+                blockHitResult = new BlockHitResult(player.getPos().add(facing.getX(), facing.getY()-1, facing.getZ()), Direction.fromVector((int) -facing.getX(), 0, (int) -facing.getZ()), player.getBlockPos().offset(player.getHorizontalFacing()), false);
+            }else{
+                blockHitResult = new BlockHitResult(player.getPos().add(facing.getX(), facing.getY(), facing.getZ()), Direction.fromVector((int) -facing.getX(), 0, (int) -facing.getZ()), player.getBlockPos().down().offset(player.getHorizontalFacing()), false);
+            }
             ActionResult result = client.interactionManager.interactBlock(player, client.world, hand, blockHitResult);
             if (result.isAccepted()) {
                 if (result.shouldSwingHand()) {
