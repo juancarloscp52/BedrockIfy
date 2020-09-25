@@ -9,14 +9,13 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Quaternion;
 
 public class PaperDoll {
     private final MinecraftClient client;
-    private final int posX = 30;
     private final int size = 20;
-    private final float angle = 145;
     private int posY = 60;
     private long lastTimeShown = 0;
     private BedrockifySettings settings;
@@ -47,7 +46,7 @@ public class PaperDoll {
 
         if (client.player != null) {
             //If the player does an action that must show the player entity gui, set the counter to the current time.
-            if (client.player.isSneaking() || client.player.isSubmergedInWater() || client.player.isSprinting() || client.player.abilities.flying || client.player.isFallFlying() || client.player.isBlocking() || client.player.isUsingItem())
+            if (client.player.isSneaking() || client.player.isSubmergedInWater() || client.player.getPose().equals(EntityPose.SWIMMING) || client.player.isSprinting() || client.player.abilities.flying || client.player.isFallFlying() || client.player.isBlocking() || client.player.isUsingItem())
                 lastTimeShown = System.currentTimeMillis();
 
             // If the difference between the current game ticks and showTicks is less than a 100 ticks, draw the player entity.
@@ -77,6 +76,7 @@ public class PaperDoll {
         }
 
         // Position the entity on screen.
+        int posX = 30;
         matrixStack.translate(posX + settings.getScreenSafeArea(), renderPosY + settings.getScreenSafeArea(), 0);
         matrixStack.scale((float) size, (float) size, -(float) size);
         Quaternion quaternion = Vector3f.POSITIVE_Z.getDegreesQuaternion(180.0F);
@@ -89,6 +89,7 @@ public class PaperDoll {
 
 
         // Set the entity desired rotation for drawing.
+        float angle = 145;
         if (!player.isFallFlying()) {
             player.yaw = headYaw - bodyYaw + angle;
             player.headYaw = player.yaw;
