@@ -9,7 +9,8 @@
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/bedrockify",
-    "sources": "https://github.com/juancarloscp52/BedrockIfy"
+    "sources": "https://github.com/juancarloscp52/BedrockIfy",
+    "issues": "https://github.com/juancarloscp52/BedrockIfy/issues"
   },
   "license": "GPL-3.0",
   "icon": "assets/bedrockify/icon.png",
