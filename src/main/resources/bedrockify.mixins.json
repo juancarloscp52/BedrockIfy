@@ -5,8 +5,11 @@
   "compatibilityLevel": "JAVA_8",
   "plugin": "me.juancarloscp52.bedrockify.client.mixin.BedrockIfyMixinPlugin",
   "mixins": [
-    "KeyboardMixin",
-    "MinecraftServerMixin"
+    "FireworkStarFadeRecipeMixin",
+    "FireworkStarRecipeMixin",
+    "MinecraftServerMixin",
+    "RecipeManagerMixin",
+    "ShulkerBoxColoringRecipeMixin"
   ],
   "client": [
     "AbstractPackScreenMixin",
@@ -26,7 +29,8 @@
     "SaveLevelScreenMixin",
     "ScreenMixin",
     "SubtitlesHudMixin",
-    "TitleScreenMixin"
+    "TitleScreenMixin",
+    "KeyboardMixin"
   ],
   "injectors": {
     "defaultRequire": 1
