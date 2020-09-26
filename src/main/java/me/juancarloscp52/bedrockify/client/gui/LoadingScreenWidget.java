@@ -10,6 +10,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
+import java.util.Random;
 
 
 public class LoadingScreenWidget extends DrawableHelper {
@@ -18,7 +19,6 @@ public class LoadingScreenWidget extends DrawableHelper {
     private final Identifier WIDGET_TEXTURE = new Identifier("bedrockify", "textures/gui/bedrockify_widgets.png");
     private final Identifier MINECRAFT_TITLE_TEXTURE = new Identifier("textures/gui/title/minecraft.png");
     private final Identifier EDITION_TITLE_TEXTURE = new Identifier("textures/gui/title/edition.png");
-    private final TipTextSupplier tipTextSupplier = new TipTextSupplier();
     private Text tip;
     private long lastTipUpdate = 0;
 
@@ -38,7 +38,7 @@ public class LoadingScreenWidget extends DrawableHelper {
      */
     private Text getTip() {
         if (tip == null || System.currentTimeMillis() - lastTipUpdate > 6000) {
-            tip = new LiteralText(tipTextSupplier.getRandomTip());
+            tip = new TranslatableText("bedrockify.loadingTips." + new Random().nextInt(111));//new LiteralText(tipTextSupplier.getRandomTip());
             lastTipUpdate = System.currentTimeMillis();
         }
         return tip;
