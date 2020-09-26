@@ -1,0 +1,31 @@
+{
+  "bedrockify.hud.position": "الموقع:",
+  "bedrockify.hud.fps": "Fps:",
+  "bedrockify.options.on": "مفعل",
+  "bedrockify.options.off": "موقف",
+  "bedrockify.options.withPosition": "مع الموقع",
+  "bedrockify.options.underPosition": "أسفل الموقع",
+  "bedrockify.options.withBackground": "مع الخلفية",
+  "bedrockify.options.settings": "Bedrockify إعدادات",
+  "bedrockify.options.screenSafeArea": "منطقة الشاشة الآمنة:",
+  "bedrockify.options.coordinatesPosition": "مكان نص الإحداثيات:",
+  "bedrockify.options.showCoordinates": "إظهار الإحداثيات:",
+  "bedrockify.options.showFPS": "FPSإظهار ال:",
+  "bedrockify.options.showPaperDoll": "عرض دمية الورق:",
+  "bedrockify.options.loadingScreenChunkMap": "شاشة تحميل قطع الخريطة:",
+  "bedrockify.options.loadingScreenChunkMap.tooltip": "تمكن أداة Chunk Map Progress في شاشات التحميل.",
+  "bedrockify.options.reachAround": "تمكين التوصل إلي الحوالي:",
+  "bedrockify.options.reachAround.multiplayer": "التوصل إلي الحوالي لطور اللاعب المتعدد:",
+  "bedrockify.options.chatStyle": "شكل دردشة",
+  "bedrockify.options.chatStyle.bedrock": "بيدروك",
+  "bedrockify.options.chatStyle.vanilla": "فانيلا",
+  "bedrockify.options.tooltips": "تلميحات أدوات العنصر:",
+  "bedrockify.options.rotationalBackground": "خلفية البانوراما علي جميع الشاشات:",
+  "bedrockify.options.rotationalBackground.tooltip": "تجريبي: لتمكين خلفية شاشة العنوان الدورانية على جميع الشاشات. قد يكسر بصريًا شاشات إعدادات المودات الأخرى.",
+  "bedrockify.options.inventoryHighlight": "تسليط الضوء على فتحة عنصر المخزون:",
+  "bedrockify.options.idleAnimation": "سرعة حركة اليد الخاملة:",
+  "bedrockify.options.showBedrockIfyButton": "إظهار زر إعدادات BedrockIfy:",
+  "bedrockify.options.showBedrockIfyButton.tooltip": "يعرض زر إعدادات BedrockIfy على شاشة خيارات اللعبة. إذا تم تعطيله ، يمكنك الوصول إلى إعدادات BedrockIfy من خلال Mod Menu أو بالضغط على ALT + B"
+
+
+}
