@@ -22,7 +22,7 @@ public abstract class RecipeManagerMixin {
     @Shadow public abstract Optional<? extends Recipe<?>> get(Identifier id);
 
     @Inject(method = "apply", at=@At("HEAD"))
-    public void test (Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, CallbackInfo info){
+    public void applyRecipes(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, CallbackInfo info){
         HashMap<Identifier, JsonElement> bedrockifyRecipes = new HashMap<>();
         Iterator<Map.Entry<Identifier, JsonElement>> mapIterator = map.entrySet().iterator();
         final List<String> exceptions = List.of("dark_prismarine_extra",
