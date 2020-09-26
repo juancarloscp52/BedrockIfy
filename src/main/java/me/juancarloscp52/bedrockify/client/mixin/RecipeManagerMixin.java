@@ -37,7 +37,6 @@ public abstract class RecipeManagerMixin {
                 "magenta_dye_from_lapis_lazuli_red_pink", "magenta_dye_from_blue_red_bone_meal_dye", "magenta_dye_from_lapis_lazuli_red_bone_meal_dye", "magenta_dye_from_lapis_lazuli_red_white_dye", "gray_dye_ink_sac","gray_dye_ink_sac_bone_meal","gray_dye_bone_meal");
         while (mapIterator.hasNext()){
             Map.Entry<Identifier, JsonElement> elem = mapIterator.next();
-            System.out.println(elem.getKey().getPath());
             if(elem.getKey().getNamespace().equals("bedrockify") && (!exceptions.contains(elem.getKey().getPath()) || !BedrockifyClient.getInstance().settings.isBedrockRecipesEnabled())){
                 if(BedrockifyClient.getInstance().settings.isBedrockRecipesEnabled())
                     bedrockifyRecipes.put(new Identifier("minecraft", elem.getKey().getPath()), elem.getValue());
