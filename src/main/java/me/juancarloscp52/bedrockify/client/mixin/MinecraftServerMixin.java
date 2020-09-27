@@ -19,13 +19,13 @@ public abstract class MinecraftServerMixin {
 
     @Inject(method = "save", at= @At("HEAD"))
     private void startSaving(CallbackInfoReturnable<Boolean> info){
-        if(!this.isDedicated())
+        if(!this.isDedicated() && BedrockifyClient.getInstance().settings.isSavingOverlayEnabled())
             BedrockifyClient.getInstance().overlay.savingOverlay.setSaving(true);
     }
 
     @Inject(method = "save", at= @At("RETURN"))
     private void stopSaving(CallbackInfoReturnable<Boolean> info){
-        if(!this.isDedicated())
+        if(!this.isDedicated() && BedrockifyClient.getInstance().settings.isSavingOverlayEnabled())
             BedrockifyClient.getInstance().overlay.savingOverlay.setSaving(false);
     }
 }

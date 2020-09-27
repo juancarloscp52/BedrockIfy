@@ -27,6 +27,7 @@ public class BedrockifySettings {
     private boolean slotHighlight = true;
     private float idleAnimation = 1;
     private boolean bedrockRecipes = true;
+    private boolean savingOverlay = true;
 
     public boolean isCubemapBackgroundEnabled() {
         return cubeMapBackground;
@@ -69,6 +70,11 @@ public class BedrockifySettings {
         return bedrockIfyButton;
     }
 
+    public boolean isSavingOverlayEnabled() {
+        return savingOverlay;
+    }
+
+
     public int getPositionHUDHeight() {
         if (positionHUDHeight > 100)
             positionHUDHeight = 100;
@@ -104,9 +110,7 @@ public class BedrockifySettings {
 
     public Screen getConfigScreen(Screen parent, boolean isTransparent){
         ConfigBuilder builder = ConfigBuilder.create().setParentScreen(parent).setTitle(new TranslatableText("bedrockify.options.settings"));
-        builder.setSavingRunnable(()->{
-            BedrockifyClient.getInstance().saveSettings();
-        });
+        builder.setSavingRunnable(()-> BedrockifyClient.getInstance().saveSettings());
         ConfigCategory general = builder.getOrCreateCategory(new LiteralText("General"));
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
         SubCategoryBuilder bedrockOverlay = entryBuilder.startSubCategory(new TranslatableText("bedrockify.options.subCategory.bedrockOverlay"));
@@ -121,6 +125,7 @@ public class BedrockifySettings {
         }).setSaveConsumer((newValue)->FPSHUD=newValue).build());
         bedrockOverlay.add(entryBuilder.startIntSlider(new TranslatableText("bedrockify.options.coordinatesPosition"),positionHUDHeight,0,100).setDefaultValue(50).setSaveConsumer((newValue)->positionHUDHeight=newValue).build());
         bedrockOverlay.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.showPaperDoll"), showPaperDoll).setDefaultValue(true).setSaveConsumer(newValue -> showPaperDoll=newValue).build());
+        bedrockOverlay.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.showSavingOverlay"), savingOverlay).setDefaultValue(true).setSaveConsumer(newValue -> savingOverlay=newValue).build());
         general.addEntry(bedrockOverlay.build());
         SubCategoryBuilder guiImprovements = entryBuilder.startSubCategory(new TranslatableText("bedrockify.options.subCategory.visualImprovements"));
         guiImprovements.add(entryBuilder.startIntSlider(new TranslatableText("bedrockify.options.screenSafeArea"),screenSafeArea,0,30).setDefaultValue(0).setSaveConsumer((newValue)->screenSafeArea=newValue).build());
