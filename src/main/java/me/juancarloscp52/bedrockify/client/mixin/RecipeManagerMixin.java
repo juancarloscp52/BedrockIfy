@@ -1,7 +1,6 @@
 package me.juancarloscp52.bedrockify.client.mixin;
 
 import com.google.gson.JsonElement;
-import com.sun.tools.javac.util.List;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeManager;
@@ -25,8 +24,7 @@ public abstract class RecipeManagerMixin {
     public void applyRecipes(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, CallbackInfo info){
         HashMap<Identifier, JsonElement> bedrockifyRecipes = new HashMap<>();
         Iterator<Map.Entry<Identifier, JsonElement>> mapIterator = map.entrySet().iterator();
-        final List<String> exceptions = List.of("dark_prismarine_extra",
-                "black_concrete_powder_ink_sac", "white_concrete_powder_bone_meal", "brown_concrete_powder_cocoa_beans", "blue_concrete_powder_lapis_lazuli",
+        final List<String> exceptions = Arrays.asList("dark_prismarine_extra", "black_concrete_powder_ink_sac", "white_concrete_powder_bone_meal", "brown_concrete_powder_cocoa_beans", "blue_concrete_powder_lapis_lazuli",
                 "white_wool_from_colored", "white_wool_bone_meal","black_wool_ink_sac", "blue_wool_lapis_lazuli", "brown_wool_cocoa_beans",
                 "black_bed_from_white_bed_ink_sac","blue_bed_from_white_bed_lapis_lazuli", "brown_bed_from_white_bed_cocoa_beans", "white_bed_from_white_bed", "white_bed_from_white_bed_bone_meal",
                 "black_carpet_from_white_carpet_ink_sac", "blue_carpet_from_white_carpet", "brown_carpet_from_white_carpet_cocoa_beans",
