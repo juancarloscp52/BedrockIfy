@@ -138,7 +138,7 @@ public class BedrockifySettings {
             }
         }).setSaveConsumer((newValue)->heldItemTooltip=newValue).build());
         guiImprovements.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.inventoryHighlight"), slotHighlight).setDefaultValue(true).setSaveConsumer(newValue -> slotHighlight=newValue).build());
-        guiImprovements.add(entryBuilder.startSelector(new TranslatableText("bedrockify.options.idleAnimation"), new Float []{0.0f,0.5f,1.0f,1.5f,2.0f},idleAnimation).setDefaultValue(1.0f).setNameProvider((value)-> new LiteralText("x"+ value)).setSaveConsumer((newValue)->idleAnimation=newValue).build());
+        guiImprovements.add(entryBuilder.startSelector(new TranslatableText("bedrockify.options.idleAnimation"), new Float []{0.0f,0.5f,1.0f,1.5f,2.0f,2.5f,3.0f,4.0f},idleAnimation).setDefaultValue(1.0f).setNameProvider((value)-> new LiteralText("x"+ value)).setSaveConsumer((newValue)->idleAnimation=newValue).build());
         general.addEntry(guiImprovements.build());
 
         SubCategoryBuilder reachAround = entryBuilder.startSubCategory(new TranslatableText("bedrockify.options.subCategory.Reach-Around"));
