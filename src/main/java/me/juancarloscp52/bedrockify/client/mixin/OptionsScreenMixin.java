@@ -1,5 +1,6 @@
 package me.juancarloscp52.bedrockify.client.mixin;
 
+import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.options.OptionsScreen;
@@ -23,7 +24,7 @@ public class OptionsScreenMixin extends Screen {
      */
     @Inject(method = "init", at = @At("HEAD"))
     private void addBedrockifyOption(CallbackInfo info) {
-        if(BedrockifyClient.getInstance().settings.isBedrockIfyButtonEnabled())
-            this.addButton(new ButtonWidget(this.width / 2 - 155, this.height / 6 + 145 - 6, 310, 20, new TranslatableText("bedrockify.options.settings"), (buttonWidget) -> this.client.openScreen(BedrockifyClient.getInstance().settings.getConfigScreen(this,this.client.world != null))));
+        if(Bedrockify.getInstance().settings.isBedrockIfyButtonEnabled())
+            this.addButton(new ButtonWidget(this.width / 2 - 155, this.height / 6 + 145 - 6, 310, 20, new TranslatableText("bedrockify.options.settings"), (buttonWidget) -> this.client.openScreen(BedrockifyClient.getInstance().settingsGUI.getConfigScreen(this,this.client.world != null))));
     }
 }

@@ -1,6 +1,6 @@
 package me.juancarloscp52.bedrockify.client.mixin;
 
-import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.gui.LoadingScreenWidget;
 import net.minecraft.client.gui.WorldGenerationProgressTracker;
 import net.minecraft.client.gui.screen.LevelLoadingScreen;
@@ -46,7 +46,7 @@ public abstract class LevelLoadingScreenMixin extends Screen {
             NarratorManager.INSTANCE.narrate((new TranslatableText("narrator.loading", new Object[]{string})).getString());
         }
 
-        if (BedrockifyClient.getInstance().settings.isShowChunkMapEnabled())
+        if (Bedrockify.getInstance().settings.isShowChunkMapEnabled())
             drawChunkMap(matrices, this.progressProvider, xPosition, yPosition + yPosition / 2 + 89 / 4, 1, 0);
 
         info.cancel();

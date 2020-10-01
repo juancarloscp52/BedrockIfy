@@ -1,7 +1,7 @@
-package me.juancarloscp52.bedrockify.client.mixin;
+package me.juancarloscp52.bedrockify.server.mixin;
 
 import com.google.common.collect.Lists;
-import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.features.bedrockRecipes.DyeHelper;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.Item;
@@ -24,7 +24,7 @@ public class FireworkStarFadeRecipeMixin {
 
     @Inject(method = "matches",at=@At("HEAD"),cancellable = true)
     public void matches(CraftingInventory craftingInventory, World world, CallbackInfoReturnable<Boolean> infoReturnable) {
-        if(!BedrockifyClient.getInstance().settings.isBedrockRecipesEnabled())
+        if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
             return;
         boolean bl = false;
         boolean bl2 = false;
@@ -55,7 +55,7 @@ public class FireworkStarFadeRecipeMixin {
 
     @Inject(method = "craft",at=@At("HEAD"),cancellable = true)
     public void craft(CraftingInventory craftingInventory, CallbackInfoReturnable<ItemStack> infoReturnable) {
-        if(!BedrockifyClient.getInstance().settings.isBedrockRecipesEnabled())
+        if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
             return;
         List<Integer> list = Lists.newArrayList();
         ItemStack itemStack = null;

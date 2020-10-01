@@ -3,6 +3,7 @@ package me.juancarloscp52.bedrockify.client.mixin;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.mojang.blaze3d.systems.RenderSystem;
+import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.HeldItemTooltips.HeldItemTooltips;
 import net.fabricmc.api.EnvType;
@@ -19,7 +20,6 @@ import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionUtil;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Final;
@@ -30,7 +30,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -54,7 +53,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
      */
     @Inject(method = "render", at = @At("HEAD"))
     private void setScreenBorder(CallbackInfo info) {
-        this.screenBorder = BedrockifyClient.getInstance().settings.getScreenSafeArea();
+        this.screenBorder = Bedrockify.getInstance().settings.getScreenSafeArea();
     }
 
     /**

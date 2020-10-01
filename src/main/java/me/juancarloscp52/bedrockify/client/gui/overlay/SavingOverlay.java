@@ -1,7 +1,7 @@
 package me.juancarloscp52.bedrockify.client.gui.overlay;
 
-import me.juancarloscp52.bedrockify.client.BedrockifyClient;
-import me.juancarloscp52.bedrockify.client.BedrockifySettings;
+import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.BedrockifySettings;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -17,7 +17,7 @@ public class SavingOverlay extends DrawableHelper {
     private final MinecraftClient client = MinecraftClient.getInstance();
 
     public void render(MatrixStack matrixStack){
-        final BedrockifySettings settings = BedrockifyClient.getInstance().settings;
+        final BedrockifySettings settings = Bedrockify.getInstance().settings;
         if(saving || System.currentTimeMillis()-timer<3000){
             client.getTextureManager().bindTexture(WIDGET_TEXTURE);
             // Draw chest

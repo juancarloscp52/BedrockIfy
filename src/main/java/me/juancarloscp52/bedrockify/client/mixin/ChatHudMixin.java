@@ -1,8 +1,8 @@
 package me.juancarloscp52.bedrockify.client.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.juancarloscp52.bedrockify.client.BedrockifyClient;
-import me.juancarloscp52.bedrockify.client.BedrockifySettings;
+import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.BedrockifySettings;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.ChatHud;
@@ -47,7 +47,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
 
     @Shadow private long field_23935;
     private int counter1 =0;
-    BedrockifySettings settings = BedrockifyClient.getInstance().settings;
+    BedrockifySettings settings = Bedrockify.getInstance().settings;
 
     /**
      * Use bedrock-like chat if enabled.
@@ -191,7 +191,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
     }
 
     private int getAvailableLines(){
-        BedrockifySettings settings = BedrockifyClient.getInstance().settings;
+        BedrockifySettings settings = Bedrockify.getInstance().settings;
         int posY = settings.getPositionHUDHeight() + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) +  settings.getScreenSafeArea();
         return MathHelper.ceil((client.getWindow().getScaledHeight()-posY)/((this.client.options.chatLineSpacing + 1.0D)*9)) -2;
     }

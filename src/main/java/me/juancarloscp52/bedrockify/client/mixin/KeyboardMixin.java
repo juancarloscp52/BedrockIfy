@@ -18,7 +18,7 @@ public class KeyboardMixin {
     public void checkShortcut(long window, int key, int scancode, int i, int j, CallbackInfo info) {
         if (window == MinecraftClient.getInstance().getWindow().getHandle()) {
             if (InputUtil.isKeyPressed(client.getWindow().getHandle(), 342) && key == 66 && !(client.currentScreen != null && client.currentScreen.getTitle().equals(new TranslatableText("bedrockify.options.settings")))) {
-                client.openScreen(BedrockifyClient.getInstance().settings.getConfigScreen(client.currentScreen,client.world != null));
+                client.openScreen(BedrockifyClient.getInstance().settingsGUI.getConfigScreen(client.currentScreen,client.world != null));
             }
         }
     }

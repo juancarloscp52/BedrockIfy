@@ -1,7 +1,7 @@
 package me.juancarloscp52.bedrockify.client.mixin;
 
 
-import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import me.juancarloscp52.bedrockify.Bedrockify;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
@@ -25,7 +25,7 @@ public abstract class HandledScreenMixin extends DrawableHelper {
      */
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;fillGradient(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
     protected void renderGuiQuad(HandledScreen handledScreen, MatrixStack matrices, int xStart, int yStart, int xEnd, int yEnd, int colorStart, int colorEnd) {
-        if(!BedrockifyClient.getInstance().settings.isSlotHighlightEnabled()){
+        if(!Bedrockify.getInstance().settings.isSlotHighlightEnabled()){
             fillGradient(matrices, xStart, yStart, xEnd, yEnd, colorStart, colorEnd);
             return;
         }

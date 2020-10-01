@@ -1,8 +1,8 @@
 package me.juancarloscp52.bedrockify.client.gui.overlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.juancarloscp52.bedrockify.client.BedrockifyClient;
-import me.juancarloscp52.bedrockify.client.BedrockifySettings;
+import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.BedrockifySettings;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -28,7 +28,7 @@ public class PaperDoll {
      * The player will be rendered only when the player is not riding another entity and it is sneaking, running, using elytra, using an item, under water, or using a shield.
      */
     public void renderPaperDoll(MatrixStack matrixStack) {
-        settings = BedrockifyClient.getInstance().settings;
+        settings = Bedrockify.getInstance().settings;
         if (!settings.isShowPaperDollEnabled())
             return;
 

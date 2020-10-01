@@ -1,12 +1,12 @@
-package me.juancarloscp52.bedrockify.client.mixin;
+package me.juancarloscp52.bedrockify.server.mixin;
 
+import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(MinecraftServer.class)
@@ -19,13 +19,13 @@ public abstract class MinecraftServerMixin {
 
     @Inject(method = "save", at= @At("HEAD"))
     private void startSaving(CallbackInfoReturnable<Boolean> info){
-        if(!this.isDedicated() && BedrockifyClient.getInstance().settings.isSavingOverlayEnabled())
+        if(!this.isDedicated() && Bedrockify.getInstance().settings.isSavingOverlayEnabled())
             BedrockifyClient.getInstance().overlay.savingOverlay.setSaving(true);
     }
 
     @Inject(method = "save", at= @At("RETURN"))
     private void stopSaving(CallbackInfoReturnable<Boolean> info){
-        if(!this.isDedicated() && BedrockifyClient.getInstance().settings.isSavingOverlayEnabled())
+        if(!this.isDedicated() && Bedrockify.getInstance().settings.isSavingOverlayEnabled())
             BedrockifyClient.getInstance().overlay.savingOverlay.setSaving(false);
     }
 }

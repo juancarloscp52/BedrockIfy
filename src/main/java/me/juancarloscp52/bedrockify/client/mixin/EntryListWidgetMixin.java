@@ -2,8 +2,8 @@ package me.juancarloscp52.bedrockify.client.mixin;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.gui.BedrockifyRotatingCubeMapRenderer;
-import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.pack.PackScreen;
@@ -41,7 +41,7 @@ public abstract class EntryListWidgetMixin {
 
     @Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
     private void render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo info) {
-        if(!BedrockifyClient.getInstance().settings.isCubemapBackgroundEnabled())
+        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled())
             return;
 
         if (!(this.client.currentScreen instanceof PackScreen)) {

@@ -1,6 +1,6 @@
 package me.juancarloscp52.bedrockify.client.gui;
 
-import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import me.juancarloscp52.bedrockify.Bedrockify;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
@@ -55,7 +55,7 @@ public class LoadingScreenWidget extends DrawableHelper {
      */
     public void render(MatrixStack matrices, int width, int height, Text title, Text message, int progress) {
         //If the background cube map is disabled for other screens, manually render the cube map for the loading screen.
-        if(!BedrockifyClient.getInstance().settings.isCubemapBackgroundEnabled())
+        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled())
             BedrockifyRotatingCubeMapRenderer.getInstance().render();
 
         MinecraftClient client = MinecraftClient.getInstance();

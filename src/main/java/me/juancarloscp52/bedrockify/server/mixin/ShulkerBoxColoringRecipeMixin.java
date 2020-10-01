@@ -1,6 +1,6 @@
-package me.juancarloscp52.bedrockify.client.mixin;
+package me.juancarloscp52.bedrockify.server.mixin;
 
-import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.features.bedrockRecipes.DyeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.ShulkerBoxBlock;
@@ -18,7 +18,7 @@ public class ShulkerBoxColoringRecipeMixin {
 
     @Inject(method = "matches",at=@At("HEAD"),cancellable = true)
     public void customMatches(CraftingInventory craftingInventory, World world, CallbackInfoReturnable<Boolean> info){
-        if(!BedrockifyClient.getInstance().settings.isBedrockRecipesEnabled()){
+        if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled()){
             return;
         }
         int i = 0;
@@ -47,7 +47,7 @@ public class ShulkerBoxColoringRecipeMixin {
     }
     @Inject(method = "craft", at=@At("HEAD"),cancellable = true)
     public void craft(CraftingInventory craftingInventory, CallbackInfoReturnable<ItemStack> infoReturnable) {
-        if(!BedrockifyClient.getInstance().settings.isBedrockRecipesEnabled()){
+        if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled()){
             return;
         }
         ItemStack itemStack = ItemStack.EMPTY;

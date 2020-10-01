@@ -8,6 +8,6 @@ public class BedrockifyModMenu implements ModMenuApi {
 
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
-        return (parent)->BedrockifyClient.getInstance().settings.getConfigScreen(parent, MinecraftClient.getInstance().world != null);
+        return (parent)-> BedrockifyClient.getInstance().settingsGUI.getConfigScreen(parent, MinecraftClient.getInstance().world != null);
     }
 }

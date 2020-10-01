@@ -1,7 +1,6 @@
 package me.juancarloscp52.bedrockify.client.mixin;
 
 import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loom.util.FabricApiExtension;
 import org.apache.logging.log4j.LogManager;
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;

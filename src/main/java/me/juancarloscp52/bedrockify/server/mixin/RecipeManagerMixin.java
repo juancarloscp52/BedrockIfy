@@ -1,7 +1,7 @@
-package me.juancarloscp52.bedrockify.client.mixin;
+package me.juancarloscp52.bedrockify.server.mixin;
 
 import com.google.gson.JsonElement;
-import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import me.juancarloscp52.bedrockify.Bedrockify;
 import net.minecraft.recipe.Recipe;
 import net.minecraft.recipe.RecipeManager;
 import net.minecraft.resource.ResourceManager;
@@ -35,8 +35,8 @@ public abstract class RecipeManagerMixin {
                 "magenta_dye_from_lapis_lazuli_red_pink", "magenta_dye_from_blue_red_bone_meal_dye", "magenta_dye_from_lapis_lazuli_red_bone_meal_dye", "magenta_dye_from_lapis_lazuli_red_white_dye", "gray_dye_ink_sac","gray_dye_ink_sac_bone_meal","gray_dye_bone_meal");
         while (mapIterator.hasNext()){
             Map.Entry<Identifier, JsonElement> elem = mapIterator.next();
-            if(elem.getKey().getNamespace().equals("bedrockify") && (!exceptions.contains(elem.getKey().getPath()) || !BedrockifyClient.getInstance().settings.isBedrockRecipesEnabled())){
-                if(BedrockifyClient.getInstance().settings.isBedrockRecipesEnabled())
+            if(elem.getKey().getNamespace().equals("bedrockify") && (!exceptions.contains(elem.getKey().getPath()) || !Bedrockify.getInstance().settings.isBedrockRecipesEnabled())){
+                if(Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
                     bedrockifyRecipes.put(new Identifier("minecraft", elem.getKey().getPath()), elem.getValue());
                 mapIterator.remove();
             }

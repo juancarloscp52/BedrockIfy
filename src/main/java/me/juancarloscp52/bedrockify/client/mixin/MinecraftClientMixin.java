@@ -1,8 +1,9 @@
 package me.juancarloscp52.bedrockify.client.mixin;
 
 
-import me.juancarloscp52.bedrockify.client.gui.BedrockifyRotatingCubeMapRenderer;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import me.juancarloscp52.bedrockify.client.gui.BedrockifyRotatingCubeMapRenderer;
+import me.juancarloscp52.bedrockify.Bedrockify;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -34,7 +35,7 @@ public abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runna
     private ItemStack onItemUse(ClientPlayerEntity player, Hand hand) {
         ItemStack itemStack = this.player.getStackInHand(hand);
 
-        if (BedrockifyClient.getInstance().settings.isReacharoundEnabled() && (isInSingleplayer() || BedrockifyClient.getInstance().settings.isReacharoundMultiplayerEnabled()))
+        if (Bedrockify.getInstance().settings.isReacharoundEnabled() && (isInSingleplayer() || Bedrockify.getInstance().settings.isReacharoundMultiplayerEnabled()))
             BedrockifyClient.getInstance().reachAroundPlacement.checkReachAroundAndExecute(hand, itemStack);
 
         return itemStack;

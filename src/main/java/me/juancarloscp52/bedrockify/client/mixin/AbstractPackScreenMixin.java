@@ -2,7 +2,7 @@ package me.juancarloscp52.bedrockify.client.mixin;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import me.juancarloscp52.bedrockify.Bedrockify;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.pack.PackListWidget;
@@ -37,7 +37,7 @@ public class AbstractPackScreenMixin extends Screen {
      */
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/pack/PackScreen;drawCenteredText(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)V", ordinal = 0))
     private void renderHeaderAndBottom(CallbackInfo info) {
-        if(!BedrockifyClient.getInstance().settings.isCubemapBackgroundEnabled())
+        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled())
             return;
 
         headerWidth = Objects.requireNonNull(client).getWindow().getScaledWidth();
@@ -91,7 +91,7 @@ public class AbstractPackScreenMixin extends Screen {
 
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/pack/PackListWidget;render(Lnet/minecraft/client/util/math/MatrixStack;IIF)V", ordinal = 0))
     private void renderDarkRectangle(PackListWidget packListWidget, MatrixStack matrices, int mouseX, int mouseY, float delta) {
-        if(BedrockifyClient.getInstance().settings.isCubemapBackgroundEnabled())
+        if(Bedrockify.getInstance().settings.isCubemapBackgroundEnabled())
             DrawableHelper.fill(matrices, 0, this.headerTop, Objects.requireNonNull(client).getWindow().getScaledWidth(), this.headerBottom, (60 << 24));
         packListWidget.render(matrices, mouseX, mouseY, delta);
     }

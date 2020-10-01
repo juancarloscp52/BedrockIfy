@@ -1,7 +1,7 @@
 package me.juancarloscp52.bedrockify.client.features.HeldItemTooltips;
 
-import me.juancarloscp52.bedrockify.client.BedrockifyClient;
-import me.juancarloscp52.bedrockify.client.BedrockifySettings;
+import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.BedrockifySettings;
 import me.juancarloscp52.bedrockify.client.features.HeldItemTooltips.Tooltip.EnchantmentTooltip;
 import me.juancarloscp52.bedrockify.client.features.HeldItemTooltips.Tooltip.PotionTooltip;
 import me.juancarloscp52.bedrockify.client.features.HeldItemTooltips.Tooltip.ShulkerBoxTooltip;
@@ -33,11 +33,11 @@ import java.util.Map;
 public class HeldItemTooltips {
 
     public int drawItemWithCustomTooltips(TextRenderer fontRenderer, MatrixStack matrices, Text text, float x, float y, int color, ItemStack currentStack) {
-        int screenBorder = BedrockifyClient.getInstance().settings.getScreenSafeArea();
+        int screenBorder = Bedrockify.getInstance().settings.getScreenSafeArea();
         // Get the current held item tooltips.
         List<Tooltip> tooltips = getTooltips(currentStack);
         int tooltipOffset = 0;
-        BedrockifySettings settings = BedrockifyClient.getInstance().settings;
+        BedrockifySettings settings = Bedrockify.getInstance().settings;
 
         // Draw item tooltips if the option is enabled.
         if(settings.getHeldItemTooltip()>0) {
