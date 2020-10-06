@@ -4,6 +4,8 @@
   "package": "me.juancarloscp52.bedrockify.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "ArmorItemMixin",
+    "ElytraItemMixin",
     "FireworkStarFadeRecipeMixin",
     "FireworkStarRecipeMixin",
     "RecipeManagerMixin",
