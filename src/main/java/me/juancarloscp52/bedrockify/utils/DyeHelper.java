@@ -1,4 +1,4 @@
-package me.juancarloscp52.bedrockify.client.features.bedrockRecipes;
+package me.juancarloscp52.bedrockify.utils;
 
 import net.minecraft.item.BoneMealItem;
 import net.minecraft.item.DyeItem;

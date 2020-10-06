@@ -1,8 +1,8 @@
-package me.juancarloscp52.bedrockify.server.mixin;
+package me.juancarloscp52.bedrockify.mixin;
 
 import com.google.common.collect.Lists;
 import me.juancarloscp52.bedrockify.Bedrockify;
-import me.juancarloscp52.bedrockify.client.features.bedrockRecipes.DyeHelper;
+import me.juancarloscp52.bedrockify.utils.DyeHelper;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;

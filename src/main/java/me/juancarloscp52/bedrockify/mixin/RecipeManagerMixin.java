@@ -1,4 +1,4 @@
-package me.juancarloscp52.bedrockify.server.mixin;
+package me.juancarloscp52.bedrockify.mixin;
 
 import com.google.gson.JsonElement;
 import me.juancarloscp52.bedrockify.Bedrockify;

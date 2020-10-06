@@ -15,6 +15,7 @@
     "HandledScreenMixin",
     "HeldItemRendererMixin",
     "InGameHudMixin",
+    "KeyboardMixin",
     "LevelLoadingScreenMixin",
     "MinecraftClientMixin",
     "OptionsScreenMixin",
@@ -22,8 +23,7 @@
     "SaveLevelScreenMixin",
     "ScreenMixin",
     "SubtitlesHudMixin",
-    "TitleScreenMixin",
-    "KeyboardMixin"
+    "TitleScreenMixin"
   ],
   "injectors": {
     "defaultRequire": 1

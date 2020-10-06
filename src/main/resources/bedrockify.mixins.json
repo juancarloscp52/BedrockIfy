@@ -1,12 +1,11 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "me.juancarloscp52.bedrockify.server.mixin",
+  "package": "me.juancarloscp52.bedrockify.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
     "FireworkStarFadeRecipeMixin",
     "FireworkStarRecipeMixin",
-    "MinecraftServerMixin",
     "RecipeManagerMixin",
     "ShulkerBoxColoringRecipeMixin"
   ],

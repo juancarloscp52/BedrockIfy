@@ -1,7 +1,7 @@
-package me.juancarloscp52.bedrockify.server.mixin;
+package me.juancarloscp52.bedrockify.mixin;
 
 import me.juancarloscp52.bedrockify.Bedrockify;
-import me.juancarloscp52.bedrockify.client.features.bedrockRecipes.DyeHelper;
+import me.juancarloscp52.bedrockify.utils.DyeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.ShulkerBoxBlock;
 import net.minecraft.inventory.CraftingInventory;

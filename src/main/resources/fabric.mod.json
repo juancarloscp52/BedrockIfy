@@ -25,6 +25,7 @@
     "modmenu": ["me.juancarloscp52.bedrockify.client.BedrockifyModMenu"]
   },
   "mixins": [
+    "bedrockifyServer.mixins.json",
     "bedrockify.mixins.json",
     {
       "config": "bedrockifyClient.mixins.json",
@@ -34,12 +35,12 @@
   ],
   "depends": {
     "fabricloader": ">=0.7.4",
-    "minecraft": ">=1.16.2"
+    "minecraft": ["1.16.2", "1.16.3"]
   },
   "recommends": {
     "modmenu": ">=1.14.6"
   },
   "custom": {
-    "modmenu:clientsideOnly": true
+    "modmenu:clientsideOnly": false
   }
 }
