@@ -13,6 +13,7 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.render.item.ItemRenderer;
 import net.minecraft.client.texture.Sprite;
 import net.minecraft.client.texture.StatusEffectSpriteManager;
 import net.minecraft.client.util.math.MatrixStack;
@@ -45,7 +46,9 @@ public abstract class InGameHudMixin extends DrawableHelper {
     @Shadow @Final private MinecraftClient client;
     @Shadow protected abstract void renderHotbarItem(int i, int j, float f, PlayerEntity playerEntity, ItemStack itemStack);
 
+    @Shadow @Final private ItemRenderer itemRenderer;
     private ItemStack nextItem = null;
+    private float pickedItemCooldownLeft =0.0f;
     private int screenBorder;
 
     /**
@@ -76,6 +79,17 @@ public abstract class InGameHudMixin extends DrawableHelper {
     @Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderHotbarItem(IIFLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/item/ItemStack;)V"))
     private void renderHotbarItemWithOffset(InGameHud inGameHud, int i, int j, float f, PlayerEntity playerEntity, ItemStack itemStack) {
         renderHotbarItem(i, j - screenBorder, f, playerEntity, itemStack);
+    }
+    @Inject(method = "renderHotbarItem", at=@At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getCooldown()I"))
+    private void captureItemStack(int i, int j, float f, PlayerEntity playerEntity, ItemStack itemStack, CallbackInfo info){
+        pickedItemCooldownLeft = itemStack.getCooldown()-f;
+    }
+    @Redirect(method = "renderHotbarItem", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;scalef(FFF)V"))
+    private void applyAnimation(float x, float y, float z){
+        if(pickedItemCooldownLeft >0.0f){
+            float animation = 1.0f + pickedItemCooldownLeft / 12.5f;
+            RenderSystem.scalef(1.0f*animation,1.0f*animation, 1.0f);
+        }
     }
 
     /**
