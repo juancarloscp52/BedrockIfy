@@ -29,7 +29,7 @@ public class PlayerEntityModelMixin <T extends LivingEntity> extends BipedEntity
     }
 
     @Inject(method = "setAngles", at=@At("TAIL"))
-    private void test(T livingEntity, float f, float g, float h, float i, float j, CallbackInfo info){
+    private void applyEatingAnimation(T livingEntity, float f, float g, float h, float i, float j, CallbackInfo info){
         if(livingEntity.getMainArm() == Arm.RIGHT){
             playEatingAnimation(livingEntity, Hand.MAIN_HAND, livingEntity.getMainHandStack(), h, true);
             playEatingAnimation(livingEntity, Hand.OFF_HAND, livingEntity.getOffHandStack(), h, false);
