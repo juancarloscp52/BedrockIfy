@@ -36,5 +36,8 @@
   "bedrockify.options.idleAnimation": "Velocidad de animaciones de manos:",
   "bedrockify.options.showBedrockIfyButton": "Mostrar el botón de ajustes de BedrockIfy:",
   "bedrockify.options.showBedrockIfyButton.tooltip": "Muestra el botón de ajustes de BedrockIfy en la pantalla de ajustes del juego. Puedes acceder a este menu presionando ALT + B una vez deshabilitado.",
-  "bedrockify.options.showSavingOverlay": "Mostrar interfaz de guardado:"
+  "bedrockify.options.showSavingOverlay": "Mostrar interfaz de guardado:",
+  "bedrockify.options.eatingAnimations": "Animación de comer en 3ª persona:",
+  "bedrockify.options.pickupAnimations": "Animación al coger objetos:",
+  "bedrockify.options.pickupAnimations.tooltip": "Habilita las animaciones de la edición bedrock mostradas en la barra de objetos."
 }

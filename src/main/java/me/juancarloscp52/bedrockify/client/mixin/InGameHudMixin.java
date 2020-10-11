@@ -46,7 +46,6 @@ public abstract class InGameHudMixin extends DrawableHelper {
     @Shadow @Final private MinecraftClient client;
     @Shadow protected abstract void renderHotbarItem(int i, int j, float f, PlayerEntity playerEntity, ItemStack itemStack);
 
-    @Shadow @Final private ItemRenderer itemRenderer;
     private ItemStack nextItem = null;
     private float pickedItemCooldownLeft =0.0f;
     private int screenBorder;
@@ -86,6 +85,10 @@ public abstract class InGameHudMixin extends DrawableHelper {
     }
     @Redirect(method = "renderHotbarItem", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;scalef(FFF)V"))
     private void applyAnimation(float x, float y, float z){
+        if(!Bedrockify.getInstance().settings.isPickupAnimationsEnabled()){
+            RenderSystem.scalef(x,y,z);
+            return;
+        }
         if(pickedItemCooldownLeft >0.0f){
             float animation = 1.0f + pickedItemCooldownLeft / 12.5f;
             RenderSystem.scalef(1.0f*animation,1.0f*animation, 1.0f);

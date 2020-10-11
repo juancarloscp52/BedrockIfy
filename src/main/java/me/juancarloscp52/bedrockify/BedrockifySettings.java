@@ -19,7 +19,15 @@ public class BedrockifySettings {
     public float idleAnimation = 1;
     public boolean bedrockRecipes = true;
     public boolean savingOverlay = true;
+    public boolean eatingAnimations = true;
+    public boolean pickupAnimations = true;
 
+    public boolean isEatingAnimationsEnabled() {
+        return eatingAnimations;
+    }
+    public boolean isPickupAnimationsEnabled(){
+        return pickupAnimations;
+    }
     public boolean isCubemapBackgroundEnabled() {
         return cubeMapBackground;
     }
