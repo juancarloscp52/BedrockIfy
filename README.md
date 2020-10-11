@@ -3,6 +3,7 @@ BedrockIfy is a fabric Minecraft Mod that implements some useful Minecraft Bedro
 
 ## Features
 - Bedrock-like loading screens with helpful tips.
+- Third person eating animations.
 - Position and "paper doll" overlay.
 - Saving status overlay.
 - Bedrock Crafting Recipes (Toggleable).
@@ -10,6 +11,7 @@ BedrockIfy is a fabric Minecraft Mod that implements some useful Minecraft Bedro
 - Idle hand animations.
 - Held item descriptions (enchantments, books and potions).
 - Reach-around block placement.
+- Quick armour swap.
 
 Bedrockify also includes "eye-candy" features like the ability use the rotating title screen background in all option screens instead of the boring vanilla dirt background.
 
@@ -40,7 +42,7 @@ You can find the built JARs inside BedrockIfy/build/libs
 ## Enhancing your Bedrock-like experience
 
 Here is a list of other Fabric Mods that can improve your BedrockLike Experience:
-- [LambdaControls](https://github.com/LambdAurora/LambdaControls) - Enables Controller/touchscreen support.
+- [LambdaControls](https://github.com/LambdAurora/LambdaControls) - Enables Controller/touchscreen support and other useful tweaks.
 - [BedrockWaters](https://github.com/2Retr0/BedrockWaters) - Ports all Bedrock Edition biome specific water color.
 - [Snowy Leaves](https://github.com/Ashley1227/snowy-leaves) - Leaves will turn white while snowing.
 - [TelePistons](https://www.curseforge.com/minecraft/mc-mods/telepistons) - This mod adds the  telescopic piston arm animation from Bedrock Edition.
