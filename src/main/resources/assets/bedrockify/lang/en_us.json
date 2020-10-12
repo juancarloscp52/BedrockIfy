@@ -1,6 +1,6 @@
 {
   "bedrockify.hud.position": "Position:",
-  "bedrockify.hud.fps": "Fps:",
+  "bedrockify.hud.fps": "FPS:",
   "bedrockify.options.on": "On",
   "bedrockify.options.off": "Off",
   "bedrockify.options.withPosition": "With Position",
@@ -28,7 +28,7 @@
   "bedrockify.options.reachAround.recipes.tooltip": "Must re-open world to apply changes.",
   "bedrockify.options.chatStyle": "Chat Style:",
   "bedrockify.options.chatStyle.bedrock": "Bedrock",
-  "bedrockify.options.chatStyle.vanilla": "Vanilla",
+  "bedrockify.options.chatStyle.vanilla": "Java",
   "bedrockify.options.tooltips": "Item Tooltips:",
   "bedrockify.options.rotationalBackground": "Panorama Background On All Screens:",
   "bedrockify.options.rotationalBackground.tooltip": "EXPERIMETAL: Enables the title screen rotatory background on all screens. Might visually break other mod's settings screens.",
