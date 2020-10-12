@@ -39,7 +39,7 @@
   "bedrockify.options.showSavingOverlay": "Show Saving Overlay:",
   "bedrockify.options.eatingAnimations": "Third Person Eating Animations:",
   "bedrockify.options.pickupAnimations": "Item Pick-Up Animations:",
-  "bedrockify.options.pickupAnimations.tooltip": "Enables the Bedrock-Edition Item Pickup Animations on the Item Hotbar.",
+  "bedrockify.options.pickupAnimations.tooltip": "Enables the Bedrock Item Pickup Animations on the Item Hotbar.",
   "bedrockify.loadingTips.0": "You can change the look of your character changing the current skin under the tap \"Skins\" in the Minecraft Launcher.",
   "bedrockify.loadingTips.1": "Iron golems will fight for you!",
   "bedrockify.loadingTips.2": "Alter the brightness setting to make the game brighter or darker.",
