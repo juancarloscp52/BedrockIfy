@@ -40,9 +40,7 @@ import java.util.Objects;
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin extends DrawableHelper {
 
-    @Shadow private ItemStack currentStack;
     @Shadow private int scaledWidth;
-    @Shadow private int heldItemTooltipFade;
     @Shadow @Final private MinecraftClient client;
     @Shadow protected abstract void renderHotbarItem(int i, int j, float f, PlayerEntity playerEntity, ItemStack itemStack);
 
@@ -195,18 +193,6 @@ public abstract class InGameHudMixin extends DrawableHelper {
         info.cancel();
     }
 
-    /**
-     * Draw custom tooltips for effects and enchantments before the heldItemTooltip is rendered.
-     */
-    @Redirect(method = "renderHeldItemTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I"))
-    private int drawCustomTooltips(TextRenderer fontRenderer, MatrixStack matrices, Text text, float x, float y, int color) {
-        return BedrockifyClient.getInstance().heldItemTooltips.drawItemWithCustomTooltips(fontRenderer, matrices, text, x, y, color, currentStack);
-    }
-    /**
-     * Draw custom tooltips for effects and enchantments before the heldItemTooltip is rendered.
-     */
-    @Redirect(method = "renderHeldItemTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;fill(Lnet/minecraft/client/util/math/MatrixStack;IIIII)V"))
-    private void drawCustomTooltips(MatrixStack matrices, int x1, int y1, int x2, int y2, int color) {}
 
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I",ordinal = 0))
     public int renderOverlayMessage(TextRenderer textRenderer, MatrixStack matrices, Text text, float x, float y, int color){
@@ -220,20 +206,6 @@ public abstract class InGameHudMixin extends DrawableHelper {
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I", ordinal = 1))
     public int drawSubtitle(TextRenderer textRenderer,MatrixStack matrices, Text text, float x, float y, int color){
         return textRenderer.drawWithShadow(matrices, text, x, y - (screenBorder/2.0f), color);
-    }
-
-    /**
-     * Show the item tooltip when changing from a item to another of the same type and name IFF different tooltips.
-     */
-    @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isEmpty()Z", ordinal = 1))
-    private boolean interceptItemStack(ItemStack itemStack) {
-        nextItem = this.client.player.inventory.getMainHandStack();
-        HeldItemTooltips heldItemTooltips = BedrockifyClient.getInstance().heldItemTooltips;
-        if(itemStack.getItem() == this.currentStack.getItem() && !heldItemTooltips.equals(currentStack,nextItem)){
-            this.heldItemTooltipFade = 41;
-            return true;
-        }
-        return currentStack.isEmpty();
     }
 
     /**

@@ -37,8 +37,11 @@
     "fabricloader": ">=0.7.4",
     "minecraft": "~1.16.2"
   },
-  "recommends": {
+  "suggests": {
     "modmenu": ">=1.14.6"
+  },
+  "conflicts": {
+    "held-item-info": "*"
   },
   "custom": {
     "modmenu:clientsideOnly": false

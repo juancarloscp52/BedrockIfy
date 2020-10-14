@@ -23,7 +23,11 @@ public class BedrockIfyMixinPlugin  implements IMixinConfigPlugin {
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         if(mixinClassName.equals("me.juancarloscp52.bedrockify.client.mixin.TitleScreenMixin") && FabricLoader.getInstance().isModLoaded("slight-gui-modifications")){
-            LogManager.getLogger().info("Compatibility with Slight gui modifications enabled.");
+            LogManager.getLogger().info("BedrockIfy compatibility with Slight gui modifications enabled.");
+            return false;
+        }
+        if(mixinClassName.equals("me.juancarloscp52.bedrockify.client.mixin.ItemTooltipsMixin") && FabricLoader.getInstance().isModLoaded("held-item-info")){
+            LogManager.getLogger().info("The mod \"Held Item Info\" has been detected. This mod is not totally compatible with BedrockIfy. BedrockIfy Held Item Tooltips has been disabled.");
             return false;
         }
         return true;
