@@ -12,6 +12,7 @@ import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -41,7 +42,7 @@ public abstract class EntryListWidgetMixin {
 
     @Inject(method = "render", at = @At(value = "HEAD"), cancellable = true)
     private void render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo info) {
-        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled())
+        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || ((TranslatableText)this.client.currentScreen.getTitle()).getKey().equals("modmenu.title"))
             return;
 
         if (!(this.client.currentScreen instanceof PackScreen)) {
