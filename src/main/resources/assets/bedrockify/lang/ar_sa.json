@@ -25,5 +25,5 @@
   "bedrockify.options.inventoryHighlight": "تسليط الضوء على فتحة عنصر المخزون:",
   "bedrockify.options.idleAnimation": "سرعة حركة اليد الخاملة:",
   "bedrockify.options.showBedrockIfyButton": "إظهار زر إعدادات BedrockIfy:",
-  "bedrockify.options.showBedrockIfyButton.tooltip": "يعرض زر إعدادات BedrockIfy على شاشة خيارات اللعبة. إذا تم تعطيله ، يمكنك الوصول إلى إعدادات BedrockIfy من خلال Mod Menu أو بالضغط على ALT + B"
+  "bedrockify.options.showBedrockIfyButton.tooltip": "يعرض زر إعدادات BedrockIfy على شاشة خيارات اللعبة. إذا تم تعطيله ، يمكنك الوصول إلى إعدادات BedrockIfy من خلال Mod Menu أو بالضغط على B"
 }

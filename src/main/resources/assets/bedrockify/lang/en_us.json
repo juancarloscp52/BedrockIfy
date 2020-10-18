@@ -1,4 +1,5 @@
 {
+  "bedrockIfy.key.settings": "Open BedrockIfy Settings",
   "bedrockify.hud.position": "Position:",
   "bedrockify.hud.fps": "FPS:",
   "bedrockify.options.on": "On",
@@ -35,7 +36,7 @@
   "bedrockify.options.inventoryHighlight": "Inventory Item Slot Highlight:",
   "bedrockify.options.idleAnimation": "Idle Hand Animation Speed:",
   "bedrockify.options.showBedrockIfyButton": "Show BedrockIfy Settings Button:",
-  "bedrockify.options.showBedrockIfyButton.tooltip": "Shows the BedrockIfy Settings Button on the Game Options Screen. If disabled, you can access BedrockIfy settings through Mod Menu or by pressing ALT+B",
+  "bedrockify.options.showBedrockIfyButton.tooltip": "Shows the BedrockIfy Settings Button on the Game Options Screen. If disabled, you can access BedrockIfy settings through Mod Menu or by pressing B when a world is loaded.",
   "bedrockify.options.showSavingOverlay": "Show Saving Overlay:",
   "bedrockify.options.eatingAnimations": "Third Person Eating Animations:",
   "bedrockify.options.pickupAnimations": "Item Pick-Up Animations:",

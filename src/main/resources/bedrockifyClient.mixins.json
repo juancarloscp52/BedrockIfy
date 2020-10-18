@@ -15,7 +15,6 @@
     "HandledScreenMixin",
     "HeldItemRendererMixin",
     "InGameHudMixin",
-    "KeyboardMixin",
     "LevelLoadingScreenMixin",
     "MinecraftClientMixin",
     "OptionsScreenMixin",

@@ -35,7 +35,7 @@
   "bedrockify.options.inventoryHighlight": "Подсветка слотов инвентарь:",
   "bedrockify.options.idleAnimation": "Скорость анимации бездействующей руки:",
   "bedrockify.options.showBedrockIfyButton": "Показывать кнопку настройки Bedrockify:",
-  "bedrockify.options.showBedrockIfyButton.tooltip": "Показывать кнопку настройки Bedrockify в настройках игры. Если выключено, вы можете зайти в настройки Bedrockify через Mod Menu или нажав ALT+B",
+  "bedrockify.options.showBedrockIfyButton.tooltip": "Показывать кнопку настройки Bedrockify в настройках игры. Если выключено, вы можете зайти в настройки Bedrockify через Mod Menu или нажав B",
   "bedrockify.options.showSavingOverlay": "Показывать оверлей сохранения:",
   "bedrockify.options.eatingAnimations": "Анимация еды от третьего лица:",
   "bedrockify.options.pickupAnimations": "Анимация подбора предметов:",

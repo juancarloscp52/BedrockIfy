@@ -35,7 +35,7 @@
   "bedrockify.options.inventoryHighlight": "Envanter Eşya Yeri Belirteci:",
   "bedrockify.options.idleAnimation": "Boş Eldeki Hareket Hızı:",
   "bedrockify.options.showBedrockIfyButton": "BedrockIfy Ayarlar Tuşunu Göster:",
-  "bedrockify.options.showBedrockIfyButton.tooltip": "Oyun ayarları ekranında Bedrockify ayarlarını açan bir tuş gösterir. Eğer devre dışıysa Mod Menü'den veya ALT+B ile ayarlara erişebilirsin.",
+  "bedrockify.options.showBedrockIfyButton.tooltip": "Oyun ayarları ekranında Bedrockify ayarlarını açan bir tuş gösterir. Eğer devre dışıysa Mod Menü'den veya B ile ayarlara erişebilirsin.",
   "bedrockify.options.showSavingOverlay": "Kaydetme İşaretini Göster:",
   "bedrockify.options.eatingAnimations": "Üçüncü Şahıstayken Yemek Yeme Hareketi:",
   "bedrockify.options.pickupAnimations": "Eşya Alma Animasyonu:",

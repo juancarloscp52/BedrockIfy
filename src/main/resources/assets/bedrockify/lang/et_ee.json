@@ -35,7 +35,7 @@
   "bedrockify.options.inventoryHighlight": "Seljakoti esemelahtri esiletõst:",
   "bedrockify.options.idleAnimation": "Tegevusetu käe animatsioonikiirus:",
   "bedrockify.options.showBedrockIfyButton": "BedrockIfy seadistusnupu kuva:",
-  "bedrockify.options.showBedrockIfyButton.tooltip": "Kuvab BedrockIfy seadistusnuppu mängu valikute kuval. Keelamisel saad sa BedrockIfy seadetele ligi Mod Menu või Alt+B kaudu.",
+  "bedrockify.options.showBedrockIfyButton.tooltip": "Kuvab BedrockIfy seadistusnuppu mängu valikute kuval. Keelamisel saad sa BedrockIfy seadetele ligi Mod Menu või B kaudu.",
   "bedrockify.options.showSavingOverlay": "Salvestusülekatte kuva:",
   "bedrockify.options.eatingAnimations": "Söömisanimatsioonid kolmandas isikus:",
   "bedrockify.options.pickupAnimations": "Esemete üleskorjamise animatsioonid:",
