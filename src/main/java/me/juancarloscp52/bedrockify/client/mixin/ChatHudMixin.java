@@ -27,7 +27,7 @@ import java.util.List;
 @Mixin(ChatHud.class)
 public abstract class ChatHudMixin extends DrawableHelper {
 
-    @Shadow protected abstract void method_27149();
+    @Shadow protected abstract void processMessageQueue();
     @Shadow @Final private List<ChatHudLine<OrderedText>> visibleMessages;
     @Shadow protected abstract boolean isChatFocused();
     @Shadow public abstract double getChatScale();
@@ -37,7 +37,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
     @Shadow private static double getMessageOpacityMultiplier(int age) {
         return 0;
     }
-    @Shadow @Final private Deque<Text> field_23934;
+    @Shadow @Final private Deque<Text> messageQueue;
     @Shadow private boolean hasUnreadNewMessages;
     @Shadow public abstract int getVisibleLineCount();
 
@@ -45,7 +45,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
 
     @Shadow public abstract void addMessage(Text message);
 
-    @Shadow private long field_23935;
+    @Shadow private long lastMessageAddedTime;
     private int counter1 =0;
     BedrockifySettings settings = Bedrockify.getInstance().settings;
 
@@ -58,7 +58,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
             return;
 
         if (!this.isChatHidden()) {
-            this.method_27149();
+            this.processMessageQueue();
             int visibleLines = Math.min(this.getVisibleLineCount(),this.getAvailableLines());
             int visibleMessagesCount = this.visibleMessages.size();
             if (visibleMessagesCount > 0) {
@@ -102,7 +102,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
                 }
 
                 //Unread Messages:
-                if (!this.field_23934.isEmpty()) {
+                if (!this.messageQueue.isEmpty()) {
                     int textOpacityFinal = (int)(128.0D * textOpacity);
                     int backgroundOpacityFinal = (int)(255.0D * backgroundOpacity);
                     matrixStack.push();
@@ -110,7 +110,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
                     fill(matrixStack, -2, 0, scaledChatWidth + 4, 9, backgroundOpacityFinal << 24);
                     RenderSystem.enableBlend();
                     matrixStack.translate(0.0D, 0.0D, 50.0D);
-                    this.client.textRenderer.drawWithShadow(matrixStack, new TranslatableText("chat.queue", this.field_23934.size()), 2F, 1.0F, 16777215 + (textOpacityFinal << 24));
+                    this.client.textRenderer.drawWithShadow(matrixStack, new TranslatableText("chat.queue", this.messageQueue.size()), 2F, 1.0F, 16777215 + (textOpacityFinal << 24));
                     matrixStack.pop();
                     RenderSystem.disableAlphaTest();
                     RenderSystem.disableBlend();
@@ -143,15 +143,15 @@ public abstract class ChatHudMixin extends DrawableHelper {
     public void method_27146(double x, double y, CallbackInfoReturnable<Boolean> info){
         if(!settings.isBedrockChatEnabled())
             return;
-        if(this.isChatFocused() && !this.client.options.hudHidden && !this.isChatHidden() && !this.field_23934.isEmpty()){
+        if(this.isChatFocused() && !this.client.options.hudHidden && !this.isChatHidden() && !this.messageQueue.isEmpty()){
             int posY = settings.getPositionHUDHeight() + (settings.getPositionHUDHeight()<50? 50:0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) +  settings.getScreenSafeArea();
             double lineSize = 9.0D * (this.client.options.chatLineSpacing + 1.0D);
             double chatX= x - settings.getScreenSafeArea();
             double chatY = posY+(counter1*lineSize) - y;
 
             if(chatX<=MathHelper.floor(this.getWidth() / this.getChatScale()) && chatY < 0.0D && chatY > (double)MathHelper.floor(-9.0D * this.getChatScale())){
-                this.addMessage(this.field_23934.remove());
-                this.field_23935 = System.currentTimeMillis();
+                this.addMessage(this.messageQueue.remove());
+                this.lastMessageAddedTime = System.currentTimeMillis();
                 info.setReturnValue(true);
             }else{
                 info.setReturnValue(false);

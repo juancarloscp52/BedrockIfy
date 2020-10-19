@@ -44,7 +44,6 @@ public abstract class InGameHudMixin extends DrawableHelper {
     @Shadow @Final private MinecraftClient client;
     @Shadow protected abstract void renderHotbarItem(int i, int j, float f, PlayerEntity playerEntity, ItemStack itemStack);
 
-    private ItemStack nextItem = null;
     private float pickedItemCooldownLeft =0.0f;
     private int screenBorder;
 
