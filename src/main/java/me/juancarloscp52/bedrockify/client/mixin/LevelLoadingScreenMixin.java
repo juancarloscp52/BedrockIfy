@@ -34,6 +34,8 @@ public abstract class LevelLoadingScreenMixin extends Screen {
      */
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo info) {
+        if(!Bedrockify.getInstance().settings.isLoadingScreenEnabled())
+            return;
         this.renderBackground(matrices);
         int xPosition = this.width / 2;
         int yPosition = this.height / 2;

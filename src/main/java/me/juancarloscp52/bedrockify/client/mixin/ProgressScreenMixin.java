@@ -1,5 +1,6 @@
 package me.juancarloscp52.bedrockify.client.mixin;
 
+import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.gui.BedrockifyRotatingCubeMapRenderer;
 import me.juancarloscp52.bedrockify.client.gui.LoadingScreenWidget;
 import net.minecraft.client.gui.screen.ProgressScreen;
@@ -28,6 +29,9 @@ public class ProgressScreenMixin extends Screen {
      */
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ProgressScreen;renderBackground(Lnet/minecraft/client/util/math/MatrixStack;)V"), cancellable = true)
     public void renderLoadScreen(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo info) {
+        if(!Bedrockify.getInstance().settings.isLoadingScreenEnabled()){
+            return;
+        }
         BedrockifyRotatingCubeMapRenderer.getInstance().render();
         if (title != null) {
             if (this.task != null && this.progress != 0) {

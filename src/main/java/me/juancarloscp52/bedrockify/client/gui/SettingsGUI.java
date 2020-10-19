@@ -36,6 +36,7 @@ public class SettingsGUI {
         bedrockOverlay.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.showSavingOverlay"), settings.savingOverlay).setDefaultValue(true).setSaveConsumer(newValue -> settings.savingOverlay=newValue).build());
         general.addEntry(bedrockOverlay.build());
         SubCategoryBuilder guiImprovements = entryBuilder.startSubCategory(new TranslatableText("bedrockify.options.subCategory.visualImprovements"));
+        guiImprovements.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.chatStyle"), settings.bedrockChat).setDefaultValue(true).setSaveConsumer(newValue -> settings.bedrockChat=newValue).setYesNoTextSupplier((value)->value ? new TranslatableText("bedrockify.options.chatStyle.bedrock") : new TranslatableText("bedrockify.options.chatStyle.vanilla")).build());
         guiImprovements.add(entryBuilder.startIntSlider(new TranslatableText("bedrockify.options.screenSafeArea"),settings.screenSafeArea,0,30).setDefaultValue(0).setSaveConsumer((newValue)->settings.screenSafeArea=newValue).build());
         guiImprovements.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.chatStyle"), settings.bedrockChat).setDefaultValue(true).setSaveConsumer(newValue -> settings.bedrockChat=newValue).setYesNoTextSupplier((value)->value ? new TranslatableText("bedrockify.options.chatStyle.bedrock") : new TranslatableText("bedrockify.options.chatStyle.vanilla")).build());
         guiImprovements.add(entryBuilder.startSelector(new TranslatableText("bedrockify.options.tooltips"), new Byte []{0,1,2},settings.heldItemTooltip).setDefaultValue((byte) 2).setNameProvider((value)->{
@@ -49,6 +50,7 @@ public class SettingsGUI {
         guiImprovements.add(entryBuilder.startSelector(new TranslatableText("bedrockify.options.idleAnimation"), new Float []{0.0f,0.5f,1.0f,1.5f,2.0f,2.5f,3.0f,4.0f},settings.idleAnimation).setDefaultValue(1.0f).setNameProvider((value)-> new LiteralText("x"+ value)).setSaveConsumer((newValue)->settings.idleAnimation=newValue).build());
         guiImprovements.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.eatingAnimations"), settings.eatingAnimations).setDefaultValue(true).setSaveConsumer(newValue -> settings.eatingAnimations=newValue).build());
         guiImprovements.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.pickupAnimations"), settings.pickupAnimations).setTooltip(wrapLines(new TranslatableText("bedrockify.options.pickupAnimations.tooltip"))).setDefaultValue(true).setSaveConsumer(newValue -> settings.pickupAnimations=newValue).build());
+        guiImprovements.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.loadingScreen"), settings.loadingScreen).setDefaultValue(true).setSaveConsumer(newValue -> settings.loadingScreen=newValue).build());
         general.addEntry(guiImprovements.build());
 
         SubCategoryBuilder reachAround = entryBuilder.startSubCategory(new TranslatableText("bedrockify.options.subCategory.Reach-Around"));

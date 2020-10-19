@@ -1,6 +1,7 @@
 package me.juancarloscp52.bedrockify;
 
 public class BedrockifySettings {
+    public boolean loadingScreen = true;
     public boolean bedrockIfyButton = true;
     public boolean showPositionHUD = true;
     public byte FPSHUD = 0;
@@ -31,7 +32,9 @@ public class BedrockifySettings {
     public boolean isCubemapBackgroundEnabled() {
         return cubeMapBackground;
     }
-
+    public boolean isLoadingScreenEnabled(){
+        return loadingScreen;
+    }
     public boolean isShowPositionHUDEnabled() {
         return showPositionHUD;
     }

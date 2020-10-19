@@ -1,5 +1,6 @@
 package me.juancarloscp52.bedrockify.client.mixin;
 
+import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.gui.LoadingScreenWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -35,7 +36,11 @@ public class ConnectScreenMixin extends Screen {
      */
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ConnectScreen;drawCenteredText(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)V"))
     public void drawLoadingScreenWidget(MatrixStack matrices, TextRenderer textRenderer, Text text, int x, int y, int color) {
-        LoadingScreenWidget.getInstance().render(matrices, MinecraftClient.getInstance().getWindow().getScaledWidth() / 2, MinecraftClient.getInstance().getWindow().getScaledHeight() / 2, new LiteralText(text.getString()), null, -1);
+        if(Bedrockify.getInstance().settings.isLoadingScreenEnabled()){
+            LoadingScreenWidget.getInstance().render(matrices, MinecraftClient.getInstance().getWindow().getScaledWidth() / 2, MinecraftClient.getInstance().getWindow().getScaledHeight() / 2, new LiteralText(text.getString()), null, -1);
+        }else{
+            drawCenteredText(matrices, textRenderer, text, x, y, color);
+        }
     }
 
     /**
@@ -43,13 +48,17 @@ public class ConnectScreenMixin extends Screen {
      */
     @Redirect(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ConnectScreen;addButton(Lnet/minecraft/client/gui/widget/AbstractButtonWidget;)Lnet/minecraft/client/gui/widget/AbstractButtonWidget;"))
     public AbstractButtonWidget addButton(ConnectScreen screen, AbstractButtonWidget abstractButtonWidget) {
-        return this.addButton(new ButtonWidget(this.width / 2 - 100, (int) Math.ceil(MinecraftClient.getInstance().getWindow().getScaledHeight() * 0.75D), 200, 20, ScreenTexts.CANCEL, (buttonWidget) -> {
-            this.connectingCancelled = true;
-            if (this.connection != null) {
-                this.connection.disconnect(new TranslatableText("connect.aborted"));
-            }
-            this.client.openScreen(this.parent);
-        }));
+        if(Bedrockify.getInstance().settings.isLoadingScreenEnabled()){
+            return this.addButton(new ButtonWidget(this.width / 2 - 100, (int) Math.ceil(MinecraftClient.getInstance().getWindow().getScaledHeight() * 0.75D), 200, 20, ScreenTexts.CANCEL, (buttonWidget) -> {
+                this.connectingCancelled = true;
+                if (this.connection != null) {
+                    this.connection.disconnect(new TranslatableText("connect.aborted"));
+                }
+                this.client.openScreen(this.parent);
+            }));
+        }else{
+            return this.addButton(abstractButtonWidget);
+        }
     }
 
 }

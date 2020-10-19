@@ -40,5 +40,6 @@
   "bedrockify.options.showSavingOverlay": "Mostrar interfaz de guardado:",
   "bedrockify.options.eatingAnimations": "Animación de comer en 3ª persona:",
   "bedrockify.options.pickupAnimations": "Animación al coger objetos:",
-  "bedrockify.options.pickupAnimations.tooltip": "Habilita las animaciones de la edición bedrock mostradas en la barra de objetos."
+  "bedrockify.options.pickupAnimations.tooltip": "Habilita las animaciones de la edición bedrock mostradas en la barra de objetos.",
+  "bedrockify.options.loadingScreen": "Usar pantallas de carga de la edición Bedrock:"
 }
