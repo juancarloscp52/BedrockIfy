@@ -31,7 +31,7 @@ public class ReachAroundPlacement {
     private boolean canReachAround() {
         if (client.player == null || client.world == null || client.crosshairTarget == null)
             return false;
-        return (client.player.isSneaking() || !Bedrockify.getInstance().settings.isReacharoundSneakingEnabled()) && client.player.pitch > 25 && (!client.world.getBlockState(client.player.getBlockPos().down()).isAir() || isNonFullBlock()) && client.crosshairTarget.getType().equals(HitResult.Type.MISS) && checkRelativeBlockPosition() && ((client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof FluidBlock) || (client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof AirBlock));
+        return (client.player.isSneaking() || !Bedrockify.getInstance().settings.isReacharoundSneakingEnabled()) && client.player.pitch > Bedrockify.getInstance().settings.reacharoundPitchAngle && (!client.world.getBlockState(client.player.getBlockPos().down()).isAir() || isNonFullBlock()) && client.crosshairTarget.getType().equals(HitResult.Type.MISS) && checkRelativeBlockPosition() && ((client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof FluidBlock) || (client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof AirBlock));
     }
 
     private boolean isNonFullBlock(){
@@ -48,10 +48,11 @@ public class ReachAroundPlacement {
     }
 
     private boolean checkRelativeBlockPosition(double pos, float direction) {
+        double distance = Bedrockify.getInstance().settings.getReacharoundBlockDistance();
         if (direction > 0) {
-            return pos > 0.5d;
+            return 1-pos < distance;
         } else if (direction < 0) {
-            return pos < 0.5d;
+            return pos < distance;
         }
         return false;
     }

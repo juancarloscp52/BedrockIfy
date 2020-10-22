@@ -9,6 +9,7 @@ import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.*;
+import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
 
@@ -59,6 +60,8 @@ public class SettingsGUI {
         reachAround.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.reachAround.multiplayer"), settings.reacharoundMultiplayer).setDefaultValue(true).setSaveConsumer(newValue -> settings.reacharoundMultiplayer=newValue).build());
         reachAround.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.reachAround.sneaking"), settings.reacharoundSneaking).setDefaultValue(true).setSaveConsumer(newValue -> settings.reacharoundSneaking=newValue).build());
         reachAround.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.reachAround.indicator"), settings.reacharoundIndicator).setDefaultValue(true).setSaveConsumer(newValue -> settings.reacharoundIndicator=newValue).build());
+        reachAround.add(entryBuilder.startIntSlider(new TranslatableText("bedrockify.options.reachAround.pitch"),settings.reacharoundPitchAngle, 0,90).setDefaultValue(25).setSaveConsumer(newValue -> settings.reacharoundPitchAngle=newValue).build());
+        reachAround.add(entryBuilder.startIntSlider(new TranslatableText("bedrockify.options.reachAround.distance"), MathHelper.floor(settings.reacharoundBlockDistance*100), 0,100).setTextGetter((integer -> new LiteralText(String.valueOf(integer/100d)))).setDefaultValue(75).setSaveConsumer(newValue -> settings.reacharoundBlockDistance=newValue/100d).build());
         general.addEntry(reachAround.build());
         SubCategoryBuilder otherSettings = entryBuilder.startSubCategory(new TranslatableText("bedrockify.options.subCategory.other"));
         otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.loadingScreenChunkMap"), settings.showChunkMap).setTooltip(wrapLines(new TranslatableText("bedrockify.options.loadingScreenChunkMap.tooltip"))).setDefaultValue(false).setSaveConsumer(newValue -> settings.showChunkMap=newValue).build());

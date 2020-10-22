@@ -18,6 +18,8 @@ public class BedrockifySettings {
     public boolean bedrockChat=true;
     public boolean slotHighlight = true;
     public float idleAnimation = 1;
+    public double reacharoundBlockDistance = 0.5d;
+    public int reacharoundPitchAngle = 25;
     public boolean bedrockRecipes = true;
     public boolean savingOverlay = true;
     public boolean eatingAnimations = true;
@@ -45,6 +47,14 @@ public class BedrockifySettings {
 
     public byte getFPSHUDoption() {
         return FPSHUD;
+    }
+
+    public double getReacharoundBlockDistance(){
+        return reacharoundBlockDistance;
+    }
+
+    public int getReacharoundPitchAngle(){
+        return reacharoundPitchAngle;
     }
 
     public boolean isShowPaperDollEnabled() {
