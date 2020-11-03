@@ -68,7 +68,7 @@ public class SettingsGUI {
         otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.rotationalBackground"), settings.cubeMapBackground).setDefaultValue(true).setTooltip(wrapLines(new TranslatableText("bedrockify.options.rotationalBackground.tooltip"))).setSaveConsumer(newValue -> settings.cubeMapBackground=newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.showBedrockIfyButton"), settings.bedrockIfyButton).setDefaultValue(true).setTooltip(wrapLines(new TranslatableText("bedrockify.options.showBedrockIfyButton.tooltip"))).setSaveConsumer(newValue -> settings.bedrockIfyButton=newValue).build());
         general.addEntry(otherSettings.build());
-        general.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.reachAround.recipes"), settings.bedrockRecipes).setTooltip(wrapLines(new TranslatableText("bedrockify.options.reachAround.recipes.tooltip"))).setDefaultValue(true).setSaveConsumer(newValue -> settings.bedrockRecipes=newValue).build());
+        general.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.recipes"), settings.bedrockRecipes).setTooltip(wrapLines(new TranslatableText("bedrockify.options.recipes.tooltip"))).setDefaultValue(true).setSaveConsumer(newValue -> settings.bedrockRecipes=newValue).build());
         return builder.setTransparentBackground(isTransparent).build();
     }
 
