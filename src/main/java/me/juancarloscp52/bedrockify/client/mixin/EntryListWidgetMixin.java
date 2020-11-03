@@ -25,7 +25,7 @@ public abstract class EntryListWidgetMixin {
 
     @Redirect(method = "render", at=@At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/EntryListWidget;renderBackground(Lnet/minecraft/client/util/math/MatrixStack;)V"))
     private void renderPanorama(EntryListWidget entryListWidget,MatrixStack matrices){
-        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || ((TranslatableText)this.client.currentScreen.getTitle()).getKey().equals("modmenu.title")){
+        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || ((TranslatableText)this.client.currentScreen.getTitle()).getKey().equals("modmenu.title") || ((TranslatableText)this.client.currentScreen.getTitle()).getKey().equals("gui.socialInteractions.title")){
             this.renderBackground(matrices);
             return;
         }
