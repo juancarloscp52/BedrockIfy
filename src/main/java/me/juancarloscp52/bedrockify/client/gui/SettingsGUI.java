@@ -39,7 +39,6 @@ public class SettingsGUI {
         SubCategoryBuilder guiImprovements = entryBuilder.startSubCategory(new TranslatableText("bedrockify.options.subCategory.visualImprovements"));
         guiImprovements.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.chatStyle"), settings.bedrockChat).setDefaultValue(true).setSaveConsumer(newValue -> settings.bedrockChat=newValue).setYesNoTextSupplier((value)->value ? new TranslatableText("bedrockify.options.chatStyle.bedrock") : new TranslatableText("bedrockify.options.chatStyle.vanilla")).build());
         guiImprovements.add(entryBuilder.startIntSlider(new TranslatableText("bedrockify.options.screenSafeArea"),settings.screenSafeArea,0,30).setDefaultValue(0).setSaveConsumer((newValue)->settings.screenSafeArea=newValue).build());
-        guiImprovements.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.chatStyle"), settings.bedrockChat).setDefaultValue(true).setSaveConsumer(newValue -> settings.bedrockChat=newValue).setYesNoTextSupplier((value)->value ? new TranslatableText("bedrockify.options.chatStyle.bedrock") : new TranslatableText("bedrockify.options.chatStyle.vanilla")).build());
         guiImprovements.add(entryBuilder.startSelector(new TranslatableText("bedrockify.options.tooltips"), new Byte []{0,1,2},settings.heldItemTooltip).setDefaultValue((byte) 2).setNameProvider((value)->{
             switch (value){
                 case 0: return new TranslatableText("bedrockify.options.off");
