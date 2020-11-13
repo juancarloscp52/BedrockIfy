@@ -1,9 +1,9 @@
 package me.juancarloscp52.bedrockify.client;
 
-import me.juancarloscp52.bedrockify.client.features.HeldItemTooltips.HeldItemTooltips;
-import me.juancarloscp52.bedrockify.client.features.ReachAroundPlacement;
+import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.HeldItemTooltips;
+import me.juancarloscp52.bedrockify.client.features.reacharoundPlacement.ReachAroundPlacement;
 import me.juancarloscp52.bedrockify.client.gui.SettingsGUI;
-import me.juancarloscp52.bedrockify.client.gui.overlay.Overlay;
+import me.juancarloscp52.bedrockify.client.gui.Overlay;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
