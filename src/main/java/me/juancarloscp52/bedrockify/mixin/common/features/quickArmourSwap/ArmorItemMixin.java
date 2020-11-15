@@ -1,6 +1,6 @@
 package me.juancarloscp52.bedrockify.mixin.common.features.quickArmourSwap;
 
-import me.juancarloscp52.bedrockify.utils.ArmorReplacer;
+import me.juancarloscp52.bedrockify.common.features.quickArmourSwap.ArmourReplacer;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ItemStack;
@@ -21,7 +21,7 @@ public abstract class ArmorItemMixin {
     @Inject(method = "use", at=@At(value = "INVOKE", target = "Lnet/minecraft/util/TypedActionResult;fail(Ljava/lang/Object;)Lnet/minecraft/util/TypedActionResult;"))
     private void tryChangeArmor(World world, PlayerEntity user, Hand hand, CallbackInfoReturnable<TypedActionResult<ItemStack>> info){
         this.world=world;
-        ArmorReplacer.tryChangeArmor(user,hand);
+        ArmourReplacer.tryChangeArmor(user,hand);
     }
 
     @Redirect(method = "use", at=@At(value = "INVOKE", target = "Lnet/minecraft/util/TypedActionResult;fail(Ljava/lang/Object;)Lnet/minecraft/util/TypedActionResult;"))

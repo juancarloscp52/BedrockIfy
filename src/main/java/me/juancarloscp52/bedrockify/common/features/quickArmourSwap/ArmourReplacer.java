@@ -1,4 +1,4 @@
-package me.juancarloscp52.bedrockify.utils;
+package me.juancarloscp52.bedrockify.common.features.quickArmourSwap;
 
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.mob.MobEntity;
@@ -6,7 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 
-public class ArmorReplacer {
+public class ArmourReplacer {
 
     public static void tryChangeArmor(PlayerEntity user, Hand hand){
         ItemStack newArmor = user.getStackInHand(hand);
