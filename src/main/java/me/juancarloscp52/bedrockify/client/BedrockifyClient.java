@@ -1,5 +1,6 @@
 package me.juancarloscp52.bedrockify.client;
 
+import me.juancarloscp52.bedrockify.client.features.worldColorNoise.WorldColorNoiseSampler;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.HeldItemTooltips;
 import me.juancarloscp52.bedrockify.client.features.reacharoundPlacement.ReachAroundPlacement;
 import me.juancarloscp52.bedrockify.client.gui.SettingsGUI;
@@ -22,6 +23,7 @@ public class BedrockifyClient implements ClientModInitializer {
     public Overlay overlay;
     public HeldItemTooltips heldItemTooltips;
     public SettingsGUI settingsGUI;
+    public WorldColorNoiseSampler worldColorNoiseSampler;
     private static KeyBinding keyBinding;
     public static BedrockifyClient getInstance() {
         return instance;
@@ -34,7 +36,7 @@ public class BedrockifyClient implements ClientModInitializer {
         reachAroundPlacement = new ReachAroundPlacement(MinecraftClient.getInstance());
         heldItemTooltips = new HeldItemTooltips();
         settingsGUI=new SettingsGUI();
-
+        worldColorNoiseSampler = new WorldColorNoiseSampler();
         keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("bedrockIfy.key.settings", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, "BedrockIfy"));
         ClientTickEvents.END_CLIENT_TICK.register(client-> {
             while (keyBinding.wasPressed()){

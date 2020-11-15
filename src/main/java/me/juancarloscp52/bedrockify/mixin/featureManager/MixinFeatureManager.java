@@ -30,6 +30,7 @@ public class MixinFeatureManager {
         features.put("client.features.slotHighlight", true);
         features.put("common.features.quickArmourSwap", true);
         features.put("common.features.recipes", true);
+        features.put("client.features.worldColorNoise",true);
     }
 
     public static boolean isFeatureEnabled(String mixin){

@@ -24,11 +24,12 @@
     "client.features.panoramaBackground.TitleScreenMixin",
     "client.features.pickupAnimations.InGameHudMixin",
     "client.features.reacharoundPlacement.MinecraftClientMixin",
+    "client.features.savingOverlay.MinecraftServerMixin",
     "client.features.screenSafeArea.BossBarHudMixin",
     "client.features.screenSafeArea.InGameHudMixin",
     "client.features.screenSafeArea.SubtitlesHudMixin",
     "client.features.slotHighlight.HandledScreenMixin",
-    "client.features.savingOverlay.MinecraftServerMixin"
+    "client.features.worldColorNoise.BiomeColorsMixin"
   ],
   "mixins": [
     "common.features.quickArmourSwap.ArmorItemMixin",
