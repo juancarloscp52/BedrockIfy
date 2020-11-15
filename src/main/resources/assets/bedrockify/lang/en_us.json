@@ -36,6 +36,8 @@
   "bedrockify.options.rotationalBackground": "Panorama Background On All Screens:",
   "bedrockify.options.rotationalBackground.tooltip": "EXPERIMENTAL: Enables the title screen rotatory background on all screens. Might visually break other mod's settings screens.",
   "bedrockify.options.inventoryHighlight": "Inventory Item Slot Highlight:",
+  "bedrockify.options.inventoryHighlight.color1": "Item Slot Highlight Background:",
+  "bedrockify.options.inventoryHighlight.color2": "Item Slot Highlight Foreground:",
   "bedrockify.options.idleAnimation": "Idle Hand Animation Speed:",
   "bedrockify.options.showBedrockIfyButton": "Show BedrockIfy Settings Button:",
   "bedrockify.options.showBedrockIfyButton.tooltip": "Shows the BedrockIfy Settings Button on the Game Options Screen. If disabled, you can access BedrockIfy settings through Mod Menu or by pressing B when a world is loaded.",

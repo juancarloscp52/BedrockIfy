@@ -53,6 +53,9 @@ public class SettingsGUI {
             }
         }).setSaveConsumer((newValue)->settings.heldItemTooltip=newValue).build());
         guiImprovements.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.inventoryHighlight"), settings.slotHighlight).setDefaultValue(true).setSaveConsumer(newValue -> settings.slotHighlight=newValue).build());
+        guiImprovements.add(entryBuilder.startAlphaColorField(new TranslatableText("bedrockify.options.inventoryHighlight.color1"),settings.highLightColor1).setDefaultValue((255 << 8) + (255) + (255 << 16) + (255 << 24)).setSaveConsumer(newValue -> settings.highLightColor1=newValue).build());
+        guiImprovements.add(entryBuilder.startAlphaColorField(new TranslatableText("bedrockify.options.inventoryHighlight.color2"),settings.highLightColor2).setDefaultValue(64 + (170 << 8) + (109 << 16) + (255 << 24)).setSaveConsumer(newValue -> settings.highLightColor2=newValue).build());
+
         guiImprovements.add(entryBuilder.startSelector(new TranslatableText("bedrockify.options.idleAnimation"), new Float []{0.0f,0.5f,1.0f,1.5f,2.0f,2.5f,3.0f,4.0f},settings.idleAnimation).setDefaultValue(1.0f).setNameProvider((value)-> new LiteralText("x"+ value)).setSaveConsumer((newValue)->settings.idleAnimation=newValue).build());
         guiImprovements.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.eatingAnimations"), settings.eatingAnimations).setDefaultValue(true).setSaveConsumer(newValue -> settings.eatingAnimations=newValue).build());
         guiImprovements.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.pickupAnimations"), settings.pickupAnimations).setTooltip(wrapLines(new TranslatableText("bedrockify.options.pickupAnimations.tooltip"))).setDefaultValue(true).setSaveConsumer(newValue -> settings.pickupAnimations=newValue).build());

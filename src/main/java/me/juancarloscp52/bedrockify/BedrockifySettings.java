@@ -17,6 +17,8 @@ public class BedrockifySettings {
     public boolean cubeMapBackground = true;
     public boolean bedrockChat=true;
     public boolean slotHighlight = true;
+    public int highLightColor1 = (255 << 8) + (255) + (255 << 16) + (255 << 24);
+    public int highLightColor2 = 64 + (170 << 8) + (109 << 16) + (255 << 24);
     public float idleAnimation = 1;
     public double reacharoundBlockDistance = 0.5d;
     public int reacharoundPitchAngle = 25;
@@ -39,6 +41,14 @@ public class BedrockifySettings {
     }
     public boolean isShowPositionHUDEnabled() {
         return showPositionHUD;
+    }
+
+    public int getHighLightColor1(){
+        return this.highLightColor1;
+    }
+
+    public int getHighLightColor2(){
+        return this.highLightColor2;
     }
 
     public byte getHeldItemTooltip(){
