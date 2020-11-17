@@ -2,6 +2,7 @@ package me.juancarloscp52.bedrockify.client.gui;
 
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.BedrockifySettings;
+import me.juancarloscp52.bedrockify.mixin.featureManager.MixinFeatureManager;
 import me.shedaniel.clothconfig2.api.ConfigBuilder;
 import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
@@ -12,6 +13,7 @@ import net.minecraft.text.*;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
+import java.util.Map;
 
 public class SettingsGUI {
 
@@ -19,8 +21,12 @@ public class SettingsGUI {
 
     public Screen getConfigScreen(Screen parent, boolean isTransparent){
         ConfigBuilder builder = ConfigBuilder.create().setParentScreen(parent).setTitle(new TranslatableText("bedrockify.options.settings"));
-        builder.setSavingRunnable(()-> Bedrockify.getInstance().saveSettings());
+        builder.setSavingRunnable(()-> {
+            Bedrockify.getInstance().saveSettings();
+            MixinFeatureManager.saveMixinSettings();
+        });
         ConfigCategory general = builder.getOrCreateCategory(new LiteralText("General"));
+        ConfigCategory mixins = builder.getOrCreateCategory(new LiteralText("Mixins"));
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
         SubCategoryBuilder bedrockOverlay = entryBuilder.startSubCategory(new TranslatableText("bedrockify.options.subCategory.bedrockOverlay"));
         bedrockOverlay.add(entryBuilder.startTextDescription(new TranslatableText("bedrockify.options.subCategory.bedrockOverlay.description")).build());
@@ -47,12 +53,14 @@ public class SettingsGUI {
             }
         }).setSaveConsumer((newValue)->settings.heldItemTooltip=newValue).build());
         guiImprovements.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.inventoryHighlight"), settings.slotHighlight).setDefaultValue(true).setSaveConsumer(newValue -> settings.slotHighlight=newValue).build());
+        guiImprovements.add(entryBuilder.startAlphaColorField(new TranslatableText("bedrockify.options.inventoryHighlight.color1"),settings.highLightColor1).setDefaultValue((255 << 8) + (255) + (255 << 16) + (255 << 24)).setSaveConsumer(newValue -> settings.highLightColor1=newValue).build());
+        guiImprovements.add(entryBuilder.startAlphaColorField(new TranslatableText("bedrockify.options.inventoryHighlight.color2"),settings.highLightColor2).setDefaultValue(64 + (170 << 8) + (109 << 16) + (255 << 24)).setSaveConsumer(newValue -> settings.highLightColor2=newValue).build());
+
         guiImprovements.add(entryBuilder.startSelector(new TranslatableText("bedrockify.options.idleAnimation"), new Float []{0.0f,0.5f,1.0f,1.5f,2.0f,2.5f,3.0f,4.0f},settings.idleAnimation).setDefaultValue(1.0f).setNameProvider((value)-> new LiteralText("x"+ value)).setSaveConsumer((newValue)->settings.idleAnimation=newValue).build());
         guiImprovements.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.eatingAnimations"), settings.eatingAnimations).setDefaultValue(true).setSaveConsumer(newValue -> settings.eatingAnimations=newValue).build());
         guiImprovements.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.pickupAnimations"), settings.pickupAnimations).setTooltip(wrapLines(new TranslatableText("bedrockify.options.pickupAnimations.tooltip"))).setDefaultValue(true).setSaveConsumer(newValue -> settings.pickupAnimations=newValue).build());
         guiImprovements.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.loadingScreen"), settings.loadingScreen).setDefaultValue(true).setSaveConsumer(newValue -> settings.loadingScreen=newValue).build());
         general.addEntry(guiImprovements.build());
-
         SubCategoryBuilder reachAround = entryBuilder.startSubCategory(new TranslatableText("bedrockify.options.subCategory.Reach-Around"));
         reachAround.add(entryBuilder.startTextDescription(new TranslatableText("bedrockify.options.subCategory.Reach-Around.description")).build());
         reachAround.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.reachAround"), settings.reacharound).setDefaultValue(true).setSaveConsumer(newValue -> settings.reacharound=newValue).build());
@@ -68,6 +76,11 @@ public class SettingsGUI {
         otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.showBedrockIfyButton"), settings.bedrockIfyButton).setDefaultValue(true).setTooltip(wrapLines(new TranslatableText("bedrockify.options.showBedrockIfyButton.tooltip"))).setSaveConsumer(newValue -> settings.bedrockIfyButton=newValue).build());
         general.addEntry(otherSettings.build());
         general.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.recipes"), settings.bedrockRecipes).setTooltip(wrapLines(new TranslatableText("bedrockify.options.recipes.tooltip"))).setDefaultValue(true).setSaveConsumer(newValue -> settings.bedrockRecipes=newValue).build());
+        mixins.addEntry(entryBuilder.startTextDescription(new TranslatableText("bedrockify.options.mixins.description")).build());
+        for(Map.Entry<String, Boolean> elem : MixinFeatureManager.features.entrySet()){
+            mixins.addEntry(entryBuilder.startBooleanToggle(new TranslatableText(elem.getKey()), elem.getValue()).setDefaultValue(true).setSaveConsumer(newValue -> MixinFeatureManager.features.put(elem.getKey(),newValue)).build());
+        }
+
         return builder.setTransparentBackground(isTransparent).build();
     }
 
