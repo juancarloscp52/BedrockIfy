@@ -13,6 +13,8 @@ import net.minecraft.entity.EntityPose;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Quaternion;
 
+import java.util.Arrays;
+
 public class PaperDoll {
     private final MinecraftClient client;
     private final int size = 20;
@@ -23,6 +25,7 @@ public class PaperDoll {
         this.client = client;
     }
 
+    private static boolean supportsCrawling = Arrays.stream(EntityPose.values()).anyMatch(pose -> pose.name().equals("CRAWLING"));
     /**
      * Render the player at the top left of the screen.
      * The player will be rendered only when the player is not riding another entity and it is sneaking, running, using elytra, using an item, under water, or using a shield.
@@ -46,7 +49,7 @@ public class PaperDoll {
 
         if (client.player != null) {
             //If the player does an action that must show the player entity gui, set the counter to the current time.
-            if (client.player.isSneaking() || client.player.isSubmergedInWater() || client.player.getPose().equals(EntityPose.SWIMMING) || client.player.isSprinting() || client.player.abilities.flying || client.player.isFallFlying() || client.player.isBlocking() || client.player.isUsingItem())
+            if (client.player.isSneaking() || client.player.isSubmergedInWater() || client.player.getPose().equals(EntityPose.SWIMMING) || client.player.isSprinting() || client.player.abilities.flying || client.player.isFallFlying() || client.player.isBlocking() || client.player.isUsingItem() || (supportsCrawling && client.player.getPose() == EntityPose.valueOf("CRAWLING")))
                 lastTimeShown = System.currentTimeMillis();
 
             // If the difference between the current game ticks and showTicks is less than a 100 ticks, draw the player entity.
