@@ -26,6 +26,7 @@ public class BedrockifySettings {
     public boolean savingOverlay = true;
     public boolean eatingAnimations = true;
     public boolean pickupAnimations = true;
+    public boolean expTextStyle = true;
 
     public boolean isEatingAnimationsEnabled() {
         return eatingAnimations;
@@ -42,6 +43,10 @@ public class BedrockifySettings {
     public boolean isShowPositionHUDEnabled() {
         return showPositionHUD;
     }
+    public boolean isExpTextStyle() {
+        return expTextStyle;
+    }
+
 
     public int getHighLightColor1(){
         return this.highLightColor1;
