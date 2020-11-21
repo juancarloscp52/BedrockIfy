@@ -8,7 +8,6 @@ import net.minecraft.client.gui.screen.pack.PackScreen;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.TranslatableText;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,7 +24,7 @@ public abstract class EntryListWidgetMixin {
 
     @Redirect(method = "render", at=@At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/EntryListWidget;renderBackground(Lnet/minecraft/client/util/math/MatrixStack;)V"))
     private void renderPanorama(EntryListWidget entryListWidget,MatrixStack matrices){
-        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || ((TranslatableText)this.client.currentScreen.getTitle()).getKey().equals("modmenu.title") || ((TranslatableText)this.client.currentScreen.getTitle()).getKey().equals("gui.socialInteractions.title")){
+        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || this.client.currentScreen.getClass().getName().equals("io.github.prospector.modmenu.gui.ModsScreen") || this.client.currentScreen.getClass().getName().equals("net.minecraft.class_5522")){
             this.renderBackground(matrices);
             return;
         }
@@ -38,7 +37,7 @@ public abstract class EntryListWidgetMixin {
     // Prevent the screen background from drawing
     @Redirect(method = "render", at=@At(value = "INVOKE",target = "Lnet/minecraft/client/render/Tessellator;draw()V", ordinal = 0))
     private void doNotDrawBackground(Tessellator tessellator){
-        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || ((TranslatableText)this.client.currentScreen.getTitle()).getKey().equals("modmenu.title")){
+        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || this.client.currentScreen.getClass().getName().equals("io.github.prospector.modmenu.gui.ModsScreen")){
             tessellator.draw();
             return;
         }
