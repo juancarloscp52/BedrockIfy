@@ -17,7 +17,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
     /**
      * Renders the Bedrockify overlay.
      */
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/MinecraftClient;isDemo()Z", ordinal = 0))
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;color4f(FFFF)V", ordinal =3))
     private void renderBedrockIfy(MatrixStack matrixStack, float f, CallbackInfo info) {
         BedrockifyClient.getInstance().overlay.renderOverlay(matrixStack);
     }

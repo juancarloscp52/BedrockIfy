@@ -37,7 +37,8 @@
     "common.features.recipes.FireworkStarFadeRecipeMixin",
     "common.features.recipes.FireworkStarRecipeMixin",
     "common.features.recipes.RecipeManagerMixin",
-    "common.features.recipes.ShulkerBoxColoringRecipeMixin"
+    "common.features.recipes.ShulkerBoxColoringRecipeMixin",
+    "common.features.useAnimations.ItemStackMixin"
   ],
   "injectors": {
     "defaultRequire": 1

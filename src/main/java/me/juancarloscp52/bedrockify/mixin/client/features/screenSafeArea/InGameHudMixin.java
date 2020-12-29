@@ -79,13 +79,18 @@ public abstract class InGameHudMixin extends DrawableHelper {
     private void drawTextureExperienceBar(InGameHud inGameHud, MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
         inGameHud.drawTexture(matrices, x, y - screenBorder, u, v, width, height);
     }
-
     /**
      * Apply screen border offset to experience bar text.
      */
     @Redirect(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Ljava/lang/String;FFI)I"))
     private int drawExperienceBar(TextRenderer fontRenderer, MatrixStack matrices, String text, float x, float y, int color) {
-        return fontRenderer.draw(matrices, text, x, y - screenBorder, color);
+        if(!Bedrockify.getInstance().settings.isExpTextStyle()){
+            return fontRenderer.draw(matrices, text, x, y-screenBorder, color);
+        }
+
+        if(color == 0)
+            return 0;
+        return fontRenderer.drawWithShadow(matrices, text, x, y-screenBorder-3, color);
     }
 
     /**
