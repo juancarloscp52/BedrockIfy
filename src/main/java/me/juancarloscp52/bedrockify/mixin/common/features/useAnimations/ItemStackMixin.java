@@ -1,5 +1,7 @@
 package me.juancarloscp52.bedrockify.mixin.common.features.useAnimations;
 
+import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,10 +16,12 @@ public abstract class ItemStackMixin {
 
     @Inject(method = "decrement", at=@At("TAIL"))
     private void applyAnimationDecrement(CallbackInfo info){
-        this.setCooldown(5);
+        if(Bedrockify.getInstance().settings.isPickupAnimationsEnabled())
+            this.setCooldown(5);
     }
     @Inject(method = "damage(ILnet/minecraft/entity/LivingEntity;Ljava/util/function/Consumer;)V", at=@At("TAIL"))
     private void applyAnimationDamage1(CallbackInfo info){
-        this.setCooldown(5);
+        if(Bedrockify.getInstance().settings.isPickupAnimationsEnabled())
+            this.setCooldown(5);
     }
 }
