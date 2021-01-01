@@ -1,5 +1,6 @@
 package me.juancarloscp52.bedrockify;
 
+import net.minecraft.client.MinecraftClient;
 public class BedrockifySettings {
     public boolean loadingScreen = true;
     public boolean bedrockIfyButton = true;
@@ -41,7 +42,7 @@ public class BedrockifySettings {
         return loadingScreen;
     }
     public boolean isShowPositionHUDEnabled() {
-        return showPositionHUD;
+        return showPositionHUD && !MinecraftClient.getInstance().hasReducedDebugInfo();
     }
     public boolean isExpTextStyle() {
         return expTextStyle;
