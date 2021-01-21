@@ -34,8 +34,8 @@ public class Overlay {
     }
 
     public void renderOverlay(MatrixStack matrixStack) {
-        // Only render the overlay if debug is NOT enabled.
-        if (!client.options.debugEnabled) {
+        // Only render the overlay if HUD is not hidden and debug is NOT enabled.
+        if (!client.options.debugEnabled && !client.options.hudHidden){
             this.renderText(matrixStack);
             this.paperDoll.renderPaperDoll(matrixStack);
             BedrockifyClient.getInstance().reachAroundPlacement.renderIndicator(matrixStack);
