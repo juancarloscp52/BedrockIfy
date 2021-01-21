@@ -19,7 +19,6 @@
     "client.features.loadingScreens.SaveLevelScreenMixin",
     "client.features.panoramaBackground.AbstractPackScreenMixin",
     "client.features.panoramaBackground.EntryListWidgetMixin",
-    "client.features.panoramaBackground.MinecraftClientMixin",
     "client.features.panoramaBackground.ScreenMixin",
     "client.features.panoramaBackground.TitleScreenMixin",
     "client.features.pickupAnimations.InGameHudMixin",
