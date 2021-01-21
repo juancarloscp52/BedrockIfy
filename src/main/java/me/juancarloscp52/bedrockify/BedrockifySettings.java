@@ -28,6 +28,10 @@ public class BedrockifySettings {
     public boolean eatingAnimations = true;
     public boolean pickupAnimations = true;
     public boolean expTextStyle = true;
+    public boolean quickArmorSwap = true;
+    public boolean isQuickArmorSwapEnabled(){
+        return quickArmorSwap;
+    }
 
     public boolean isEatingAnimationsEnabled() {
         return eatingAnimations;

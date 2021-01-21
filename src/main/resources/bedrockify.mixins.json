@@ -32,8 +32,6 @@
     "client.features.worldColorNoise.BiomeColorsMixin"
   ],
   "mixins": [
-    "common.features.quickArmourSwap.ArmorItemMixin",
-    "common.features.quickArmourSwap.ElytraItemMixin",
     "common.features.recipes.FireworkStarFadeRecipeMixin",
     "common.features.recipes.FireworkStarRecipeMixin",
     "common.features.recipes.RecipeManagerMixin",

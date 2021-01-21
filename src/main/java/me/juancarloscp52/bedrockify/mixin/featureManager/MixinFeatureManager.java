@@ -28,7 +28,6 @@ public class MixinFeatureManager {
         features.put("client.features.savingOverlay", true);
         features.put("client.features.screenSafeArea", true);
         features.put("client.features.slotHighlight", true);
-        features.put("common.features.quickArmourSwap", true);
         features.put("common.features.recipes", true);
         features.put("client.features.worldColorNoise",true);
         features.put("common.features.useAnimations", true);
