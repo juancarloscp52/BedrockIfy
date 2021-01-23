@@ -46,5 +46,8 @@
   "bedrockify.options.reachAround.distance": "Distancia máxima desde el borde del bloque:",
   "bedrockify.options.inventoryHighlight.color1": "Color de fondo de resalto de slot:",
   "bedrockify.options.inventoryHighlight.color2": "Color principal de resalto de slot:",
+  "bedrockify.options.expTextStyle": "Estilo de texto de experiencia:",
+  "bedrockify.options.quickArmorSwap":"Activar cambio de armadura rápido:",
+  "bedrockify.options.transparentToolBar":"HotBar transparente:",
   "bedrockify.options.mixins.description": "En esta categoria puedes activar/desactivar mixins para ciertas características. Deshabilitar mixins deshabilitará la caracteristica que cubre. Puedes deshabilitar mixins para intentar mejorar la compatibilidad con otros mods.\n§4!Por favor, no cambie estos ajustes salvo que sepa lo que está haciendo!"
 }
