@@ -17,9 +17,11 @@ public class ArmorReplacer {
 
     public static TypedActionResult<ItemStack> tryChangeArmor(PlayerEntity playerEntity, Hand hand){
         ItemStack newArmor = playerEntity.getStackInHand(hand);
-        if (newArmor.getItem() == Items.ELYTRA || newArmor.getItem() instanceof ArmorItem) {
             ClientPlayerInteractionManager interactionManager = MinecraftClient.getInstance().interactionManager;
             if(interactionManager != null && MinecraftClient.getInstance().mouse.wasRightButtonClicked()){
+                if (!(newArmor.getItem() == Items.ELYTRA || newArmor.getItem() instanceof ArmorItem))
+                    return TypedActionResult.pass(newArmor);
+
                 EquipmentSlot equipmentSlot = MobEntity.getPreferredEquipmentSlot(newArmor);
 
                 if(playerEntity.getEquippedStack(equipmentSlot).getItem().equals(Items.AIR))
@@ -30,7 +32,6 @@ public class ArmorReplacer {
                 playerEntity.playSound(newArmor.getItem() == Items.ELYTRA ? SoundEvents.ITEM_ARMOR_EQUIP_ELYTRA : ((ArmorItem)newArmor.getItem()).getMaterial().getEquipSound(), 1.0F,1.0F);
                 return TypedActionResult.success(playerEntity.getStackInHand(hand));
             }
-        }
         return TypedActionResult.fail(newArmor);
     }
 
