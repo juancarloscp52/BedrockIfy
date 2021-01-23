@@ -29,8 +29,13 @@ public class BedrockifySettings {
     public boolean pickupAnimations = true;
     public boolean expTextStyle = true;
     public boolean quickArmorSwap = true;
+    public boolean transparentHotBar = true;
     public boolean isQuickArmorSwapEnabled(){
         return quickArmorSwap;
+    }
+
+    public boolean isTransparentHotBarEnabled() {
+        return transparentHotBar;
     }
 
     public boolean isEatingAnimationsEnabled() {

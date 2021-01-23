@@ -57,9 +57,9 @@ public abstract class InGameHudMixin extends DrawableHelper {
     @Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
     private void drawTextureHotbar(InGameHud inGameHud, MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
         if((width ==29 && height == 24) || width == 182){
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 0.6F);
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, Bedrockify.getInstance().settings.isTransparentHotBarEnabled()? 0.6F:1.0F);
             inGameHud.drawTexture(matrices, x, y - screenBorder, u, v, width, height);
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1);
+            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         }else{
             inGameHud.drawTexture(matrices, x, y - screenBorder, u, v, width, width == 24 ? height+2 : height);
         }
