@@ -16,7 +16,6 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(EntryListWidget.class)
 public abstract class EntryListWidgetMixin {
-    @Shadow protected int left;
     @Shadow @Final protected MinecraftClient client;
     @Shadow protected int bottom;
     @Shadow protected int top;
@@ -24,7 +23,7 @@ public abstract class EntryListWidgetMixin {
 
     @Redirect(method = "render", at=@At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/EntryListWidget;renderBackground(Lnet/minecraft/client/util/math/MatrixStack;)V"))
     private void renderPanorama(EntryListWidget entryListWidget,MatrixStack matrices){
-        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || this.client.currentScreen.getClass().getName().equals("io.github.prospector.modmenu.gui.ModsScreen") || this.client.currentScreen.getClass().getName().equals("net.minecraft.class_5522")){
+        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || this.client.currentScreen.getClass().getName().equals("io.github.prospector.modmenu.gui.ModsScreen") /*Old Mod Menu Versions*/ || this.client.currentScreen.getClass().getName().equals("com.terraformersmc.modmenu.gui.ModsScreen")/*New Mod Menu Versions*/ || this.client.currentScreen.getClass().getName().equals("net.minecraft.class_5522")){
             this.renderBackground(matrices);
             return;
         }
@@ -37,7 +36,7 @@ public abstract class EntryListWidgetMixin {
     // Prevent the screen background from drawing
     @Redirect(method = "render", at=@At(value = "INVOKE",target = "Lnet/minecraft/client/render/Tessellator;draw()V", ordinal = 0))
     private void doNotDrawBackground(Tessellator tessellator){
-        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || this.client.currentScreen.getClass().getName().equals("io.github.prospector.modmenu.gui.ModsScreen")){
+        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || this.client.currentScreen.getClass().getName().equals("io.github.prospector.modmenu.gui.ModsScreen")/*Old Mod Menu Versions*/ || this.client.currentScreen.getClass().getName().equals("com.terraformersmc.modmenu.gui.ModsScreen")/*New Mod Menu Versions*/){
             tessellator.draw();
             return;
         }
