@@ -72,7 +72,7 @@ public class HeldItemTooltips {
 
                 // show the "and x more..." tooltip if the item has more than 4 tooltips.
                 if(showMoreTooltip)
-                    renderTooltip(fontRenderer, matrices, y - screenBorder, color, new TranslatableText("container.shulkerBox.more", tooltips.size() - 4).formatted(Formatting.GRAY));
+                    renderTooltip(fontRenderer, matrices, y - screenBorder, color, new TranslatableText("container.shulkerBox.more", tooltips.size() - 3).formatted(Formatting.GRAY));
 
             }else if(settings.getHeldItemTooltip()==2){
                 // draw the background
@@ -192,7 +192,7 @@ public class HeldItemTooltips {
         for(Tooltip elem : tooltips){
             int tipLength = textRenderer.getWidth(elem.getTooltipText());
             if (count > 3)
-                tipLength = textRenderer.getWidth(new TranslatableText("container.shulkerBox.more", tooltips.size() - 4));
+                tipLength = textRenderer.getWidth(new TranslatableText("container.shulkerBox.more", tooltips.size() - 3));
             if(maxLength<tipLength)
                 maxLength=tipLength;
             if ( count>3 )
