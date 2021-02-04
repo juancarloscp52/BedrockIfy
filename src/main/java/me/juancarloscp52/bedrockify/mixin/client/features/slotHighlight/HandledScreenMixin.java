@@ -3,11 +3,16 @@ package me.juancarloscp52.bedrockify.mixin.client.features.slotHighlight;
 
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.BedrockifySettings;
+import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.block.entity.LockableContainerBlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.ingame.*;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.inventory.SidedInventory;
+import net.minecraft.screen.ScreenHandler;
+import net.minecraft.screen.slot.CraftingResultSlot;
 import net.minecraft.screen.slot.Slot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -35,6 +40,7 @@ public abstract class HandledScreenMixin extends DrawableHelper {
         }
 
         Screen currentScreen = MinecraftClient.getInstance().currentScreen;
+
         if((currentScreen instanceof AbstractFurnaceScreen && focusedSlot.id==2)||(currentScreen instanceof CraftingScreen && focusedSlot.id==0) || (currentScreen instanceof StonecutterScreen && focusedSlot.id==1) ||(currentScreen instanceof CartographyTableScreen && focusedSlot.id==2)){
             this.fillGradient(matrices, xStart - 5, yStart - 5, xEnd + 5, yEnd + 5, settings.getHighLightColor1(), settings.getHighLightColor1());
             this.fillGradient(matrices, xStart-4, yStart-4, xEnd+4, yEnd+4, settings.getHighLightColor2(), settings.getHighLightColor2());
