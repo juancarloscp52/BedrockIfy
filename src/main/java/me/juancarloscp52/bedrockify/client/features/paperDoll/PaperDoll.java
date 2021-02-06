@@ -62,7 +62,6 @@ public class PaperDoll {
      * Draw the player entity in the specified position on screen.
      */
     private void drawPaperDoll(MatrixStack matrixStack) {
-        client.getProfiler().push("Player");
         ClientPlayerEntity player = client.player;
         if (player == null)
             return;
@@ -115,7 +114,6 @@ public class PaperDoll {
         player.headYaw = headYaw;
 
         matrixStack.pop();
-        client.getProfiler().pop();
     }
 
     private float toMaxAngleRatio(float angle) {
