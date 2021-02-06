@@ -10,7 +10,7 @@
     "client.features.chat.ChatHudMixin",
     "client.features.eatingAnimations.PlayerEntityModelMixin",
     "client.features.heldItemTooltips.ItemTooltipsMixin",
-    "client.features.itemBreathingAnimations.HeldItemRendererMixin",
+    "client.features.idleHandAnimations.HeldItemRendererMixin",
     "client.features.loadingScreens.ConnectScreenMixin",
     "client.features.loadingScreens.DisconnectedScreenMixin",
     "client.features.loadingScreens.DownloadingTerrainScreenMixin",
@@ -31,6 +31,7 @@
     "client.features.worldColorNoise.BiomeColorsMixin"
   ],
   "mixins": [
+    "client.core.clientRenderTimer.MinecraftClientMixin",
     "common.features.recipes.FireworkStarFadeRecipeMixin",
     "common.features.recipes.FireworkStarRecipeMixin",
     "common.features.recipes.RecipeManagerMixin",

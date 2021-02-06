@@ -16,11 +16,12 @@ public class MixinFeatureManager {
     public static Map<String, Boolean> features = new HashMap<>();
     static {
         features.put("client.core.overlayInjection", true);
+        features.put("client.core.clientRenderTimer", true);
         features.put("client.core.bedrockIfyButton", true);
         features.put("client.features.chat", true);
         features.put("client.features.eatingAnimations", true);
         features.put("client.features.heldItemTooltips",true);
-        features.put("client.features.itemBreathingAnimations", true);
+        features.put("client.features.idleHandAnimations", true);
         features.put("client.features.loadingScreens", true);
         features.put("client.features.panoramaBackground", true);
         features.put("client.features.pickupAnimations", true);

@@ -8,6 +8,8 @@ import me.juancarloscp52.bedrockify.client.gui.Overlay;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.impl.client.rendering.RenderingCallbackInvoker;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -24,6 +26,7 @@ public class BedrockifyClient implements ClientModInitializer {
     public HeldItemTooltips heldItemTooltips;
     public SettingsGUI settingsGUI;
     public WorldColorNoiseSampler worldColorNoiseSampler;
+    public long deltaTime = 0;
     private static KeyBinding keyBinding;
     public static BedrockifyClient getInstance() {
         return instance;
