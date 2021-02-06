@@ -1,5 +1,6 @@
-package me.juancarloscp52.bedrockify.mixin.client.features.itemBreathingAnimations;
+package me.juancarloscp52.bedrockify.mixin.client.features.idleHandAnimations;
 import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.client.render.item.HeldItemRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 
@@ -14,8 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(HeldItemRenderer.class)
 public class HeldItemRendererMixin {
-
-    int timer = 0;
+    float timer = 0;
 
     /**
      * Adds "breathing" idle animation to items in hand.
@@ -23,9 +23,9 @@ public class HeldItemRendererMixin {
     @Inject(method = "applyEquipOffset", at=@At("HEAD"),cancellable = true)
     public void applyEquipOffset (MatrixStack matrices, Arm arm, float equipProgress, CallbackInfo info){
         int i = arm == Arm.RIGHT ? 1 : -1;
-        double breath = (i==1 ? MathHelper.sin((timer/200f)* Bedrockify.getInstance().settings.getIdleAnimation()) : MathHelper.cos((timer/200f)* Bedrockify.getInstance().settings.getIdleAnimation()))*0.01D;
+        double breath = (i==1 ? MathHelper.sin(((timer))* Bedrockify.getInstance().settings.getIdleAnimation()) : MathHelper.cos((timer)* Bedrockify.getInstance().settings.getIdleAnimation()))*0.01D;
         matrices.translate(((float)i * 0.56F), (-0.52F + equipProgress * -0.6F) + breath, -0.7200000286102295D);
-        timer ++;
+        timer += BedrockifyClient.getInstance().deltaTime * 0.000000001f;
         info.cancel();
     }
 
