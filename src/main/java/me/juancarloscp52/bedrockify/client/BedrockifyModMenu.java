@@ -1,7 +1,7 @@
 package me.juancarloscp52.bedrockify.client;
 
-import io.github.prospector.modmenu.api.ConfigScreenFactory;
-import io.github.prospector.modmenu.api.ModMenuApi;
+import com.terraformersmc.modmenu.api.ModMenuApi;
+import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import net.minecraft.client.MinecraftClient;
 
 public class BedrockifyModMenu implements ModMenuApi {
