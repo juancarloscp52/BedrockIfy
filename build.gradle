@@ -18,12 +18,19 @@ dependencies {
 
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-	modImplementation "io.github.prospector:modmenu:${project.modmenu_version}"
+	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 	modApi("me.shedaniel.cloth:config-2:4.8.3") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 	include "me.shedaniel.cloth:config-2:4.8.3"
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
+}
+
+repositories {
+	maven {
+		name = 'TerraformersMC'
+		url = 'https://maven.terraformersmc.com/'
+	}
 }
 
 processResources {

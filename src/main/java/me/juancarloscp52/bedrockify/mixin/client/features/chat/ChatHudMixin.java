@@ -137,8 +137,8 @@ public abstract class ChatHudMixin extends DrawableHelper {
         info.cancel();
     }
 
-    @Inject(method = "method_27146",at=@At("HEAD"),cancellable = true)
-    public void method_27146(double x, double y, CallbackInfoReturnable<Boolean> info){
+    @Inject(method = "mouseClicked",at=@At("HEAD"),cancellable = true)
+    public void mouseClicked(double x, double y, CallbackInfoReturnable<Boolean> info){
         if(!settings.isBedrockChatEnabled())
             return;
         if(this.isChatFocused() && !this.client.options.hudHidden && !this.isChatHidden() && !this.messageQueue.isEmpty()){

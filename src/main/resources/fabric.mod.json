@@ -35,9 +35,7 @@
     "modmenu": ">=1.14.6"
   },
   "conflicts": {
-    "held-item-info": "*"
-  },
-  "custom": {
-    "modmenu:clientsideOnly": false
+    "held-item-info": "*",
+    "modmenu": "<1.15.0"
   }
 }

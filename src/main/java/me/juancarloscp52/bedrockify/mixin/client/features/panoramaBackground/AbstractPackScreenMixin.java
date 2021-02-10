@@ -46,7 +46,7 @@ public class AbstractPackScreenMixin extends Screen {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.client.getTextureManager().bindTexture(DrawableHelper.BACKGROUND_TEXTURE);
+        this.client.getTextureManager().bindTexture(DrawableHelper.OPTIONS_BACKGROUND_TEXTURE);
         RenderSystem.enableDepthTest();
         RenderSystem.depthFunc(519);
         float tilingSize = 32.0F;
