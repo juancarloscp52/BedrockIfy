@@ -46,6 +46,8 @@ Here is a list of other Fabric Mods that can improve your BedrockLike Experience
 - [BedrockWaters](https://github.com/2Retr0/BedrockWaters) - Ports all Bedrock Edition biome specific water color.
 - [Snowy Leaves](https://github.com/Ashley1227/snowy-leaves) - Leaves will turn white while snowing.
 - [TelePistons](https://www.curseforge.com/minecraft/mc-mods/telepistons) - This mod adds the  telescopic piston arm animation from Bedrock Edition.
+- [Fade In Chunks](https://github.com/johni0702/fade-in-chunks) Adds a Bedrock Edition style fading in animation for newly loaded chunks.
+- [Sheep Consistency](https://github.com/Crupette/sheepconsistency) Let's you see the color of sheared sheep.
 
 
 ## License
