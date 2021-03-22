@@ -23,7 +23,7 @@ public abstract class EntryListWidgetMixin {
 
     @Redirect(method = "render", at=@At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/EntryListWidget;renderBackground(Lnet/minecraft/client/util/math/MatrixStack;)V"))
     private void renderPanorama(EntryListWidget entryListWidget,MatrixStack matrices){
-        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || this.client.currentScreen.getClass().getName().equals("io.github.prospector.modmenu.gui.ModsScreen") /*Old Mod Menu Versions*/ || this.client.currentScreen.getClass().getName().equals("com.terraformersmc.modmenu.gui.ModsScreen")/*New Mod Menu Versions*/ || this.client.currentScreen.getClass().getName().equals("net.minecraft.class_5522")){
+        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || this.client.currentScreen.getClass().getName().contains(".modmenu.gui.ModsScreen")/* Mod Menu*/ || this.client.currentScreen.getClass().getName().contains(".iris.gui.") /*Iris Shaders Compat*/ || this.client.currentScreen.getClass().getName().equals("net.minecraft.class_5522")){
             this.renderBackground(matrices);
             return;
         }
@@ -36,7 +36,7 @@ public abstract class EntryListWidgetMixin {
     // Prevent the screen background from drawing
     @Redirect(method = "render", at=@At(value = "INVOKE",target = "Lnet/minecraft/client/render/Tessellator;draw()V", ordinal = 0))
     private void doNotDrawBackground(Tessellator tessellator){
-        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || this.client.currentScreen.getClass().getName().equals("io.github.prospector.modmenu.gui.ModsScreen")/*Old Mod Menu Versions*/ || this.client.currentScreen.getClass().getName().equals("com.terraformersmc.modmenu.gui.ModsScreen")/*New Mod Menu Versions*/){
+        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || this.client.currentScreen.getClass().getName().contains(".modmenu.gui.ModsScreen")/* Mod Menu*/ || this.client.currentScreen.getClass().getName().contains(".iris.gui.") /*Iris Shaders Compat*/){
             tessellator.draw();
             return;
         }
