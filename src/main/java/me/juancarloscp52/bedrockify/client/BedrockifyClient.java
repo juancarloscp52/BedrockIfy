@@ -1,5 +1,7 @@
 package me.juancarloscp52.bedrockify.client;
 
+import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.client.features.quickArmorSwap.ArmorReplacer;
 import me.juancarloscp52.bedrockify.client.features.worldColorNoise.WorldColorNoiseSampler;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.HeldItemTooltips;
 import me.juancarloscp52.bedrockify.client.features.reacharoundPlacement.ReachAroundPlacement;
@@ -9,10 +11,12 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.fabricmc.fabric.impl.client.rendering.RenderingCallbackInvoker;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.util.TypedActionResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
@@ -41,6 +45,13 @@ public class BedrockifyClient implements ClientModInitializer {
         settingsGUI=new SettingsGUI();
         worldColorNoiseSampler = new WorldColorNoiseSampler();
         keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("bedrockIfy.key.settings", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, "BedrockIfy"));
+
+        UseItemCallback.EVENT.register((playerEntity, world, hand) -> {
+            if(Bedrockify.getInstance().settings.isQuickArmorSwapEnabled())
+                return ArmorReplacer.tryChangeArmor(playerEntity,hand);
+            return TypedActionResult.pass(playerEntity.getStackInHand(hand));
+        });
+
         ClientTickEvents.END_CLIENT_TICK.register(client-> {
             while (keyBinding.wasPressed()){
                 client.openScreen(settingsGUI.getConfigScreen(client.currentScreen,true));

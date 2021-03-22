@@ -27,12 +27,6 @@ public class Bedrockify implements ModInitializer {
         LOGGER.info("Initializing BedrockIfy.");
         loadSettings();
         instance = this;
-        UseItemCallback.EVENT.register((playerEntity, world, hand) -> {
-            if(settings.isQuickArmorSwapEnabled())
-                return ArmorReplacer.tryChangeArmor(playerEntity,hand);
-            return TypedActionResult.pass(playerEntity.getStackInHand(hand));
-        });
-
     }
 
     public void loadSettings() {

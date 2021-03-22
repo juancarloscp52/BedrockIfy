@@ -29,10 +29,10 @@
     "client.features.screenSafeArea.InGameHudMixin",
     "client.features.screenSafeArea.SubtitlesHudMixin",
     "client.features.slotHighlight.HandledScreenMixin",
-    "client.features.worldColorNoise.BiomeColorsMixin"
+    "client.features.worldColorNoise.BiomeColorsMixin",
+    "client.core.clientRenderTimer.MinecraftClientMixin"
   ],
   "mixins": [
-    "client.core.clientRenderTimer.MinecraftClientMixin",
     "common.features.recipes.FireworkStarFadeRecipeMixin",
     "common.features.recipes.FireworkStarRecipeMixin",
     "common.features.recipes.RecipeManagerMixin",
