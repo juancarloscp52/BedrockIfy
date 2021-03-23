@@ -1,4 +1,5 @@
 {
+  "bedrockIfy.key.settings": "打开 BedrockIfy 设置",
   "bedrockify.hud.position": "位置:",
   "bedrockify.hud.fps": "FPS:",
   "bedrockify.options.on": "开启",
@@ -21,5 +22,20 @@
   "bedrockify.options.chatStyle.vanilla": "Java 版",
   "bedrockify.options.tooltips": "物品信息提示:",
   "bedrockify.options.rotationalBackground": "全局旋转背景图:",
-  "bedrockify.options.rotationalBackground.tooltip": "实验性警告: 开启后会在所有界面启用标题画面的旋转背景。可能会破坏其他模组的配置界面。"
+  "bedrockify.options.rotationalBackground.tooltip": "实验性警告: 开启后会在所有界面启用标题画面的旋转背景。可能会破坏其他模组的配置界面。",
+  "bedrockify.options.inventoryHighlight": "物品栏物品栏位高亮:",
+  "bedrockify.options.inventoryHighlight.color1": "物品栏位高亮背景:",
+  "bedrockify.options.inventoryHighlight.color2": "物品栏位高亮前景:",
+  "bedrockify.options.idleAnimation": "Idle Hand Animation Speed:",
+  "bedrockify.options.showBedrockIfyButton": "显示 BedrockIfy 设置按钮:",
+  "bedrockify.options.showBedrockIfyButton.tooltip": "在游戏选项屏幕显示 BedrockIfy 设置。如果禁用了，你可以通过 Mod Menu或者加载世界时按 B 来进入 BedrockIfy 设置。",
+  "bedrockify.options.showSavingOverlay": "显示保存:",
+  "bedrockify.options.eatingAnimations": "第三人称进食动画:",
+  "bedrockify.options.pickupAnimations": "物品热键栏动画:",
+  "bedrockify.options.pickupAnimations.tooltip": "在挖掘、使用、损害物品和工具时启用基岩物品热键栏动画。",
+  "bedrockify.options.loadingScreen": "启用基岩版加载屏幕:",
+  "bedrockify.options.expTextStyle": "经验等级文本样式:",
+  "bedrockify.options.quickArmorSwap":"加载快速盔甲切换:",
+  "bedrockify.options.transparentToolBar":"透明的热键栏：",
+  "bedrockify.options.mixins.description": "在此类别中，你可以为特定的特性启用、禁用mixin。禁用mixin会禁用有关的特性。禁用mixin可以提高与其他模组的兼容性。\n§4请不要更改这些设置，除非你知道你在做什么！"
 }
