@@ -6,6 +6,7 @@
   "plugin": "me.juancarloscp52.bedrockify.mixin.BedrockIfyMixinPlugin",
   "client": [
     "client.core.bedrockIfyButton.OptionsScreenMixin",
+    "client.core.clientRenderTimer.MinecraftClientMixin",
     "client.core.overlayInjection.InGameHudMixin",
     "client.features.chat.ChatHudMixin",
     "client.features.eatingAnimations.PlayerEntityModelMixin",
@@ -30,7 +31,7 @@
     "client.features.screenSafeArea.SubtitlesHudMixin",
     "client.features.slotHighlight.HandledScreenMixin",
     "client.features.worldColorNoise.BiomeColorsMixin",
-    "client.core.clientRenderTimer.MinecraftClientMixin"
+    "client.features.biggerDraggingItem.HandledScreenMixin"
   ],
   "mixins": [
     "common.features.recipes.FireworkStarFadeRecipeMixin",

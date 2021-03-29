@@ -30,6 +30,12 @@ public class BedrockifySettings {
     public boolean expTextStyle = true;
     public boolean quickArmorSwap = true;
     public boolean transparentHotBar = true;
+    public boolean biggerIcons = true;
+
+    public boolean isBiggerIconsEnabled(){
+        return biggerIcons;
+    }
+
     public boolean isQuickArmorSwapEnabled(){
         return quickArmorSwap;
     }

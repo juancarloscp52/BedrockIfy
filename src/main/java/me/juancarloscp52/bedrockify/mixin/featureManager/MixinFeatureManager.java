@@ -29,15 +29,16 @@ public class MixinFeatureManager {
         features.put("client.features.savingOverlay", true);
         features.put("client.features.screenSafeArea", true);
         features.put("client.features.slotHighlight", true);
-        features.put("common.features.recipes", true);
         features.put("client.features.worldColorNoise",true);
+        features.put("client.features.biggerDraggingItem",true);
+        features.put("common.features.recipes", true);
         features.put("common.features.useAnimations", true);
     }
 
     public static boolean isFeatureEnabled(String mixin){
         mixin = mixin.replace("me.juancarloscp52.bedrockify.mixin.","");
-        String [] splited = mixin.split("\\.");
-        mixin = mixin.replace("."+splited[splited.length-1],"");
+        String [] split = mixin.split("\\.");
+        mixin = mixin.replace("."+split[split.length-1],"");
         return features.get(mixin);
     }
 
