@@ -34,7 +34,8 @@ public class ArmorReplacer {
             playerEntity.playSound(newArmor.getItem() == Items.ELYTRA ? SoundEvents.ITEM_ARMOR_EQUIP_ELYTRA : ((ArmorItem)newArmor.getItem()).getMaterial().getEquipSound(), 1.0F,1.0F);
             return TypedActionResult.success(playerEntity.getStackInHand(hand));
         }
-        return TypedActionResult.fail(newArmor);
+        return TypedActionResult.pass(playerEntity.getStackInHand(hand));
+        //return TypedActionResult.fail(newArmor);
     }
 
 }
