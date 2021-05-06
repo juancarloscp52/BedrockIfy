@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.bedrockify.Bedrockify;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
@@ -122,6 +123,8 @@ public abstract class InGameHudMixin extends DrawableHelper {
      */
     @Inject(method = "renderStatusEffectOverlay", at = @At("HEAD"), cancellable = true)
     public void renderStatusEffectOverlay(MatrixStack matrixStack, CallbackInfo info) {
+        if(FabricLoader.getInstance().isModLoaded("inventoryhud"))
+            return;
         Collection<StatusEffectInstance> collection = Objects.requireNonNull(this.client.player).getStatusEffects();
         if (!collection.isEmpty()) {
             RenderSystem.enableBlend();
