@@ -19,6 +19,11 @@ public class WorldColorNoiseSampler {
 
     public int applyNoise(BlockPos pos, int previousColor, float scale, float intensity){
         double noiseValue = BedrockifyClient.getInstance().worldColorNoiseSampler.getSample(pos.getX(),pos.getZ(),scale);
+        if(noiseValue>0)
+            noiseValue=noiseValue/3;
+        //noiseValue=1;
+        //noiseValue = Math.min(noiseValue,0);
+        //System.out.println("noise: "+noiseValue);
         return blend(previousColor,(float)noiseValue *intensity);
     }
 
@@ -33,8 +38,10 @@ public class WorldColorNoiseSampler {
     private int blend(final int color1, final float ratio) {
         final float[] rgb1 = getAlphaColorArray(color1);
         final float[] rgb2 = getAlphaColorArray(0);
-        final float negative = 1.0f - ratio;
+        final float negative = 1-ratio;
         return toIntColor(new float[]{MathHelper.clamp(rgb2[0] * ratio + rgb1[0] * negative,0,1), MathHelper.clamp(rgb2[1] * ratio + rgb1[1] * negative,0,1), MathHelper.clamp(rgb2[2] * ratio + rgb1[2] * negative,0,1), MathHelper.clamp(rgb2[3] * ratio + rgb1[3] * negative,0,1)});
+        //return toIntColor(new float[]{MathHelper.clamp(rgb2[0] * ratio - rgb1[0] * negative,0,1), MathHelper.clamp(rgb2[1] * ratio - rgb1[1] * negative,0,1), MathHelper.clamp(rgb2[2] * ratio - rgb1[2] * negative,0,1), MathHelper.clamp(rgb2[3] * ratio - rgb1[3] * negative,0,1)});
+
     }
 
 }

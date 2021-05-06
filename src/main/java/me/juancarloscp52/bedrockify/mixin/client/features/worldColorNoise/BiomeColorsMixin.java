@@ -14,11 +14,11 @@ public class BiomeColorsMixin {
 
     @Inject(method = "getGrassColor", at=@At("RETURN"), cancellable = true)
     private static void getGrassColorWithNoise(BlockRenderView world, BlockPos pos, CallbackInfoReturnable<Integer> info){
-        info.setReturnValue(BedrockifyClient.getInstance().worldColorNoiseSampler.applyNoise(pos,info.getReturnValue(),9f,0.07f));
+        info.setReturnValue(BedrockifyClient.getInstance().worldColorNoiseSampler.applyNoise(pos,info.getReturnValue(),7f,0.06f));
     }
 
     @Inject(method = "getWaterColor", at=@At("RETURN"), cancellable = true)
     private static void getWaterColorWithNoise(BlockRenderView world, BlockPos pos, CallbackInfoReturnable<Integer> info){
-        info.setReturnValue(BedrockifyClient.getInstance().worldColorNoiseSampler.applyNoise(pos,info.getReturnValue(), 20f,0.12f));
+        info.setReturnValue(BedrockifyClient.getInstance().worldColorNoiseSampler.applyNoise(pos,info.getReturnValue(), 13f,0.10f));
     }
 }
