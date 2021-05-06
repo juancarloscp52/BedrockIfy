@@ -1,10 +1,8 @@
 package me.juancarloscp52.bedrockify;
 
 import com.google.gson.Gson;
-import me.juancarloscp52.bedrockify.client.features.quickArmorSwap.ArmorReplacer;
+import me.juancarloscp52.bedrockify.common.features.worldGeneration.DyingTrees;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.event.player.UseItemCallback;
-import net.minecraft.util.TypedActionResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,6 +25,7 @@ public class Bedrockify implements ModInitializer {
         LOGGER.info("Initializing BedrockIfy.");
         loadSettings();
         instance = this;
+        DyingTrees.registerTrees();
     }
 
     public void loadSettings() {

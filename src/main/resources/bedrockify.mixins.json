@@ -8,6 +8,7 @@
     "client.core.bedrockIfyButton.OptionsScreenMixin",
     "client.core.clientRenderTimer.MinecraftClientMixin",
     "client.core.overlayInjection.InGameHudMixin",
+    "client.features.biggerDraggingItem.HandledScreenMixin",
     "client.features.chat.ChatHudMixin",
     "client.features.eatingAnimations.PlayerEntityModelMixin",
     "client.features.heldItemTooltips.ItemTooltipsMixin",
@@ -31,14 +32,15 @@
     "client.features.screenSafeArea.SubtitlesHudMixin",
     "client.features.slotHighlight.HandledScreenMixin",
     "client.features.worldColorNoise.BiomeColorsMixin",
-    "client.features.biggerDraggingItem.HandledScreenMixin"
+    "client.features.sneakingShield.KeyboardInputMixin"
   ],
   "mixins": [
     "common.features.recipes.FireworkStarFadeRecipeMixin",
     "common.features.recipes.FireworkStarRecipeMixin",
     "common.features.recipes.RecipeManagerMixin",
     "common.features.recipes.ShulkerBoxColoringRecipeMixin",
-    "common.features.useAnimations.ItemStackMixin"
+    "common.features.useAnimations.ItemStackMixin",
+    "common.features.worldGeneration.TreeDecoratorTypeInvoker"
   ],
   "injectors": {
     "defaultRequire": 1

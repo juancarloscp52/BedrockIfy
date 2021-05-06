@@ -78,6 +78,9 @@ public class SettingsGUI {
         otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.rotationalBackground"), settings.cubeMapBackground).setDefaultValue(true).setTooltip(wrapLines(new TranslatableText("bedrockify.options.rotationalBackground.tooltip"))).setSaveConsumer(newValue -> settings.cubeMapBackground=newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.showBedrockIfyButton"), settings.bedrockIfyButton).setDefaultValue(true).setTooltip(wrapLines(new TranslatableText("bedrockify.options.showBedrockIfyButton.tooltip"))).setSaveConsumer(newValue -> settings.bedrockIfyButton=newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.quickArmorSwap"), settings.quickArmorSwap).setDefaultValue(true).setSaveConsumer(newValue -> settings.quickArmorSwap=newValue).build());
+        otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.dyingTrees"), settings.dyingTrees).setDefaultValue(true).setSaveConsumer(newValue -> settings.dyingTrees=newValue).build());
+        otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.sneakingShield"), settings.sneakingShield).setDefaultValue(true).setSaveConsumer(newValue -> settings.sneakingShield=newValue).build());
+
 
         general.addEntry(otherSettings.build());
         general.addEntry(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.recipes"), settings.bedrockRecipes).setTooltip(wrapLines(new TranslatableText("bedrockify.options.recipes.tooltip"))).setDefaultValue(true).setSaveConsumer(newValue -> settings.bedrockRecipes=newValue).build());

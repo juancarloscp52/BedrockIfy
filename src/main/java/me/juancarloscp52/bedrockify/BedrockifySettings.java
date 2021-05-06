@@ -31,6 +31,16 @@ public class BedrockifySettings {
     public boolean quickArmorSwap = true;
     public boolean transparentHotBar = true;
     public boolean biggerIcons = true;
+    public boolean dyingTrees = true;
+    public boolean sneakingShield = true;
+
+    public boolean isSneakingShieldEnabled(){
+        return this.sneakingShield;
+    }
+
+    public boolean isDyingTreesEnabled(){
+        return this.dyingTrees;
+    }
 
     public boolean isBiggerIconsEnabled(){
         return biggerIcons;
