@@ -32,6 +32,8 @@ import java.util.Map;
 
 public class HeldItemTooltips {
 
+    private final int  tooltipSize = 6;
+
     public int drawItemWithCustomTooltips(TextRenderer fontRenderer, MatrixStack matrices, Text text, float x, float y, int color, ItemStack currentStack) {
         int screenBorder = Bedrockify.getInstance().settings.getScreenSafeArea();
         // Get the current held item tooltips.
@@ -44,12 +46,12 @@ public class HeldItemTooltips {
             if (tooltips != null) {
                 //Compute the max tooltip offset (used for the item name).
                 int count = 0;
-                // Limit the maximum number of shown tooltips to 4.
+                // Limit the maximum number of shown tooltips to tooltipSize.
                 boolean showMoreTooltip = false;
 
-                if (tooltips.size() > 4) {
+                if (tooltips.size() > tooltipSize) {
                     showMoreTooltip = true;
-                    tooltipOffset = 12 * 4;
+                    tooltipOffset = 12 * tooltipSize;
                     count++;
                 } else
                     tooltipOffset = tooltips.size() * 12;
@@ -63,7 +65,7 @@ public class HeldItemTooltips {
 
                 for (Tooltip elem : tooltips) {
                     // Prevent from drawing more than 4 tooltips.
-                    if (count > 3)
+                    if (count > tooltipSize-1)
                         break;
                     // Render the tooltip.
                     renderTooltip(fontRenderer, matrices, y - screenBorder - (12 * count), color, elem.getTooltipText().formatted(Formatting.GRAY));
@@ -72,7 +74,7 @@ public class HeldItemTooltips {
 
                 // show the "and x more..." tooltip if the item has more than 4 tooltips.
                 if(showMoreTooltip)
-                    renderTooltip(fontRenderer, matrices, y - screenBorder, color, new TranslatableText("container.shulkerBox.more", tooltips.size() - 3).formatted(Formatting.GRAY));
+                    renderTooltip(fontRenderer, matrices, y - screenBorder, color, new TranslatableText("container.shulkerBox.more", tooltips.size() - (tooltipSize-1)).formatted(Formatting.GRAY));
 
             }else if(settings.getHeldItemTooltip()==2){
                 // draw the background
@@ -191,11 +193,11 @@ public class HeldItemTooltips {
         int maxLength=textRenderer.getWidth(itemStack.getName());
         for(Tooltip elem : tooltips){
             int tipLength = textRenderer.getWidth(elem.getTooltipText());
-            if (count > 3)
-                tipLength = textRenderer.getWidth(new TranslatableText("container.shulkerBox.more", tooltips.size() - 3));
+            if (count > tooltipSize-1)
+                tipLength = textRenderer.getWidth(new TranslatableText("container.shulkerBox.more", tooltips.size() - (tooltipSize-1)));
             if(maxLength<tipLength)
                 maxLength=tipLength;
-            if ( count>3 )
+            if ( count>tooltipSize-1 )
                 break ;
             count++ ;
         }
