@@ -1,7 +1,6 @@
 package me.juancarloscp52.bedrockify.client.features.loadingScreens;
 
-import me.juancarloscp52.bedrockify.Bedrockify;
-import me.juancarloscp52.bedrockify.client.features.panoramaBackground.BedrockifyRotatingCubeMapRenderer;
+import com.google.common.collect.Lists;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
@@ -17,13 +16,18 @@ import java.util.Random;
 public class LoadingScreenWidget extends DrawableHelper {
 
     private static LoadingScreenWidget instance = null;
+    private static final int TIPS_NUM = 61;
     private final Identifier WIDGET_TEXTURE = new Identifier("bedrockify", "textures/gui/bedrockify_widgets.png");
     private final Identifier MINECRAFT_TITLE_TEXTURE = new Identifier("textures/gui/title/minecraft.png");
     private final Identifier EDITION_TITLE_TEXTURE = new Identifier("textures/gui/title/edition.png");
     private Text tip;
+    private static final List<Integer> EXCLUDED_TIPS = Lists.asList(15,new Integer[]{23,28,29,32,33,34,35,62});
     private long lastTipUpdate = 0;
+    private final ExternalLoadingTips externalLoadingTips;
 
     private LoadingScreenWidget() {
+        externalLoadingTips = ExternalLoadingTips.loadSettings();
+        externalLoadingTips.saveSettings();
     }
 
     public static LoadingScreenWidget getInstance() {
@@ -39,7 +43,16 @@ public class LoadingScreenWidget extends DrawableHelper {
      */
     private Text getTip() {
         if (tip == null || System.currentTimeMillis() - lastTipUpdate > 6000) {
-            tip = new TranslatableText("bedrockify.loadingTips." + new Random().nextInt(111));//new LiteralText(tipTextSupplier.getRandomTip());
+
+            int random = new Random().nextInt(TIPS_NUM+1)+1;
+            if((random>TIPS_NUM || externalLoadingTips.alwaysExternalTips)&& externalLoadingTips.externalLoadingTips.length>0){
+                random = new Random().nextInt(externalLoadingTips.externalLoadingTips.length);
+                tip = new LiteralText(externalLoadingTips.externalLoadingTips[random]);
+            }else{
+                if(EXCLUDED_TIPS.contains(random))
+                    return getTip();
+                tip = new TranslatableText("bedrockify.loadingTips." + random);//new LiteralText(tipTextSupplier.getRandomTip());
+            }
             lastTipUpdate = System.currentTimeMillis();
         }
         return tip;
@@ -55,9 +68,6 @@ public class LoadingScreenWidget extends DrawableHelper {
      * @param progress Loading screen progress. Set to -1 is the screen has no progress bar.
      */
     public void render(MatrixStack matrices, int width, int height, Text title, Text message, int progress) {
-        //If the background cube map is disabled for other screens, manually render the cube map for the loading screen.
-
-
         MinecraftClient client = MinecraftClient.getInstance();
 
         renderLogo(matrices, width, height, client);
