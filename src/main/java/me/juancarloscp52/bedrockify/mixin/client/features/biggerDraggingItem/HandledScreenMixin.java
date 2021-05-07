@@ -24,7 +24,7 @@ public abstract class HandledScreenMixin {
             return;
         }
         RenderSystem.pushMatrix();
-        float multiplier = 1.25f;
+        float multiplier = 1.3f;
         RenderSystem.scalef(multiplier,multiplier,1);
         this.drawItem(stack, MathHelper.ceil(xPosition/multiplier)-2, MathHelper.ceil(yPosition/multiplier)-2, amountText);
         RenderSystem.popMatrix();
