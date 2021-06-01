@@ -31,7 +31,7 @@ public class MixinFeatureManager {
         features.put("client.features.slotHighlight", true);
         features.put("client.features.worldColorNoise",true);
         features.put("client.features.biggerDraggingItem",true);
-        features.put("client.features.sneakingShield", true);
+        //features.put("client.features.sneakingShield", true);
         features.put("common.features.recipes", true);
         features.put("common.features.useAnimations", true);
         features.put("common.features.worldGeneration", true);

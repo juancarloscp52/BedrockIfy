@@ -79,7 +79,7 @@ public class SettingsGUI {
         otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.showBedrockIfyButton"), settings.bedrockIfyButton).setDefaultValue(true).setTooltip(wrapLines(new TranslatableText("bedrockify.options.showBedrockIfyButton.tooltip"))).setSaveConsumer(newValue -> settings.bedrockIfyButton=newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.quickArmorSwap"), settings.quickArmorSwap).setDefaultValue(true).setSaveConsumer(newValue -> settings.quickArmorSwap=newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.dyingTrees"), settings.dyingTrees).setDefaultValue(true).setSaveConsumer(newValue -> settings.dyingTrees=newValue).build());
-        otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.sneakingShield"), settings.sneakingShield).setDefaultValue(true).setSaveConsumer(newValue -> settings.sneakingShield=newValue).build());
+//        otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.sneakingShield"), settings.sneakingShield).setDefaultValue(true).setSaveConsumer(newValue -> settings.sneakingShield=newValue).build());
 
 
         general.addEntry(otherSettings.build());

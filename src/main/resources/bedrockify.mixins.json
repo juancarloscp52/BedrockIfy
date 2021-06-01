@@ -31,8 +31,7 @@
     "client.features.screenSafeArea.InGameHudMixin",
     "client.features.screenSafeArea.SubtitlesHudMixin",
     "client.features.slotHighlight.HandledScreenMixin",
-    "client.features.worldColorNoise.BiomeColorsMixin",
-    "client.features.sneakingShield.KeyboardInputMixin"
+    "client.features.worldColorNoise.BiomeColorsMixin"
   ],
   "mixins": [
     "common.features.recipes.FireworkStarFadeRecipeMixin",
