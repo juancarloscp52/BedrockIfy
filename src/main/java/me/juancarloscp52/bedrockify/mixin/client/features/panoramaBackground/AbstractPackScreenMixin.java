@@ -7,9 +7,7 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.pack.PackListWidget;
 import net.minecraft.client.gui.screen.pack.PackScreen;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.render.*;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
@@ -45,13 +43,13 @@ public class AbstractPackScreenMixin extends Screen {
         headerBottom = headerHeight - 51;
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.client.getTextureManager().bindTexture(DrawableHelper.OPTIONS_BACKGROUND_TEXTURE);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0,DrawableHelper.OPTIONS_BACKGROUND_TEXTURE);
         RenderSystem.enableDepthTest();
         RenderSystem.depthFunc(519);
         float tilingSize = 32.0F;
         // Top and bottom bars.
-        bufferBuilder.begin(7, VertexFormats.POSITION_TEXTURE_COLOR);
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
         bufferBuilder.vertex(this.headerLeft, this.headerTop, -100.0D).texture(0.0F, (float) this.headerTop / tilingSize).color(64, 64, 64, 255).next();
         bufferBuilder.vertex(this.headerLeft + this.headerWidth, this.headerTop, -100.0D).texture((float) this.headerWidth / tilingSize, (float) this.headerTop / tilingSize).color(64, 64, 64, 255).next();
         bufferBuilder.vertex(this.headerLeft + this.headerWidth, 0.0D, -100.0D).texture((float) this.headerWidth / tilingSize, 0.0F).color(64, 64, 64, 255).next();
@@ -66,12 +64,11 @@ public class AbstractPackScreenMixin extends Screen {
         RenderSystem.disableDepthTest();
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ZERO, GlStateManager.DstFactor.ONE);
-        RenderSystem.disableAlphaTest();
-        RenderSystem.shadeModel(7425);
         RenderSystem.disableTexture();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
         // Top and bottom bar shadows.
-        bufferBuilder.begin(7, VertexFormats.POSITION_TEXTURE_COLOR);
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
         bufferBuilder.vertex(this.headerLeft, this.headerTop + 4, 0.0D).texture(0.0F, 1.0F).color(0, 0, 0, 0).next();
         bufferBuilder.vertex(this.headerWidth, this.headerTop + 4, 0.0D).texture(1.0F, 1.0F).color(0, 0, 0, 0).next();
         bufferBuilder.vertex(this.headerWidth, this.headerTop, 0.0D).texture(1.0F, 0.0F).color(0, 0, 0, 255).next();
@@ -83,8 +80,6 @@ public class AbstractPackScreenMixin extends Screen {
         tessellator.draw();
 
         RenderSystem.enableTexture();
-        RenderSystem.shadeModel(7424);
-        RenderSystem.enableAlphaTest();
         RenderSystem.disableBlend();
 
     }

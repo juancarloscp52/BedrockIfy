@@ -1,6 +1,7 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.slotHighlight;
 
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.BedrockifySettings;
 import net.minecraft.client.MinecraftClient;
@@ -26,27 +27,30 @@ public abstract class HandledScreenMixin extends DrawableHelper {
     /**
      * Draw the current slot in green.
      */
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;fillGradient(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
-    protected void renderGuiQuad(HandledScreen handledScreen, MatrixStack matrices, int xStart, int yStart, int xEnd, int yEnd, int colorStart, int colorEnd) {
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;method_33285(Lnet/minecraft/client/util/math/MatrixStack;III)V"))
+    protected void renderGuiQuad(MatrixStack matrices, int x, int y, int color) {
         BedrockifySettings settings = Bedrockify.getInstance().settings;
         if(!settings.isSlotHighlightEnabled()){
-            fillGradient(matrices, xStart, yStart, xEnd, yEnd, colorStart, colorEnd);
-            return;
+            RenderSystem.disableDepthTest();
+            RenderSystem.colorMask(true, true, true, false);
+            fillGradient(matrices, x, y, x + 16, y + 16, -2130706433, -2130706433, color);
+            RenderSystem.colorMask(true, true, true, true);
+            RenderSystem.enableDepthTest();            return;
         }
-
+        int xEnd=x+16,yEnd=y+16;
         Screen currentScreen = MinecraftClient.getInstance().currentScreen;
         if((currentScreen instanceof AbstractFurnaceScreen && focusedSlot.id==2)||(currentScreen instanceof CraftingScreen && focusedSlot.id==0) || (currentScreen instanceof StonecutterScreen && focusedSlot.id==1) ||(currentScreen instanceof CartographyTableScreen && focusedSlot.id==2)){
-            this.fillGradient(matrices, xStart - 5, yStart - 5, xEnd + 5, yEnd + 5, settings.getHighLightColor1(), settings.getHighLightColor1());
-            this.fillGradient(matrices, xStart-4, yStart-4, xEnd+4, yEnd+4, settings.getHighLightColor2(), settings.getHighLightColor2());
+            this.fillGradient(matrices, x - 5, y - 5, xEnd + 5, yEnd + 5, settings.getHighLightColor1(), settings.getHighLightColor1());
+            this.fillGradient(matrices, x -4, y -4, xEnd+4, yEnd+4, settings.getHighLightColor2(), settings.getHighLightColor2());
         }else if ((currentScreen instanceof LoomScreen && focusedSlot.id==3)) {
-            this.fillGradient(matrices, xStart - 5, yStart - 6, xEnd + 5, yEnd + 4, settings.getHighLightColor1(), settings.getHighLightColor1());
-            this.fillGradient(matrices, xStart-4, yStart-5, xEnd+4, yEnd+3, settings.getHighLightColor2(), settings.getHighLightColor2());
+            this.fillGradient(matrices, x - 5, y - 6, xEnd + 5, yEnd + 4, settings.getHighLightColor1(), settings.getHighLightColor1());
+            this.fillGradient(matrices, x -4, y -5, xEnd+4, yEnd+3, settings.getHighLightColor2(), settings.getHighLightColor2());
         }else if((currentScreen instanceof MerchantScreen && focusedSlot.id==2)){
-            this.fillGradient(matrices, xStart - 5, yStart - 4, xEnd + 5, yEnd + 6, settings.getHighLightColor1(), settings.getHighLightColor1());
-            this.fillGradient(matrices, xStart-4, yStart-3, xEnd+4, yEnd+5, settings.getHighLightColor2(), settings.getHighLightColor2());
+            this.fillGradient(matrices, x - 5, y - 4, xEnd + 5, yEnd + 6, settings.getHighLightColor1(), settings.getHighLightColor1());
+            this.fillGradient(matrices, x -4, y -3, xEnd+4, yEnd+5, settings.getHighLightColor2(), settings.getHighLightColor2());
         }else{
-            this.fillGradient(matrices, xStart - 1, yStart - 1, xEnd + 1, yEnd + 1, settings.getHighLightColor1(), settings.getHighLightColor1());
-            this.fillGradient(matrices, xStart, yStart, xEnd, yEnd, settings.getHighLightColor2(), settings.getHighLightColor2());
+            this.fillGradient(matrices, x - 1, y - 1, xEnd + 1, yEnd + 1, settings.getHighLightColor1(), settings.getHighLightColor1());
+            this.fillGradient(matrices, x, y, xEnd, yEnd, settings.getHighLightColor2(), settings.getHighLightColor2());
         }
         // Draw the slot again over the selected overlay.
         this.drawSlot(matrices, focusedSlot);

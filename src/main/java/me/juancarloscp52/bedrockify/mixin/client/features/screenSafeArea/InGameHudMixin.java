@@ -40,7 +40,8 @@ public abstract class InGameHudMixin extends DrawableHelper {
 
     @Shadow private int scaledWidth;
     @Shadow @Final private MinecraftClient client;
-    @Shadow protected abstract void renderHotbarItem(int i, int j, float f, PlayerEntity playerEntity, ItemStack itemStack);
+    @Shadow protected abstract void renderHotbarItem(int x, int y, float tickDelta, PlayerEntity player, ItemStack stack, int i);
+    @Shadow protected abstract void renderHealthBar(MatrixStack matrices, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking);
 
     private int screenBorder;
 
@@ -58,9 +59,9 @@ public abstract class InGameHudMixin extends DrawableHelper {
     @Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
     private void drawTextureHotbar(InGameHud inGameHud, MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
         if((width ==29 && height == 24) || width == 182){
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, Bedrockify.getInstance().settings.isTransparentHotBarEnabled()? 0.6F:1.0F);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, Bedrockify.getInstance().settings.isTransparentHotBarEnabled()? 0.6F:1.0F);
             inGameHud.drawTexture(matrices, x, y - screenBorder, u, v, width, height);
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         }else{
             inGameHud.drawTexture(matrices, x, y - screenBorder, u, v, width, width == 24 ? height+2 : height);
         }
@@ -69,9 +70,9 @@ public abstract class InGameHudMixin extends DrawableHelper {
     /**
      * Render the items in the Hotbar with the screen border distance.
      */
-    @Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderHotbarItem(IIFLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/item/ItemStack;)V"))
-    private void renderHotbarItemWithOffset(InGameHud inGameHud, int i, int j, float f, PlayerEntity playerEntity, ItemStack itemStack) {
-        renderHotbarItem(i, j - screenBorder, f, playerEntity, itemStack);
+    @Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderHotbarItem(IIFLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/item/ItemStack;I)V"))
+    private void renderHotbarItemWithOffset(InGameHud inGameHud, int x, int y, float tickDelta, PlayerEntity player, ItemStack stack, int i) {
+        renderHotbarItem(x,y-screenBorder,tickDelta,player,stack,i);
     }
     /**
      * Apply screen border offset to experience bars.
@@ -111,12 +112,20 @@ public abstract class InGameHudMixin extends DrawableHelper {
     }
 
     /**
-     * Apply screen order offset to status bars.
+     * Apply screen border offset to status bars.
      */
     @Redirect(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
     private void drawTextureStatusBars(InGameHud inGameHud, MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
         inGameHud.drawTexture(matrices, x, y - screenBorder, u, v, width, height);
     }
+    /**
+     * Apply screen border offset to health bars.
+     */
+    @Redirect(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderHealthBar(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/entity/player/PlayerEntity;IIIIFIIIZ)V"))
+    private void drawTextureStatusBarsHearts(InGameHud inGameHud, MatrixStack matrixStack, PlayerEntity playerEntity, int i, int j, int k, int l, float f, int m, int n, int o, boolean bl) {
+        renderHealthBar(matrixStack, playerEntity, i, j-screenBorder, k, l, f, m, n, o, bl);
+    }
+
 
     /**
      * Render the status effect overlay with the screen border distance applied.
@@ -132,7 +141,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
             int harmfulEffects = 0;
             StatusEffectSpriteManager statusEffectSpriteManager = this.client.getStatusEffectSpriteManager();
             List<Runnable> list = Lists.newArrayListWithExpectedSize(collection.size());
-            this.client.getTextureManager().bindTexture(HandledScreen.BACKGROUND_TEXTURE);
+            RenderSystem.setShaderTexture(0,HandledScreen.BACKGROUND_TEXTURE);
             for (StatusEffectInstance statusEffectInstance : Ordering.natural().reverse().sortedCopy(collection)) {
                 StatusEffect statusEffect = statusEffectInstance.getEffectType();
                 if (statusEffectInstance.shouldShowIcon()) {
@@ -151,7 +160,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
                         y += 26;
                     }
 
-                    RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+                    RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
                     float spriteAlpha = 1.0F;
                     if (statusEffectInstance.isAmbient()) {
                         this.drawTexture(matrixStack, x, y, 165, 166, 24, 24);
@@ -168,8 +177,8 @@ public abstract class InGameHudMixin extends DrawableHelper {
                     int finalY = y + 3;
                     float finalAlpha = spriteAlpha;
                     list.add(() -> {
-                        this.client.getTextureManager().bindTexture(sprite.getAtlas().getId());
-                        RenderSystem.color4f(1.0F, 1.0F, 1.0F, finalAlpha);
+                        RenderSystem.setShaderTexture(0,sprite.getAtlas().getId());
+                        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, finalAlpha);
                         drawSprite(matrixStack, finalX, finalY, this.getZOffset(), 18, 18, sprite);
                     });
                 }

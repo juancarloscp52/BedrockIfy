@@ -6,6 +6,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,18 +23,18 @@ public abstract class InGameHudMixin extends DrawableHelper {
     private float pickedItemCooldownLeft =0.0f;
 
     @Inject(method = "renderHotbarItem", at=@At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getCooldown()I"))
-    private void captureItemStack(int i, int j, float f, PlayerEntity playerEntity, ItemStack itemStack, CallbackInfo info){
-        pickedItemCooldownLeft = itemStack.getCooldown()-f;
+    private void captureItemStack(int x, int y, float tickDelta, PlayerEntity player, ItemStack stack, int i, CallbackInfo ci){
+        pickedItemCooldownLeft = stack.getCooldown()-tickDelta;
     }
-    @Redirect(method = "renderHotbarItem", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;scalef(FFF)V"))
-    private void applyAnimation(float x, float y, float z){
+    @Redirect(method = "renderHotbarItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;scale(FFF)V"))
+    private void applyAnimation(MatrixStack matrixStack, float x, float y, float z){
         if(!Bedrockify.getInstance().settings.isPickupAnimationsEnabled()){
-            RenderSystem.scalef(x,y,z);
+            matrixStack.scale(x,y,z);
             return;
         }
         if(pickedItemCooldownLeft >0.0f){
             float animation = 1.0f + pickedItemCooldownLeft / 12.5f;
-            RenderSystem.scalef(1.0f*animation,1.0f*animation, 1.0f);
+            matrixStack.scale(1.0f*animation,1.0f*animation, 1.0f);
         }
     }
 }

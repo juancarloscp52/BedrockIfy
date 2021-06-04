@@ -5,7 +5,7 @@ import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.common.features.recipes.DyeHelper;
 import net.minecraft.inventory.CraftingInventory;
 import net.minecraft.item.*;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.FireworkStarRecipe;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.world.World;
@@ -91,7 +91,7 @@ public class FireworkStarRecipeMixin {
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
             return;
         ItemStack itemStack = new ItemStack(Items.FIREWORK_STAR);
-        CompoundTag compoundTag = itemStack.getOrCreateSubTag("Explosion");
+        NbtCompound compoundTag = itemStack.getOrCreateSubTag("Explosion");
         FireworkItem.Type type = FireworkItem.Type.SMALL_BALL;
         List<Integer> list = Lists.newArrayList();
 

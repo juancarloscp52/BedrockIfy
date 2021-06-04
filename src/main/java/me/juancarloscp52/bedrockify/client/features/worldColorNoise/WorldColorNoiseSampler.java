@@ -4,13 +4,12 @@ import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.noise.SimplexNoiseSampler;
-
-import java.util.Random;
+import net.minecraft.world.gen.ChunkRandom;
 
 public class WorldColorNoiseSampler {
     SimplexNoiseSampler noiseSampler;
     public WorldColorNoiseSampler(){
-        noiseSampler = new SimplexNoiseSampler(new Random());
+        noiseSampler = new SimplexNoiseSampler(new ChunkRandom(98756L));
     }
 
     public double getSample (double x, double z, float scale){

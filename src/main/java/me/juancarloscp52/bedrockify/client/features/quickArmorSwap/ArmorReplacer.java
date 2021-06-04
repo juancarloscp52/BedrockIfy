@@ -29,7 +29,7 @@ public class ArmorReplacer {
 
 
             int slotIndex = 8-equipmentSlot.getEntitySlotId();
-            interactionManager.clickSlot(playerEntity.playerScreenHandler.syncId,slotIndex,playerEntity.inventory.main.indexOf(newArmor), SlotActionType.SWAP,playerEntity);
+            interactionManager.clickSlot(playerEntity.playerScreenHandler.syncId,slotIndex,playerEntity.getInventory().main.indexOf(newArmor), SlotActionType.SWAP,playerEntity);
 
             playerEntity.playSound(newArmor.getItem() == Items.ELYTRA ? SoundEvents.ITEM_ARMOR_EQUIP_ELYTRA : ((ArmorItem)newArmor.getItem()).getMaterial().getEquipSound(), 1.0F,1.0F);
             return TypedActionResult.success(playerEntity.getStackInHand(hand));

@@ -62,11 +62,11 @@ public abstract class ChatHudMixin extends DrawableHelper {
             if (visibleMessagesCount > 0) {
                 boolean isChatFocused = this.isChatFocused();
                 int posY = settings.getPositionHUDHeight() + (settings.getPositionHUDHeight()<50? 50:0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) +  settings.getScreenSafeArea();
-                double chatScale = this.getChatScale();
+                float chatScale = (float) this.getChatScale();
                 int scaledChatWidth = MathHelper.ceil((double)this.getWidth() / chatScale);
-                RenderSystem.pushMatrix();
-                RenderSystem.translatef(settings.getScreenSafeArea(), (float) (48-MinecraftClient.getInstance().getWindow().getScaledHeight() + (counter1*(9.0D * chatScale* (this.client.options.chatLineSpacing + 1.0D))))+ posY, 0.0F);
-                RenderSystem.scaled(chatScale, chatScale, 1.0D);
+                matrixStack.push();
+                matrixStack.translate(settings.getScreenSafeArea(), (float) (48-MinecraftClient.getInstance().getWindow().getScaledHeight() + (counter1*(9.0D * chatScale* (this.client.options.chatLineSpacing + 1.0D))))+ posY, 0.0F);
+                matrixStack.scale(chatScale, chatScale, 1.0F);
                 double textOpacity = this.client.options.chatOpacity * 0.9D + 0.1D;
                 double backgroundOpacity = this.client.options.textBackgroundOpacity;
                 double chatLineSpacing1 = 9.0D * (this.client.options.chatLineSpacing + 1.0D);
@@ -91,7 +91,6 @@ public abstract class ChatHudMixin extends DrawableHelper {
                                 RenderSystem.enableBlend();
                                 matrixStack.translate(0, 0, 0);
                                 this.client.textRenderer.drawWithShadow(matrixStack, chatHudLine.getText(), 2F, (float)((int)(currentMessageHeight + chatLineSpacing2)), 16777215 + (finalTextOpacity << 24));
-                                RenderSystem.disableAlphaTest();
                                 RenderSystem.disableBlend();
                                 matrixStack.pop();
                             }
@@ -110,13 +109,11 @@ public abstract class ChatHudMixin extends DrawableHelper {
                     matrixStack.translate(0.0D, 0.0D, 50.0D);
                     this.client.textRenderer.drawWithShadow(matrixStack, new TranslatableText("chat.queue", this.messageQueue.size()), 2F, 1.0F, 16777215 + (textOpacityFinal << 24));
                     matrixStack.pop();
-                    RenderSystem.disableAlphaTest();
                     RenderSystem.disableBlend();
                 }
 
                 if (isChatFocused) {
                     int textSize = 9;
-                    RenderSystem.translatef(-3.0F, 0.0F, 0.0F);
                     int x = visibleMessagesCount * textSize + visibleMessagesCount;
                     int renderedMessages = counter1 * textSize + counter1;
                     int z = this.scrolledLines * renderedMessages / visibleMessagesCount;
@@ -124,12 +121,13 @@ public abstract class ChatHudMixin extends DrawableHelper {
                     if (x != renderedMessages) {
                         int alpha = z > 0 ? 170 : 96;
                         int color = this.hasUnreadNewMessages ? 13382451 : 3355562;
+                        matrixStack.translate(-3.0F, 0.0F, 0.0F);
                         fill(matrixStack, 2, -z, 2, -z - aa, color + (alpha << 24));
                         fill(matrixStack, 4, -z, 1, -z - aa, 13421772 + (alpha << 24));
                     }
                 }
 
-                RenderSystem.popMatrix();
+                matrixStack.pop();
             }
         }
 

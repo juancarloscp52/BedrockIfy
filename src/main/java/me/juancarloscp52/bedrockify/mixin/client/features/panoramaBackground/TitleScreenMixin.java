@@ -42,8 +42,8 @@ public abstract class TitleScreenMixin extends Screen {
         BedrockifyRotatingCubeMapRenderer.getInstance().render(MathHelper.clamp(f, 0.0F, 1.0F), true);
     }
 
-    @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/texture/TextureManager;bindTexture(Lnet/minecraft/util/Identifier;)V", ordinal = 0))
-    private Identifier getOverlay(Identifier id) {
+    @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderTexture(ILnet/minecraft/util/Identifier;)V", ordinal = 0))
+    private Identifier getOverlay(int i,Identifier id) {
         BedrockifyRotatingCubeMapRenderer.getInstance().updateOverlayId(id);
         return id;
     }

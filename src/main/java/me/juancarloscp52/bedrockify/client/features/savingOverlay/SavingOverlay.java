@@ -1,5 +1,6 @@
 package me.juancarloscp52.bedrockify.client.features.savingOverlay;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.BedrockifySettings;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
@@ -21,7 +22,7 @@ public class SavingOverlay extends DrawableHelper {
     public void render(MatrixStack matrixStack){
         final BedrockifySettings settings = Bedrockify.getInstance().settings;
         if(saving || System.currentTimeMillis()-timer<3000){
-            client.getTextureManager().bindTexture(WIDGET_TEXTURE);
+            RenderSystem.setShaderTexture(0,WIDGET_TEXTURE);
             // Draw chest
             this.drawTexture(matrixStack, client.getWindow().getScaledWidth()-(21+settings.getScreenSafeArea()), 19 + settings.getScreenSafeArea(), 0, 99, 16, 17);
             // Draw arrow

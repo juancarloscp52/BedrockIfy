@@ -5,13 +5,13 @@ import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3f;
 
 import static net.minecraft.client.gui.DrawableHelper.fill;
 
@@ -31,7 +31,7 @@ public class ReachAroundPlacement {
     private boolean canReachAround() {
         if (client.player == null || client.world == null || client.crosshairTarget == null)
             return false;
-        return (client.player.isSneaking() || !Bedrockify.getInstance().settings.isReacharoundSneakingEnabled()) && client.player.pitch > Bedrockify.getInstance().settings.getReacharoundPitchAngle() && (!(client.world.getBlockState(client.player.getBlockPos().down()).isAir() || client.world.getBlockState(client.player.getBlockPos().down()).getBlock() instanceof FluidBlock) || isNonFullBlock()) && client.crosshairTarget.getType().equals(HitResult.Type.MISS) && checkRelativeBlockPosition() && ((client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof FluidBlock) || (client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof AirBlock));
+        return (client.player.isSneaking() || !Bedrockify.getInstance().settings.isReacharoundSneakingEnabled()) && client.player.getPitch() > Bedrockify.getInstance().settings.getReacharoundPitchAngle() && (!(client.world.getBlockState(client.player.getBlockPos().down()).isAir() || client.world.getBlockState(client.player.getBlockPos().down()).getBlock() instanceof FluidBlock) || isNonFullBlock()) && client.crosshairTarget.getType().equals(HitResult.Type.MISS) && checkRelativeBlockPosition() && ((client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof FluidBlock) || (client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof AirBlock));
     }
 
     private boolean isNonFullBlock(){
@@ -62,7 +62,7 @@ public class ReachAroundPlacement {
         if (player == null || client.interactionManager == null)
             return;
         int count = itemStack.getCount();
-        Vector3f facing = player.getHorizontalFacing().getUnitVector();
+        Vec3f facing = player.getHorizontalFacing().getUnitVector();
         if (canReachAround()) {
             BlockHitResult blockHitResult;
             if(isNonFullBlock()){

@@ -3,10 +3,10 @@ package me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.TranslatableText;
 
-public class ShulkerBoxTooltip extends Tooltip {
+public class ContainerTooltip extends Tooltip {
 
 
-    public ShulkerBoxTooltip(ItemStack item){
+    public ContainerTooltip(ItemStack item){
         this.translationKey = item.getTranslationKey();
         this.primaryValue = item.getCount();
     }

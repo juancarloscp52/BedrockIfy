@@ -15,7 +15,6 @@ public class MixinFeatureManager {
 
     public static Map<String, Boolean> features = new HashMap<>();
     static {
-        features.put("client.core.overlayInjection", true);
         features.put("client.core.clientRenderTimer", true);
         features.put("client.core.bedrockIfyButton", true);
         features.put("client.features.chat", true);

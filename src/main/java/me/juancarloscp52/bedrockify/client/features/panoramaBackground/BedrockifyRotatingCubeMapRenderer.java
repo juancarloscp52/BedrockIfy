@@ -42,10 +42,10 @@ public class BedrockifyRotatingCubeMapRenderer {
     public void render(float alpha, boolean titleScreen){
         this.cubeMap.draw(MinecraftClient.getInstance(), MathHelper.sin(time*0.001F)*5.0F + 25.0F,-this.time*0.1F,alpha);
         if(!titleScreen){
-            MinecraftClient.getInstance().getTextureManager().bindTexture(overlay);
+            RenderSystem.setShaderTexture(0,overlay);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
-            RenderSystem.color4f(1.0F, 1.0F, 1.0F, this.doBackgroundFade ? (float)MathHelper.ceil(MathHelper.clamp(alpha, 0.0F, 1.0F)) : 1.0F);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.doBackgroundFade ? (float)MathHelper.ceil(MathHelper.clamp(alpha, 0.0F, 1.0F)) : 1.0F);
             Window window = MinecraftClient.getInstance().getWindow();
             DrawableHelper.drawTexture(new MatrixStack(), 0, 0, window.getScaledWidth(), window.getScaledHeight(), 0.0F, 0.0F, 16, 128, 16, 128);
         }

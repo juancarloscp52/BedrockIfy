@@ -8,7 +8,7 @@ import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.client.util.math.Vector3f;
+import net.minecraft.util.math.Vec3f;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Quaternion;
@@ -25,7 +25,7 @@ public class PaperDoll {
         this.client = client;
     }
 
-    private static boolean supportsCrawling = Arrays.stream(EntityPose.values()).anyMatch(pose -> pose.name().equals("CRAWLING"));
+    private static final boolean supportsCrawling = Arrays.stream(EntityPose.values()).anyMatch(pose -> pose.name().equals("CRAWLING"));
     /**
      * Render the player at the top left of the screen.
      * The player will be rendered only when the player is not riding another entity and it is sneaking, running, using elytra, using an item, under water, or using a shield.
@@ -49,7 +49,7 @@ public class PaperDoll {
 
         if (client.player != null) {
             //If the player does an action that must show the player entity gui, set the counter to the current time.
-            if (client.player.isSneaking() || client.player.isSubmergedInWater() || client.player.getPose().equals(EntityPose.SWIMMING) || client.player.isSprinting() || client.player.abilities.flying || client.player.isFallFlying() || client.player.isBlocking() || client.player.isUsingItem() || (supportsCrawling && client.player.getPose() == EntityPose.valueOf("CRAWLING")))
+            if (client.player.isSneaking() || client.player.isSubmergedInWater() || client.player.getPose().equals(EntityPose.SWIMMING) || client.player.isSprinting() || client.player.getAbilities().flying || client.player.isFallFlying() || client.player.isBlocking() || client.player.isUsingItem() || (supportsCrawling && client.player.getPose() == EntityPose.valueOf("CRAWLING")))
                 lastTimeShown = System.currentTimeMillis();
 
             // If the difference between the current game ticks and showTicks is less than a 100 ticks, draw the player entity.
@@ -71,7 +71,7 @@ public class PaperDoll {
         int renderPosY = posY;
         // If the player is elytra flying, the entity must be manually centered depending on the pitch.
         if (player.isFallFlying())
-            renderPosY = posY - MathHelper.ceil(size * 2 * toMaxAngleRatio(player.pitch));
+            renderPosY = posY - MathHelper.ceil(size * 2 * toMaxAngleRatio(player.getPitch()));
         // If the player is swimming, the entity must also be centered in the Y axis.
         else if (player.isSwimming()) {
             renderPosY = posY - size;
@@ -81,20 +81,20 @@ public class PaperDoll {
         int posX = 30;
         matrixStack.translate(posX + settings.getScreenSafeArea(), renderPosY + settings.getScreenSafeArea(), 0);
         matrixStack.scale((float) size, (float) size, -(float) size);
-        Quaternion quaternion = Vector3f.POSITIVE_Z.getDegreesQuaternion(180.0F);
+        Quaternion quaternion = Vec3f.POSITIVE_Z.getDegreesQuaternion(180.0F);
         matrixStack.multiply(quaternion);
 
         // Store previous entity rotations.
         float bodyYaw = player.bodyYaw;
-        float yaw = player.yaw;
+        float yaw = player.getYaw();
         float headYaw = player.headYaw;
 
 
         // Set the entity desired rotation for drawing.
         float angle = 145;
         if (!player.isFallFlying()) {
-            player.yaw = headYaw - bodyYaw + angle;
-            player.headYaw = player.yaw;
+            player.setYaw(headYaw - bodyYaw + angle);
+            player.headYaw = player.getYaw();
         } else {
             player.headYaw = angle;
         }
@@ -110,7 +110,7 @@ public class PaperDoll {
 
         // Restore previous entity rotations.
         player.bodyYaw = bodyYaw;
-        player.yaw = yaw;
+        player.setYaw(yaw);
         player.headYaw = headYaw;
 
         matrixStack.pop();

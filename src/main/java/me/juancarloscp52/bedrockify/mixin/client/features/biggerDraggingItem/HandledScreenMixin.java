@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.BedrockifySettings;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -23,11 +24,15 @@ public abstract class HandledScreenMixin {
             this.drawItem(stack, xPosition, yPosition, amountText);
             return;
         }
-        RenderSystem.pushMatrix();
+        MatrixStack matrixStack = RenderSystem.getModelViewStack();
+        matrixStack.push();
         float multiplier = 1.3f;
-        RenderSystem.scalef(multiplier,multiplier,1);
+        matrixStack.scale(multiplier,multiplier,1);
+        RenderSystem.applyModelViewMatrix();
         this.drawItem(stack, MathHelper.ceil(xPosition/multiplier)-2, MathHelper.ceil(yPosition/multiplier)-2, amountText);
-        RenderSystem.popMatrix();
+        matrixStack = RenderSystem.getModelViewStack();
+        matrixStack.pop();
+        RenderSystem.applyModelViewMatrix();
     }
 
 }

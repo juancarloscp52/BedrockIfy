@@ -14,20 +14,18 @@ import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.*;
-import net.minecraft.world.gen.tree.TreeDecoratorType;
+import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 
 import java.util.function.Predicate;
 
 public class DyingTrees {
 
     public static TreeDecoratorType<FullTrunkVineTreeDecorator> VINE_DECORATOR;
-    private static final ConfiguredFeature<?, ?> DYING_BIRCH_TREE = Feature.TREE.configure(ConfiguredFeatures.BIRCH.getConfig().setTreeDecorators(ImmutableList.of(FullTrunkVineTreeDecorator.INSTANCE)));
-    private static final ConfiguredFeature<?, ?> DYING_OAK_TREE = Feature.TREE.configure(ConfiguredFeatures.OAK.getConfig().setTreeDecorators(ImmutableList.of(FullTrunkVineTreeDecorator.INSTANCE)));
-    private static final ConfiguredFeature<?, ?> DYING_SPRUCE_TREE = Feature.TREE.configure(ConfiguredFeatures.SPRUCE.getConfig().setTreeDecorators(ImmutableList.of(FullTrunkVineTreeDecorator.INSTANCE)));
-    private static final ConfiguredFeature<?, ?> DYING_PINE_TREE = Feature.TREE.configure(ConfiguredFeatures.PINE.getConfig().setTreeDecorators(ImmutableList.of(FullTrunkVineTreeDecorator.INSTANCE)));
-    private static final ConfiguredFeature<?, ?> DYING_DARK_OAK_TREE = Feature.TREE.configure(ConfiguredFeatures.DARK_OAK.getConfig().setTreeDecorators(ImmutableList.of(FullTrunkVineTreeDecorator.INSTANCE)));
-
-
+    private static final ConfiguredFeature<TreeFeatureConfig, ?> DYING_BIRCH_TREE = Feature.TREE.configure(ConfiguredFeatures.BIRCH.getConfig().setTreeDecorators(ImmutableList.of(FullTrunkVineTreeDecorator.INSTANCE)));
+    private static final ConfiguredFeature<TreeFeatureConfig, ?> DYING_OAK_TREE = Feature.TREE.configure(ConfiguredFeatures.OAK.getConfig().setTreeDecorators(ImmutableList.of(FullTrunkVineTreeDecorator.INSTANCE)));
+    private static final ConfiguredFeature<TreeFeatureConfig, ?> DYING_SPRUCE_TREE = Feature.TREE.configure(ConfiguredFeatures.SPRUCE.getConfig().setTreeDecorators(ImmutableList.of(FullTrunkVineTreeDecorator.INSTANCE)));
+    private static final ConfiguredFeature<TreeFeatureConfig, ?> DYING_PINE_TREE = Feature.TREE.configure(ConfiguredFeatures.PINE.getConfig().setTreeDecorators(ImmutableList.of(FullTrunkVineTreeDecorator.INSTANCE)));
+    private static final ConfiguredFeature<TreeFeatureConfig, ?> DYING_DARK_OAK_TREE = Feature.TREE.configure(ConfiguredFeatures.DARK_OAK.getConfig().setTreeDecorators(ImmutableList.of(FullTrunkVineTreeDecorator.INSTANCE)));
     private static final Feature<DefaultFeatureConfig> FALLEN_OAK_TREE = new FallenTreeFeature(DefaultFeatureConfig.CODEC, Blocks.OAK_LOG);
     private static final ConfiguredFeature<?, ?> FALLEN_OAK_TREE_CONFIGURED = FALLEN_OAK_TREE.configure(FeatureConfig.DEFAULT);
     private static final Feature<DefaultFeatureConfig> FALLEN_BIRCH_TREE = new FallenTreeFeature(DefaultFeatureConfig.CODEC, Blocks.BIRCH_LOG);
@@ -50,19 +48,18 @@ public class DyingTrees {
 
     private static void registerDyingTrees (){
         VINE_DECORATOR = TreeDecoratorTypeInvoker.invokeRegister("bedrockify:vinedecorator", FullTrunkVineTreeDecorator.CODEC);
-        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new Identifier("bedrockify", "dying_birch_tree"),DYING_BIRCH_TREE.applyChance(16));
+        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new Identifier("bedrockify", "dying_birch_tree"),DYING_BIRCH_TREE.applyChance(1)); // 16
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new Identifier("bedrockify", "dying_oak_tree"),DYING_OAK_TREE.applyChance(8));
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new Identifier("bedrockify", "dying_oak_tree_plains"),DYING_OAK_TREE.applyChance(68));
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new Identifier("bedrockify", "dying_spruce_tree"),DYING_SPRUCE_TREE.applyChance(8));
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new Identifier("bedrockify", "dying_pine_tree"),DYING_PINE_TREE.applyChance(16));
-        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new Identifier("bedrockify", "dying_dark_oak_tree"),DYING_DARK_OAK_TREE.applyChance(8));
-
-        BiomeModifications.addFeature(BIRCH_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_WORLDGEN,new Identifier("bedrockify", "dying_birch_tree")));
-        BiomeModifications.addFeature(OAK_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_WORLDGEN,new Identifier("bedrockify", "dying_oak_tree")));
-        BiomeModifications.addFeature(OAK_PLAINS_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_WORLDGEN,new Identifier("bedrockify", "dying_oak_tree_plains")));
-        BiomeModifications.addFeature(SPRUCE_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_WORLDGEN,new Identifier("bedrockify", "dying_spruce_tree")));
-        BiomeModifications.addFeature(SPRUCE_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_WORLDGEN,new Identifier("bedrockify", "dying_pine_tree")));
-        BiomeModifications.addFeature(DARK_OAK_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_WORLDGEN,new Identifier("bedrockify", "dying_dark_oak_tree")));
+        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier("bedrockify", "dying_dark_oak_tree"), DYING_DARK_OAK_TREE.applyChance(8));
+        BiomeModifications.addFeature(BIRCH_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_KEY,new Identifier("bedrockify", "dying_birch_tree")));
+        BiomeModifications.addFeature(OAK_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_KEY,new Identifier("bedrockify", "dying_oak_tree")));
+        BiomeModifications.addFeature(OAK_PLAINS_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_KEY,new Identifier("bedrockify", "dying_oak_tree_plains")));
+        BiomeModifications.addFeature(SPRUCE_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_KEY,new Identifier("bedrockify", "dying_spruce_tree")));
+        BiomeModifications.addFeature(SPRUCE_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_KEY,new Identifier("bedrockify", "dying_pine_tree")));
+        BiomeModifications.addFeature(DARK_OAK_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_KEY,new Identifier("bedrockify", "dying_dark_oak_tree")));
     }
 
     private static void registerFallenTrees(){
@@ -74,10 +71,10 @@ public class DyingTrees {
         Registry.register(Registry.FEATURE, new Identifier("bedrockify","fallen_spruce_tree"), FALLEN_SPRUCE_TREE);
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier("bedrockify","fallen_spruce_tree_c"), FALLEN_SPRUCE_TREE_CONFIGURED.applyChance(8));
 
-        BiomeModifications.addFeature(BIRCH_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_WORLDGEN,new Identifier("bedrockify", "fallen_birch_tree_c")));
-        BiomeModifications.addFeature(OAK_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_WORLDGEN, new Identifier("bedrockify","fallen_oak_tree_c")));
-        BiomeModifications.addFeature(OAK_PLAINS_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_WORLDGEN,new Identifier("bedrockify", "fallen_oak_tree_plains_c")));
-        BiomeModifications.addFeature(SPRUCE_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_WORLDGEN,new Identifier("bedrockify", "fallen_spruce_tree_c")));
+        BiomeModifications.addFeature(BIRCH_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_KEY,new Identifier("bedrockify", "fallen_birch_tree_c")));
+        BiomeModifications.addFeature(OAK_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_KEY, new Identifier("bedrockify","fallen_oak_tree_c")));
+        BiomeModifications.addFeature(OAK_PLAINS_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_KEY,new Identifier("bedrockify", "fallen_oak_tree_plains_c")));
+        BiomeModifications.addFeature(SPRUCE_BIOME_SELECTION_CONTEXT, GenerationStep.Feature.VEGETAL_DECORATION, RegistryKey.of(Registry.CONFIGURED_FEATURE_KEY,new Identifier("bedrockify", "fallen_spruce_tree_c")));
 
 
     }

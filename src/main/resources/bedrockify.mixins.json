@@ -2,12 +2,11 @@
   "required": true,
   "minVersion": "0.8",
   "package": "me.juancarloscp52.bedrockify.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_16",
   "plugin": "me.juancarloscp52.bedrockify.mixin.BedrockIfyMixinPlugin",
   "client": [
     "client.core.bedrockIfyButton.OptionsScreenMixin",
     "client.core.clientRenderTimer.MinecraftClientMixin",
-    "client.core.overlayInjection.InGameHudMixin",
     "client.features.biggerDraggingItem.HandledScreenMixin",
     "client.features.chat.ChatHudMixin",
     "client.features.eatingAnimations.PlayerEntityModelMixin",

@@ -13,6 +13,7 @@ import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.util.FeatureContext;
 
 import java.util.Random;
 
@@ -24,13 +25,15 @@ public class FallenTreeFeature extends Feature<DefaultFeatureConfig> {
     }
 
     @Override
-    public boolean generate(StructureWorldAccess world, ChunkGenerator chunkGenerator, Random random, BlockPos pos,
-                            DefaultFeatureConfig config) {
+    public boolean generate(FeatureContext<DefaultFeatureConfig> context) {
+        return generate(context.getWorld(),context.getRandom(),context.getOrigin());
+    }
+    private boolean generate(StructureWorldAccess world, Random random, BlockPos pos) {
 
         int size = random.nextInt(3)+3;
         int distance = random.nextInt(6)>1? 1:2;
         BlockPos trunkTopPos = world.getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,pos);
-        if(!world.getBlockState(trunkTopPos).getMaterial().isReplaceable() || !(world.getBlockState(trunkTopPos.down()).isOf(Blocks.DIRT) || world.getBlockState(trunkTopPos.down()).isOf(Blocks.COARSE_DIRT) || world.getBlockState(trunkTopPos.down()).isOf(Blocks.PODZOL) || world.getBlockState(trunkTopPos.down()).isOf(Blocks.GRASS_BLOCK) || world.getBlockState(trunkTopPos.down()).isOf(Blocks.GRASS_PATH))){
+        if(!world.getBlockState(trunkTopPos).getMaterial().isReplaceable() || !(world.getBlockState(trunkTopPos.down()).isOf(Blocks.DIRT) || world.getBlockState(trunkTopPos.down()).isOf(Blocks.COARSE_DIRT) || world.getBlockState(trunkTopPos.down()).isOf(Blocks.PODZOL) || world.getBlockState(trunkTopPos.down()).isOf(Blocks.GRASS_BLOCK) || world.getBlockState(trunkTopPos.down()).isOf(Blocks.DIRT_PATH))){
             return false;
         }
 

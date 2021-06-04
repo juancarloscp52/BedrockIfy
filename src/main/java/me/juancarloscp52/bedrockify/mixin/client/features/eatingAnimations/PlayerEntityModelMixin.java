@@ -25,8 +25,8 @@ public class PlayerEntityModelMixin <T extends LivingEntity> extends BipedEntity
     @Shadow @Final public ModelPart leftSleeve;
     float prevPitch = 0;
 
-    public PlayerEntityModelMixin(float scale) {
-        super(scale);
+    public PlayerEntityModelMixin(ModelPart root) {
+        super(root);
     }
 
     @Inject(method = "setAngles", at=@At("TAIL"))
@@ -52,12 +52,12 @@ public class PlayerEntityModelMixin <T extends LivingEntity> extends BipedEntity
                 this.rightArm.pitch = -prevPitch + (MathHelper.cos(ticks*1.5f) *0.15f);
                 this.rightArm.yaw=-0.3f;
                 this.rightArm.roll = 0.32f;
-                this.rightSleeve.copyPositionAndRotation(rightArm);
+                this.rightSleeve.copyTransform(rightArm);
             }else{
                 this.leftArm.pitch = -prevPitch + (MathHelper.cos(ticks*1.5f) *0.15f);
                 this.leftArm.yaw=0.3f;
                 this.leftArm.roll = 0.32f;
-                this.leftSleeve.copyPositionAndRotation(rightArm);
+                this.leftSleeve.copyTransform(rightArm);
             }
         }
     }

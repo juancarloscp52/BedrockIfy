@@ -4,20 +4,22 @@ import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.BedrockifySettings;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.EnchantmentTooltip;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.PotionTooltip;
-import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.ShulkerBoxTooltip;
+import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.ContainerTooltip;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.Tooltip;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.item.BundleTooltipData;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.inventory.Inventories;
+import net.minecraft.item.BundleItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.PotionItem;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -99,9 +101,13 @@ public class HeldItemTooltips {
         } else if (currentStack.getItem() instanceof PotionItem) {
             return getTooltipsFromEffectList(PotionUtil.getPotionEffects(currentStack));
         } else if(currentStack.getItem().toString().contains("shulker_box")){
-            CompoundTag compoundTag = currentStack.getSubTag("BlockEntityTag");
+            NbtCompound compoundTag = currentStack.getSubTag("BlockEntityTag");
             if(compoundTag != null && compoundTag.contains("Items", 9)){
                 return getTooltipsFromShulkerBox(compoundTag);
+            }
+        } else if(currentStack.getItem() instanceof BundleItem){
+            if(currentStack.getTooltipData().isPresent()){
+                return getTooltipsFromContainer(((BundleTooltipData)currentStack.getTooltipData().get()).getInventory());
             }
         }
         return null;
@@ -137,15 +143,19 @@ public class HeldItemTooltips {
      * @param compoundTag compoundTag with item information.
      * @return Tooltip list.
      */
-    private List<Tooltip> getTooltipsFromShulkerBox(CompoundTag compoundTag){
-        ArrayList<Tooltip> shulkerTooltips = new  ArrayList<Tooltip>();
+    private List<Tooltip> getTooltipsFromShulkerBox(NbtCompound compoundTag){
         DefaultedList<ItemStack> items = DefaultedList.ofSize(27, ItemStack.EMPTY);
-        Inventories.fromTag(compoundTag, items);
+        Inventories.readNbt(compoundTag, items);
+        return getTooltipsFromContainer(items);
+    }
+
+    private List<Tooltip> getTooltipsFromContainer(List<ItemStack> items){
+        ArrayList<Tooltip> tooltips = new ArrayList<>();
         for(ItemStack item : items){
             if(!item.isEmpty())
-            shulkerTooltips.add(new ShulkerBoxTooltip(item));
+                tooltips.add(new ContainerTooltip(item));
         }
-        return shulkerTooltips;
+        return tooltips;
     }
 
     /**
