@@ -52,7 +52,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
      */
     @Inject(method = "render", at=@At("HEAD"),cancellable = true)
     private void render(MatrixStack matrixStack, int ticks, CallbackInfo info){
-        if(!settings.isBedrockChatEnabled())
+        if(!settings.isBedrockChatEnabled() || client.options.debugEnabled)
             return;
 
         if (!this.isChatHidden()) {
