@@ -2,6 +2,7 @@ package me.juancarloscp52.bedrockify.client.features.panoramaBackground;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
+import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.mixin.client.features.panoramaBackground.RotatingCubeMapRendererAccessor;
 import net.minecraft.client.MinecraftClient;
@@ -32,7 +33,11 @@ public class BedrockifyRotatingCubeMapRenderer {
     }
 
     public void addPanoramaTime(){
-        time+= BedrockifyClient.getInstance().deltaTime * 0.000000008f;
+        if(Bedrockify.getInstance().settings.oldPanoramaMode){
+            time+=0.25f;
+        }else{
+            time+= BedrockifyClient.getInstance().deltaTime * 0.000000008f;
+        }
     }
 
     public void render(){
