@@ -29,7 +29,7 @@ public abstract class EntryListWidgetMixin {
         }
         if (!(this.client.currentScreen instanceof PackScreen)) {
             BedrockifyRotatingCubeMapRenderer.getInstance().render();
-            DrawableHelper.fill(matrices, 0, this.top, client.getWindow().getScaledWidth(), this.bottom, (60 << 24));
+            DrawableHelper.fill(matrices, 0, this.top, client.getWindow().getScaledWidth(), this.bottom, (100 << 24));
         }
     }
 
