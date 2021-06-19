@@ -43,7 +43,7 @@ public class AbstractPackScreenMixin extends Screen {
         headerBottom = headerHeight - 51;
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         RenderSystem.setShaderTexture(0,DrawableHelper.OPTIONS_BACKGROUND_TEXTURE);
         RenderSystem.enableDepthTest();
         RenderSystem.depthFunc(519);
@@ -68,7 +68,7 @@ public class AbstractPackScreenMixin extends Screen {
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
         // Top and bottom bar shadows.
-        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR);
+        bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR);
         bufferBuilder.vertex(this.headerLeft, this.headerTop + 4, 0.0D).texture(0.0F, 1.0F).color(0, 0, 0, 0).next();
         bufferBuilder.vertex(this.headerWidth, this.headerTop + 4, 0.0D).texture(1.0F, 1.0F).color(0, 0, 0, 0).next();
         bufferBuilder.vertex(this.headerWidth, this.headerTop, 0.0D).texture(1.0F, 0.0F).color(0, 0, 0, 255).next();
