@@ -72,7 +72,7 @@ public class FireworkStarFadeRecipeMixin {
         }
 
         if (itemStack != null && !list.isEmpty()) {
-            itemStack.getOrCreateSubTag("Explosion").putIntArray("FadeColors", list);
+            itemStack.getOrCreateSubNbt("Explosion").putIntArray("FadeColors", list);
             infoReturnable.setReturnValue(itemStack);
         } else {
             infoReturnable.setReturnValue(ItemStack.EMPTY);

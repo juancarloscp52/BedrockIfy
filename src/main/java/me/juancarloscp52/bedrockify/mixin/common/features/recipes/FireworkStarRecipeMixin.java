@@ -30,7 +30,7 @@ public class FireworkStarRecipeMixin {
 
     @Shadow @Final private static Ingredient GUNPOWDER;
 
-    @Shadow @Final private static Map<Item, FireworkItem.Type> TYPE_MODIFIER_MAP;
+    @Shadow @Final private static Map<Item, FireworkRocketItem.Type> TYPE_MODIFIER_MAP;
 
     @Inject(method = "matches",at=@At("HEAD"),cancellable = true)
     public void matches(CraftingInventory craftingInventory, World world, CallbackInfoReturnable<Boolean> infoReturnable) {
@@ -91,8 +91,8 @@ public class FireworkStarRecipeMixin {
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
             return;
         ItemStack itemStack = new ItemStack(Items.FIREWORK_STAR);
-        NbtCompound compoundTag = itemStack.getOrCreateSubTag("Explosion");
-        FireworkItem.Type type = FireworkItem.Type.SMALL_BALL;
+        NbtCompound compoundTag = itemStack.getOrCreateSubNbt("Explosion");
+        FireworkRocketItem.Type type = FireworkRocketItem.Type.SMALL_BALL;
         List<Integer> list = Lists.newArrayList();
 
         for(int i = 0; i < craftingInventory.size(); ++i) {

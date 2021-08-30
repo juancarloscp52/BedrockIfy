@@ -66,8 +66,8 @@ public class ShulkerBoxColoringRecipeMixin {
         }
 
         ItemStack itemStack3 = ShulkerBoxBlock.getItemStack(dyeItem.getColor());
-        if (itemStack.hasTag()) {
-            itemStack3.setTag(itemStack.getTag().copy());
+        if (itemStack.hasNbt()) {
+            itemStack3.setNbt(itemStack.getNbt().copy());
         }
 
         infoReturnable.setReturnValue(itemStack3);

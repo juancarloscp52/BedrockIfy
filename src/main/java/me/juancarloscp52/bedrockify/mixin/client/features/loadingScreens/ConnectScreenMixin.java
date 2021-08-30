@@ -56,7 +56,7 @@ public class ConnectScreenMixin extends Screen {
                 if (this.connection != null) {
                     this.connection.disconnect(new TranslatableText("connect.aborted"));
                 }
-                this.client.openScreen(this.parent);
+                this.client.setScreen(this.parent);
             }));
         }else{
             return this.addDrawableChild(drawableElement);

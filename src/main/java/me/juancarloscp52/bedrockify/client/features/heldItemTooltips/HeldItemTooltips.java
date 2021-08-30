@@ -101,7 +101,7 @@ public class HeldItemTooltips {
         } else if (currentStack.getItem() instanceof PotionItem) {
             return getTooltipsFromEffectList(PotionUtil.getPotionEffects(currentStack));
         } else if(currentStack.getItem().toString().contains("shulker_box")){
-            NbtCompound compoundTag = currentStack.getSubTag("BlockEntityTag");
+            NbtCompound compoundTag = currentStack.getSubNbt("BlockEntityTag");
             if(compoundTag != null && compoundTag.contains("Items", 9)){
                 return getTooltipsFromShulkerBox(compoundTag);
             }

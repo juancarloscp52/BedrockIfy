@@ -50,12 +50,10 @@ public class BedrockifyClient implements ClientModInitializer {
                 return ArmorReplacer.tryChangeArmor(playerEntity,hand);
             return TypedActionResult.pass(playerEntity.getStackInHand(hand));
         });
-        HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> {
-            BedrockifyClient.getInstance().overlay.renderOverlay(matrixStack);
-        });
+        HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> BedrockifyClient.getInstance().overlay.renderOverlay(matrixStack));
         ClientTickEvents.END_CLIENT_TICK.register(client-> {
             while (keyBinding.wasPressed()){
-                client.openScreen(settingsGUI.getConfigScreen(client.currentScreen,true));
+                client.setScreen(settingsGUI.getConfigScreen(client.currentScreen,true));
             }
         });
 

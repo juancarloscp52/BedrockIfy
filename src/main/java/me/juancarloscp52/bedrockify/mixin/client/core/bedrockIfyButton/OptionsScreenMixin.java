@@ -25,6 +25,6 @@ public class OptionsScreenMixin extends Screen {
     @Inject(method = "init", at = @At("HEAD"))
     private void addBedrockifyOption(CallbackInfo info) {
         if(Bedrockify.getInstance().settings.isBedrockIfyButtonEnabled())
-            this.addDrawableChild(new ButtonWidget(this.width / 2 - 155, this.height / 6 + 145 - 6, 310, 20, new TranslatableText("bedrockify.options.settings"), (buttonWidget) -> this.client.openScreen(BedrockifyClient.getInstance().settingsGUI.getConfigScreen(this,this.client.world != null))));
+            this.addDrawableChild(new ButtonWidget(this.width / 2 - 155, this.height / 6 + 145 - 6, 310, 20, new TranslatableText("bedrockify.options.settings"), (buttonWidget) -> this.client.setScreen(BedrockifyClient.getInstance().settingsGUI.getConfigScreen(this,this.client.world != null))));
     }
 }

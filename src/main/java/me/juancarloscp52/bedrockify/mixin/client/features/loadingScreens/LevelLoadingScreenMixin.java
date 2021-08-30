@@ -22,7 +22,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class LevelLoadingScreenMixin extends Screen {
     @Shadow @Final private WorldGenerationProgressTracker progressProvider;
 
-    @Shadow private long field_19101;
+    @Shadow private long lastNarrationTime;
     @Shadow public static void drawChunkMap(MatrixStack matrixStack, WorldGenerationProgressTracker worldGenerationProgressTracker, int i, int j, int k, int l) { }
 
     protected LevelLoadingScreenMixin(Text title) {
@@ -43,8 +43,8 @@ public abstract class LevelLoadingScreenMixin extends Screen {
 
         String string = MathHelper.clamp(this.progressProvider.getProgressPercentage(), 0, 100) + "%";
         long l = Util.getMeasuringTimeMs();
-        if (l - this.field_19101 > 2000L) {
-            this.field_19101 = l;
+        if (l - this.lastNarrationTime > 2000L) {
+            this.lastNarrationTime = l;
             NarratorManager.INSTANCE.narrate((new TranslatableText("narrator.loading", new Object[]{string})).getString());
         }
 

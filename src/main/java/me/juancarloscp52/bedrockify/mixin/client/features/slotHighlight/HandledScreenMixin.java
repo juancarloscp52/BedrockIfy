@@ -27,7 +27,7 @@ public abstract class HandledScreenMixin extends DrawableHelper {
     /**
      * Draw the current slot in green.
      */
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;method_33285(Lnet/minecraft/client/util/math/MatrixStack;III)V"))
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;drawSlotHighlight(Lnet/minecraft/client/util/math/MatrixStack;III)V"))
     protected void renderGuiQuad(MatrixStack matrices, int x, int y, int color) {
         BedrockifySettings settings = Bedrockify.getInstance().settings;
         if(!settings.isSlotHighlightEnabled()){

@@ -37,7 +37,7 @@ public class DisconnectedScreenMixin extends Screen {
     public <T extends Element & Drawable & Selectable> T addDrawableChild(DisconnectedScreen disconnectedScreen, T drawableElement) {
         if(Bedrockify.getInstance().settings.isLoadingScreenEnabled()){
             return (T) this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, (int) Math.ceil(MinecraftClient.getInstance().getWindow().getScaledHeight() * 0.75D), 200, 20, new TranslatableText("gui.toMenu"),
-                    (buttonWidget) -> this.client.openScreen(this.parent)));
+                    (buttonWidget) -> this.client.setScreen(this.parent)));
         }else{
             return this.addDrawableChild(drawableElement);
         }
