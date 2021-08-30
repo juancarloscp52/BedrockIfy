@@ -10,7 +10,9 @@ archivesBaseName = project.archives_base_name
 version = project.mod_version
 group = project.maven_group
 
-
+loom {
+	accessWidener = file("src/main/resources/bedrockify.accesswidener")
+}
 repositories {
 	maven {
 		name = 'TerraformersMC'

@@ -37,8 +37,7 @@
     "common.features.recipes.FireworkStarRecipeMixin",
     "common.features.recipes.RecipeManagerMixin",
     "common.features.recipes.ShulkerBoxColoringRecipeMixin",
-    "common.features.useAnimations.ItemStackMixin",
-    "common.features.worldGeneration.TreeDecoratorTypeInvoker"
+    "common.features.useAnimations.ItemStackMixin"
   ],
   "injectors": {
     "defaultRequire": 1
