@@ -2,7 +2,6 @@ package me.juancarloscp52.bedrockify.common.features.worldGeneration;
 
 import com.google.common.collect.ImmutableList;
 import me.juancarloscp52.bedrockify.Bedrockify;
-import me.juancarloscp52.bedrockify.mixin.common.features.worldGeneration.TreeDecoratorTypeInvoker;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
@@ -47,8 +46,8 @@ public class DyingTrees {
     }
 
     private static void registerDyingTrees (){
-        VINE_DECORATOR = TreeDecoratorTypeInvoker.invokeRegister("bedrockify:vinedecorator", FullTrunkVineTreeDecorator.CODEC);
-        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new Identifier("bedrockify", "dying_birch_tree"),DYING_BIRCH_TREE.applyChance(1)); // 16
+        VINE_DECORATOR = TreeDecoratorType.register("bedrockify:vinedecorator", FullTrunkVineTreeDecorator.CODEC);
+        Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new Identifier("bedrockify", "dying_birch_tree"),DYING_BIRCH_TREE.applyChance(16)); // 16
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new Identifier("bedrockify", "dying_oak_tree"),DYING_OAK_TREE.applyChance(8));
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new Identifier("bedrockify", "dying_oak_tree_plains"),DYING_OAK_TREE.applyChance(68));
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new Identifier("bedrockify", "dying_spruce_tree"),DYING_SPRUCE_TREE.applyChance(8));

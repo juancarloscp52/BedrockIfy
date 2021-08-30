@@ -24,6 +24,7 @@
     ],
     "modmenu": ["me.juancarloscp52.bedrockify.client.BedrockifyModMenu"]
   },
+  "accessWidener": "bedrockify.accesswidener",
   "mixins": [
     "bedrockify.mixins.json"
   ],
