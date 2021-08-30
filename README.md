@@ -8,13 +8,15 @@ BedrockIfy is a fabric Minecraft Mod that implements some useful Minecraft Bedro
 - Saving status overlay.
 - Bedrock Crafting Recipes (Toggleable).
 - Bedrock-like chat.
+- Bedrock Edition world color noise for grass and water.
 - Idle hand animations.
 - Held item descriptions (enchantments, books and potions).
 - Reach-around block placement.
-- Quick armour swap.
+- Quick armor swap.
+- Dying and Fallen Trees!
 
 Bedrockify also includes "eye-candy" features like the ability use the rotating title screen background in all option screens instead of the boring vanilla dirt background.
-
+All Features are customizable through the In-Game BedrockIfy Settings Menu!
 #### ScreenShots:
 ![HUD](https://github.com/juancarloscp52/BedrockIfy/blob/master/readme%20images/HUD.png)
 ![Loading Screen](https://github.com/juancarloscp52/BedrockIfy/blob/master/readme%20images/loading%20screen.png)
