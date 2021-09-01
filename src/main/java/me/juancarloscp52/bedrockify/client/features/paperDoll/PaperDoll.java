@@ -79,7 +79,8 @@ public class PaperDoll {
 
         // Position the entity on screen.
         int posX = 30;
-        matrixStack.translate(posX + settings.getScreenSafeArea(), renderPosY + settings.getScreenSafeArea(), 0);
+        int safeArea = settings.overlayIgnoresSafeArea? 0 : settings.getScreenSafeArea();
+        matrixStack.translate(posX + safeArea, renderPosY + safeArea, 0);
         matrixStack.scale((float) size, (float) size, -(float) size);
         Quaternion quaternion = Vec3f.POSITIVE_Z.getDegreesQuaternion(180.0F);
         matrixStack.multiply(quaternion);

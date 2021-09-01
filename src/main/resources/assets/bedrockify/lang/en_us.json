@@ -15,6 +15,7 @@
   "bedrockify.options.subCategory.other": "Other settings...",
   "bedrockify.options.settings": "Bedrockify Settings",
   "bedrockify.options.screenSafeArea": "Screen Safe Area:",
+  "bedrockify.options.ignoreBorder": "Overlay Ignores Safe Area:",
   "bedrockify.options.coordinatesPosition": "Coordinates Text Position:",
   "bedrockify.options.showCoordinates": "Show Coordinates:",
   "bedrockify.options.showFPS": "Show FPS:",

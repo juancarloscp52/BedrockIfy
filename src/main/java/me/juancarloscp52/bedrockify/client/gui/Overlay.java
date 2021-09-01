@@ -54,7 +54,7 @@ public class Overlay {
 
     private void renderPositionText(MatrixStack matrixStack) {
         BedrockifySettings settings = Bedrockify.getInstance().settings;
-        int screenBorder = settings.getScreenSafeArea();
+        int screenBorder = settings.overlayIgnoresSafeArea ? 0 : settings.getScreenSafeArea();
         int posY = settings.getPositionHUDHeight();
         if (!settings.isShowPositionHUDEnabled())
             return;
@@ -69,7 +69,7 @@ public class Overlay {
 
     private void renderFpsText(MatrixStack matrixStack) {
         BedrockifySettings settings = Bedrockify.getInstance().settings;
-        int screenBorder = settings.getScreenSafeArea();
+        int screenBorder = settings.overlayIgnoresSafeArea ? 0 : settings.getScreenSafeArea();
         int posY = settings.getPositionHUDHeight();
         boolean positionEnabled = settings.isShowPositionHUDEnabled();
         if (settings.getFPSHUDoption()!=2)
