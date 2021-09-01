@@ -92,7 +92,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
 
         if(color == 0)
             return 0;
-        return fontRenderer.drawWithShadow(matrices, text, x, y-screenBorder-3, color);
+        return fontRenderer.drawWithShadow(matrices, text, x, y-screenBorder-3, MathHelper.packRgb(127, 252, 32));
     }
 
     /**
