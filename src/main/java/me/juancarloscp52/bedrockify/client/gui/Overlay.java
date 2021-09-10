@@ -63,8 +63,8 @@ public class Overlay {
         if(settings.getFPSHUDoption()==1)
             position.append(" ").append(fps);
         int positionWidth = client.textRenderer.getWidth(position);
-        fill(matrixStack, textPosX + screenBorder, posY - 2 + screenBorder, textPosX + positionWidth + 6 + screenBorder, posY + 10 + screenBorder, MathHelper.ceil((255.0D * client.options.textBackgroundOpacity))<<24);
-        client.textRenderer.drawWithShadow(matrixStack, position, textPosX + 3 + screenBorder, posY + 1 + screenBorder, 16777215);
+        fill(matrixStack, textPosX + screenBorder, posY + screenBorder, textPosX + positionWidth + 6 + screenBorder, posY + 12 + screenBorder, MathHelper.ceil((255.0D * client.options.textBackgroundOpacity))<<24);
+        client.textRenderer.drawWithShadow(matrixStack, position, textPosX + 3 + screenBorder, posY + 3 + screenBorder, 16777215);
     }
 
     private void renderFpsText(MatrixStack matrixStack) {
