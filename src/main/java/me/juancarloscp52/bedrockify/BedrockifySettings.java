@@ -35,6 +35,7 @@ public class BedrockifySettings {
     public boolean dyingTrees = true;
     public boolean sneakingShield = true;
     public boolean oldPanoramaMode = true;
+    public boolean bedrockShading = true;
 
     public boolean isOldPanoramaModeEnabled(){
         return this.oldPanoramaMode;

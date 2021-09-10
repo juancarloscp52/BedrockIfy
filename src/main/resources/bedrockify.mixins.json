@@ -7,6 +7,9 @@
   "client": [
     "client.core.bedrockIfyButton.OptionsScreenMixin",
     "client.core.clientRenderTimer.MinecraftClientMixin",
+    "client.features.bedrockShading.AbstractQuadRendererMixin",
+    "client.features.bedrockShading.BlockModelRendererMixin",
+    "client.features.bedrockShading.FluidRendererMixin",
     "client.features.biggerDraggingItem.HandledScreenMixin",
     "client.features.chat.ChatHudMixin",
     "client.features.eatingAnimations.PlayerEntityModelMixin",

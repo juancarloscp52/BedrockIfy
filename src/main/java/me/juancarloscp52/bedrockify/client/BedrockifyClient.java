@@ -1,6 +1,7 @@
 package me.juancarloscp52.bedrockify.client;
 
 import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockBlockShading;
 import me.juancarloscp52.bedrockify.client.features.quickArmorSwap.ArmorReplacer;
 import me.juancarloscp52.bedrockify.client.features.worldColorNoise.WorldColorNoiseSampler;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.HeldItemTooltips;
@@ -29,6 +30,7 @@ public class BedrockifyClient implements ClientModInitializer {
     public HeldItemTooltips heldItemTooltips;
     public SettingsGUI settingsGUI;
     public WorldColorNoiseSampler worldColorNoiseSampler;
+    public BedrockBlockShading bedrockBlockShading;
     public long deltaTime = 0;
     private static KeyBinding keyBinding;
     public static BedrockifyClient getInstance() {
@@ -43,6 +45,7 @@ public class BedrockifyClient implements ClientModInitializer {
         heldItemTooltips = new HeldItemTooltips();
         settingsGUI=new SettingsGUI();
         worldColorNoiseSampler = new WorldColorNoiseSampler();
+        bedrockBlockShading = new BedrockBlockShading();
         keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("bedrockIfy.key.settings", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, "BedrockIfy"));
 
         UseItemCallback.EVENT.register((playerEntity, world, hand) -> {

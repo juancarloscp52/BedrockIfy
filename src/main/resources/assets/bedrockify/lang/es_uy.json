@@ -55,6 +55,7 @@
   "bedrockify.options.biggerItems": "Agrandar items mientras son arrastrados:",
   "bedrockify.options.dyingTrees": "Activar arboles podridos/caidos:",
   "bedrockify.options.sneakingShield": "Activar escudo al agacharse:",
+  "bedrockify.options.bedrockShading": "Usar sombreado para bloques luminosos de bedrock:",
   "bedrockify.options.mixins.description": "En esta categoria puedes activar/desactivar mixins para ciertas características. Deshabilitar mixins deshabilitará la caracteristica que cubre. Puedes deshabilitar mixins para intentar mejorar la compatibilidad con otros mods.\n§4!Por favor, no cambie estos ajustes salvo que sepa lo que está haciendo!",
   "bedrockify.loadingTips.1":"Usa fondo marino para atraer y alimentar a las tortugas marinas.",
   "bedrockify.loadingTips.2":"¡Protege a las tortugas bebé de las criaturas enemigas!",
