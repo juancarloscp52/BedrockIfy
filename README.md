@@ -24,7 +24,7 @@ All Features are customizable through the In-Game BedrockIfy Settings Menu!
 ![Rotating background on all screens](https://github.com/juancarloscp52/BedrockIfy/blob/master/readme%20images/menu.gif)
 
 ## Installation:
-This mod requires [Fabric](https://fabricmc.net/use/) and [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api). You can download BedrockIfy from the _[releases](https://github.com/juancarloscp52/BedrockIfy/releases)_ tab in github or through the CurseForge page.
+This mod requires [Fabric](https://fabricmc.net/use/) and [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api). You can download BedrockIfy from the _[releases](https://github.com/juancarloscp52/BedrockIfy/releases)_ tab in GitHub or through the CurseForge page.
 Drop BedrockIfy and Fabric API JARs inside the mods folder.
 ## Building from source:
 Under Linux / Mac OS
