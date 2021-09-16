@@ -62,7 +62,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
             if (visibleMessagesCount > 0) {
                 int safeArea = settings.overlayIgnoresSafeArea? 0: settings.getScreenSafeArea();
                 boolean isChatFocused = this.isChatFocused();
-                int posY = settings.getPositionHUDHeight() + (settings.getPositionHUDHeight()<50? 50:0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) + safeArea;
+                int posY = 2+settings.getPositionHUDHeight() + (settings.getPositionHUDHeight()<50? 50:0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) + safeArea;
                 float chatScale = (float) this.getChatScale();
                 int scaledChatWidth = MathHelper.ceil((double)this.getWidth() / chatScale);
                 matrixStack.push();
@@ -142,7 +142,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
             return;
         if(this.isChatFocused() && !this.client.options.hudHidden && !this.isChatHidden() && !this.messageQueue.isEmpty()){
             int safeArea = settings.overlayIgnoresSafeArea? 0: settings.getScreenSafeArea();
-            int posY = settings.getPositionHUDHeight() + (settings.getPositionHUDHeight()<50? 50:0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) + safeArea;
+            int posY = 2+settings.getPositionHUDHeight() + (settings.getPositionHUDHeight()<50? 50:0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) + safeArea;
             double lineSize = 9.0D * (this.client.options.chatLineSpacing + 1.0D);
             double chatX= x - safeArea;
             double chatY = posY+(counter1*lineSize) - y;
@@ -164,7 +164,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
         if(!settings.isBedrockChatEnabled() || client.options.debugEnabled)
             return;
         int safeArea = settings.overlayIgnoresSafeArea? 0: settings.getScreenSafeArea();
-        int posY = settings.getPositionHUDHeight() + (settings.getPositionHUDHeight()<50? 50:0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) +  safeArea;
+        int posY = 2+settings.getPositionHUDHeight() + (settings.getPositionHUDHeight()<50? 50:0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) +  safeArea;
         double lineSize = 9.0D * (this.client.options.chatLineSpacing + 1.0D);
 
         if(this.isChatFocused() && !client.options.hudHidden && !this.isChatHidden()){
@@ -191,7 +191,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
 
     private int getAvailableLines(){
         BedrockifySettings settings = Bedrockify.getInstance().settings;
-        int posY = settings.getPositionHUDHeight() + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) +  (settings.overlayIgnoresSafeArea? 0: settings.getScreenSafeArea());
+        int posY = 2+settings.getPositionHUDHeight() + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) +  (settings.overlayIgnoresSafeArea? 0: settings.getScreenSafeArea());
         return MathHelper.ceil((client.getWindow().getScaledHeight()-posY)/((this.client.options.chatLineSpacing + 1.0D)*9)) -2;
     }
 }
