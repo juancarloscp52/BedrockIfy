@@ -36,6 +36,11 @@
     "client.features.worldColorNoise.BiomeColorsMixin"
   ],
   "mixins": [
+    "common.features.fireAspect.CampfireBlockMixin",
+    "common.features.fireAspect.CandleBlockMixin",
+    "common.features.fireAspect.CandleCakeBlockMixin",
+    "common.features.fireAspect.PlayerEntityMixin",
+    "common.features.fireAspect.TntBlockMixin",
     "common.features.recipes.FireworkStarFadeRecipeMixin",
     "common.features.recipes.FireworkStarRecipeMixin",
     "common.features.recipes.RecipeManagerMixin",

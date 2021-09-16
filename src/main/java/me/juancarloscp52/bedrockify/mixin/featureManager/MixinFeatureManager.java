@@ -35,6 +35,7 @@ public class MixinFeatureManager {
         features.put("common.features.useAnimations", true);
         features.put("common.features.worldGeneration", true);
         features.put("client.features.bedrockShading", true);
+        features.put("common.features.fireAspect", true);
 
     }
 

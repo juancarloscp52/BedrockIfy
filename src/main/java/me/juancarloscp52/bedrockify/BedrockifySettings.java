@@ -36,6 +36,7 @@ public class BedrockifySettings {
     public boolean sneakingShield = true;
     public boolean oldPanoramaMode = true;
     public boolean bedrockShading = true;
+    public boolean fireAspectLight = true;
 
     public boolean isOldPanoramaModeEnabled(){
         return this.oldPanoramaMode;
@@ -133,7 +134,6 @@ public class BedrockifySettings {
     public boolean isSavingOverlayEnabled() {
         return savingOverlay;
     }
-
 
     public int getPositionHUDHeight() {
         if (positionHUDHeight > 100)
