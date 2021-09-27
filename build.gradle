@@ -19,6 +19,7 @@ repositories {
 		url = 'https://maven.terraformersmc.com/'
 	}
 	maven { url "https://maven.shedaniel.me/" }
+	maven { url "https://maven.ryanliptak.com/" } // AppleSkin
 }
 
 dependencies {
@@ -35,6 +36,9 @@ dependencies {
 	}
 	include "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}"
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
+	modCompileOnly("squeek.appleskin:appleskin-fabric:${project.apple_skin}:api") {
+		transitive = false
+	}
 }
 
 processResources {
