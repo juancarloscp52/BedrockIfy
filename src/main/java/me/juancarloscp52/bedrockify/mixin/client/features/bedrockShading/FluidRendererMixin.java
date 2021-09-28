@@ -19,11 +19,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  */
 @Mixin(FluidRenderer.class)
 public class FluidRendererMixin {
-    private boolean isLava;
+    private boolean isLuminous;
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/BlockRenderView;getBrightness(Lnet/minecraft/util/math/Direction;Z)F", ordinal = 0))
     private void getFluidType(BlockRenderView world, BlockPos pos, VertexConsumer vertexConsumer, FluidState state, CallbackInfoReturnable<Boolean> cir) {
-        this.isLava = state.isIn(FluidTags.LAVA);
+        this.isLuminous = 0 < world.getLuminance(pos); //state.isIn(FluidTags.LAVA);
     }
 
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/BlockRenderView;getBrightness(Lnet/minecraft/util/math/Direction;Z)F"))
@@ -31,6 +31,6 @@ public class FluidRendererMixin {
         if(!Bedrockify.getInstance().settings.bedrockShading)
             return blockRenderView.getBrightness(direction,shaded);
 
-        return BedrockifyClient.getInstance().bedrockBlockShading.getLiquidShade(direction,isLava);
+        return BedrockifyClient.getInstance().bedrockBlockShading.getLiquidShade(direction,isLuminous);
     }
 }
