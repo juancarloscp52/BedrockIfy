@@ -44,7 +44,7 @@ You can find the built JARs inside BedrockIfy/build/libs
 ## Enhancing your Bedrock-like experience
 
 Here is a list of other Fabric Mods that can improve your BedrockLike Experience:
-- [LambdaControls](https://github.com/LambdAurora/LambdaControls) - Enables Controller/touchscreen support and other useful tweaks.
+- [LambdaControls](https://github.com/LambdAurora/LambdaControls) - Enables Controller support and other useful tweaks.
 - [BedrockWaters](https://github.com/2Retr0/BedrockWaters) - Ports all Bedrock Edition biome specific water color.
 - [Snowy Leaves](https://github.com/Ashley1227/snowy-leaves) - Leaves will turn white while snowing.
 - [TelePistons](https://www.curseforge.com/minecraft/mc-mods/telepistons) - This mod adds the  telescopic piston arm animation from Bedrock Edition.
