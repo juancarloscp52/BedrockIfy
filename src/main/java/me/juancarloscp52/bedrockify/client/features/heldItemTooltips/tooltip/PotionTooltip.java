@@ -2,7 +2,7 @@ package me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip;
 
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.ChatUtil;
+import net.minecraft.util.StringHelper;
 
 public class PotionTooltip extends Tooltip {
 
@@ -20,7 +20,7 @@ public class PotionTooltip extends Tooltip {
         if(primaryValue>0)
             tooltip.append(" ").append(new TranslatableText("potion.potency." + primaryValue));
         if(ticks>=20)
-            tooltip.append(" (" + ChatUtil.ticksToString(ticks) + ")");
+            tooltip.append(" (" + StringHelper.formatTicks(ticks) + ")");
         return tooltip;
     }
 }

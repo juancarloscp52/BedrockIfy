@@ -31,8 +31,8 @@
   ],
   "depends": {
     "fabricloader": ">=0.11.3",
-    "minecraft": "1.17.x",
-    "java":">=16"
+    "minecraft": "1.18.x",
+    "java":">=17"
   },
   "suggests": {
     "modmenu": ">=2.0.0"
