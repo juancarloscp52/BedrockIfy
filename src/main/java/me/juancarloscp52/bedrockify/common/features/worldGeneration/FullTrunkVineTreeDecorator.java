@@ -1,5 +1,4 @@
 package me.juancarloscp52.bedrockify.common.features.worldGeneration;
-
 import com.mojang.serialization.Codec;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -39,6 +38,5 @@ public class FullTrunkVineTreeDecorator extends TreeDecorator {
         BlockPos vinePos = trunkPos.offset(direction.getOpposite());
         if (Feature.isAir(world, vinePos))
             replacer.accept(vinePos,Blocks.VINE.getDefaultState().with(VineBlock.getFacingProperty(direction),true));
-//            world.setBlockState(vinePos, Blocks.VINE.getDefaultState().with(VineBlock.getFacingProperty(direction),true),3);
     }
 }

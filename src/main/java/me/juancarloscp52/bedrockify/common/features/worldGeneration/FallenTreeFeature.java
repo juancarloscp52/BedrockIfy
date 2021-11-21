@@ -1,5 +1,4 @@
 package me.juancarloscp52.bedrockify.common.features.worldGeneration;
-
 import com.mojang.serialization.Codec;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
@@ -10,7 +9,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.StructureWorldAccess;
-import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.util.FeatureContext;
@@ -41,7 +39,6 @@ public class FallenTreeFeature extends Feature<DefaultFeatureConfig> {
         setVines(world,trunkTopPos,true);
 
         Direction direction = Direction.Type.HORIZONTAL.random(random);
-
         generateFallenTrunk(world,direction,size, distance+1, trunkTopPos,4);
 
         return true;
@@ -63,7 +60,7 @@ public class FallenTreeFeature extends Feature<DefaultFeatureConfig> {
         for(int i =0; i < size; i++){
             BlockPos.Mutable temp = start.offset(direction,i).mutableCopy();
             temp.setY(maxY);
-            if((!world.getBlockState(temp).getMaterial().isReplaceable() || world.getBlockState(temp.down()).isIn(BlockTags.LOGS) || world.getBlockState(temp.down()).isOf(Blocks.RED_MUSHROOM_BLOCK) || world.getBlockState(temp.down()).isOf(Blocks.BROWN_MUSHROOM_BLOCK)) && i<2){
+            if(((maxY-start.getY())> 3|| !world.getBlockState(temp).getMaterial().isReplaceable() || world.getBlockState(temp.down()).getMaterial().isLiquid() || world.getBlockState(temp.down()).isIn(BlockTags.LOGS) || world.getBlockState(temp.down()).isOf(Blocks.RED_MUSHROOM_BLOCK) || world.getBlockState(temp.down()).isOf(Blocks.BROWN_MUSHROOM_BLOCK)) && i<2){
                 return generateFallenTrunk(world, direction.rotateYClockwise(), size, distance, pos, tries-1);
             }
         }
@@ -92,7 +89,7 @@ public class FallenTreeFeature extends Feature<DefaultFeatureConfig> {
 
     public void setVineOnTrunk(StructureWorldAccess world, BlockPos trunkPos, Direction direction, boolean dontRandomize){
         BlockPos vinePos = trunkPos.offset(direction.getOpposite());
-        if (world.getBlockState(vinePos).getMaterial().isReplaceable() && (new Random().nextInt(6)>3 || dontRandomize))
+        if (world.getBlockState(vinePos).getMaterial().isReplaceable() && (world.getRandom().nextInt(6)>3 || dontRandomize))
             world.setBlockState(vinePos, Blocks.VINE.getDefaultState().with(VineBlock.getFacingProperty(direction),true),3);
     }
 }
