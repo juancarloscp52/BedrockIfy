@@ -38,7 +38,7 @@ public class ItemTooltipsMixin {
     /**
      * Show the item tooltip when changing from a item to another of the same type and name IFF different tooltips.
      */
-    @Redirect(method = "tick", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isEmpty()Z", ordinal = 1))
+    @Redirect(method = "tick()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isEmpty()Z", ordinal = 1))
     private boolean interceptItemStack(ItemStack itemStack) {
         ItemStack nextItem = this.client.player.getInventory().getMainHandStack();
         HeldItemTooltips heldItemTooltips = BedrockifyClient.getInstance().heldItemTooltips;
