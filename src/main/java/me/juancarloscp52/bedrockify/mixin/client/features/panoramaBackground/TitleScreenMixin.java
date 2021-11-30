@@ -44,7 +44,7 @@ public abstract class TitleScreenMixin extends Screen {
     }
 
     @Group(name = "overlayID")
-    @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderTexture(ILnet/minecraft/util/Identifier;)V", ordinal = 0, remap = false),index = 1)
+    @ModifyArg(method = "render", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderTexture(ILnet/minecraft/class_2960;)V", ordinal = 0, remap = false),index = 1)
     private Identifier getOverlayDev(Identifier identifier) {
         BedrockifyRotatingCubeMapRenderer.getInstance().updateOverlayId(identifier);
         return identifier;
