@@ -20,8 +20,5 @@ public class MinecraftClientMixin {
         long oldTime = newTime;
         newTime = System.nanoTime();
         BedrockifyClient.getInstance().deltaTime= newTime - oldTime;
-        if(this.currentScreen != null){
-            BedrockifyRotatingCubeMapRenderer.getInstance().addPanoramaTime();
-        }
     }
 }

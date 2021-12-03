@@ -5,11 +5,16 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.mixin.client.features.panoramaBackground.RotatingCubeMapRendererAccessor;
+import me.juancarloscp52.bedrockify.mixin.client.features.panoramaBackground.ScreenMixin;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.CubeMapRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.RotatingCubeMapRenderer;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
+import net.minecraft.client.gui.screen.multiplayer.MultiplayerScreen;
+import net.minecraft.client.gui.screen.option.*;
+import net.minecraft.client.realms.gui.screen.RealmsMainScreen;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
@@ -32,12 +37,8 @@ public class BedrockifyRotatingCubeMapRenderer {
         return INSTANCE;
     }
 
-    public void addPanoramaTime(){
-        if(Bedrockify.getInstance().settings.oldPanoramaMode){
-            time+=0.25f;
-        }else{
-            time+= BedrockifyClient.getInstance().deltaTime * 0.000000008f;
-        }
+    public void addPanoramaTime(float delta){
+        this.time += delta;
     }
 
     public void render(){
@@ -56,13 +57,12 @@ public class BedrockifyRotatingCubeMapRenderer {
         }
     }
 
-    public void update(RotatingCubeMapRenderer renderer, Identifier panoramaOverlay, boolean doBackgroundFade, long backgroundFadeStart){
-        this.cubeMap =((RotatingCubeMapRendererAccessor)renderer).getCubeMap();
+    public void update(RotatingCubeMapRenderer renderer, Identifier panoramaOverlay, boolean doBackgroundFade, long backgroundFadeStart) {
+        this.cubeMap = ((RotatingCubeMapRendererAccessor) renderer).getCubeMap();
         this.overlay = panoramaOverlay;
         this.doBackgroundFade = doBackgroundFade;
         this.backgroundFadeStart = backgroundFadeStart;
     }
-
     public void updateOverlayId(Identifier panoramaOverlay){
         this.overlay = panoramaOverlay;
     }

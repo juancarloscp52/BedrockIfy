@@ -33,7 +33,9 @@
     "client.features.screenSafeArea.InGameHudMixin",
     "client.features.screenSafeArea.SubtitlesHudMixin",
     "client.features.slotHighlight.HandledScreenMixin",
-    "client.features.worldColorNoise.BiomeColorsMixin"
+    "client.features.worldColorNoise.BiomeColorsMixin",
+    "client.features.panoramaBackground.GameRendererMixin",
+    "client.features.panoramaBackground.RotatingCubeMapRendererMixin"
   ],
   "mixins": [
     "common.features.fireAspect.CampfireBlockMixin",
