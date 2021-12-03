@@ -31,6 +31,10 @@ public class BedrockIfyMixinPlugin  implements IMixinConfigPlugin {
             LogManager.getLogger().info("The mod \"Held Item Info\" has been detected. This mod is not totally compatible with BedrockIfy. BedrockIfy Held Item Tooltips has been disabled.");
             return false;
         }
+        if(mixinClassName.contains("me.juancarloscp52.bedrockify.mixin.client.features.bedrockShading") && FabricLoader.getInstance().isModLoaded("optifabric")){
+            LogManager.getLogger().info("The mod \"OptiFabric\" has been detected. This mod is not totally compatible with BedrockIfy. BedrockIfy Bedrock Shading is now disabled.");
+            return false;
+        }
         return MixinFeatureManager.isFeatureEnabled(mixinClassName);
     }
 
