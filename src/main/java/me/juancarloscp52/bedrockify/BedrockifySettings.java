@@ -34,13 +34,9 @@ public class BedrockifySettings {
     public boolean biggerIcons = true;
     public boolean dyingTrees = true;
     public boolean sneakingShield = true;
-    public boolean oldPanoramaMode = true;
     public boolean bedrockShading = true;
     public boolean fireAspectLight = true;
 
-    public boolean isOldPanoramaModeEnabled(){
-        return this.oldPanoramaMode;
-    }
 
     public boolean isSneakingShieldEnabled(){
         return this.sneakingShield;
