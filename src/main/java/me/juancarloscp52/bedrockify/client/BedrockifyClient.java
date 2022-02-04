@@ -32,6 +32,7 @@ public class BedrockifyClient implements ClientModInitializer {
     public WorldColorNoiseSampler worldColorNoiseSampler;
     public BedrockBlockShading bedrockBlockShading;
     public long deltaTime = 0;
+    private int timeFlying = 0;
     private static KeyBinding keyBinding;
     public static BedrockifyClient getInstance() {
         return instance;
@@ -69,6 +70,16 @@ public class BedrockifyClient implements ClientModInitializer {
 
                 }
             }
+
+            if(null != client.player && client.player.isFallFlying() && timeFlying > 10 && client.options.keyJump.isPressed()){
+                client.player.stopFallFlying();
+            }
+
+            if(null != client.player && client.player.isFallFlying() && !client.options.keyJump.isPressed())
+                timeFlying++;
+            else
+                timeFlying = 0;
+
         });
         instance = this;
         LOGGER.info("Initialized BedrockIfy Client");
