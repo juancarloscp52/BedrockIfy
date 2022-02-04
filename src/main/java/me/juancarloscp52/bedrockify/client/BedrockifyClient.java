@@ -58,8 +58,19 @@ public class BedrockifyClient implements ClientModInitializer {
             while (keyBinding.wasPressed()){
                 client.setScreen(settingsGUI.getConfigScreen(client.currentScreen,true));
             }
-        });
 
+            // Stop flying drift
+            if(Bedrockify.getInstance().settings.disableFlyingMomentum && null != client.player && client.player.getAbilities().flying){
+                if(!(client.options.keyLeft.isPressed() || client.options.keyBack.isPressed() ||client.options.keyRight.isPressed() ||client.options.keyForward.isPressed())){
+                    client.player.setVelocity(0,client.player.getVelocity().getY(),0);
+                }
+                if(!(client.options.keySneak.isPressed()|| client.options.keyJump.isPressed())){
+                    client.player.setVelocity(client.player.getVelocity().getX(), 0,client.player.getVelocity().getZ());
+
+                }
+            }
+        });
         instance = this;
+        LOGGER.info("Initialized BedrockIfy Client");
     }
 }

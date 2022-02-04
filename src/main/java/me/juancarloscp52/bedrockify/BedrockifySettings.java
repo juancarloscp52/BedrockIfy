@@ -36,6 +36,7 @@ public class BedrockifySettings {
     public boolean sneakingShield = true;
     public boolean bedrockShading = true;
     public boolean fireAspectLight = true;
+    public boolean disableFlyingMomentum = true;
 
 
     public boolean isSneakingShieldEnabled(){

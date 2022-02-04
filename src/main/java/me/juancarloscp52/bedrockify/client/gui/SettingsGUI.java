@@ -76,11 +76,11 @@ public class SettingsGUI {
         SubCategoryBuilder otherSettings = entryBuilder.startSubCategory(new TranslatableText("bedrockify.options.subCategory.other"));
         otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.loadingScreenChunkMap"), settings.showChunkMap).setTooltip(wrapLines(new TranslatableText("bedrockify.options.loadingScreenChunkMap.tooltip"))).setDefaultValue(false).setSaveConsumer(newValue -> settings.showChunkMap=newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.rotationalBackground"), settings.cubeMapBackground).setDefaultValue(true).setTooltip(wrapLines(new TranslatableText("bedrockify.options.rotationalBackground.tooltip"))).setSaveConsumer(newValue -> settings.cubeMapBackground=newValue).build());
-
         otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.showBedrockIfyButton"), settings.bedrockIfyButton).setDefaultValue(true).setTooltip(wrapLines(new TranslatableText("bedrockify.options.showBedrockIfyButton.tooltip"))).setSaveConsumer(newValue -> settings.bedrockIfyButton=newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.quickArmorSwap"), settings.quickArmorSwap).setDefaultValue(true).setSaveConsumer(newValue -> settings.quickArmorSwap=newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.dyingTrees"), settings.dyingTrees).setDefaultValue(true).setSaveConsumer(newValue -> settings.dyingTrees=newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.fireAspectLight"), settings.fireAspectLight).setTooltip(wrapLines(new TranslatableText("bedrockify.options.fireAspectLight.tooltip"))).setDefaultValue(true).setSaveConsumer(newValue -> settings.fireAspectLight=newValue).build());
+        otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.disableFlyingMomentum"), settings.disableFlyingMomentum).setDefaultValue(true).setSaveConsumer(newValue -> settings.disableFlyingMomentum =newValue).build());
 
         //        otherSettings.add(entryBuilder.startBooleanToggle(new TranslatableText("bedrockify.options.sneakingShield"), settings.sneakingShield).setDefaultValue(true).setSaveConsumer(newValue -> settings.sneakingShield=newValue).build());
 
