@@ -71,6 +71,7 @@ public class BedrockifyClient implements ClientModInitializer {
                 }
             }
 
+            // Stop elytra flying by pressing space
             if(null != client.player && client.player.isFallFlying() && timeFlying > 10 && client.options.keyJump.isPressed()){
                 client.player.stopFallFlying();
             }
