@@ -17,7 +17,7 @@ import java.util.Random;
 public class LoadingScreenWidget extends DrawableHelper {
 
     private static LoadingScreenWidget instance = null;
-    private static final int TIPS_NUM = 61;
+    private static final int TIPS_NUM = 62;
     private final Identifier WIDGET_TEXTURE = new Identifier("bedrockify", "textures/gui/bedrockify_widgets.png");
     private final Identifier MINECRAFT_TITLE_TEXTURE = new Identifier("textures/gui/title/minecraft.png");
     private final Identifier EDITION_TITLE_TEXTURE = new Identifier("textures/gui/title/edition.png");
