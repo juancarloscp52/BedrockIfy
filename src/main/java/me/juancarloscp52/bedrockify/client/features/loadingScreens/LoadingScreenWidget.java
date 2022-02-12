@@ -75,7 +75,7 @@ public class LoadingScreenWidget extends DrawableHelper {
         renderLoadingWidget(matrices, width, height, client);
 
         TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
-        textRenderer.draw(matrices, title, width - textRenderer.getWidth(title) / 2.0f, height - 9.0f / 2.0f - 32, 76 + (76 << 8) + (76 << 16));
+        textRenderer.draw(matrices, title, width - textRenderer.getWidth(title) / 2, height - 9 / 2 - 32, 76 + (76 << 8) + (76 << 16));
         renderTextBody(matrices, width, height, message, textRenderer);
 
         if (progress >= 0) {
@@ -104,7 +104,7 @@ public class LoadingScreenWidget extends DrawableHelper {
         List<OrderedText> text = textRenderer.wrapLines(message, 230);
         int maxLineWidth = getMaxLineWidth(textRenderer, text);
         for (int i = 0; i < 4 && i < text.size(); i++) {
-            textRenderer.draw(matrices, text.get(i), x - maxLineWidth / 2f, y - 15 + (i * 9), 16777215);
+            textRenderer.draw(matrices, text.get(i), x - maxLineWidth / 2, y - 15 + (i * 9), 16777215);
         }
 
     }
