@@ -16,6 +16,7 @@ import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.util.TypedActionResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -74,6 +75,7 @@ public class BedrockifyClient implements ClientModInitializer {
             // Stop elytra flying by pressing space
             if(null != client.player && client.player.isFallFlying() && timeFlying > 10 && client.options.keyJump.isPressed()){
                 client.player.stopFallFlying();
+                client.player.networkHandler.sendPacket(new ClientCommandC2SPacket(client.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
             }
 
             if(null != client.player && client.player.isFallFlying() && !client.options.keyJump.isPressed())
