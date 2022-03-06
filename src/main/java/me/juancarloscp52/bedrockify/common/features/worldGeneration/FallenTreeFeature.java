@@ -60,7 +60,7 @@ public class FallenTreeFeature extends Feature<DefaultFeatureConfig> {
         for(int i =0; i < size; i++){
             BlockPos.Mutable temp = start.offset(direction,i).mutableCopy();
             temp.setY(maxY);
-            if(((maxY-start.getY())> 3|| !world.getBlockState(temp).getMaterial().isReplaceable() || world.getBlockState(temp.down()).getMaterial().isLiquid() || world.getBlockState(temp.down()).isIn(BlockTags.LOGS) || world.getBlockState(temp.down()).isOf(Blocks.RED_MUSHROOM_BLOCK) || world.getBlockState(temp.down()).isOf(Blocks.BROWN_MUSHROOM_BLOCK)) && i<2){
+            if(((maxY-start.getY())> 3 || (pos.getY()-maxY) > 3 || !world.getBlockState(temp).getMaterial().isReplaceable() || world.getBlockState(temp.down()).getMaterial().isLiquid() || world.getBlockState(temp.down()).isIn(BlockTags.LOGS) || world.getBlockState(temp.down()).isOf(Blocks.RED_MUSHROOM_BLOCK) || world.getBlockState(temp.down()).isOf(Blocks.BROWN_MUSHROOM_BLOCK)) && i<2){
                 return generateFallenTrunk(world, direction.rotateYClockwise(), size, distance, pos, tries-1);
             }
         }
