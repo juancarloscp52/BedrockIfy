@@ -23,7 +23,9 @@
     "client.features.loadingScreens.SaveLevelScreenMixin",
     "client.features.panoramaBackground.AbstractPackScreenMixin",
     "client.features.panoramaBackground.EntryListWidgetMixin",
+    "client.features.panoramaBackground.GameRendererMixin",
     "client.features.panoramaBackground.RotatingCubeMapRendererAccessor",
+    "client.features.panoramaBackground.RotatingCubeMapRendererMixin",
     "client.features.panoramaBackground.ScreenMixin",
     "client.features.panoramaBackground.TitleScreenMixin",
     "client.features.pickupAnimations.InGameHudMixin",
@@ -33,11 +35,10 @@
     "client.features.screenSafeArea.InGameHudMixin",
     "client.features.screenSafeArea.SubtitlesHudMixin",
     "client.features.slotHighlight.HandledScreenMixin",
-    "client.features.worldColorNoise.BiomeColorsMixin",
-    "client.features.panoramaBackground.GameRendererMixin",
-    "client.features.panoramaBackground.RotatingCubeMapRendererMixin"
+    "client.features.worldColorNoise.BiomeColorsMixin"
   ],
   "mixins": [
+    "common.features.worldGeneration.TreeConfiguredFeaturesInvoker",
     "common.features.fireAspect.CampfireBlockMixin",
     "common.features.fireAspect.CandleBlockMixin",
     "common.features.fireAspect.CandleCakeBlockMixin",

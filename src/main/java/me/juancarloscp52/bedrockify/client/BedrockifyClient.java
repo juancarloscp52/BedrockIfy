@@ -63,22 +63,22 @@ public class BedrockifyClient implements ClientModInitializer {
 
             // Stop flying drift
             if(Bedrockify.getInstance().settings.disableFlyingMomentum && null != client.player && client.player.getAbilities().flying){
-                if(!(client.options.keyLeft.isPressed() || client.options.keyBack.isPressed() ||client.options.keyRight.isPressed() ||client.options.keyForward.isPressed())){
+                if(!(client.options.leftKey.isPressed() || client.options.backKey.isPressed() ||client.options.rightKey.isPressed() ||client.options.forwardKey.isPressed())){
                     client.player.setVelocity(0,client.player.getVelocity().getY(),0);
                 }
-                if(!(client.options.keySneak.isPressed()|| client.options.keyJump.isPressed())){
+                if(!(client.options.sneakKey.isPressed()|| client.options.jumpKey.isPressed())){
                     client.player.setVelocity(client.player.getVelocity().getX(), 0,client.player.getVelocity().getZ());
 
                 }
             }
 
             // Stop elytra flying by pressing space
-            if(null != client.player && client.player.isFallFlying() && timeFlying > 10 && client.options.keyJump.isPressed()){
+            if(null != client.player && client.player.isFallFlying() && timeFlying > 10 && client.options.jumpKey.isPressed()){
                 client.player.stopFallFlying();
                 client.player.networkHandler.sendPacket(new ClientCommandC2SPacket(client.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
             }
 
-            if(null != client.player && client.player.isFallFlying() && !client.options.keyJump.isPressed())
+            if(null != client.player && client.player.isFallFlying() && !client.options.jumpKey.isPressed())
                 timeFlying++;
             else
                 timeFlying = 0;

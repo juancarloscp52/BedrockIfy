@@ -18,7 +18,7 @@ public class ArmorReplacer {
     public static TypedActionResult<ItemStack> tryChangeArmor(PlayerEntity playerEntity, Hand hand){
         ItemStack newArmor = playerEntity.getStackInHand(hand);
         ClientPlayerInteractionManager interactionManager = MinecraftClient.getInstance().interactionManager;
-        if(interactionManager != null && MinecraftClient.getInstance().options.keyUse.isPressed()){
+        if(interactionManager != null && MinecraftClient.getInstance().options.useKey.isPressed()){
             if (!(newArmor.getItem() == Items.ELYTRA || newArmor.getItem() instanceof ArmorItem) || hand != Hand.MAIN_HAND)
                 return TypedActionResult.pass(newArmor);
 

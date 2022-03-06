@@ -2,6 +2,7 @@ package me.juancarloscp52.bedrockify.mixin.client.features.bedrockShading;
 
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.block.FluidRenderer;
 import net.minecraft.fluid.FluidState;
@@ -22,7 +23,7 @@ public class FluidRendererMixin {
     private boolean isLuminous;
 
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/BlockRenderView;getBrightness(Lnet/minecraft/util/math/Direction;Z)F", ordinal = 0))
-    private void getFluidType(BlockRenderView world, BlockPos pos, VertexConsumer vertexConsumer, FluidState state, CallbackInfoReturnable<Boolean> cir) {
+    private void getFluidType(BlockRenderView world, BlockPos pos, VertexConsumer vertexConsumer, BlockState blockState, FluidState fluidState, CallbackInfoReturnable<Boolean> cir) {
         this.isLuminous = 0 < world.getLuminance(pos); //state.isIn(FluidTags.LAVA);
     }
 
