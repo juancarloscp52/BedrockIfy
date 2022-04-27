@@ -8,28 +8,44 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
+import org.spongepowered.asm.mixin.injection.ModifyArgs;
 import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(SubtitlesHud.class)
 /*
  * Applies the screen border distance to the subtitles widget.
  */
 public class SubtitlesHudMixin extends DrawableHelper {
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Ljava/lang/String;FFI)I"))
-    private int drawWithScreenBorder(TextRenderer textRenderer, MatrixStack matrices, String text, float x, float y, int color) {
+    @ModifyArgs(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Ljava/lang/String;FFI)I"))
+    private void modifyDrawText(Args args){
         int screenBorder = Bedrockify.getInstance().settings.getScreenSafeArea();
-        return textRenderer.draw(matrices, text, x - screenBorder, y - screenBorder, color);
+        float x = args.get(2);
+        float y = args.get(3);
+        args.set(2,x - screenBorder);
+        args.set(3,y - screenBorder);
     }
 
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I"))
-    private int drawWithScreenBorder(TextRenderer textRenderer, MatrixStack matrices, Text text, float x, float y, int color) {
+    @ModifyArgs(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I"))
+    public void modifyDrawText2(Args args){
         int screenBorder = Bedrockify.getInstance().settings.getScreenSafeArea();
-        return textRenderer.draw(matrices, text, x - screenBorder, y - screenBorder, color);
+        float x = args.get(2);
+        float y = args.get(3);
+        args.set(2,x - screenBorder);
+        args.set(3,y - screenBorder);
     }
 
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/SubtitlesHud;fill(Lnet/minecraft/client/util/math/MatrixStack;IIIII)V"))
-    private void drawWithScreenBorder(MatrixStack matrices, int x1, int y1, int x2, int y2, int color) {
+    @ModifyArgs(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/SubtitlesHud;fill(Lnet/minecraft/client/util/math/MatrixStack;IIIII)V"))
+    public void ModifyDrawText3(Args args){
         int screenBorder = Bedrockify.getInstance().settings.getScreenSafeArea();
-        fill(matrices, x1 - screenBorder, y1 - screenBorder, x2 - screenBorder, y2 - screenBorder, color);
+        int x1 = args.get(1);
+        int y1 = args.get(2);
+        int x2 = args.get(3);
+        int y2 = args.get(4);
+        args.set(1,x1 - screenBorder);
+        args.set(3,x2 - screenBorder);
+        args.set(2,y1 - screenBorder);
+        args.set(4,y2 - screenBorder);
     }
 }

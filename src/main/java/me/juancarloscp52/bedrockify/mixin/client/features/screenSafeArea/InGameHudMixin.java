@@ -17,16 +17,12 @@ import net.minecraft.client.texture.StatusEffectSpriteManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 import java.util.Collection;
 import java.util.List;
@@ -39,8 +35,6 @@ public abstract class InGameHudMixin extends DrawableHelper {
 
     @Shadow private int scaledWidth;
     @Shadow @Final private MinecraftClient client;
-    @Shadow protected abstract void renderHotbarItem(int x, int y, float tickDelta, PlayerEntity player, ItemStack stack, int i);
-    @Shadow protected abstract void renderHealthBar(MatrixStack matrices, PlayerEntity player, int x, int y, int lines, int regeneratingHeartIndex, float maxHealth, int lastHealth, int health, int absorption, boolean blinking);
 
     private int screenBorder;
 
@@ -69,17 +63,19 @@ public abstract class InGameHudMixin extends DrawableHelper {
     /**
      * Render the items in the Hotbar with the screen border distance.
      */
-    @Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderHotbarItem(IIFLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/item/ItemStack;I)V"))
-    private void renderHotbarItemWithOffset(InGameHud inGameHud, int x, int y, float tickDelta, PlayerEntity player, ItemStack stack, int i) {
-        renderHotbarItem(x,y-screenBorder,tickDelta,player,stack,i);
+    @ModifyArg(method = "renderHotbar", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/hud/InGameHud;renderHotbarItem(IIFLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/item/ItemStack;I)V"),index = 1)
+    public int modifyHotbarItemPossition(int y){
+        return y-screenBorder;
     }
+
     /**
      * Apply screen border offset to experience bars.
      */
-    @Redirect(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
-    private void drawTextureExperienceBar(InGameHud inGameHud, MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
-        inGameHud.drawTexture(matrices, x, y - screenBorder, u, v, width, height);
+    @ModifyArg(method = "renderExperienceBar", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"),index = 2)
+    public int modifyTextureExperienceBar(int y){
+        return y - screenBorder;
     }
+
     /**
      * Apply screen border offset to experience bar text.
      */
@@ -97,34 +93,34 @@ public abstract class InGameHudMixin extends DrawableHelper {
     /**
      * Apply screen border offset to mount bars.
      */
-    @Redirect(method = "renderMountJumpBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
-    private void drawTextureMountJumpBar(InGameHud inGameHud, MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
-        inGameHud.drawTexture(matrices, x, y - screenBorder, u, v, width, height);
+    @ModifyArg(method = "renderMountJumpBar", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"),index = 2)
+    public int modifyTextureMountJumpBar(int y){
+        return y-screenBorder;
     }
 
     /**
      * Apply screen border offset to mount health bars.
      */
-    @Redirect(method = "renderMountHealth", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
-    private void drawTextureMountHealth(InGameHud inGameHud, MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
-        inGameHud.drawTexture(matrices, x, y - screenBorder, u, v, width, height);
+    @ModifyArg(method = "renderMountHealth", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"),index = 2)
+    public int modifyTextureMountHealth(int y){
+        return y-screenBorder;
     }
 
     /**
      * Apply screen border offset to status bars.
      */
-    @Redirect(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
-    private void drawTextureStatusBars(InGameHud inGameHud, MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
-        inGameHud.drawTexture(matrices, x, y - screenBorder, u, v, width, height);
+    @ModifyArg(method = "renderStatusBars", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"),index = 2)
+    public int modifyTextureStatusBar(int y){
+        return y - screenBorder;
     }
+
     /**
      * Apply screen border offset to health bars.
      */
-    @Redirect(method = "renderStatusBars", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;renderHealthBar(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/entity/player/PlayerEntity;IIIIFIIIZ)V"))
-    private void drawTextureStatusBarsHearts(InGameHud inGameHud, MatrixStack matrixStack, PlayerEntity playerEntity, int i, int j, int k, int l, float f, int m, int n, int o, boolean bl) {
-        renderHealthBar(matrixStack, playerEntity, i, j-screenBorder, k, l, f, m, n, o, bl);
+    @ModifyArg(method = "renderStatusBars", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/hud/InGameHud;renderHealthBar(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/entity/player/PlayerEntity;IIIIFIIIZ)V"),index = 3)
+    private int modifyTextureStatusBarsHearts(int y){
+        return y-screenBorder;
     }
-
 
     /**
      * Render the status effect overlay with the screen border distance applied.
