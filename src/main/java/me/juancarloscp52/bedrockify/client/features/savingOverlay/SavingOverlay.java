@@ -8,7 +8,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 
 public class SavingOverlay extends DrawableHelper {
@@ -23,6 +22,7 @@ public class SavingOverlay extends DrawableHelper {
         final BedrockifySettings settings = Bedrockify.getInstance().settings;
         if(saving || System.currentTimeMillis()-timer<3000){
             RenderSystem.setShaderTexture(0,WIDGET_TEXTURE);
+            RenderSystem.setShaderColor(1,1,1,1);
             // Draw chest
             this.drawTexture(matrixStack, client.getWindow().getScaledWidth()-(21+settings.getScreenSafeArea()), 19 + settings.getScreenSafeArea(), 0, 99, 16, 17);
             // Draw arrow
