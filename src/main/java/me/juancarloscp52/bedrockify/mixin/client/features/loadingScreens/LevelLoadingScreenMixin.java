@@ -8,7 +8,7 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.NarratorManager;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.Text;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Final;
@@ -39,13 +39,13 @@ public abstract class LevelLoadingScreenMixin extends Screen {
         this.renderBackground(matrices);
         int xPosition = this.width / 2;
         int yPosition = this.height / 2;
-        LoadingScreenWidget.getInstance().render(matrices, xPosition, yPosition, new TranslatableText("menu.generatingLevel"), null, this.progressProvider.getProgressPercentage());
+        LoadingScreenWidget.getInstance().render(matrices, xPosition, yPosition, Text.translatable("menu.generatingLevel"), null, this.progressProvider.getProgressPercentage());
 
         String string = MathHelper.clamp(this.progressProvider.getProgressPercentage(), 0, 100) + "%";
         long l = Util.getMeasuringTimeMs();
         if (l - this.lastNarrationTime > 2000L) {
             this.lastNarrationTime = l;
-            NarratorManager.INSTANCE.narrate((new TranslatableText("narrator.loading", new Object[]{string})).getString());
+            NarratorManager.INSTANCE.narrate((Text.translatable("narrator.loading", new Object[]{string})).getString());
         }
 
         if (Bedrockify.getInstance().settings.isShowChunkMapEnabled())

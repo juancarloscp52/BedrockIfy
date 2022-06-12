@@ -22,7 +22,6 @@ import net.minecraft.item.PotionItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.potion.PotionUtil;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.MathHelper;
@@ -76,7 +75,7 @@ public class HeldItemTooltips {
 
                 // show the "and x more..." tooltip if the item has more than 4 tooltips.
                 if(showMoreTooltip)
-                    renderTooltip(fontRenderer, matrices, y - screenBorder, color, new TranslatableText("container.shulkerBox.more", tooltips.size() - (tooltipSize-1)).formatted(Formatting.GRAY));
+                    renderTooltip(fontRenderer, matrices, y - screenBorder, color, Text.translatable("container.shulkerBox.more", tooltips.size() - (tooltipSize-1)).formatted(Formatting.GRAY));
 
             }else if(settings.getHeldItemTooltip()==2){
                 // draw the background
@@ -184,7 +183,7 @@ public class HeldItemTooltips {
 
     private void renderBackground(MatrixStack matrices, float y, int screenBorder, int tooltipOffset, int maxLength) {
         MinecraftClient client = MinecraftClient.getInstance();
-        int background = MathHelper.ceil((255.0D * MinecraftClient.getInstance().options.textBackgroundOpacity))<<24;
+        int background = MathHelper.ceil((255.0D * MinecraftClient.getInstance().options.getTextBackgroundOpacity().getValue()))<<24;
         DrawableHelper.fill(matrices, MathHelper.ceil((client.getWindow().getScaledWidth()-maxLength)/2f-3),MathHelper.ceil(y - tooltipOffset -5- screenBorder), MathHelper.ceil((client.getWindow().getScaledWidth()+maxLength)/2f+1),MathHelper.ceil(y - tooltipOffset -4- screenBorder),background);
         DrawableHelper.fill(matrices,MathHelper.ceil((client.getWindow().getScaledWidth()-maxLength)/2f-3),MathHelper.ceil(y+12-screenBorder), MathHelper.ceil((client.getWindow().getScaledWidth()+maxLength)/2f+1),MathHelper.ceil(y+13-screenBorder),background);
         DrawableHelper.fill(matrices,MathHelper.ceil((client.getWindow().getScaledWidth()-maxLength)/2f-4), MathHelper.ceil(y - tooltipOffset -4- screenBorder),MathHelper.ceil((client.getWindow().getScaledWidth()+maxLength)/2f+2), MathHelper.ceil(y+12-screenBorder),background);
@@ -204,7 +203,7 @@ public class HeldItemTooltips {
         for(Tooltip elem : tooltips){
             int tipLength = textRenderer.getWidth(elem.getTooltipText());
             if (count > tooltipSize-1)
-                tipLength = textRenderer.getWidth(new TranslatableText("container.shulkerBox.more", tooltips.size() - (tooltipSize-1)));
+                tipLength = textRenderer.getWidth(Text.translatable("container.shulkerBox.more", tooltips.size() - (tooltipSize-1)));
             if(maxLength<tipLength)
                 maxLength=tipLength;
             if ( count>tooltipSize-1 )

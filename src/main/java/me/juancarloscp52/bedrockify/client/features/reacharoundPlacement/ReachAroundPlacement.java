@@ -70,7 +70,7 @@ public class ReachAroundPlacement {
             }else{
                 blockHitResult = new BlockHitResult(player.getPos().add(facing.getX(), facing.getY(), facing.getZ()), Direction.fromVector((int) -facing.getX(), 0, (int) -facing.getZ()), player.getBlockPos().down().offset(player.getHorizontalFacing()), false);
             }
-            ActionResult result = client.interactionManager.interactBlock(player, client.world, hand, blockHitResult);
+            ActionResult result = client.interactionManager.interactBlock(player, hand, blockHitResult);
             if (result.isAccepted()) {
                 if (result.shouldSwingHand()) {
                     player.swingHand(hand);

@@ -1,5 +1,6 @@
 package me.juancarloscp52.bedrockify.common.features.worldGeneration;
 import com.mojang.serialization.Codec;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.VineBlock;
@@ -24,19 +25,21 @@ public class FullTrunkVineTreeDecorator extends TreeDecorator {
     }
 
     @Override
-    public void generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, List<BlockPos> logPositions, List<BlockPos> leavesPositions) {
-        logPositions.forEach((pos) -> setVines(world,replacer,pos));
+    public void generate(Generator generator) {
+        generator.getLogPositions().forEach((pos) -> setVines(generator.getWorld(),generator,pos));
     }
 
-    public void setVines(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer,BlockPos trunkPos){
+
+
+    public void setVines(TestableWorld world, Generator generator,BlockPos trunkPos){
         for(Direction direction: Direction.Type.HORIZONTAL){
-            setVineOnTrunk(world,replacer,trunkPos,direction);
+            setVineOnTrunk(world,generator,trunkPos,direction);
         }
     }
 
-    public void setVineOnTrunk(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, BlockPos trunkPos, Direction direction){
+    public void setVineOnTrunk(TestableWorld world, Generator generator, BlockPos trunkPos, Direction direction){
         BlockPos vinePos = trunkPos.offset(direction.getOpposite());
-        if (Feature.isAir(world, vinePos))
-            replacer.accept(vinePos,Blocks.VINE.getDefaultState().with(VineBlock.getFacingProperty(direction),true));
+        if (world.testBlockState(vinePos, AbstractBlock.AbstractBlockState::isAir))
+            generator.replace(vinePos,Blocks.VINE.getDefaultState().with(VineBlock.getFacingProperty(direction),true));
     }
 }

@@ -3,9 +3,11 @@ package me.juancarloscp52.bedrockify.mixin.client.features.panoramaBackground;
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.features.panoramaBackground.BedrockifyRotatingCubeMapRenderer;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gl.VertexBuffer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.pack.PackScreen;
 import net.minecraft.client.gui.widget.EntryListWidget;
+import net.minecraft.client.render.BufferRenderer;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Final;
@@ -42,7 +44,7 @@ public abstract class EntryListWidgetMixin {
             return;
         }
         tessellator.getBuffer().end();
-        tessellator.getBuffer().popData();
+//        tessellator.getBuffer().clear();
         tessellator.getBuffer().clear();
     }
 
@@ -57,7 +59,7 @@ public abstract class EntryListWidgetMixin {
     private void doNotDrawBars(Tessellator tessellator){
         if(this.client.currentScreen instanceof PackScreen && Bedrockify.getInstance().settings.isCubemapBackgroundEnabled()){
             tessellator.getBuffer().end();
-            tessellator.getBuffer().popData();
+//            tessellator.getBuffer().clear();
             tessellator.getBuffer().clear();
             return;
         }
@@ -69,7 +71,7 @@ public abstract class EntryListWidgetMixin {
     private void doNotDrawBarsShadows(Tessellator tessellator){
         if(this.client.currentScreen instanceof PackScreen && Bedrockify.getInstance().settings.isCubemapBackgroundEnabled()){
             tessellator.getBuffer().end();
-            tessellator.getBuffer().popData();
+//            tessellator.getBuffer().clear();
             tessellator.getBuffer().clear();
             return;
         }

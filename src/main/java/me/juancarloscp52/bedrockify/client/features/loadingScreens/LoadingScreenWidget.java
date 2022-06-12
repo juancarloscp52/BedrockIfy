@@ -48,11 +48,11 @@ public class LoadingScreenWidget extends DrawableHelper {
             int random = new Random().nextInt(TIPS_NUM+1)+1;
             if((random>TIPS_NUM || externalLoadingTips.alwaysExternalTips)&& externalLoadingTips.externalLoadingTips.length>0){
                 random = new Random().nextInt(externalLoadingTips.externalLoadingTips.length);
-                tip = new LiteralText(externalLoadingTips.externalLoadingTips[random]);
+                tip = Text.literal(externalLoadingTips.externalLoadingTips[random]);
             }else{
                 if(EXCLUDED_TIPS.contains(random))
                     return getTip();
-                tip = new TranslatableText("bedrockify.loadingTips." + random);//new LiteralText(tipTextSupplier.getRandomTip());
+                tip = Text.translatable("bedrockify.loadingTips." + random);//Text.literal(tipTextSupplier.getRandomTip());
             }
             lastTipUpdate = System.currentTimeMillis();
         }

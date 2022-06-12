@@ -11,7 +11,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -66,12 +65,12 @@ public abstract class ChatHudMixin extends DrawableHelper {
                 float chatScale = (float) this.getChatScale();
                 int scaledChatWidth = MathHelper.ceil((double)this.getWidth() / chatScale);
                 matrixStack.push();
-                matrixStack.translate(safeArea, (float) (48-MinecraftClient.getInstance().getWindow().getScaledHeight() + (counter1*(9.0D * chatScale* (this.client.options.chatLineSpacing + 1.0D))))+ posY, 0.0F);
+                matrixStack.translate(safeArea, (float) (48-MinecraftClient.getInstance().getWindow().getScaledHeight() + (counter1*(9.0D * chatScale* (this.client.options.getChatLineSpacing().getValue() + 1.0D))))+ posY, 0.0F);
                 matrixStack.scale(chatScale, chatScale, 1.0F);
-                double textOpacity = this.client.options.chatOpacity * 0.9D + 0.1D;
-                double backgroundOpacity = this.client.options.textBackgroundOpacity;
-                double chatLineSpacing1 = 9.0D * (this.client.options.chatLineSpacing + 1.0D);
-                double chatLineSpacing2 = -8.0D * (this.client.options.chatLineSpacing + 1.0D) + 4.0D * this.client.options.chatLineSpacing;
+                double textOpacity = this.client.options.getChtOpacity().getValue() * 0.9D + 0.1D;
+                double backgroundOpacity = this.client.options.getTextBackgroundOpacity().getValue();
+                double chatLineSpacing1 = 9.0D * (this.client.options.getChatLineSpacing().getValue() + 1.0D);
+                double chatLineSpacing2 = -8.0D * (this.client.options.getChatLineSpacing().getValue() + 1.0D) + 4.0D * this.client.options.getChatLineSpacing().getValue();
                 counter1 = 0; //Shown messages
 
                 for(int i = 0; i + this.scrolledLines < this.visibleMessages.size() && i < visibleLines; ++i) {
@@ -108,7 +107,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
                     fill(matrixStack, -2, 0, scaledChatWidth + 4, 9, backgroundOpacityFinal << 24);
                     RenderSystem.enableBlend();
                     matrixStack.translate(0.0D, 0.0D, 50.0D);
-                    this.client.textRenderer.drawWithShadow(matrixStack, new TranslatableText("chat.queue", this.messageQueue.size()), 2F, 1.0F, 16777215 + (textOpacityFinal << 24));
+                    this.client.textRenderer.drawWithShadow(matrixStack, Text.translatable("chat.queue", this.messageQueue.size()), 2F, 1.0F, 16777215 + (textOpacityFinal << 24));
                     matrixStack.pop();
                     RenderSystem.disableBlend();
                 }
@@ -143,7 +142,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
         if(this.isChatFocused() && !this.client.options.hudHidden && !this.isChatHidden() && !this.messageQueue.isEmpty()){
             int safeArea = settings.overlayIgnoresSafeArea? 0: settings.getScreenSafeArea();
             int posY = 2+settings.getPositionHUDHeight() + (settings.getPositionHUDHeight()<50? 50:0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) + safeArea;
-            double lineSize = 9.0D * (this.client.options.chatLineSpacing + 1.0D);
+            double lineSize = 9.0D * (this.client.options.getChatLineSpacing().getValue() + 1.0D);
             double chatX= x - safeArea;
             double chatY = posY+(counter1*lineSize) - y;
 
@@ -159,19 +158,19 @@ public abstract class ChatHudMixin extends DrawableHelper {
         }
     }
 
-    @Inject(method = "getText",at=@At("HEAD"),cancellable = true)
+    @Inject(method = "getTextStyleAt",at=@At("HEAD"),cancellable = true)
     public void getText(double x, double y, CallbackInfoReturnable<Style> info){
         if(!settings.isBedrockChatEnabled() || client.options.debugEnabled)
             return;
         int safeArea = settings.overlayIgnoresSafeArea? 0: settings.getScreenSafeArea();
         int posY = 2+settings.getPositionHUDHeight() + (settings.getPositionHUDHeight()<50? 50:0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) +  safeArea;
-        double lineSize = 9.0D * (this.client.options.chatLineSpacing + 1.0D);
+        double lineSize = 9.0D * (this.client.options.getChatLineSpacing().getValue() + 1.0D);
 
         if(this.isChatFocused() && !client.options.hudHidden && !this.isChatHidden()){
             double chatX = x - safeArea;
             double chatY = posY+(counter1*lineSize) - y;
             chatX= MathHelper.floor(chatX/this.getChatScale());
-            chatY = MathHelper.floor(chatY/ (this.getChatScale() * (this.client.options.chatLineSpacing + 1.0D)));
+            chatY = MathHelper.floor(chatY/ (this.getChatScale() * (this.client.options.getChatLineSpacing().getValue() + 1.0D)));
             if(chatX>=0.0D && chatY >= 0.0D){
                 int lines = Math.min(this.getVisibleLineCount(), this.visibleMessages.size());
                 if(chatX<= MathHelper.fastFloor(this.getWidth()/getChatScale())){
@@ -192,6 +191,6 @@ public abstract class ChatHudMixin extends DrawableHelper {
     private int getAvailableLines(){
         BedrockifySettings settings = Bedrockify.getInstance().settings;
         int posY = 2+settings.getPositionHUDHeight() + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) +  (settings.overlayIgnoresSafeArea? 0: settings.getScreenSafeArea());
-        return MathHelper.ceil((client.getWindow().getScaledHeight()-posY)/((this.client.options.chatLineSpacing + 1.0D)*9)) -2;
+        return MathHelper.ceil((client.getWindow().getScaledHeight()-posY)/((this.client.options.getChatLineSpacing().getValue() + 1.0D)*9)) -2;
     }
 }

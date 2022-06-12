@@ -6,7 +6,7 @@ import me.juancarloscp52.bedrockify.client.features.loadingScreens.LoadingScreen
 import net.minecraft.client.gui.screen.ProgressScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
+
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -42,7 +42,7 @@ public class ProgressScreenMixin extends Screen {
         } else if (this.task != null && this.progress != 0) {
             LoadingScreenWidget.getInstance().render(matrices, client.getWindow().getScaledWidth() / 2, client.getWindow().getScaledHeight() / 2, this.task, null, this.progress);
         } else {
-            LoadingScreenWidget.getInstance().render(matrices, client.getWindow().getScaledWidth() / 2, client.getWindow().getScaledHeight() / 2, new LiteralText(""), null, -1);
+            LoadingScreenWidget.getInstance().render(matrices, client.getWindow().getScaledWidth() / 2, client.getWindow().getScaledHeight() / 2, Text.literal(""), null, -1);
         }
 
         super.render(matrices, mouseX, mouseY, delta);

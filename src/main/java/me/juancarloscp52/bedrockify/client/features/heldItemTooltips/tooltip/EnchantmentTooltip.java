@@ -1,7 +1,8 @@
 package me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip;
 
 import net.minecraft.enchantment.Enchantment;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.Text;
 
 public class EnchantmentTooltip extends Tooltip {
     boolean showLevels=true;
@@ -13,10 +14,10 @@ public class EnchantmentTooltip extends Tooltip {
     }
 
     @Override
-    public TranslatableText getTooltipText(){
-        TranslatableText tooltip = new TranslatableText(this.translationKey);
+    public MutableText getTooltipText(){
+        MutableText tooltip = Text.translatable(this.translationKey);
         if(showLevels)
-            tooltip.append(" ").append(new TranslatableText("enchantment.level." + primaryValue));
+            tooltip.append(" ").append(Text.translatable("enchantment.level." + primaryValue));
         return tooltip;
     }
 }
