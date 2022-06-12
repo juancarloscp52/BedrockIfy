@@ -30,12 +30,12 @@
     "bedrockify.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.11.3",
-    "minecraft": "1.18.x",
+    "fabricloader": ">=0.14.7",
+    "minecraft": "1.19.x",
     "java":">=17"
   },
   "suggests": {
-    "modmenu": ">=3.0.0"
+    "modmenu": ">=4.0.0"
   },
   "conflicts": {
     "held-item-info": "*",
