@@ -105,7 +105,7 @@ public class HeldItemTooltips {
                 return getTooltipsFromShulkerBox(compoundTag);
             }
         } else if(currentStack.getItem() instanceof BundleItem){
-            if(currentStack.getTooltipData().isPresent()){
+            if(currentStack.getTooltipData().isPresent() && currentStack.isOf(Items.BUNDLE)){
                 return getTooltipsFromContainer(((BundleTooltipData)currentStack.getTooltipData().get()).getInventory());
             }
         }
