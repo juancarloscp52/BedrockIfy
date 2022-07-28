@@ -185,7 +185,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
     }
 
     // Apply screen borders to Titles, subtitles and other messages.
-    @ModifyArg(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I",ordinal = 0),index = 3)
+    @ModifyArg(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I",ordinal = 0),index = 3)
     public float modifyOverlayMessage(float y){
         return y-screenBorder;
     }

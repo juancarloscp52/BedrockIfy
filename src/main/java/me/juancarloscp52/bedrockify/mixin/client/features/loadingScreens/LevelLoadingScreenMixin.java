@@ -45,7 +45,7 @@ public abstract class LevelLoadingScreenMixin extends Screen {
         long l = Util.getMeasuringTimeMs();
         if (l - this.lastNarrationTime > 2000L) {
             this.lastNarrationTime = l;
-            NarratorManager.INSTANCE.narrate((Text.translatable("narrator.loading", new Object[]{string})).getString());
+            this.narrateScreenIfNarrationEnabled(true);
         }
 
         if (Bedrockify.getInstance().settings.isShowChunkMapEnabled())
