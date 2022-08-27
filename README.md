@@ -27,7 +27,8 @@ All Features are customizable through the In-Game BedrockIfy Settings Menu!
 ![Rotating background on all screens](https://github.com/juancarloscp52/BedrockIfy/blob/master/readme%20images/menu.gif)
 
 ## Installation:
-This mod requires [Fabric](https://fabricmc.net/use/) and [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api). You can download BedrockIfy from the _[releases](https://github.com/juancarloscp52/BedrockIfy/releases)_ tab in GitHub or through the CurseForge page.
+This mod requires [Fabric](https://fabricmc.net/use/) and [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api), or [Quilt](https://quiltmc.org/install/) with the [Quilted Fabric API](https://modrinth.com/mod/qsl) 
+You can download BedrockIfy from the _[releases](https://github.com/juancarloscp52/BedrockIfy/releases)_ tab in GitHub, through the [CurseForge](https://www.curseforge.com/minecraft/mc-mods/bedrockify) page or [Modrinth](https://modrinth.com/mod/bedrockify).
 Drop BedrockIfy and Fabric API JARs inside the mods folder.
 ## Building from source:
 Under Linux / Mac OS
@@ -46,14 +47,14 @@ You can find the built JARs inside BedrockIfy/build/libs
 
 ## Enhancing your Bedrock-like experience
 
-Here is a list of other Fabric Mods that can improve your BedrockLike Experience:
-- [LambdaControls](https://github.com/LambdAurora/LambdaControls) - Enables Controller support and other useful tweaks.
+Here is a list of other Fabric Mods that can improve your BedrockLike Experience: (Note: some of these might not be updated to the latest version.)
+- [MidnightControls](https://github.com/TeamMidnightDust/MidnightControls) - Enables Controller support and other useful tweaks.
+- [Sheep Consistency](https://github.com/IMS212/sheepconsistency) Let's you see the color of sheared sheep.
 - [BedrockWaters](https://github.com/2Retr0/BedrockWaters) - Ports all Bedrock Edition biome specific water color.
 - [Snowy Leaves](https://github.com/Ashley1227/snowy-leaves) - Leaves will turn white while snowing.
-- [TelePistons](https://www.curseforge.com/minecraft/mc-mods/telepistons) - This mod adds the  telescopic piston arm animation from Bedrock Edition.
 - [Fade In Chunks](https://github.com/johni0702/fade-in-chunks) Adds a Bedrock Edition style fading in animation for newly loaded chunks.
-- [Sheep Consistency](https://github.com/Crupette/sheepconsistency) Let's you see the color of sheared sheep.
 
+If you wish to have bedrock's unique textures/models you can check out the Parity section of [VanillaTweaks](https://vanillatweaks.net/picker/resource-packs/)
 
 ## License
 Bedrockify is released under the free and open-source [GPL-3.0 License](https://github.com/juancarloscp52/BedrockIfy/blob/master/LICENSE).
