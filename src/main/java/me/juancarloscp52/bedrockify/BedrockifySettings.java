@@ -1,7 +1,15 @@
 package me.juancarloscp52.bedrockify;
 
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.screen.Screen;
+
+import java.util.Arrays;
+import java.util.List;
+
 public class BedrockifySettings {
+
+    public final static List<String> PANORAMA_IGNORED_SCREENS = Arrays.asList(".modmenu.gui.ModsScreen",".iris.gui.", ".modmanager.gui.","net.minecraft.class_5522", "yacl.gui.YACLScreen");
     public boolean loadingScreen = true;
     public boolean bedrockIfyButton = true;
     public boolean showPositionHUD = true;
@@ -38,6 +46,20 @@ public class BedrockifySettings {
     public boolean fireAspectLight = true;
     public boolean disableFlyingMomentum = true;
 
+    public List<String> panoramaIgnoredScreens = PANORAMA_IGNORED_SCREENS;
+
+    public boolean panoramaIgnoreScreen(Screen screen){
+        if(null != screen){
+            // Check If screen is in ignore list.
+            for(String screenName : panoramaIgnoredScreens){
+                if(screen.getClass().getName().contains(screenName.trim()))
+                    return true;
+            }
+            // check for language reload screen.
+            return FabricLoader.getInstance().isModLoaded("languagereload") && screen.getClass().getName().contains("net.minecraft.class_426");
+        }
+        return false;
+    }
 
     public boolean isSneakingShieldEnabled(){
         return this.sneakingShield;

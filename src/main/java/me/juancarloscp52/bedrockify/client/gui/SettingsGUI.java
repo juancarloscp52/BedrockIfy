@@ -27,6 +27,7 @@ public class SettingsGUI {
         });
         ConfigCategory general = builder.getOrCreateCategory(Text.literal("General"));
         ConfigCategory mixins = builder.getOrCreateCategory(Text.literal("Mixins"));
+        ConfigCategory panorama = builder.getOrCreateCategory(Text.literal("Panorama Screens"));
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
         SubCategoryBuilder bedrockOverlay = entryBuilder.startSubCategory(Text.translatable("bedrockify.options.subCategory.bedrockOverlay"));
         bedrockOverlay.add(entryBuilder.startTextDescription(Text.translatable("bedrockify.options.subCategory.bedrockOverlay.description")).build());
@@ -75,7 +76,6 @@ public class SettingsGUI {
         general.addEntry(reachAround.build());
         SubCategoryBuilder otherSettings = entryBuilder.startSubCategory(Text.translatable("bedrockify.options.subCategory.other"));
         otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.loadingScreenChunkMap"), settings.showChunkMap).setTooltip(wrapLines(Text.translatable("bedrockify.options.loadingScreenChunkMap.tooltip"))).setDefaultValue(false).setSaveConsumer(newValue -> settings.showChunkMap=newValue).build());
-        otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.rotationalBackground"), settings.cubeMapBackground).setDefaultValue(true).setTooltip(wrapLines(Text.translatable("bedrockify.options.rotationalBackground.tooltip"))).setSaveConsumer(newValue -> settings.cubeMapBackground=newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.showBedrockIfyButton"), settings.bedrockIfyButton).setDefaultValue(true).setTooltip(wrapLines(Text.translatable("bedrockify.options.showBedrockIfyButton.tooltip"))).setSaveConsumer(newValue -> settings.bedrockIfyButton=newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.quickArmorSwap"), settings.quickArmorSwap).setDefaultValue(true).setSaveConsumer(newValue -> settings.quickArmorSwap=newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.dyingTrees"), settings.dyingTrees).setDefaultValue(true).setSaveConsumer(newValue -> settings.dyingTrees=newValue).build());
@@ -83,15 +83,16 @@ public class SettingsGUI {
         otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.disableFlyingMomentum"), settings.disableFlyingMomentum).setDefaultValue(true).setSaveConsumer(newValue -> settings.disableFlyingMomentum =newValue).build());
 
         //        otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.sneakingShield"), settings.sneakingShield).setDefaultValue(true).setSaveConsumer(newValue -> settings.sneakingShield=newValue).build());
-
-
         general.addEntry(otherSettings.build());
         general.addEntry(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.recipes"), settings.bedrockRecipes).setTooltip(wrapLines(Text.translatable("bedrockify.options.recipes.tooltip"))).setDefaultValue(true).setSaveConsumer(newValue -> settings.bedrockRecipes=newValue).build());
+
         mixins.addEntry(entryBuilder.startTextDescription(Text.translatable("bedrockify.options.mixins.description")).build());
         for(Map.Entry<String, Boolean> elem : MixinFeatureManager.features.entrySet()){
             mixins.addEntry(entryBuilder.startBooleanToggle(Text.translatable(elem.getKey()), elem.getValue()).setDefaultValue(true).setSaveConsumer(newValue -> MixinFeatureManager.features.put(elem.getKey(),newValue)).build());
         }
 
+        panorama.addEntry(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.rotationalBackground"), settings.cubeMapBackground).setDefaultValue(true).setTooltip(wrapLines(Text.translatable("bedrockify.options.rotationalBackground.tooltip"))).setSaveConsumer(newValue -> settings.cubeMapBackground=newValue).build());
+        panorama.addEntry(entryBuilder.startStrList(Text.translatable("bedrockify.options.panorama.list"),settings.panoramaIgnoredScreens).setDefaultValue(BedrockifySettings.PANORAMA_IGNORED_SCREENS).setTooltip(wrapLines(Text.translatable("bedrockify.options.panorama.list.tooltip"))).setSaveConsumer(strings -> settings.panoramaIgnoredScreens=strings).build());
         return builder.setTransparentBackground(isTransparent).build();
     }
 

@@ -26,7 +26,7 @@ public abstract class EntryListWidgetMixin {
 
     @Redirect(method = "render", at=@At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/EntryListWidget;renderBackground(Lnet/minecraft/client/util/math/MatrixStack;)V"))
     private void renderPanorama(EntryListWidget entryListWidget, MatrixStack matrices){
-        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || shouldIgnoreScreen() || this.client.currentScreen.getClass().getName().equals("net.minecraft.class_5522")) {
+        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || shouldIgnoreScreen() /*|| this.client.currentScreen.getClass().getName().equals("net.minecraft.class_5522")*/) {
             this.renderBackground(matrices);
             return;
         }
@@ -46,8 +46,9 @@ public abstract class EntryListWidgetMixin {
     }
 
     private boolean shouldIgnoreScreen() {
-        return this.client.currentScreen.getClass().getName().contains(".modmenu.gui.ModsScreen")/* Mod Menu*/ ||
-                this.client.currentScreen.getClass().getName().contains(".iris.gui.") /* Iris Shaders Compat*/ ||
-                this.client.currentScreen.getClass().getName().contains(".modmanager.gui."); /* Mod Manager */
+//        return this.client.currentScreen.getClass().getName().contains(".modmenu.gui.ModsScreen")/* Mod Menu*/ ||
+//                this.client.currentScreen.getClass().getName().contains(".iris.gui.") /* Iris Shaders Compat*/ ||
+//                this.client.currentScreen.getClass().getName().contains(".modmanager.gui."); /* Mod Manager */
+        return Bedrockify.getInstance().settings.panoramaIgnoreScreen(this.client.currentScreen);
     }
 }
