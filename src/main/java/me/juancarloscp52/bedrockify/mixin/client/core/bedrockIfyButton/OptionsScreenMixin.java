@@ -2,10 +2,10 @@ package me.juancarloscp52.bedrockify.mixin.client.core.bedrockIfyButton;
 
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.text.Text;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -24,7 +24,11 @@ public class OptionsScreenMixin extends Screen {
      */
     @Inject(method = "init", at = @At("HEAD"))
     private void addBedrockifyOption(CallbackInfo info) {
-        if(Bedrockify.getInstance().settings.isBedrockIfyButtonEnabled())
-            this.addDrawableChild(new ButtonWidget(this.width / 2 - 155, this.height / 6 + 145 - 6, 310, 20, Text.translatable("bedrockify.options.settings"), (buttonWidget) -> this.client.setScreen(BedrockifyClient.getInstance().settingsGUI.getConfigScreen(this,this.client.world != null))));
+        if(Bedrockify.getInstance().settings.isBedrockIfyButtonEnabled()){
+            int width = 310;
+            if(FabricLoader.getInstance().isModLoaded("essential"))
+                width = 150;
+            this.addDrawableChild(new ButtonWidget(this.width / 2 - 155, this.height / 6 + 144 - 6, width, 20, Text.translatable("bedrockify.options.settings"), (buttonWidget) -> this.client.setScreen(BedrockifyClient.getInstance().settingsGUI.getConfigScreen(this,this.client.world != null))));
+        }
     }
 }
