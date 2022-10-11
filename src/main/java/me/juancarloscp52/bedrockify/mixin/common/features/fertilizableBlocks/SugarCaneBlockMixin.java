@@ -20,9 +20,6 @@ public class SugarCaneBlockMixin implements Fertilizable {
     public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
         int below = countSugarCaneBelow(world,pos);
         int above = countSugarCaneAbove(world,pos);
-        System.out.println("Blocks above: " + above);
-        System.out.println("Blocks below: " + below);
-        System.out.println((below+above)<2);
         return (below+above)<2;
     }
 
