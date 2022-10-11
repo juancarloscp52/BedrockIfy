@@ -52,7 +52,7 @@ public class PaperDoll {
             if (client.player.isSneaking() || client.player.isSubmergedInWater() || client.player.getPose().equals(EntityPose.SWIMMING) || client.player.isSprinting() || client.player.getAbilities().flying || client.player.isFallFlying() || client.player.isBlocking() || client.player.isUsingItem() || (supportsCrawling && client.player.getPose() == EntityPose.valueOf("CRAWLING")))
                 lastTimeShown = System.currentTimeMillis();
 
-            // If the difference between the current game ticks and showTicks is less than a 100 ticks, draw the player entity.
+            // If the difference between the current game ticks and showTicks is less than 100 ticks, draw the player entity.
             if ((!client.player.isRiding() && !client.player.isSleeping() && System.currentTimeMillis() - lastTimeShown < 2000))
                 drawPaperDoll(matrixStack);
         }
