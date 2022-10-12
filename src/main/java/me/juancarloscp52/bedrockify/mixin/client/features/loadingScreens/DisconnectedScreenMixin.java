@@ -1,6 +1,6 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.loadingScreens;
 
-import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.loadingScreens.LoadingScreenWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Drawable;
@@ -34,7 +34,7 @@ public class DisconnectedScreenMixin extends Screen {
      */
     @Redirect(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/DisconnectedScreen;addDrawableChild(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;"))
     public <T extends Element & Drawable & Selectable> T addDrawableChild(DisconnectedScreen disconnectedScreen, T drawableElement) {
-        if(Bedrockify.getInstance().settings.isLoadingScreenEnabled()){
+        if(BedrockifyClient.getInstance().settings.isLoadingScreenEnabled()){
             return (T) this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, (int) Math.ceil(MinecraftClient.getInstance().getWindow().getScaledHeight() * 0.75D), 200, 20, Text.translatable("gui.toMenu"),
                     (buttonWidget) -> this.client.setScreen(this.parent)));
         }else{
@@ -48,7 +48,7 @@ public class DisconnectedScreenMixin extends Screen {
      */
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo info) {
-        if(!Bedrockify.getInstance().settings.isLoadingScreenEnabled())
+        if(!BedrockifyClient.getInstance().settings.isLoadingScreenEnabled())
             return;
         this.renderBackground(matrices);
         LoadingScreenWidget.getInstance().render(matrices, width / 2, height / 2, this.title, this.reason, -1);

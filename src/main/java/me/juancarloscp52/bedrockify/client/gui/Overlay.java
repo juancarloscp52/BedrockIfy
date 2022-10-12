@@ -1,8 +1,7 @@
 package me.juancarloscp52.bedrockify.client.gui;
 
-import me.juancarloscp52.bedrockify.Bedrockify;
-import me.juancarloscp52.bedrockify.BedrockifySettings;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import me.juancarloscp52.bedrockify.client.BedrockifyClientSettings;
 import me.juancarloscp52.bedrockify.client.features.paperDoll.PaperDoll;
 import me.juancarloscp52.bedrockify.client.features.savingOverlay.SavingOverlay;
 import net.minecraft.client.MinecraftClient;
@@ -50,7 +49,7 @@ public class Overlay {
     }
 
     private void renderPositionText(MatrixStack matrixStack) {
-        BedrockifySettings settings = Bedrockify.getInstance().settings;
+        BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
         int screenBorder = settings.overlayIgnoresSafeArea ? 0 : settings.getScreenSafeArea();
         int posY = settings.getPositionHUDHeight();
         if (!settings.isShowPositionHUDEnabled())
@@ -65,7 +64,7 @@ public class Overlay {
     }
 
     private void renderFpsText(MatrixStack matrixStack) {
-        BedrockifySettings settings = Bedrockify.getInstance().settings;
+        BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
         int screenBorder = settings.overlayIgnoresSafeArea ? 0 : settings.getScreenSafeArea();
         int posY = settings.getPositionHUDHeight();
         boolean positionEnabled = settings.isShowPositionHUDEnabled();

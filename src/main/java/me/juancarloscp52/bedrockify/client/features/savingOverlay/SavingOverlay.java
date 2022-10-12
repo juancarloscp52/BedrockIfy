@@ -1,9 +1,8 @@
 package me.juancarloscp52.bedrockify.client.features.savingOverlay;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.juancarloscp52.bedrockify.Bedrockify;
-import me.juancarloscp52.bedrockify.BedrockifySettings;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import me.juancarloscp52.bedrockify.client.BedrockifyClientSettings;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.util.math.MatrixStack;
@@ -19,7 +18,7 @@ public class SavingOverlay extends DrawableHelper {
     private final MinecraftClient client = MinecraftClient.getInstance();
 
     public void render(MatrixStack matrixStack){
-        final BedrockifySettings settings = Bedrockify.getInstance().settings;
+        final BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
         if(saving || System.currentTimeMillis()-timer<3000){
             RenderSystem.setShaderTexture(0,WIDGET_TEXTURE);
             RenderSystem.setShaderColor(1,1,1,1);

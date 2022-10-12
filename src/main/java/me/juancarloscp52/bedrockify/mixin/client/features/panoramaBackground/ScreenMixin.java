@@ -1,6 +1,6 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.panoramaBackground;
 
-import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.panoramaBackground.BedrockifyRotatingCubeMapRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
@@ -20,7 +20,7 @@ public abstract class ScreenMixin {
      */
     @Inject(method = "renderBackgroundTexture", at = @At("HEAD"), cancellable = true)
     public void renderTexture(CallbackInfo info) {
-        if(!Bedrockify.getInstance().settings.isCubemapBackgroundEnabled() || Bedrockify.getInstance().settings.panoramaIgnoreScreen(this.client.currentScreen) /*|| this.client.currentScreen.getClass().getName().contains(".modmanager.gui.") /* Mod Manager */)
+        if(!BedrockifyClient.getInstance().settings.isCubemapBackgroundEnabled() || BedrockifyClient.getInstance().settings.panoramaIgnoreScreen(this.client.currentScreen) /*|| this.client.currentScreen.getClass().getName().contains(".modmanager.gui.") /* Mod Manager */)
             return;
         BedrockifyRotatingCubeMapRenderer.getInstance().render();
         info.cancel();

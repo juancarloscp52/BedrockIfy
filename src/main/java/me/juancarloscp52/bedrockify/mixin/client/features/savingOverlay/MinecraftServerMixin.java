@@ -1,6 +1,5 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.savingOverlay;
 
-import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.server.MinecraftServer;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,13 +18,13 @@ public abstract class MinecraftServerMixin {
 
     @Inject(method = "save", at= @At("HEAD"))
     private void startSaving(CallbackInfoReturnable<Boolean> info){
-        if(!this.isDedicated() && Bedrockify.getInstance().settings.isSavingOverlayEnabled())
+        if(!this.isDedicated() && BedrockifyClient.getInstance().settings.isSavingOverlayEnabled())
             BedrockifyClient.getInstance().overlay.savingOverlay.setSaving(true);
     }
 
     @Inject(method = "save", at= @At("RETURN"))
     private void stopSaving(CallbackInfoReturnable<Boolean> info){
-        if(!this.isDedicated() && Bedrockify.getInstance().settings.isSavingOverlayEnabled())
+        if(!this.isDedicated() && BedrockifyClient.getInstance().settings.isSavingOverlayEnabled())
             BedrockifyClient.getInstance().overlay.savingOverlay.setSaving(false);
     }
 }

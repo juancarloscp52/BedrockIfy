@@ -1,5 +1,6 @@
 package me.juancarloscp52.bedrockify.client;
 
+import com.google.gson.Gson;
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockBlockShading;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.HeldItemTooltips;
@@ -26,6 +27,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
 
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class BedrockifyClient implements ClientModInitializer {
 
     private static BedrockifyClient instance;
@@ -39,12 +45,16 @@ public class BedrockifyClient implements ClientModInitializer {
     public long deltaTime = 0;
     private int timeFlying = 0;
     private static KeyBinding keyBinding;
+
+    public BedrockifyClientSettings settings;
+
     public static BedrockifyClient getInstance() {
         return instance;
     }
-
     @Override
     public void onInitializeClient() {
+        instance = this;
+        loadSettings();
         LOGGER.info("Initializing BedrockIfy Client.");
         overlay = new Overlay((MinecraftClient.getInstance()));
         reachAroundPlacement = new ReachAroundPlacement(MinecraftClient.getInstance());
@@ -71,7 +81,7 @@ public class BedrockifyClient implements ClientModInitializer {
         });
 
         UseItemCallback.EVENT.register((playerEntity, world, hand) -> {
-            if(Bedrockify.getInstance().settings.isQuickArmorSwapEnabled())
+            if(settings.isQuickArmorSwapEnabled())
                 return ArmorReplacer.tryChangeArmor(playerEntity,hand);
             return TypedActionResult.pass(playerEntity.getStackInHand(hand));
         });
@@ -82,7 +92,7 @@ public class BedrockifyClient implements ClientModInitializer {
             }
 
             // Stop flying drift
-            if(Bedrockify.getInstance().settings.disableFlyingMomentum && null != client.player && client.player.getAbilities().flying){
+            if(settings.disableFlyingMomentum && null != client.player && client.player.getAbilities().flying){
                 if(!(client.options.leftKey.isPressed() || client.options.backKey.isPressed() ||client.options.rightKey.isPressed() ||client.options.forwardKey.isPressed())){
                     client.player.setVelocity(0,client.player.getVelocity().getY(),0);
                 }
@@ -93,7 +103,7 @@ public class BedrockifyClient implements ClientModInitializer {
             }
 
             // Stop elytra flying by pressing space
-            if(null != client.player && Bedrockify.getInstance().settings.elytraStop && client.player.isFallFlying() && timeFlying > 10 && client.options.jumpKey.isPressed()){
+            if(null != client.player && settings.elytraStop && client.player.isFallFlying() && timeFlying > 10 && client.options.jumpKey.isPressed()){
                 client.player.stopFallFlying();
                 client.player.networkHandler.sendPacket(new ClientCommandC2SPacket(client.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
             }
@@ -103,7 +113,37 @@ public class BedrockifyClient implements ClientModInitializer {
                 timeFlying = 0;
 
         });
-        instance = this;
         LOGGER.info("Initialized BedrockIfy Client");
+    }
+
+    public void loadSettings() {
+        File file = new File("./config/bedrockifyClient.json");
+        Gson gson = new Gson();
+        if (file.exists()) {
+            try {
+                FileReader fileReader = new FileReader(file);
+                settings = gson.fromJson(fileReader, BedrockifyClientSettings.class);
+                fileReader.close();
+            } catch (IOException e) {
+                LOGGER.warn("Could not load bedrockIfy settings: " + e.getLocalizedMessage());
+            }
+        } else {
+            settings = new BedrockifyClientSettings();
+        }
+    }
+
+    public void saveSettings() {
+        Gson gson = new Gson();
+        File file = new File("./config/bedrockifyClient.json");
+        if (!file.getParentFile().exists()) {
+            file.getParentFile().mkdir();
+        }
+        try {
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write(gson.toJson(settings));
+            fileWriter.close();
+        } catch (IOException e) {
+            LOGGER.warn("Could not save bedrockIfy settings: " + e.getLocalizedMessage());
+        }
     }
 }

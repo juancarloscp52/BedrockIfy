@@ -2,8 +2,8 @@ package me.juancarloscp52.bedrockify.mixin.client.features.slotHighlight;
 
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.juancarloscp52.bedrockify.Bedrockify;
-import me.juancarloscp52.bedrockify.BedrockifySettings;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import me.juancarloscp52.bedrockify.client.BedrockifyClientSettings;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.screen.Screen;
@@ -29,7 +29,7 @@ public abstract class HandledScreenMixin extends DrawableHelper {
      */
     @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;drawSlotHighlight(Lnet/minecraft/client/util/math/MatrixStack;III)V"))
     protected void renderGuiQuad(MatrixStack matrices, int x, int y, int color) {
-        BedrockifySettings settings = Bedrockify.getInstance().settings;
+        BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
         if(!settings.isSlotHighlightEnabled()){
             RenderSystem.disableDepthTest();
             RenderSystem.colorMask(true, true, true, false);

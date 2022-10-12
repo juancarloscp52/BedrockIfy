@@ -1,6 +1,6 @@
 package me.juancarloscp52.bedrockify.client.features.reacharoundPlacement;
 
-import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -23,7 +23,7 @@ public class ReachAroundPlacement {
     }
 
     public void renderIndicator(MatrixStack matrixStack) {
-        if (Bedrockify.getInstance().settings.isReacharoundIndicatorEnabled() && Bedrockify.getInstance().settings.isReacharoundEnabled() && (client.isInSingleplayer() || Bedrockify.getInstance().settings.isReacharoundMultiplayerEnabled()) && this.canReachAround() ) {
+        if (BedrockifyClient.getInstance().settings.isReacharoundIndicatorEnabled() && BedrockifyClient.getInstance().settings.isReacharoundEnabled() && (client.isInSingleplayer() || BedrockifyClient.getInstance().settings.isReacharoundMultiplayerEnabled()) && this.canReachAround() ) {
             fill(matrixStack, (client.getWindow().getScaledWidth() / 2) - 5, (client.getWindow().getScaledHeight() / 2) + 5, (client.getWindow().getScaledWidth() / 2) + 4, (client.getWindow().getScaledHeight() / 2) + 6, (100 << 24) + (255 << 8));
         }
     }
@@ -31,7 +31,7 @@ public class ReachAroundPlacement {
     private boolean canReachAround() {
         if (client.player == null || client.world == null || client.crosshairTarget == null)
             return false;
-        return (client.player.isSneaking() || !Bedrockify.getInstance().settings.isReacharoundSneakingEnabled()) && client.player.getPitch() > Bedrockify.getInstance().settings.getReacharoundPitchAngle() && (!(client.world.getBlockState(client.player.getBlockPos().down()).isAir() || client.world.getBlockState(client.player.getBlockPos().down()).getBlock() instanceof FluidBlock) || isNonFullBlock()) && client.crosshairTarget.getType().equals(HitResult.Type.MISS) && checkRelativeBlockPosition() && ((client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof FluidBlock) || (client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof AirBlock));
+        return (client.player.isSneaking() || !BedrockifyClient.getInstance().settings.isReacharoundSneakingEnabled()) && client.player.getPitch() > BedrockifyClient.getInstance().settings.getReacharoundPitchAngle() && (!(client.world.getBlockState(client.player.getBlockPos().down()).isAir() || client.world.getBlockState(client.player.getBlockPos().down()).getBlock() instanceof FluidBlock) || isNonFullBlock()) && client.crosshairTarget.getType().equals(HitResult.Type.MISS) && checkRelativeBlockPosition() && ((client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof FluidBlock) || (client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof AirBlock));
     }
 
     private boolean isNonFullBlock(){
@@ -48,7 +48,7 @@ public class ReachAroundPlacement {
     }
 
     private boolean checkRelativeBlockPosition(double pos, float direction) {
-        double distance = Bedrockify.getInstance().settings.getReacharoundBlockDistance();
+        double distance = BedrockifyClient.getInstance().settings.getReacharoundBlockDistance();
         if (direction > 0) {
             return 1-pos < distance;
         } else if (direction < 0) {

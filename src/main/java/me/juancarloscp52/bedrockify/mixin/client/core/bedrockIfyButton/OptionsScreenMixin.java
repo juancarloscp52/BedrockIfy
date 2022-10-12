@@ -1,6 +1,5 @@
 package me.juancarloscp52.bedrockify.mixin.client.core.bedrockIfyButton;
 
-import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screen.Screen;
@@ -24,7 +23,7 @@ public class OptionsScreenMixin extends Screen {
      */
     @Inject(method = "init", at = @At("HEAD"))
     private void addBedrockifyOption(CallbackInfo info) {
-        if(Bedrockify.getInstance().settings.isBedrockIfyButtonEnabled()){
+        if(BedrockifyClient.getInstance().settings.isBedrockIfyButtonEnabled()){
             int width = 310;
             if(FabricLoader.getInstance().isModLoaded("essential"))
                 width = 150;

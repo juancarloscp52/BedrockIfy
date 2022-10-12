@@ -1,6 +1,6 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.loadingScreens;
 
-import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.loadingScreens.LoadingScreenWidget;
 import net.minecraft.client.gui.screen.ProgressScreen;
 import net.minecraft.client.gui.screen.Screen;
@@ -27,7 +27,7 @@ public class ProgressScreenMixin extends Screen {
      */
     @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ProgressScreen;renderBackground(Lnet/minecraft/client/util/math/MatrixStack;)V"), cancellable = true)
     public void renderLoadScreen(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo info) {
-        if(!Bedrockify.getInstance().settings.isLoadingScreenEnabled()){
+        if(!BedrockifyClient.getInstance().settings.isLoadingScreenEnabled()){
             return;
         }
         this.renderBackground(matrices);

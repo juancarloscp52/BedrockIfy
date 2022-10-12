@@ -14,8 +14,8 @@ import java.io.IOException;
 
 public class Bedrockify implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
-    private static Bedrockify instance;
     public BedrockifySettings settings;
+    private static Bedrockify instance;
     public static final Identifier EAT_PARTICLES = new Identifier("bedrockify", "eat-particles");
     public static Bedrockify getInstance() {
         return instance;
@@ -30,7 +30,7 @@ public class Bedrockify implements ModInitializer {
     }
 
     public void loadSettings() {
-        File file = new File("./config/bedrockify.json");
+        File file = new File("./config/bedrockifyCommon.json");
         Gson gson = new Gson();
         if (file.exists()) {
             try {
@@ -47,7 +47,7 @@ public class Bedrockify implements ModInitializer {
 
     public void saveSettings() {
         Gson gson = new Gson();
-        File file = new File("./config/bedrockify.json");
+        File file = new File("./config/bedrockifyCommon.json");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdir();
         }

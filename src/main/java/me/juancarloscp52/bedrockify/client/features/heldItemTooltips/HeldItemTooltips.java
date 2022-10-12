@@ -1,7 +1,7 @@
 package me.juancarloscp52.bedrockify.client.features.heldItemTooltips;
 
-import me.juancarloscp52.bedrockify.Bedrockify;
-import me.juancarloscp52.bedrockify.BedrockifySettings;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import me.juancarloscp52.bedrockify.client.BedrockifyClientSettings;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.ContainerTooltip;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.EnchantmentTooltip;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.PotionTooltip;
@@ -36,11 +36,11 @@ public class HeldItemTooltips {
     private final int  tooltipSize = 6;
 
     public int drawItemWithCustomTooltips(TextRenderer fontRenderer, MatrixStack matrices, Text text, float x, float y, int color, ItemStack currentStack) {
-        int screenBorder = Bedrockify.getInstance().settings.getScreenSafeArea();
+        int screenBorder = BedrockifyClient.getInstance().settings.getScreenSafeArea();
         // Get the current held item tooltips.
         List<Tooltip> tooltips = getTooltips(currentStack);
         int tooltipOffset = 0;
-        BedrockifySettings settings = Bedrockify.getInstance().settings;
+        BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
 
         // Draw item tooltips if the option is enabled.
         if(settings.getHeldItemTooltip()>0) {

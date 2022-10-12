@@ -1,8 +1,8 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.biggerDraggingItem;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.juancarloscp52.bedrockify.Bedrockify;
-import me.juancarloscp52.bedrockify.BedrockifySettings;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import me.juancarloscp52.bedrockify.client.BedrockifyClientSettings;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
@@ -19,7 +19,7 @@ public abstract class HandledScreenMixin {
 
     @Redirect(method = "render", at= @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;drawItem(Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V"))
     private void drawBiggerItem(HandledScreen handledScreen, ItemStack stack, int xPosition, int yPosition, String amountText){
-        BedrockifySettings settings = Bedrockify.getInstance().settings;
+        BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
         if(!settings.isBiggerIconsEnabled()){
             this.drawItem(stack, xPosition, yPosition, amountText);
             return;

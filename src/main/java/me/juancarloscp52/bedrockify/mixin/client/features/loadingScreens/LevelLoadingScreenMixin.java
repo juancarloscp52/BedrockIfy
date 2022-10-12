@@ -1,6 +1,6 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.loadingScreens;
 
-import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.loadingScreens.LoadingScreenWidget;
 import net.minecraft.client.gui.WorldGenerationProgressTracker;
 import net.minecraft.client.gui.screen.LevelLoadingScreen;
@@ -32,7 +32,7 @@ public abstract class LevelLoadingScreenMixin extends Screen {
      */
     @Inject(method = "render", at = @At("HEAD"), cancellable = true)
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo info) {
-        if(!Bedrockify.getInstance().settings.isLoadingScreenEnabled())
+        if(!BedrockifyClient.getInstance().settings.isLoadingScreenEnabled())
             return;
         this.renderBackground(matrices);
         int xPosition = this.width / 2;
@@ -46,7 +46,7 @@ public abstract class LevelLoadingScreenMixin extends Screen {
             this.narrateScreenIfNarrationEnabled(true);
         }
 
-        if (Bedrockify.getInstance().settings.isShowChunkMapEnabled())
+        if (BedrockifyClient.getInstance().settings.isShowChunkMapEnabled())
             drawChunkMap(matrices, this.progressProvider, xPosition, yPosition + yPosition / 2 + 89 / 4, 1, 0);
 
         info.cancel();

@@ -1,6 +1,6 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.eatingAnimations;
 
-import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.model.BipedEntityModel;
 import net.minecraft.client.render.entity.model.PlayerEntityModel;
@@ -31,7 +31,7 @@ public class PlayerEntityModelMixin <T extends LivingEntity> extends BipedEntity
 
     @Inject(method = "setAngles", at=@At("TAIL"))
     private void applyEatingAnimation(T livingEntity, float f, float g, float h, float i, float j, CallbackInfo info){
-        if(!Bedrockify.getInstance().settings.isEatingAnimationsEnabled())
+        if(!BedrockifyClient.getInstance().settings.isEatingAnimationsEnabled())
             return;
         if(livingEntity.getMainArm() == Arm.RIGHT){
             playEatingAnimation(livingEntity, Hand.MAIN_HAND, livingEntity.getMainHandStack(), h, true);

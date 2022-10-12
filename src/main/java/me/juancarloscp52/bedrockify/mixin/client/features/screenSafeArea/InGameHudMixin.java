@@ -1,7 +1,7 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.screenSafeArea;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.font.TextRenderer;
@@ -23,7 +23,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
      */
     @Inject(method = "render", at = @At("HEAD"))
     private void setScreenBorder(CallbackInfo info) {
-        this.screenBorder = Bedrockify.getInstance().settings.getScreenSafeArea();
+        this.screenBorder = BedrockifyClient.getInstance().settings.getScreenSafeArea();
     }
 
     /**
@@ -32,7 +32,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
     @Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
     private void drawTextureHotbar(InGameHud inGameHud, MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
         if((width ==29 && height == 24) || width == 182){
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, Bedrockify.getInstance().settings.isTransparentHotBarEnabled()? 0.6F:1.0F);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, BedrockifyClient.getInstance().settings.isTransparentHotBarEnabled()? 0.6F:1.0F);
             inGameHud.drawTexture(matrices, x, y - screenBorder, u, v, width, height);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         }else{
@@ -61,7 +61,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
      */
     @Redirect(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Ljava/lang/String;FFI)I"))
     private int drawExperienceBar(TextRenderer fontRenderer, MatrixStack matrices, String text, float x, float y, int color) {
-        if(!Bedrockify.getInstance().settings.isExpTextStyle()){
+        if(!BedrockifyClient.getInstance().settings.isExpTextStyle()){
             return fontRenderer.draw(matrices, text, x, y-screenBorder, color);
         }
 
