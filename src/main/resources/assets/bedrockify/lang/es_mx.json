@@ -62,6 +62,8 @@
   "bedrockify.options.disableFlyingMomentum": "Deshabilitar momento al volar",
   "bedrockify.options.panorama.list": "Desactivar fondo panorama en las pantallas:",
   "bedrockify.options.panorama.list.tooltip": "Desactiva el fondo panorama de las pantallas cuyo nombre de clase contenga una parte de los textos de la lista.",
+  "bedrockify.options.elytraStop": "Parar vuelo de Élitros:",
+  "bedrockify.options.elytraStop.tooltip": "Presiona espacio para parar el vuelo con élitros estando en el aire.",
   "bedrockify.loadingTips.1":"Usa fondo marino para atraer y alimentar a las tortugas marinas.",
   "bedrockify.loadingTips.2":"¡Protege a las tortugas bebé de las criaturas enemigas!",
   "bedrockify.loadingTips.3":"Las tortugas bebé sueltan escamas al crecer, que se pueden usar para fabricar caparazones de tortuga.",

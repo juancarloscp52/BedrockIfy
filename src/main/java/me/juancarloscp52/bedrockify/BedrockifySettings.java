@@ -48,6 +48,7 @@ public class BedrockifySettings {
     public boolean bedrockShading = true;
     public boolean fireAspectLight = true;
     public boolean disableFlyingMomentum = true;
+    public boolean elytraStop = true;
 
     public List<String> panoramaIgnoredScreens = PANORAMA_IGNORED_SCREENS;
 

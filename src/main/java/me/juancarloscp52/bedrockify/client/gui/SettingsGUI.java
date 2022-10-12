@@ -81,6 +81,7 @@ public class SettingsGUI {
         otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.dyingTrees"), settings.dyingTrees).setDefaultValue(true).setSaveConsumer(newValue -> settings.dyingTrees=newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.fireAspectLight"), settings.fireAspectLight).setTooltip(wrapLines(Text.translatable("bedrockify.options.fireAspectLight.tooltip"))).setDefaultValue(true).setSaveConsumer(newValue -> settings.fireAspectLight=newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.disableFlyingMomentum"), settings.disableFlyingMomentum).setDefaultValue(true).setSaveConsumer(newValue -> settings.disableFlyingMomentum =newValue).build());
+        otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.elytraStop"), settings.elytraStop).setDefaultValue(true).setSaveConsumer(newValue -> settings.elytraStop=newValue).build());
 
         //        otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.sneakingShield"), settings.sneakingShield).setDefaultValue(true).setSaveConsumer(newValue -> settings.sneakingShield=newValue).build());
         general.addEntry(otherSettings.build());

@@ -73,11 +73,10 @@ public class BedrockifyClient implements ClientModInitializer {
             }
 
             // Stop elytra flying by pressing space
-            if(null != client.player && client.player.isFallFlying() && timeFlying > 10 && client.options.jumpKey.isPressed()){
+            if(null != client.player && Bedrockify.getInstance().settings.elytraStop && client.player.isFallFlying() && timeFlying > 10 && client.options.jumpKey.isPressed()){
                 client.player.stopFallFlying();
                 client.player.networkHandler.sendPacket(new ClientCommandC2SPacket(client.player, ClientCommandC2SPacket.Mode.START_FALL_FLYING));
             }
-
             if(null != client.player && client.player.isFallFlying() && !client.options.jumpKey.isPressed())
                 timeFlying++;
             else
