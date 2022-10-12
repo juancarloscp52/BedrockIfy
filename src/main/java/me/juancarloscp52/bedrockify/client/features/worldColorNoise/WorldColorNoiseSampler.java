@@ -3,13 +3,9 @@ package me.juancarloscp52.bedrockify.client.features.worldColorNoise;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.noise.OctaveSimplexNoiseSampler;
 import net.minecraft.util.math.noise.SimplexNoiseSampler;
 import net.minecraft.util.math.random.CheckedRandom;
 import net.minecraft.util.math.random.ChunkRandom;
-
-
-import java.lang.Math;
 
 public class WorldColorNoiseSampler {
     SimplexNoiseSampler noiseSampler;

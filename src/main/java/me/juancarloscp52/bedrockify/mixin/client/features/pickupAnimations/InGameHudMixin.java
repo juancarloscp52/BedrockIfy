@@ -1,6 +1,5 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.pickupAnimations;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.bedrockify.Bedrockify;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

@@ -1,8 +1,8 @@
 package me.juancarloscp52.bedrockify.client.gui;
 
 import me.juancarloscp52.bedrockify.Bedrockify;
-import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.BedrockifySettings;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.paperDoll.PaperDoll;
 import me.juancarloscp52.bedrockify.client.features.savingOverlay.SavingOverlay;
 import net.minecraft.client.MinecraftClient;
@@ -11,7 +11,6 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-
 
 import java.util.Objects;
 

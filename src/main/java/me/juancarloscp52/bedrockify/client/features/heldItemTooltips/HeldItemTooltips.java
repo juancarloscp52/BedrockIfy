@@ -2,9 +2,9 @@ package me.juancarloscp52.bedrockify.client.features.heldItemTooltips;
 
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.BedrockifySettings;
+import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.ContainerTooltip;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.EnchantmentTooltip;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.PotionTooltip;
-import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.ContainerTooltip;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.Tooltip;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;

@@ -1,7 +1,7 @@
 package me.juancarloscp52.bedrockify.client.features.bedrockShading;
 
-import net.minecraft.util.math.Direction;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
 /**
