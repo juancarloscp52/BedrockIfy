@@ -11,12 +11,16 @@ import me.juancarloscp52.bedrockify.client.gui.SettingsGUI;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
+import net.minecraft.particle.ItemStackParticleEffect;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.util.TypedActionResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -49,6 +53,22 @@ public class BedrockifyClient implements ClientModInitializer {
         worldColorNoiseSampler = new WorldColorNoiseSampler();
         bedrockBlockShading = new BedrockBlockShading();
         keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("bedrockIfy.key.settings", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, "BedrockIfy"));
+
+
+        ClientPlayNetworking.registerGlobalReceiver(Bedrockify.EAT_PARTICLES, (client, handler, buf, responseSender) -> {
+            ItemStack stack = buf.readItemStack();
+            double x = buf.readDouble();
+            double y = buf.readDouble();
+            double z = buf.readDouble();
+            double velx = buf.readDouble();
+            double vely = buf.readDouble();
+            double velz = buf.readDouble();
+
+            client.execute(() -> {
+                if(null != client.world)
+                    client.world.addParticle(new ItemStackParticleEffect(ParticleTypes.ITEM, stack),x,y,z,velx,vely,velz);
+            });
+        });
 
         UseItemCallback.EVENT.register((playerEntity, world, hand) -> {
             if(Bedrockify.getInstance().settings.isQuickArmorSwapEnabled())

@@ -38,6 +38,7 @@ public class MixinFeatureManager {
         features.put("client.features.bedrockShading", true);
         features.put("common.features.fireAspect", true);
         features.put("common.features.fertilizableBlocks", true);
+        features.put("common.features.animalEatingParticles", true);
 
     }
 

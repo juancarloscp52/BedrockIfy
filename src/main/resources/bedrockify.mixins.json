@@ -38,6 +38,8 @@
     "client.features.worldColorNoise.BiomeColorsMixin"
   ],
   "mixins": [
+    "common.features.animalEatingParticles.AnimalEntityMixin",
+    "common.features.animalEatingParticles.WolfEntityMixin",
     "common.features.fertilizableBlocks.FlowerBlockMixin",
     "common.features.fertilizableBlocks.SugarCaneBlockMixin",
     "common.features.fireAspect.CampfireBlockMixin",

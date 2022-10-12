@@ -3,6 +3,7 @@ package me.juancarloscp52.bedrockify;
 import com.google.gson.Gson;
 import me.juancarloscp52.bedrockify.common.features.worldGeneration.DyingTrees;
 import net.fabricmc.api.ModInitializer;
+import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -15,7 +16,7 @@ public class Bedrockify implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
     private static Bedrockify instance;
     public BedrockifySettings settings;
-
+    public static final Identifier EAT_PARTICLES = new Identifier("bedrockify", "eat-particles");
     public static Bedrockify getInstance() {
         return instance;
     }
