@@ -3,18 +3,21 @@ package me.juancarloscp52.bedrockify;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.multiplayer.SocialInteractionsScreen;
+import net.minecraft.client.gui.screen.pack.PackScreen;
 
 import java.util.Arrays;
 import java.util.List;
 
 public class BedrockifySettings {
 
-    public final static List<String> PANORAMA_IGNORED_SCREENS = Arrays.asList(".modmenu.gui.ModsScreen",".iris.gui.", ".modmanager.gui.","net.minecraft.class_5522", "yacl.gui.YACLScreen");
+    private final static List<Class<? extends Screen>> MINECRAFT_IGNORED_SCREENS = Arrays.asList(PackScreen.class, SocialInteractionsScreen.class);
+    public final static List<String> PANORAMA_IGNORED_SCREENS = Arrays.asList(".modmenu.gui.ModsScreen", ".iris.gui.", ".modmanager.gui.", "yacl.gui.YACLScreen");
     public boolean loadingScreen = true;
     public boolean bedrockIfyButton = true;
     public boolean showPositionHUD = true;
     public byte FPSHUD = 0;
-    public byte heldItemTooltip=2;
+    public byte heldItemTooltip = 2;
     public boolean showPaperDoll = true;
     public boolean showChunkMap = false;
     public boolean reacharound = true;
@@ -25,7 +28,7 @@ public class BedrockifySettings {
     public int screenSafeArea = 0;
     public boolean overlayIgnoresSafeArea = false;
     public boolean cubeMapBackground = true;
-    public boolean bedrockChat=true;
+    public boolean bedrockChat = true;
     public boolean slotHighlight = true;
     public int highLightColor1 = (255 << 8) + (255) + (255 << 16) + (255 << 24);
     public int highLightColor2 = 64 + (170 << 8) + (109 << 16) + (255 << 24);
@@ -48,11 +51,15 @@ public class BedrockifySettings {
 
     public List<String> panoramaIgnoredScreens = PANORAMA_IGNORED_SCREENS;
 
-    public boolean panoramaIgnoreScreen(Screen screen){
-        if(null != screen){
+    public boolean panoramaIgnoreScreen(Screen screen) {
+        if (screen != null) {
+            // Checks if the screen is a Minecraft screen that would break in any case
+            if (MINECRAFT_IGNORED_SCREENS.contains(screen.getClass()))
+                return true;
+
             // Check If screen is in ignore list.
-            for(String screenName : panoramaIgnoredScreens){
-                if(screen.getClass().getName().contains(screenName.trim()))
+            for (String screenName : panoramaIgnoredScreens) {
+                if (screen.getClass().getName().contains(screenName.trim()))
                     return true;
             }
             // check for language reload screen.
@@ -61,19 +68,19 @@ public class BedrockifySettings {
         return false;
     }
 
-    public boolean isSneakingShieldEnabled(){
+    public boolean isSneakingShieldEnabled() {
         return this.sneakingShield;
     }
 
-    public boolean isDyingTreesEnabled(){
+    public boolean isDyingTreesEnabled() {
         return this.dyingTrees;
     }
 
-    public boolean isBiggerIconsEnabled(){
+    public boolean isBiggerIconsEnabled() {
         return biggerIcons;
     }
 
-    public boolean isQuickArmorSwapEnabled(){
+    public boolean isQuickArmorSwapEnabled() {
         return quickArmorSwap;
     }
 
@@ -84,32 +91,37 @@ public class BedrockifySettings {
     public boolean isEatingAnimationsEnabled() {
         return eatingAnimations;
     }
-    public boolean isPickupAnimationsEnabled(){
+
+    public boolean isPickupAnimationsEnabled() {
         return pickupAnimations;
     }
+
     public boolean isCubemapBackgroundEnabled() {
         return cubeMapBackground;
     }
-    public boolean isLoadingScreenEnabled(){
+
+    public boolean isLoadingScreenEnabled() {
         return loadingScreen;
     }
+
     public boolean isShowPositionHUDEnabled() {
         return showPositionHUD && !MinecraftClient.getInstance().hasReducedDebugInfo();
     }
+
     public boolean isExpTextStyle() {
         return expTextStyle;
     }
 
 
-    public int getHighLightColor1(){
+    public int getHighLightColor1() {
         return this.highLightColor1;
     }
 
-    public int getHighLightColor2(){
+    public int getHighLightColor2() {
         return this.highLightColor2;
     }
 
-    public byte getHeldItemTooltip(){
+    public byte getHeldItemTooltip() {
         return this.heldItemTooltip;
     }
 
@@ -117,11 +129,11 @@ public class BedrockifySettings {
         return FPSHUD;
     }
 
-    public double getReacharoundBlockDistance(){
+    public double getReacharoundBlockDistance() {
         return reacharoundBlockDistance;
     }
 
-    public int getReacharoundPitchAngle(){
+    public int getReacharoundPitchAngle() {
         return reacharoundPitchAngle;
     }
 
@@ -166,7 +178,7 @@ public class BedrockifySettings {
         return screenSafeArea;
     }
 
-    public float getIdleAnimation(){
+    public float getIdleAnimation() {
         return idleAnimation;
     }
 
