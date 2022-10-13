@@ -55,13 +55,15 @@ public class DyingTrees {
     private static final Predicate<BiomeSelectionContext> DARK_OAK_BIOME_SELECTION_CONTEXT = BiomeSelectors.includeByKey(BiomeKeys.DARK_FOREST);
 
     public static void registerTrees(){
-        if(Bedrockify.getInstance().settings.isDyingTreesEnabled()){
-            registerDyingTrees();
-            registerFallenTrees();
-        }
+        registerDyingTrees();
+        registerFallenTrees();
     }
 
     private static void registerDyingTrees (){
+
+        if(!Bedrockify.getInstance().settings.dyingTrees)
+            return;
+
         VINE_DECORATOR = TreeDecoratorType.register("bedrockify:vinedecorator", FullTrunkVineTreeDecorator.CODEC);
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new Identifier("bedrockify", "dying_birch_tree"),DYING_BIRCH_TREE); // 16
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE,new Identifier("bedrockify", "dying_oak_tree"),DYING_OAK_TREE);
@@ -102,6 +104,10 @@ public class DyingTrees {
     }
 
     private static void registerFallenTrees(){
+
+        if(!Bedrockify.getInstance().settings.fallenTrees)
+            return;
+
         Registry.register(Registry.FEATURE, new Identifier("bedrockify","fallen_oak_tree"), FALLEN_OAK_TREE);
         Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, new Identifier("bedrockify","fallen_oak_tree_c"), FALLEN_OAK_TREE_CONFIGURED);
         Registry.register(Registry.FEATURE, new Identifier("bedrockify","fallen_birch_tree"), FALLEN_BIRCH_TREE);
