@@ -87,6 +87,7 @@ public class SettingsGUI {
         otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.dyingTrees"), settingsCommon.dyingTrees).setDefaultValue(true).setSaveConsumer(newValue -> settingsCommon.dyingTrees=newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.fallenTrees"), settingsCommon.fallenTrees).setDefaultValue(true).setSaveConsumer(newValue -> settingsCommon.fallenTrees=newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.fireAspectLight"), settingsCommon.fireAspectLight).setTooltip(wrapLines(Text.translatable("bedrockify.options.fireAspectLight.tooltip"))).setDefaultValue(true).setSaveConsumer(newValue -> settingsCommon.fireAspectLight=newValue).build());
+        otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.fernBonemeal"), settingsCommon.fernBonemeal).setDefaultValue(true).setSaveConsumer(newValue -> settingsCommon.fernBonemeal=newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.disableFlyingMomentum"), settingsClient.disableFlyingMomentum).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.disableFlyingMomentum =newValue).build());
         otherSettings.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.elytraStop"), settingsClient.elytraStop).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.elytraStop=newValue).build());
 

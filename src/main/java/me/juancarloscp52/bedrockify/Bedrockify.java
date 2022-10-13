@@ -1,6 +1,7 @@
 package me.juancarloscp52.bedrockify;
 
 import com.google.gson.Gson;
+import me.juancarloscp52.bedrockify.common.features.fernBonemeal.FernBonemeal;
 import me.juancarloscp52.bedrockify.common.features.worldGeneration.DyingTrees;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
@@ -27,6 +28,7 @@ public class Bedrockify implements ModInitializer {
         loadSettings();
         instance = this;
         DyingTrees.registerTrees();
+        FernBonemeal.registerFernBonemeal();
     }
 
     public void loadSettings() {
