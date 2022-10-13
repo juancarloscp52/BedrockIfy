@@ -16,7 +16,7 @@ public class ExternalLoadingTips {
 
     public static ExternalLoadingTips loadSettings() {
         ExternalLoadingTips loadingTips = new ExternalLoadingTips();
-        File file = new File("./config/bedrockify-ExternalLoadingTips.json");
+        File file = new File("./config/bedrockify/bedrockify-ExternalLoadingTips.json");
         Gson gson = new Gson();
         try {
             FileReader fileReader = new FileReader(file);
@@ -30,7 +30,7 @@ public class ExternalLoadingTips {
 
     public void saveSettings() {
         Gson gson = new Gson();
-        File file = new File("./config/bedrockify-ExternalLoadingTips.json");
+        File file = new File("./config/bedrockify/bedrockify-ExternalLoadingTips.json");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdir();
         }

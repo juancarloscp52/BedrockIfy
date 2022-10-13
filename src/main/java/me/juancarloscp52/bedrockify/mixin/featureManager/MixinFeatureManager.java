@@ -54,7 +54,7 @@ public class MixinFeatureManager {
     }
 
     public static void loadMixinSettings() {
-        File file = new File("./config/bedrockifyMixins.json");
+        File file = new File("./config/bedrockify/bedrockifyMixins.json");
         Gson gson = new Gson();
         if (file.exists()) {
             try {
@@ -82,7 +82,7 @@ public class MixinFeatureManager {
 
     public static void saveMixinSettings() {
         Gson gson = new Gson();
-        File file = new File("./config/bedrockifyMixins.json");
+        File file = new File("./config/bedrockify/bedrockifyMixins.json");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdir();
         }

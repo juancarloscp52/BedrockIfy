@@ -117,7 +117,7 @@ public class BedrockifyClient implements ClientModInitializer {
     }
 
     public void loadSettings() {
-        File file = new File("./config/bedrockifyClient.json");
+        File file = new File("./config/bedrockify/bedrockifyClient.json");
         Gson gson = new Gson();
         if (file.exists()) {
             try {
@@ -134,7 +134,7 @@ public class BedrockifyClient implements ClientModInitializer {
 
     public void saveSettings() {
         Gson gson = new Gson();
-        File file = new File("./config/bedrockifyClient.json");
+        File file = new File("./config/bedrockify/bedrockifyClient.json");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdir();
         }

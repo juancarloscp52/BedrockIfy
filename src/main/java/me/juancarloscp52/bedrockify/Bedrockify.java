@@ -32,7 +32,7 @@ public class Bedrockify implements ModInitializer {
     }
 
     public void loadSettings() {
-        File file = new File("./config/bedrockifyCommon.json");
+        File file = new File("./config/bedrockify/bedrockifyCommon.json");
         Gson gson = new Gson();
         if (file.exists()) {
             try {
@@ -49,7 +49,7 @@ public class Bedrockify implements ModInitializer {
 
     public void saveSettings() {
         Gson gson = new Gson();
-        File file = new File("./config/bedrockifyCommon.json");
+        File file = new File("./config/bedrockify/bedrockifyCommon.json");
         if (!file.getParentFile().exists()) {
             file.getParentFile().mkdir();
         }
