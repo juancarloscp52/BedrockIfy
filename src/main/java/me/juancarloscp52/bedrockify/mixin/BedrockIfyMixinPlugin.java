@@ -27,6 +27,11 @@ public class BedrockIfyMixinPlugin  implements IMixinConfigPlugin {
             LogManager.getLogger().info("BedrockIfy compatibility with Slight gui modifications enabled.");
             return false;
         }
+        if(mixinClassName.equals("me.juancarloscp52.bedrockify.mixin.common.features.fertilizableBlocks.SugarCaneBlockMixin") && FabricLoader.getInstance().isModLoaded("carpet-extra")){
+            LogManager.getLogger().warn("BedrockIfy compatibility with \"Carpet Extra\" enabled.");
+            LogManager.getLogger().warn("\t\\_ If you want to bonemeal sugar cane use carpet option /carpet betterBonemeal true");
+            return false;
+        }
         if(mixinClassName.equals("me.juancarloscp52.bedrockify.mixin.client.features.heldItemTooltips.ItemTooltipsMixin") && FabricLoader.getInstance().isModLoaded("held-item-info")){
             LogManager.getLogger().info("The mod \"Held Item Info\" has been detected. This mod is not totally compatible with BedrockIfy. BedrockIfy Held Item Tooltips has been disabled.");
             return false;
