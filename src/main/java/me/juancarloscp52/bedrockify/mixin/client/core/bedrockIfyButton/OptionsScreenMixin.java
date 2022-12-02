@@ -25,7 +25,7 @@ public class OptionsScreenMixin extends Screen {
     private void addBedrockifyOption(CallbackInfo info) {
         if(BedrockifyClient.getInstance().settings.isBedrockIfyButtonEnabled()){
             int width = 310;
-            if(FabricLoader.getInstance().isModLoaded("essential"))
+            if(FabricLoader.getInstance().isModLoaded("essential") || FabricLoader.getInstance().isModLoaded("essential-container") || FabricLoader.getInstance().isModLoaded("essential-loader"))
                 width = 150;
             this.addDrawableChild(new ButtonWidget(this.width / 2 - 155, this.height / 6 + 144 - 6, width, 20, Text.translatable("bedrockify.options.settings"), (buttonWidget) -> this.client.setScreen(BedrockifyClient.getInstance().settingsGUI.getConfigScreen(this,this.client.world != null))));
         }
