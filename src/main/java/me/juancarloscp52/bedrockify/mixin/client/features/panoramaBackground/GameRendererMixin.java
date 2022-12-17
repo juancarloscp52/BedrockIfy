@@ -15,7 +15,7 @@ public class GameRendererMixin {
 
     @Shadow @Final private MinecraftClient client;
 
-    @Inject(method = "render", at=@At(value = "INVOKE",target = "Lnet/minecraft/client/gui/screen/Screen;render(Lnet/minecraft/client/util/math/MatrixStack;IIF)V"))
+    @Inject(method = "render", at=@At(value = "INVOKE",target = "Lnet/minecraft/client/gui/screen/Screen;renderWithTooltip(Lnet/minecraft/client/util/math/MatrixStack;IIF)V"))
     public void updatePanorama(float tickDelta, long startTime, boolean tick, CallbackInfo ci){
         BedrockifyRotatingCubeMapRenderer.getInstance().addPanoramaTime(client.getLastFrameDuration());
     }

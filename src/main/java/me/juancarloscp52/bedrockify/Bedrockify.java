@@ -1,7 +1,6 @@
 package me.juancarloscp52.bedrockify;
 
 import com.google.gson.Gson;
-import me.juancarloscp52.bedrockify.common.features.fernBonemeal.FernBonemeal;
 import me.juancarloscp52.bedrockify.common.features.worldGeneration.DyingTrees;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.util.Identifier;
@@ -22,13 +21,13 @@ public class Bedrockify implements ModInitializer {
         return instance;
     }
 
+    //TODO: Fix weird background on resource pack screen.
     @Override
     public void onInitialize() {
         LOGGER.info("Initializing BedrockIfy.");
         loadSettings();
         instance = this;
         DyingTrees.registerTrees();
-        FernBonemeal.registerFernBonemeal();
     }
 
     public void loadSettings() {

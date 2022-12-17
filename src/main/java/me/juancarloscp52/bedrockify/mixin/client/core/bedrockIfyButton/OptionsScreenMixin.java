@@ -1,18 +1,23 @@
 package me.juancarloscp52.bedrockify.mixin.client.core.bedrockIfyButton;
 
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.gui.widget.ClickableWidget;
+import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.Redirect;
+
+import java.util.function.Supplier;
 
 @Mixin(OptionsScreen.class)
-public class OptionsScreenMixin extends Screen {
+public abstract class OptionsScreenMixin extends Screen {
+
+    @Shadow protected abstract ButtonWidget createButton(Text message, Supplier<Screen> screenSupplier);
 
     protected OptionsScreenMixin(Text title) {
         super(title);
@@ -21,13 +26,12 @@ public class OptionsScreenMixin extends Screen {
     /**
      * Add bedrockify settings button to the game options screen.
      */
-    @Inject(method = "init", at = @At("HEAD"))
-    private void addBedrockifyOption(CallbackInfo info) {
+    @Redirect(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/GridWidget$Adder;add(Lnet/minecraft/client/gui/widget/ClickableWidget;)Lnet/minecraft/client/gui/widget/ClickableWidget;",ordinal = 10))
+    public <T extends ClickableWidget> T addBedrockIfyButton(GridWidget.Adder instance, T widget){
+        ClickableWidget ret = instance.add(widget);
         if(BedrockifyClient.getInstance().settings.isBedrockIfyButtonEnabled()){
-            int width = 310;
-            if(FabricLoader.getInstance().isModLoaded("essential") || FabricLoader.getInstance().isModLoaded("essential-container") || FabricLoader.getInstance().isModLoaded("essential-loader"))
-                width = 150;
-            this.addDrawableChild(new ButtonWidget(this.width / 2 - 155, this.height / 6 + 144 - 6, width, 20, Text.translatable("bedrockify.options.settings"), (buttonWidget) -> this.client.setScreen(BedrockifyClient.getInstance().settingsGUI.getConfigScreen(this,this.client.world != null))));
+            ret = instance.add(this.createButton(Text.translatable("bedrockify.options.settings"),() -> BedrockifyClient.getInstance().settingsGUI.getConfigScreen(this,this.client.world != null)));
         }
+        return (T) ret;
     }
 }

@@ -10,8 +10,7 @@ import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Quaternion;
-import net.minecraft.util.math.Vec3f;
+import org.joml.Quaternionf;
 
 import java.util.Arrays;
 
@@ -28,7 +27,7 @@ public class PaperDoll {
     private static final boolean supportsCrawling = Arrays.stream(EntityPose.values()).anyMatch(pose -> pose.name().equals("CRAWLING"));
     /**
      * Render the player at the top left of the screen.
-     * The player will be rendered only when the player is not riding another entity and it is sneaking, running, using elytra, using an item, under water, or using a shield.
+     * The player will be rendered only when the player is not riding another entity, and it is sneaking, running, using elytra, using an item, underwater, or using a shield.
      */
     public void renderPaperDoll(MatrixStack matrixStack) {
         settings = BedrockifyClient.getInstance().settings;
@@ -82,7 +81,7 @@ public class PaperDoll {
         int safeArea = settings.overlayIgnoresSafeArea? 0 : settings.getScreenSafeArea();
         matrixStack.translate(posX + safeArea, renderPosY + safeArea, 0);
         matrixStack.scale((float) size, (float) size, -(float) size);
-        Quaternion quaternion = Vec3f.POSITIVE_Z.getDegreesQuaternion(180.0F);
+        Quaternionf quaternion = new Quaternionf().rotateZ((float)Math.PI);
         matrixStack.multiply(quaternion);
 
         // Store previous entity rotations.
@@ -105,7 +104,7 @@ public class PaperDoll {
         EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
         entityRenderDispatcher.setRenderShadows(false);
         VertexConsumerProvider.Immediate immediate = MinecraftClient.getInstance().getBufferBuilders().getEntityVertexConsumers();
-        RenderSystem.runAsFancy(() -> entityRenderDispatcher.render(player, 0, 0, 0, 0.0F, 1.0F, matrixStack, immediate, 15728880));
+        RenderSystem.runAsFancy(() -> entityRenderDispatcher.render(player, 0, 0, 0, 0.0F, 1.0F, matrixStack, immediate, 0xF000F0));
         immediate.draw();
         entityRenderDispatcher.setRenderShadows(true);
 

@@ -13,22 +13,22 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
  * Applies the screen border distance to the subtitles widget.
  */
 public class SubtitlesHudMixin extends DrawableHelper {
-    @ModifyArgs(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Ljava/lang/String;FFI)I"))
+    @ModifyArgs(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/hud/SubtitlesHud;drawStringWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;III)V"))
     private void modifyDrawText(Args args){
         int screenBorder = BedrockifyClient.getInstance().settings.getScreenSafeArea();
-        float x = args.get(2);
-        float y = args.get(3);
-        args.set(2,x - screenBorder);
-        args.set(3,y - screenBorder);
+        float x = args.get(3);
+        float y = args.get(4);
+        args.set(3,x - screenBorder);
+        args.set(4,y - screenBorder);
     }
 
-    @ModifyArgs(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I"))
+    @ModifyArgs(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/hud/SubtitlesHud;drawTextWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)V"))
     public void modifyDrawText2(Args args){
         int screenBorder = BedrockifyClient.getInstance().settings.getScreenSafeArea();
-        float x = args.get(2);
-        float y = args.get(3);
-        args.set(2,x - screenBorder);
-        args.set(3,y - screenBorder);
+        float x = args.get(3);
+        float y = args.get(4);
+        args.set(3,x - screenBorder);
+        args.set(4,y - screenBorder);
     }
 
     @ModifyArgs(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/SubtitlesHud;fill(Lnet/minecraft/client/util/math/MatrixStack;IIIII)V"))

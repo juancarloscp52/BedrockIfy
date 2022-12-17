@@ -36,7 +36,7 @@ public class ItemTooltipsMixin {
     private void drawCustomTooltips(MatrixStack matrices, int x1, int y1, int x2, int y2, int color) {}
 
     /**
-     * Show the item tooltip when changing from a item to another of the same type and name IFF different tooltips.
+     * Show the item tooltip when changing from an item to another of the same type and name IFF different tooltips.
      */
     @Redirect(method = "tick()V", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;isEmpty()Z", ordinal = 1))
     private boolean interceptItemStack(ItemStack itemStack) {

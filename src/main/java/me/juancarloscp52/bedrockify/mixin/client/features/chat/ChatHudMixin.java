@@ -26,7 +26,6 @@ import java.util.List;
 @Mixin(ChatHud.class)
 public abstract class ChatHudMixin extends DrawableHelper {
 
-    //@Shadow protected abstract void processMessageQueue();
     @Shadow @Final private List<ChatHudLine.Visible> visibleMessages;
     @Shadow protected abstract boolean isChatFocused();
     @Shadow public abstract double getChatScale();
@@ -36,12 +35,10 @@ public abstract class ChatHudMixin extends DrawableHelper {
     @Shadow private static double getMessageOpacityMultiplier(int age) {
         return 0;
     }
-    //@Shadow @Final private Deque<Text> messageQueue;
     @Shadow private boolean hasUnreadNewMessages;
     @Shadow public abstract int getVisibleLineCount();
     @Shadow protected abstract boolean isChatHidden();
     @Shadow public abstract void addMessage(Text message);
-    //@Shadow private long lastMessageAddedTime;
 
     @Shadow protected abstract int getLineHeight();
 
@@ -49,111 +46,117 @@ public abstract class ChatHudMixin extends DrawableHelper {
 
     @Shadow protected abstract void drawIndicatorIcon(MatrixStack matrices, int x, int y, MessageIndicator.Icon icon);
 
+    @Shadow protected abstract int getMessageIndex(double chatLineX, double chatLineY);
+
+    @Shadow protected abstract double toChatLineX(double x);
+
+    @Shadow protected abstract double toChatLineY(double y);
+
     private int counter1 =0;
     BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
 
-    /**
+        /**
      * Use bedrock-like chat if enabled.
      */
     @Inject(method = "render", at=@At("HEAD"),cancellable = true)
-    private void render(MatrixStack matrixStack, int ticks, CallbackInfo info){
+    private void render(MatrixStack matrices, int ticks, int mouseX, int mouseY, CallbackInfo info){
+
         if(!settings.isBedrockChatEnabled() || client.options.debugEnabled)
             return;
 
-        if (!this.isChatHidden()) {
-            int visibleLines = Math.min(this.getVisibleLineCount(),this.getAvailableLines());
-            int visibleMessagesCount = this.visibleMessages.size();
-            if (visibleMessagesCount > 0) {
-                int safeArea = settings.overlayIgnoresSafeArea? 0: settings.getScreenSafeArea();
-                boolean isChatFocused = this.isChatFocused();
-                int posY = 2+settings.getPositionHUDHeight() + (settings.getPositionHUDHeight()<50? 50:0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) + safeArea;
-                float chatScale = (float) this.getChatScale();
-                int scaledChatWidth = MathHelper.ceil((double)this.getWidth() / chatScale);
-                matrixStack.push();
-                matrixStack.translate(safeArea, (float) (48-MinecraftClient.getInstance().getWindow().getScaledHeight() + (counter1*(9.0D * chatScale* (this.client.options.getChatLineSpacing().getValue() + 1.0D))))+ posY, 0.0F);
-                matrixStack.scale(chatScale, chatScale, 1.0F);
-                double textOpacity = this.client.options.getChatOpacity().getValue() * 0.9D + 0.1D;
-                double backgroundOpacity = this.client.options.getTextBackgroundOpacity().getValue();
-                //double chatLineSpacing1 = 9.0D * (this.client.options.getChatLineSpacing().getValue() + 1.0D);
-                double chatLineSpacing1 = this.getLineHeight();
+        if(this.isChatHidden())
+            return;
 
-                double chatLineSpacing2 = -8.0D * (this.client.options.getChatLineSpacing().getValue() + 1.0D) + 4.0D * this.client.options.getChatLineSpacing().getValue();
-                counter1 = 0; //Shown messages
+        int visibleLines = Math.min(this.getVisibleLineCount(),this.getAvailableLines());
+        int visibleMessagesCount = this.visibleMessages.size();
 
-                for(int i = 0; i + this.scrolledLines < this.visibleMessages.size() && i < visibleLines; ++i) {
-                    ChatHudLine.Visible chatHudLine = this.visibleMessages.get(i + this.scrolledLines);
-                    if (chatHudLine != null) {
-                        int ticksSinceCreation;
-                        ticksSinceCreation = ticks - chatHudLine.addedTime();
-                        if (ticksSinceCreation < 200 || isChatFocused) {
-                            double opacityMultiplayer = isChatFocused ? 1.0D : getMessageOpacityMultiplier(ticksSinceCreation);
-                            int finalTextOpacity = (int)(255.0D * opacityMultiplayer * textOpacity);
-                            int finalBackgroundOpacity = (int)(255.0D * opacityMultiplayer * backgroundOpacity);
-                            ++counter1;
-                            if (finalTextOpacity > 3) {
-                                double currentMessageHeight = (double)(-i) * chatLineSpacing1;
-                                matrixStack.push();
-                                matrixStack.translate(0, 0, 0);
-                                ChatHud.fill(matrixStack, 0, (int)currentMessageHeight, scaledChatWidth + 6, (int)(currentMessageHeight - chatLineSpacing1), finalBackgroundOpacity << 24);
+        if(visibleMessagesCount <= 0)
+            return;
 
-                                // Message security indicator
-                                MessageIndicator messageIndicator = chatHudLine.indicator();
-                                if (messageIndicator != null) {
-                                    int indicatorColor = messageIndicator.indicatorColor() | finalTextOpacity << 24;
-                                    ChatHud.fill(matrixStack, 0, (int)currentMessageHeight, 2, (int)(currentMessageHeight - chatLineSpacing1), indicatorColor);
-                                    if (isChatFocused() && chatHudLine.endOfEntry() && messageIndicator.icon() != null) {
-                                        int w = this.getIndicatorX(chatHudLine);
-                                        int x = (int)currentMessageHeight + this.client.textRenderer.fontHeight;
-                                        this.drawIndicatorIcon(matrixStack, w, x, messageIndicator.icon());
-                                    }
-                                }
+        int safeArea = settings.overlayIgnoresSafeArea? 0: settings.getScreenSafeArea();
+        boolean isChatFocused = this.isChatFocused();
 
-                                RenderSystem.enableBlend();
-                                matrixStack.translate(0, 0, 0);
-                                this.client.textRenderer.drawWithShadow(matrixStack, chatHudLine.content(), 4F, (float)((int)(currentMessageHeight + chatLineSpacing2)), 16777215 + (finalTextOpacity << 24));
-                                RenderSystem.disableBlend();
-                                matrixStack.pop();
-                            }
-                        }
-                    }
+        int posY = 2+settings.getPositionHUDHeight() + (settings.getPositionHUDHeight()<50? 50:0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) + safeArea;
+        float chatScale = (float) this.getChatScale();
+        int scaledChatWidth = MathHelper.ceil((double)this.getWidth() / chatScale);
+
+        matrices.push();
+        matrices.scale(chatScale, chatScale, 1.0F);
+        matrices.translate(safeArea, (float) (48-MinecraftClient.getInstance().getWindow().getScaledHeight() + (counter1*(9.0D * chatScale* (this.client.options.getChatLineSpacing().getValue() + 1.0D))))+ posY, 0.0F);
+
+        double x;
+
+        int m = MathHelper.floor((float)(this.client.getWindow().getScaledHeight() - 48) / chatScale);
+        int messageIndex = this.getMessageIndex(this.toChatLineX(mouseX), this.toChatLineY(mouseY));
+        double textOpacity = this.client.options.getChatOpacity().getValue() * 0.9D + 0.1D;// d
+        double backgroundOpacity = this.client.options.getTextBackgroundOpacity().getValue(); //e
+        //double g = this.client.options.getChatLineSpacing().getValue();
+        double chatLineSpacing1 = this.getLineHeight(); //o
+        double chatLineSpacing2 = -8.0D * (this.client.options.getChatLineSpacing().getValue() + 1.0D) + 4.0D * this.client.options.getChatLineSpacing().getValue(); //p
+        counter1 = 0; //Shown messages   q
+        for (int i = 0; i + this.scrolledLines < this.visibleMessages.size() && i < visibleLines; ++i) {
+            int s = i + this.scrolledLines;
+            ChatHudLine.Visible visible = this.visibleMessages.get(s);
+            int ticksSinceCreation = ticks - visible.addedTime();
+            if (visible == null || ticksSinceCreation >= 200 && !isChatFocused) continue;
+            double opacityMultiplayer = isChatFocused ? 1.0D : getMessageOpacityMultiplier(ticksSinceCreation);
+            int finalTextOpacity = (int)(255.0D * opacityMultiplayer * textOpacity); //u
+            int finalBackgroundOpacity = (int)(255.0D * opacityMultiplayer * backgroundOpacity);//v
+            ++counter1;
+            if (finalTextOpacity <= 3) continue;
+            double currentMessageHeight = (double)(-i) * chatLineSpacing1;
+
+            //x = m + currentMessageHeight;
+            x = m + currentMessageHeight;
+            int currentMessageHeight2 = (int) (x + chatLineSpacing2);
+            matrices.push();
+            matrices.translate(0.0f, 0.0f, 50.0f);
+            ChatHud.fill(matrices, 0, (int) x, scaledChatWidth+6, (int)(x-chatLineSpacing1), finalBackgroundOpacity << 24);
+            MessageIndicator messageIndicator = visible.indicator();
+            if (messageIndicator != null) {
+                int z = messageIndicator.indicatorColor() | finalTextOpacity << 24;
+                ChatHud.fill(matrices, 0, (int)(x - chatLineSpacing1), 2, (int)x, z);
+                if (s == messageIndex && messageIndicator.icon() != null) {
+                    int aa = this.getIndicatorX(visible);
+                    int ab = currentMessageHeight2 + this.client.textRenderer.fontHeight;
+                    this.drawIndicatorIcon(matrices, aa, ab, messageIndicator.icon());
                 }
-
-                //Unread Messages:
-                long unprocessedMessageCount = this.client.getMessageHandler().getUnprocessedMessageCount();
-                if (unprocessedMessageCount>0) {
-                    int textOpacityFinal = (int)(128.0D * textOpacity);
-                    int backgroundOpacityFinal = (int)(255.0D * backgroundOpacity);
-                    matrixStack.push();
-                    matrixStack.translate(0.0D, 0.0D, 50.0D);
-                    fill(matrixStack, -2, 0, scaledChatWidth + 4, 9, backgroundOpacityFinal << 24);
-                    RenderSystem.enableBlend();
-                    matrixStack.translate(0.0D, 0.0D, 50.0D);
-                    this.client.textRenderer.drawWithShadow(matrixStack, Text.translatable("chat.queue", unprocessedMessageCount), 2F, 1.0F, 16777215 + (textOpacityFinal << 24));
-                    matrixStack.pop();
-                    RenderSystem.disableBlend();
-                }
-
-                if (isChatFocused) {
-                    //int textSize = 9;
-                    int textSize = this.getLineHeight();
-                    int x = visibleMessagesCount * textSize + visibleMessagesCount;
-                    int renderedMessages = counter1 * textSize + counter1;
-                    int z = this.scrolledLines * renderedMessages / visibleMessagesCount;
-                    int aa = renderedMessages * renderedMessages / x;
-                    if (x != renderedMessages) {
-                        int alpha = z > 0 ? 170 : 96;
-                        int color = this.hasUnreadNewMessages ? 13382451 : 3355562;
-                        matrixStack.translate(-3.0F, 0.0F, 0.0F);
-                        fill(matrixStack, 2, -z, 2, -z - aa, color + (alpha << 24));
-                        fill(matrixStack, 4, -z, 1, -z - aa, 13421772 + (alpha << 24));
-                    }
-                }
-
-                matrixStack.pop();
+            }
+            RenderSystem.enableBlend();
+            matrices.translate(0.0f, 0.0f, 50.0f);
+            this.client.textRenderer.drawWithShadow(matrices, visible.content(), 4.0f, (float)currentMessageHeight2, 0xFFFFFF + (finalTextOpacity << 24));
+            RenderSystem.disableBlend();
+            matrices.pop();
+        }
+        long ac = this.client.getMessageHandler().getUnprocessedMessageCount();
+        if (ac > 0L) {
+            int textOpacityFinal = (int)(128.0 * textOpacity);
+            int backgroundOpacityFinal = (int)(255.0D * backgroundOpacity);
+            matrices.push();
+            matrices.translate(0.0f, m, 50.0f);
+            ChatHud.fill(matrices, -2, 0, scaledChatWidth + 4, 9, backgroundOpacityFinal << 24);
+            RenderSystem.enableBlend();
+            matrices.translate(0.0f, 0.0f, 50.0f);
+            this.client.textRenderer.drawWithShadow(matrices, Text.translatable("chat.queue", ac), 2.0f, 1.0f, 0xFFFFFF + (textOpacityFinal << 24));
+            matrices.pop();
+            RenderSystem.disableBlend();
+        }
+        if (isChatFocused) {
+            //int textSize = 9;
+            int textSize = this.getLineHeight();
+            int xx = visibleMessagesCount * textSize + visibleMessagesCount;
+            int renderedMessages = counter1 * textSize + counter1;
+            int z = this.scrolledLines * renderedMessages / visibleMessagesCount;
+            int aa = renderedMessages * renderedMessages / xx;
+            if (xx != renderedMessages) {
+                int alpha = z > 0 ? 170 : 96;
+                int color = this.hasUnreadNewMessages ? 13382451 : 3355562;
+                matrices.translate(-3.0F, 0.0F, 0.0F);
+                fill(matrices, 2, -z, 2, -z - aa, color + (alpha << 24));
+                fill(matrices, 4, -z, 1, -z - aa, 13421772 + (alpha << 24));
             }
         }
-
-
+        matrices.pop();
         info.cancel();
     }
 

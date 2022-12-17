@@ -49,13 +49,13 @@ public class ConnectScreenMixin extends Screen {
     @Redirect(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ConnectScreen;addDrawableChild(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;"))
     public <T extends Element & Drawable & Selectable> T addDrawableChild(ConnectScreen connectScreen, T drawableElement) {
         if(BedrockifyClient.getInstance().settings.isLoadingScreenEnabled()){
-            return (T) this.addDrawableChild(new ButtonWidget(this.width / 2 - 100, (int) Math.ceil(MinecraftClient.getInstance().getWindow().getScaledHeight() * 0.75D), 200, 20, ScreenTexts.CANCEL, (buttonWidget) -> {
+            return (T) this.addDrawableChild(ButtonWidget.builder(ScreenTexts.CANCEL, (buttonWidget) -> {
                 this.connectingCancelled = true;
                 if (this.connection != null) {
                     this.connection.disconnect(Text.translatable("connect.aborted"));
                 }
                 this.client.setScreen(this.parent);
-            }));
+            }).position(this.width / 2 - 100, (int) Math.ceil(MinecraftClient.getInstance().getWindow().getScaledHeight() * 0.75D)).width(200).build());
         }else{
             return this.addDrawableChild(drawableElement);
         }
