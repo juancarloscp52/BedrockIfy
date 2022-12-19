@@ -16,8 +16,8 @@ public class SubtitlesHudMixin extends DrawableHelper {
     @ModifyArgs(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/hud/SubtitlesHud;drawStringWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;III)V"))
     private void modifyDrawText(Args args){
         int screenBorder = BedrockifyClient.getInstance().settings.getScreenSafeArea();
-        float x = args.get(3);
-        float y = args.get(4);
+        int x = args.get(3);
+        int y = args.get(4);
         args.set(3,x - screenBorder);
         args.set(4,y - screenBorder);
     }
@@ -25,8 +25,8 @@ public class SubtitlesHudMixin extends DrawableHelper {
     @ModifyArgs(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/hud/SubtitlesHud;drawTextWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)V"))
     public void modifyDrawText2(Args args){
         int screenBorder = BedrockifyClient.getInstance().settings.getScreenSafeArea();
-        float x = args.get(3);
-        float y = args.get(4);
+        int x = args.get(3);
+        int y = args.get(4);
         args.set(3,x - screenBorder);
         args.set(4,y - screenBorder);
     }
