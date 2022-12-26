@@ -23,7 +23,7 @@ import java.util.function.Predicate;
 
 public class DyingTrees {
 
-    public static TreeDecoratorType<FullTrunkVineTreeDecorator> VINE_DECORATOR;
+    public static TreeDecoratorType<FullTrunkVineTreeDecorator> VINE_DECORATOR = TreeDecoratorType.register("bedrockify:vinedecorator", FullTrunkVineTreeDecorator.CODEC);
 
     public static final RegistryKey<ConfiguredFeature<?, ?>> DYING_OAK_TREE = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, new Identifier("bedrockify", "dying_oak_tree"));
     public static final RegistryKey<ConfiguredFeature<?, ?>> DYING_BIRCH_TREE = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, new Identifier("bedrockify", "dying_birch_tree"));
@@ -66,49 +66,80 @@ public class DyingTrees {
     }
 
     private static void registerDyingTrees (){
-
-        if(!Bedrockify.getInstance().settings.dyingTrees)
-            return;
-
-        VINE_DECORATOR = TreeDecoratorType.register("bedrockify:vinedecorator", FullTrunkVineTreeDecorator.CODEC);
+        final boolean bDyingTreesEnabled = Bedrockify.getInstance().settings.dyingTrees;
 
         BiomeModifications.create(new Identifier("bedrockify:dyingtrees_birch")).add(ModificationPhase.ADDITIONS, BIRCH_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,DYING_BIRCH_TREE_PF);
+            if (bDyingTreesEnabled) {
+                biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION, DYING_BIRCH_TREE_PF);
+            } else {
+                biomeModificationContext.getGenerationSettings().removeFeature(GenerationStep.Feature.VEGETAL_DECORATION, DYING_BIRCH_TREE_PF);
+            }
         });
         BiomeModifications.create(new Identifier("bedrockify:dyingtrees_oak")).add(ModificationPhase.ADDITIONS, OAK_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,DYING_OAK_TREE_PF);
+            if (bDyingTreesEnabled) {
+                biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION, DYING_OAK_TREE_PF);
+            } else {
+                biomeModificationContext.getGenerationSettings().removeFeature(GenerationStep.Feature.VEGETAL_DECORATION, DYING_OAK_TREE_PF);
+            }
         });
         BiomeModifications.create(new Identifier("bedrockify:dyingtrees_oak_plains")).add(ModificationPhase.ADDITIONS, OAK_PLAINS_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,DYING_OAK_TREE_PLAINS_PF);
+            if (bDyingTreesEnabled) {
+                biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION, DYING_OAK_TREE_PLAINS_PF);
+            } else {
+                biomeModificationContext.getGenerationSettings().removeFeature(GenerationStep.Feature.VEGETAL_DECORATION, DYING_OAK_TREE_PLAINS_PF);
+            }
         });
         BiomeModifications.create(new Identifier("bedrockify:dyingtrees_spruce")).add(ModificationPhase.ADDITIONS, SPRUCE_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,DYING_SPRUCE_TREE_PF);
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,DYING_PINE_TREE_PF);
+            if (bDyingTreesEnabled) {
+                biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION, DYING_SPRUCE_TREE_PF);
+                biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION, DYING_PINE_TREE_PF);
+            } else {
+                biomeModificationContext.getGenerationSettings().removeFeature(GenerationStep.Feature.VEGETAL_DECORATION, DYING_SPRUCE_TREE_PF);
+                biomeModificationContext.getGenerationSettings().removeFeature(GenerationStep.Feature.VEGETAL_DECORATION, DYING_PINE_TREE_PF);
+            }
         });
         BiomeModifications.create(new Identifier("bedrockify:dyingtrees_dark_oak")).add(ModificationPhase.ADDITIONS, DARK_OAK_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,DYING_DARK_OAK_TREE_PF);
+            if (bDyingTreesEnabled) {
+                biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION, DYING_DARK_OAK_TREE_PF);
+            } else {
+                biomeModificationContext.getGenerationSettings().removeFeature(GenerationStep.Feature.VEGETAL_DECORATION, DYING_DARK_OAK_TREE_PF);
+            }
         });
     }
 
     private static void registerFallenTrees(){
-
-        if(!Bedrockify.getInstance().settings.fallenTrees)
-            return;
+        final boolean bFallenTreesEnabled = Bedrockify.getInstance().settings.fallenTrees;
 
         BiomeModifications.create(new Identifier("bedrockify:fallentrees_birch")).add(ModificationPhase.ADDITIONS, BIRCH_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,FALLEN_BIRCH_TREE_PLACED);
+            if (bFallenTreesEnabled) {
+                biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION, FALLEN_BIRCH_TREE_PLACED);
+            } else {
+                biomeModificationContext.getGenerationSettings().removeFeature(GenerationStep.Feature.VEGETAL_DECORATION, FALLEN_BIRCH_TREE_PLACED);
+            }
         });
 
         BiomeModifications.create(new Identifier("bedrockify:fallentrees_oak")).add(ModificationPhase.ADDITIONS, OAK_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,FALLEN_OAK_TREE_PLACED);
+            if (bFallenTreesEnabled) {
+                biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION, FALLEN_OAK_TREE_PLACED);
+            } else {
+                biomeModificationContext.getGenerationSettings().removeFeature(GenerationStep.Feature.VEGETAL_DECORATION, FALLEN_OAK_TREE_PLACED);
+            }
         });
 
         BiomeModifications.create(new Identifier("bedrockify:fallentrees_oak_plains")).add(ModificationPhase.ADDITIONS, OAK_PLAINS_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,FALLEN_OAK_TREE_PLAINS_PLACED);
+            if (bFallenTreesEnabled) {
+                biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION, FALLEN_OAK_TREE_PLAINS_PLACED);
+            } else {
+                biomeModificationContext.getGenerationSettings().removeFeature(GenerationStep.Feature.VEGETAL_DECORATION, FALLEN_OAK_TREE_PLAINS_PLACED);
+            }
         });
 
         BiomeModifications.create(new Identifier("bedrockify:fallentrees_spruce")).add(ModificationPhase.ADDITIONS, SPRUCE_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,FALLEN_SPRUCE_TREE_PLACED);
+            if (bFallenTreesEnabled) {
+                biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION, FALLEN_SPRUCE_TREE_PLACED);
+            } else {
+                biomeModificationContext.getGenerationSettings().removeFeature(GenerationStep.Feature.VEGETAL_DECORATION, FALLEN_SPRUCE_TREE_PLACED);
+            }
         });
 
     }
