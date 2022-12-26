@@ -27,7 +27,7 @@ public class Bedrockify implements ModInitializer {
         LOGGER.info("Initializing BedrockIfy.");
         loadSettings();
         instance = this;
-        init();
+        DyingTrees.registerTrees();
     }
 
     public void loadSettings() {
@@ -59,15 +59,5 @@ public class Bedrockify implements ModInitializer {
         } catch (IOException e) {
             LOGGER.warn("Could not save bedrockIfy settings: " + e.getLocalizedMessage());
         }
-
-        // re-initialize
-        init();
-    }
-
-    /**
-     * Will be called to re-initialize
-     */
-    private void init() {
-        DyingTrees.registerTrees();
     }
 }

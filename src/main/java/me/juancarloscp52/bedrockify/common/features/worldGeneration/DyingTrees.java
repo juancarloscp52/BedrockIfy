@@ -142,11 +142,9 @@ public class DyingTrees {
     }
 
     private static void registerDyingTrees (){
-        final boolean bDyingTreesEnabled = Bedrockify.getInstance().settings.dyingTrees;
-
         DYING_TREE_DECORATORS.forEach((modification, decorator) -> {
             modification.add(ModificationPhase.ADDITIONS, decorator.selector, biomeModificationContext -> {
-                if (bDyingTreesEnabled) {
+                if (Bedrockify.getInstance().settings.dyingTrees) {
                     decorator.features.forEach(feature -> {
                         biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION, feature);
                     });
@@ -160,11 +158,9 @@ public class DyingTrees {
     }
 
     private static void registerFallenTrees(){
-        final boolean bFallenTreesEnabled = Bedrockify.getInstance().settings.fallenTrees;
-
         FALLEN_TREE_DECORATORS.forEach((modification, decorator) -> {
             modification.add(ModificationPhase.ADDITIONS, decorator.selector, biomeModificationContext -> {
-                if (bFallenTreesEnabled) {
+                if (Bedrockify.getInstance().settings.fallenTrees) {
                     decorator.features.forEach(feature -> {
                         biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION, feature);
                     });
