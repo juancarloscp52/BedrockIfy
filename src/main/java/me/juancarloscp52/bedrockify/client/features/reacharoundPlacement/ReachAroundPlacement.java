@@ -38,7 +38,7 @@ public class ReachAroundPlacement {
         if(client.world == null || client.player == null)
             return false;
         Block playerPosBlock = client.world.getBlockState(client.player.getBlockPos()).getBlock();
-        return playerPosBlock instanceof SlabBlock || playerPosBlock instanceof  StairsBlock || playerPosBlock instanceof ChainBlock || playerPosBlock instanceof  EndRodBlock || playerPosBlock instanceof  BedBlock || playerPosBlock instanceof  SkullBlock || playerPosBlock instanceof  StonecutterBlock || playerPosBlock instanceof AbstractChestBlock;
+        return playerPosBlock instanceof SoulSandBlock || playerPosBlock instanceof MudBlock || playerPosBlock instanceof SlabBlock || playerPosBlock instanceof  StairsBlock || playerPosBlock instanceof ChainBlock || playerPosBlock instanceof  EndRodBlock || playerPosBlock instanceof  BedBlock || playerPosBlock instanceof  SkullBlock || playerPosBlock instanceof  StonecutterBlock || playerPosBlock instanceof AbstractChestBlock;
     }
 
     private boolean checkRelativeBlockPosition() {
