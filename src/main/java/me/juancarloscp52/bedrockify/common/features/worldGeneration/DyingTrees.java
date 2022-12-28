@@ -1,16 +1,15 @@
 package me.juancarloscp52.bedrockify.common.features.worldGeneration;
 
+import com.google.common.collect.Maps;
 import me.juancarloscp52.bedrockify.Bedrockify;
-import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
-import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
-import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
-import net.fabricmc.fabric.api.biome.v1.ModificationPhase;
+import net.fabricmc.fabric.api.biome.v1.*;
 import net.minecraft.block.Blocks;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 import net.minecraft.world.biome.BiomeKeys;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.ConfiguredFeature;
@@ -19,11 +18,15 @@ import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.PlacedFeature;
 import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 
-import java.util.function.Predicate;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.function.*;
 
 public class DyingTrees {
 
-    public static TreeDecoratorType<FullTrunkVineTreeDecorator> VINE_DECORATOR;
+    public static final TreeDecoratorType<FullTrunkVineTreeDecorator> VINE_DECORATOR = TreeDecoratorType.register("bedrockify:vinedecorator", FullTrunkVineTreeDecorator.CODEC);
 
     public static final RegistryKey<ConfiguredFeature<?, ?>> DYING_OAK_TREE = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, new Identifier("bedrockify", "dying_oak_tree"));
     public static final RegistryKey<ConfiguredFeature<?, ?>> DYING_BIRCH_TREE = RegistryKey.of(RegistryKeys.CONFIGURED_FEATURE, new Identifier("bedrockify", "dying_birch_tree"));
@@ -60,55 +63,113 @@ public class DyingTrees {
     private static final Predicate<BiomeSelectionContext> SPRUCE_BIOME_SELECTION_CONTEXT = BiomeSelectors.includeByKey(BiomeKeys.OLD_GROWTH_SPRUCE_TAIGA,BiomeKeys.OLD_GROWTH_PINE_TAIGA, BiomeKeys.TAIGA,BiomeKeys.WINDSWEPT_FOREST,BiomeKeys.TAIGA);
     private static final Predicate<BiomeSelectionContext> DARK_OAK_BIOME_SELECTION_CONTEXT = BiomeSelectors.includeByKey(BiomeKeys.DARK_FOREST);
 
+    /**
+     * Register modifiers for dying tree<br>
+     * BiomeModification -&gt; BiomeDecorator
+     *
+     * @see BiomeModification
+     * @see DyingTrees.BiomeDecorator
+     */
+    private static final Map<BiomeModification, BiomeDecorator> DYING_TREE_DECORATORS = Util.make(Maps.newHashMap(), map -> {
+        map.put(
+                BiomeModifications.create(new Identifier("bedrockify:dyingtrees_birch")),
+                new BiomeDecorator(BIRCH_BIOME_SELECTION_CONTEXT, DYING_BIRCH_TREE_PF)
+        );
+        map.put(
+                BiomeModifications.create(new Identifier("bedrockify:dyingtrees_oak")),
+                new BiomeDecorator(OAK_BIOME_SELECTION_CONTEXT, DYING_OAK_TREE_PF)
+        );
+        map.put(
+                BiomeModifications.create(new Identifier("bedrockify:dyingtrees_oak_plains")),
+                new BiomeDecorator(OAK_PLAINS_BIOME_SELECTION_CONTEXT, DYING_OAK_TREE_PLAINS_PF)
+        );
+        map.put(
+                BiomeModifications.create(new Identifier("bedrockify:dyingtrees_spruce")),
+                new BiomeDecorator(SPRUCE_BIOME_SELECTION_CONTEXT, DYING_SPRUCE_TREE_PF, DYING_PINE_TREE_PF)
+        );
+        map.put(
+                BiomeModifications.create(new Identifier("bedrockify:dyingtrees_dark_oak")),
+                new BiomeDecorator(DARK_OAK_BIOME_SELECTION_CONTEXT, DYING_DARK_OAK_TREE_PF)
+        );
+    });
+
+    /**
+     * Register modifiers for fallen tree<br>
+     * BiomeModification -&gt; BiomeDecorator
+     *
+     * @see BiomeModification
+     * @see DyingTrees.BiomeDecorator
+     */
+    private static final Map<BiomeModification, BiomeDecorator> FALLEN_TREE_DECORATORS = Util.make(Maps.newHashMap(), map -> {
+        map.put(
+                BiomeModifications.create(new Identifier("bedrockify:fallentrees_birch")),
+                new BiomeDecorator(BIRCH_BIOME_SELECTION_CONTEXT, FALLEN_BIRCH_TREE_PLACED)
+        );
+        map.put(
+                BiomeModifications.create(new Identifier("bedrockify:fallentrees_oak")),
+                new BiomeDecorator(OAK_BIOME_SELECTION_CONTEXT, FALLEN_OAK_TREE_PLACED)
+        );
+        map.put(
+                BiomeModifications.create(new Identifier("bedrockify:fallentrees_oak_plains")),
+                new BiomeDecorator(OAK_PLAINS_BIOME_SELECTION_CONTEXT, FALLEN_OAK_TREE_PLAINS_PLACED)
+        );
+        map.put(
+                BiomeModifications.create(new Identifier("bedrockify:fallentrees_spruce")),
+                new BiomeDecorator(SPRUCE_BIOME_SELECTION_CONTEXT, FALLEN_SPRUCE_TREE_PLACED)
+        );
+    });
+
+    /**
+     * A data only class that records BiomeSelectionContext and List of PlacedFeature
+     *
+     * @see BiomeSelectionContext
+     * @see PlacedFeature
+     */
+    private static final class BiomeDecorator {
+        public final Predicate<BiomeSelectionContext> selector;
+        public final List<RegistryKey<PlacedFeature>> features;
+
+        @SafeVarargs
+        public BiomeDecorator(Predicate<BiomeSelectionContext> selector, RegistryKey<PlacedFeature>... features) {
+            this.selector = selector;
+            this.features = Arrays.stream(features).filter(Objects::nonNull).toList();
+        }
+    }
+
     public static void registerTrees(){
         registerDyingTrees();
         registerFallenTrees();
     }
 
     private static void registerDyingTrees (){
-
-        if(!Bedrockify.getInstance().settings.dyingTrees)
-            return;
-
-        VINE_DECORATOR = TreeDecoratorType.register("bedrockify:vinedecorator", FullTrunkVineTreeDecorator.CODEC);
-
-        BiomeModifications.create(new Identifier("bedrockify:dyingtrees_birch")).add(ModificationPhase.ADDITIONS, BIRCH_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,DYING_BIRCH_TREE_PF);
-        });
-        BiomeModifications.create(new Identifier("bedrockify:dyingtrees_oak")).add(ModificationPhase.ADDITIONS, OAK_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,DYING_OAK_TREE_PF);
-        });
-        BiomeModifications.create(new Identifier("bedrockify:dyingtrees_oak_plains")).add(ModificationPhase.ADDITIONS, OAK_PLAINS_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,DYING_OAK_TREE_PLAINS_PF);
-        });
-        BiomeModifications.create(new Identifier("bedrockify:dyingtrees_spruce")).add(ModificationPhase.ADDITIONS, SPRUCE_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,DYING_SPRUCE_TREE_PF);
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,DYING_PINE_TREE_PF);
-        });
-        BiomeModifications.create(new Identifier("bedrockify:dyingtrees_dark_oak")).add(ModificationPhase.ADDITIONS, DARK_OAK_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,DYING_DARK_OAK_TREE_PF);
+        DYING_TREE_DECORATORS.forEach((modification, decorator) -> {
+            modification.add(ModificationPhase.ADDITIONS, decorator.selector, biomeModificationContext -> {
+                if (Bedrockify.getInstance().settings.dyingTrees) {
+                    decorator.features.forEach(feature -> {
+                        biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION, feature);
+                    });
+                } else {
+                    decorator.features.forEach(feature -> {
+                        biomeModificationContext.getGenerationSettings().removeFeature(GenerationStep.Feature.VEGETAL_DECORATION, feature);
+                    });
+                }
+            });
         });
     }
 
     private static void registerFallenTrees(){
-
-        if(!Bedrockify.getInstance().settings.fallenTrees)
-            return;
-
-        BiomeModifications.create(new Identifier("bedrockify:fallentrees_birch")).add(ModificationPhase.ADDITIONS, BIRCH_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,FALLEN_BIRCH_TREE_PLACED);
-        });
-
-        BiomeModifications.create(new Identifier("bedrockify:fallentrees_oak")).add(ModificationPhase.ADDITIONS, OAK_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,FALLEN_OAK_TREE_PLACED);
-        });
-
-        BiomeModifications.create(new Identifier("bedrockify:fallentrees_oak_plains")).add(ModificationPhase.ADDITIONS, OAK_PLAINS_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,FALLEN_OAK_TREE_PLAINS_PLACED);
-        });
-
-        BiomeModifications.create(new Identifier("bedrockify:fallentrees_spruce")).add(ModificationPhase.ADDITIONS, SPRUCE_BIOME_SELECTION_CONTEXT,biomeModificationContext -> {
-            biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION,FALLEN_SPRUCE_TREE_PLACED);
+        FALLEN_TREE_DECORATORS.forEach((modification, decorator) -> {
+            modification.add(ModificationPhase.ADDITIONS, decorator.selector, biomeModificationContext -> {
+                if (Bedrockify.getInstance().settings.fallenTrees) {
+                    decorator.features.forEach(feature -> {
+                        biomeModificationContext.getGenerationSettings().addFeature(GenerationStep.Feature.VEGETAL_DECORATION, feature);
+                    });
+                } else {
+                    decorator.features.forEach(feature -> {
+                        biomeModificationContext.getGenerationSettings().removeFeature(GenerationStep.Feature.VEGETAL_DECORATION, feature);
+                    });
+                }
+            });
         });
 
     }
