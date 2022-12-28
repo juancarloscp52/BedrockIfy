@@ -1,20 +1,21 @@
 package me.juancarloscp52.bedrockify.client.features.worldColorNoise;
 
+import com.google.common.collect.ImmutableList;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.noise.SimplexNoiseSampler;
+import net.minecraft.util.math.noise.OctaveSimplexNoiseSampler;
 import net.minecraft.util.math.random.CheckedRandom;
 import net.minecraft.util.math.random.ChunkRandom;
 
 public class WorldColorNoiseSampler {
-    SimplexNoiseSampler noiseSampler;
+    OctaveSimplexNoiseSampler noiseSampler;
     public WorldColorNoiseSampler(){
-        noiseSampler = new SimplexNoiseSampler(new ChunkRandom(new CheckedRandom(98756L)));
+        noiseSampler = new OctaveSimplexNoiseSampler(new ChunkRandom(new CheckedRandom(98756L)), ImmutableList.of(-1, 0, 1));
     }
 
     public double getSample (double x, double z, float scale){
-        return noiseSampler.sample(x/scale,z/scale);
+        return noiseSampler.sample(x/scale,z/scale, true);
     }
 
     public int applyNoise(BlockPos pos, int previousColor, float scale, float intensity){
