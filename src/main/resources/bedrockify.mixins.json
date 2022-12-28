@@ -34,6 +34,9 @@
     "client.features.screenSafeArea.InGameHudMixin",
     "client.features.screenSafeArea.SubtitlesHudMixin",
     "client.features.slotHighlight.HandledScreenMixin",
+    "client.features.useAnimations.ClientPlayerEntityMixin",
+    "client.features.useAnimations.ClientPlayerInteractionManagerMixin",
+    "client.features.useAnimations.ClientPlayNetworkHandlerMixin",
     "client.features.worldColorNoise.BiomeColorsMixin"
   ],
   "mixins": [
@@ -51,7 +54,6 @@
     "common.features.recipes.FireworkStarRecipeMixin",
     "common.features.recipes.RecipeManagerMixin",
     "common.features.recipes.ShulkerBoxColoringRecipeMixin",
-    "common.features.useAnimations.ItemStackMixin",
     "common.features.worldGeneration.TreeConfiguredFeaturesInvoker"
   ],
   "injectors": {
