@@ -42,7 +42,7 @@ public abstract class ClientPlayerInteractionManagerMixin {
         }
 
         final ItemStack itemStack = player.getMainHandStack();
-        if (itemStack.isDamageable()) {
+        if (itemStack.getItem() instanceof ToolItem) {
             AnimationsHelper.doBobbingAnimation(itemStack);
         }
     }
