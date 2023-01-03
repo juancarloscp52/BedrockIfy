@@ -6,9 +6,9 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerInteractionManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.*;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
@@ -37,6 +37,10 @@ public abstract class ClientPlayerInteractionManagerMixin {
             return;
         }
 
+        if (!(target instanceof LivingEntity)) {
+            return;
+        }
+
         final ItemStack itemStack = player.getMainHandStack();
         if (itemStack.isDamageable()) {
             AnimationsHelper.doBobbingAnimation(itemStack);
@@ -46,7 +50,6 @@ public abstract class ClientPlayerInteractionManagerMixin {
     /**
      * Break the block and animate.
      */
-    // TODO: When break the block with Flint and Steel (Not mining tools), it gets no damage but animate.
     @Inject(method = "breakBlock", at = @At("RETURN"))
     private void bedrockify$useToolBreakable(BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
         final PlayerEntity player = this.client.player;
@@ -55,7 +58,8 @@ public abstract class ClientPlayerInteractionManagerMixin {
         }
 
         final ItemStack itemStack = player.getMainHandStack();
-        if (itemStack.isDamageable()) {
+        final Item item = itemStack.getItem();
+        if (item instanceof ToolItem || item == Items.SHEARS) {
             AnimationsHelper.doBobbingAnimation(itemStack);
         }
     }
@@ -81,7 +85,10 @@ public abstract class ClientPlayerInteractionManagerMixin {
             return;
         }
 
-        if (cir.getReturnValue().shouldSwingHand()) {
+        final ItemStack itemStack = player.getStackInHand(hand);
+        final ActionResult actionResult = cir.getReturnValue();
+        final boolean bNotSwingHandAnim = actionResult.isAccepted() && (itemStack.isOf(Items.GOAT_HORN) || itemStack.isOf(Items.ENDER_PEARL));
+        if (actionResult.shouldSwingHand() || bNotSwingHandAnim) {
             AnimationsHelper.doBobbingAnimation(player.getStackInHand(hand));
         }
     }
