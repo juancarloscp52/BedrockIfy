@@ -37,7 +37,7 @@ public final class AnimationsHelper {
             // TODO: tick per second is 20 (MC 1.19.3)
             cooldownTimeMillis = ANIMATION_TIME * (1000 / 20.0);
         }
-        COOLDOWN_TIME_MILLIS = cooldownTimeMillis;
+        COOLDOWN_TIME_MILLIS = cooldownTimeMillis / 2.;
     }
 
     /**
