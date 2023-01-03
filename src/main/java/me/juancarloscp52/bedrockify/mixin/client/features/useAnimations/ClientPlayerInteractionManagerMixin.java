@@ -70,7 +70,7 @@ public abstract class ClientPlayerInteractionManagerMixin {
     @Redirect(method = "interactBlockInternal", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;useOnBlock(Lnet/minecraft/item/ItemUsageContext;)Lnet/minecraft/util/ActionResult;"))
     private ActionResult bedrockify$useItemToBlock(ItemStack instance, ItemUsageContext context) {
         final ActionResult actionResult = instance.useOnBlock(context);
-        if (actionResult.isAccepted() && context.getPlayer() != null && !context.getStack().isOf(Items.BONE_MEAL)) {
+        if (actionResult.isAccepted() && context.getPlayer() != null && !context.getStack().isStackable()) {
             AnimationsHelper.doBobbingAnimation(context.getPlayer().getStackInHand(context.getHand()));
         }
         return actionResult;
