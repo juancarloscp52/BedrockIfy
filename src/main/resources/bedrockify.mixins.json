@@ -37,8 +37,6 @@
     "client.features.useAnimations.ClientPlayerEntityMixin",
     "client.features.useAnimations.ClientPlayerInteractionManagerMixin",
     "client.features.useAnimations.ClientPlayNetworkHandlerMixin",
-    "client.features.useAnimations.MinecraftClientAccessor",
-    "client.features.useAnimations.RenderTickCounterAccessor",
     "client.features.worldColorNoise.BiomeColorsMixin"
   ],
   "mixins": [
