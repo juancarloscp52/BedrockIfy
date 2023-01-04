@@ -1,6 +1,5 @@
 package me.juancarloscp52.bedrockify.client.features.useAnimations;
 
-import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.mixin.client.features.useAnimations.MinecraftClientAccessor;
 import me.juancarloscp52.bedrockify.mixin.client.features.useAnimations.RenderTickCounterAccessor;
@@ -46,7 +45,7 @@ public final class AnimationsHelper {
      * @param target the ItemStack
      */
     public static void doBobbingAnimation(ItemStack target) {
-        if (!Bedrockify.getInstance().settings.isPickupAnimationsEnabled()) {
+        if (!BedrockifyClient.getInstance().settings.isPickupAnimationsEnabled()) {
             return;
         }
         if (target.isEmpty()) {
