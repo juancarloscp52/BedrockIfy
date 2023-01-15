@@ -33,7 +33,7 @@ public class MixinFeatureManager {
         features.put("client.features.biggerDraggingItem",true);
         //features.put("client.features.sneakingShield", true);
         features.put("common.features.recipes", true);
-        features.put("common.features.useAnimations", true);
+        features.put("client.features.useAnimations", true);
         //features.put("common.features.worldGeneration", true);
         features.put("client.features.bedrockShading", true);
         features.put("common.features.fireAspect", true);

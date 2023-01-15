@@ -1,6 +1,6 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.pickupAnimations;
 
-import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.gui.DrawableHelper;
@@ -27,7 +27,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
     }
     @Redirect(method = "renderHotbarItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;scale(FFF)V"))
     private void applyAnimation(MatrixStack matrixStack, float x, float y, float z){
-        if(!Bedrockify.getInstance().settings.isPickupAnimationsEnabled()){
+        if(!BedrockifyClient.getInstance().settings.isPickupAnimationsEnabled()){
             matrixStack.scale(x,y,z);
             return;
         }
