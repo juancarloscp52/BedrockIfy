@@ -106,7 +106,7 @@ public class PaperDoll {
             player.setYaw(headYaw - bodyYaw + angle);
             player.headYaw = player.getYaw();
         } else {
-            player.headYaw = angle;
+            player.headYaw = headYaw - bodyYaw + angle;
         }
         player.bodyYaw = angle;
 
