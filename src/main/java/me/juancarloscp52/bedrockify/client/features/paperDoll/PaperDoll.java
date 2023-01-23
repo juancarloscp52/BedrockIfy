@@ -102,11 +102,11 @@ public class PaperDoll {
 
         // Set the entity desired rotation for drawing.
         float angle = 145;
-        if (!player.isFallFlying()) {
+        if (player.isFallFlying() || player.isBlocking()) {
+            player.headYaw = angle;
+        } else {
             player.setYaw(headYaw - bodyYaw + angle);
             player.headYaw = player.getYaw();
-        } else {
-            player.headYaw = headYaw - bodyYaw + angle;
         }
         player.bodyYaw = angle;
 
