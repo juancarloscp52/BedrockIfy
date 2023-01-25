@@ -65,6 +65,7 @@
   "bedrockify.options.mixins.description": "In this category, you can Enable/Disable mixins for certain features. Disabling mixins will also disable their related features. Mixins can be disabled in order to improve compatibility with other mods.\n§4Please do not change these settings unless you know what you are doing!",
   "bedrockify.options.disableFlyingMomentum": "Disable Flying Momentum:",
   "bedrockify.options.elytraStop": "Elytra Flight Cancelling:",
+  "bedrockify.options.hudOpacity": "Hud Opacity:",
   "bedrockify.options.elytraStop.tooltip": "Press space while flying with elytra to stop flying mid air.",
   "bedrockify.loadingTips.1":"Use seagrass to attract and breed turtles.",
   "bedrockify.loadingTips.2":"Protect baby turtles from hostile mobs!",

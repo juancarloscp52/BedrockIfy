@@ -54,6 +54,7 @@ public class SettingsGUI {
         guiImprovements.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.chatStyle"), settingsClient.bedrockChat).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.bedrockChat=newValue).setYesNoTextSupplier((value)->value ? Text.translatable("bedrockify.options.chatStyle.bedrock") : Text.translatable("bedrockify.options.chatStyle.vanilla")).build());
         guiImprovements.add(entryBuilder.startIntSlider(Text.translatable("bedrockify.options.screenSafeArea"), settingsClient.screenSafeArea,0,30).setDefaultValue(0).setSaveConsumer((newValue)-> settingsClient.screenSafeArea=newValue).build());
         guiImprovements.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.ignoreBorder"), settingsClient.overlayIgnoresSafeArea).setDefaultValue(false).setSaveConsumer(newValue -> settingsClient.overlayIgnoresSafeArea=newValue).build());
+        guiImprovements.add(entryBuilder.startIntSlider(Text.translatable("bedrockify.options.hudOpacity"), settingsClient.hudOpacity,0,100).setDefaultValue(50).setSaveConsumer((newValue)-> settingsClient.hudOpacity=newValue).build());
         guiImprovements.add(entryBuilder.startSelector(Text.translatable("bedrockify.options.tooltips"), new Byte []{0,1,2}, settingsClient.heldItemTooltip).setDefaultValue((byte) 2).setNameProvider((value)-> switch (value) {
             case 0 -> Text.translatable("bedrockify.options.off");
             case 1 -> Text.translatable("bedrockify.options.on");

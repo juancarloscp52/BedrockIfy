@@ -67,6 +67,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
         if(this.isChatHidden())
             return;
 
+        RenderSystem.setShaderColor(1,1,1,1);
         int visibleLines = Math.min(this.getVisibleLineCount(),this.getAvailableLines());
         int visibleMessagesCount = this.visibleMessages.size();
 
@@ -100,8 +101,8 @@ public abstract class ChatHudMixin extends DrawableHelper {
             int ticksSinceCreation = ticks - visible.addedTime();
             if (visible == null || ticksSinceCreation >= 200 && !isChatFocused) continue;
             double opacityMultiplayer = isChatFocused ? 1.0D : getMessageOpacityMultiplier(ticksSinceCreation);
-            int finalTextOpacity = (int)(255.0D * opacityMultiplayer * textOpacity); //u
-            int finalBackgroundOpacity = (int)(255.0D * opacityMultiplayer * backgroundOpacity);//v
+            int finalTextOpacity = (int)((255.0D * opacityMultiplayer * textOpacity)*BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false)); //u
+            int finalBackgroundOpacity = (int)((255.0D * opacityMultiplayer * backgroundOpacity)*BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false));//v
             ++counter1;
             if (finalTextOpacity <= 3) continue;
             double currentMessageHeight = (double)(-i) * chatLineSpacing1;
@@ -130,8 +131,8 @@ public abstract class ChatHudMixin extends DrawableHelper {
         }
         long ac = this.client.getMessageHandler().getUnprocessedMessageCount();
         if (ac > 0L) {
-            int textOpacityFinal = (int)(128.0 * textOpacity);
-            int backgroundOpacityFinal = (int)(255.0D * backgroundOpacity);
+            int textOpacityFinal = (int)((128.0 * textOpacity)*BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false));
+            int backgroundOpacityFinal = (int)(255.0D * backgroundOpacity*BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false));
             matrices.push();
             matrices.translate(0.0f, m, 50.0f);
             ChatHud.fill(matrices, -2, 0, scaledChatWidth + 4, 9, backgroundOpacityFinal << 24);

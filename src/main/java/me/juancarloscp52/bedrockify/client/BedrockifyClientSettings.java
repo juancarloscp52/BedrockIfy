@@ -40,6 +40,7 @@ public class BedrockifyClientSettings {
     public boolean expTextStyle = true;
     public boolean quickArmorSwap = true;
     public boolean transparentHotBar = true;
+    public int hudOpacity = 50;
     public boolean biggerIcons = true;
     public boolean sneakingShield = true;
     public boolean bedrockShading = true;

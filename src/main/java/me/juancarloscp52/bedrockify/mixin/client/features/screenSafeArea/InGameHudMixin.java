@@ -32,9 +32,9 @@ public abstract class InGameHudMixin extends DrawableHelper {
     @Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;drawTexture(Lnet/minecraft/client/util/math/MatrixStack;IIIIII)V"))
     private void drawTextureHotbar(InGameHud inGameHud, MatrixStack matrices, int x, int y, int u, int v, int width, int height) {
         if((width ==29 && height == 24) || width == 182){
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, BedrockifyClient.getInstance().settings.isTransparentHotBarEnabled()? 0.6F:1.0F);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, BedrockifyClient.getInstance().hudOpacity.getHudOpacity(true));
             inGameHud.drawTexture(matrices, x, y - screenBorder, u, v, width, height);
-            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false));
         }else{
             inGameHud.drawTexture(matrices, x, y - screenBorder, u, v, width, width == 24 ? height+2 : height);
         }
@@ -61,13 +61,15 @@ public abstract class InGameHudMixin extends DrawableHelper {
      */
     @Redirect(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;draw(Lnet/minecraft/client/util/math/MatrixStack;Ljava/lang/String;FFI)I"))
     private int drawExperienceBar(TextRenderer fontRenderer, MatrixStack matrices, String text, float x, float y, int color) {
+        int alpha = (int) Math.ceil(BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false)*255);
+
         if(!BedrockifyClient.getInstance().settings.isExpTextStyle()){
-            return fontRenderer.draw(matrices, text, x, y-screenBorder, color);
+            return fontRenderer.draw(matrices, text, x, y-screenBorder, color | ((alpha) << 24));
         }
 
         if(color == 0)
             return 0;
-        return fontRenderer.drawWithShadow(matrices, text, x, y-screenBorder-3, MathHelper.packRgb(127, 252, 32));
+        return fontRenderer.drawWithShadow(matrices, text, x, y-screenBorder-3, MathHelper.packRgb(127, 252, 32) | (alpha << 24));
     }
 
     /**
@@ -119,15 +121,5 @@ public abstract class InGameHudMixin extends DrawableHelper {
     public float modifyOverlayMessage(float y){
         return y-screenBorder;
     }
-
-/*    @ModifyArg(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I",ordinal = 0),index = 3)
-    public float modifyTittle(float y){
-        return y - (screenBorder/4.0f);
-    }
-
-    @ModifyArg(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I",ordinal = 1),index = 3)
-    public float modifySubtitle(float y){
-        return y - (screenBorder/2.0f);
-    }*/
 
 }
