@@ -5,12 +5,14 @@ import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.BedrockifyClientSettings;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.entity.EntityRenderDispatcher;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.EntityPose;
 import net.minecraft.util.math.MathHelper;
 import org.joml.Quaternionf;
+import org.joml.Vector3f;
 
 import java.util.Arrays;
 
@@ -20,6 +22,14 @@ public class PaperDoll {
     private int posY = 60;
     private long lastTimeShown = 0;
     private BedrockifyClientSettings settings;
+    /**
+     * Uses in method <code>drawPaperDoll</code>; the custom shading vectors.
+     *
+     * @see net.minecraft.client.render.DiffuseLighting#disableGuiDepthLighting
+     * @see RenderSystem#setupGuiFlatDiffuseLighting
+     */
+    private static final Vector3f FLAT_LIT_VEC1 = (new Vector3f(0.2F, 0.5F, -0.7F)).normalize();
+    private static final Vector3f FLAT_LIT_VEC2 = (new Vector3f(-0.2F, 0.5F, 0.7F)).normalize();
     public PaperDoll(MinecraftClient client) {
         this.client = client;
     }
@@ -92,13 +102,16 @@ public class PaperDoll {
 
         // Set the entity desired rotation for drawing.
         float angle = 145;
-        if (!player.isFallFlying()) {
+        if (player.isFallFlying() || player.isBlocking()) {
+            player.headYaw = angle;
+        } else {
             player.setYaw(headYaw - bodyYaw + angle);
             player.headYaw = player.getYaw();
-        } else {
-            player.headYaw = angle;
         }
         player.bodyYaw = angle;
+
+        // Set up shading.
+        RenderSystem.setupGuiFlatDiffuseLighting(FLAT_LIT_VEC1, FLAT_LIT_VEC2);
 
         // Draw the entity.
         EntityRenderDispatcher entityRenderDispatcher = MinecraftClient.getInstance().getEntityRenderDispatcher();
@@ -114,6 +127,9 @@ public class PaperDoll {
         player.headYaw = headYaw;
 
         matrixStack.pop();
+
+        // Restore shading.
+        DiffuseLighting.enableGuiDepthLighting();
     }
 
     private float toMaxAngleRatio(float angle) {
