@@ -3,6 +3,7 @@ package me.juancarloscp52.bedrockify.client;
 import com.google.gson.Gson;
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockBlockShading;
+import me.juancarloscp52.bedrockify.client.features.fishingBobber.FishingBobber3DModel;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.HeldItemTooltips;
 import me.juancarloscp52.bedrockify.client.features.hudOpacity.HudOpacity;
 import me.juancarloscp52.bedrockify.client.features.quickArmorSwap.ArmorReplacer;
@@ -14,6 +15,7 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.client.MinecraftClient;
@@ -66,6 +68,9 @@ public class BedrockifyClient implements ClientModInitializer {
         bedrockBlockShading = new BedrockBlockShading();
         hudOpacity = new HudOpacity();
         keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("bedrockIfy.key.settings", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, "BedrockIfy"));
+
+        // Register 3D Bobber Entity.
+        EntityModelLayerRegistry.registerModelLayer(FishingBobber3DModel.MODEL_LAYER, FishingBobber3DModel::generateModel);
 
 
         ClientPlayNetworking.registerGlobalReceiver(Bedrockify.EAT_PARTICLES, (client, handler, buf, responseSender) -> {

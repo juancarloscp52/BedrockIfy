@@ -20,6 +20,7 @@ public class MixinFeatureManager {
         features.put("client.core.bedrockIfyButton", true);
         features.put("client.features.chat", true);
         features.put("client.features.eatingAnimations", true);
+        features.put("client.features.fishingBobber", true);
         features.put("client.features.heldItemTooltips",true);
         features.put("client.features.idleHandAnimations", true);
         features.put("client.features.loadingScreens", true);
