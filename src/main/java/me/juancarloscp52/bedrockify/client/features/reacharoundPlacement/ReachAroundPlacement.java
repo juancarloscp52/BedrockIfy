@@ -5,13 +5,8 @@ import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Direction;
-import org.joml.Vector3f;
+import net.minecraft.util.math.BlockPos;
 
 import static net.minecraft.client.gui.DrawableHelper.fill;
 
@@ -28,17 +23,12 @@ public class ReachAroundPlacement {
         }
     }
 
-    private boolean canReachAround() {
+    public boolean canReachAround() {
         if (client.player == null || client.world == null || client.crosshairTarget == null)
             return false;
-        return (client.player.isSneaking() || !BedrockifyClient.getInstance().settings.isReacharoundSneakingEnabled()) && client.player.getPitch() > BedrockifyClient.getInstance().settings.getReacharoundPitchAngle() && (!(client.world.getBlockState(client.player.getBlockPos().down()).isAir() || client.world.getBlockState(client.player.getBlockPos().down()).getBlock() instanceof FluidBlock) || isNonFullBlock()) && client.crosshairTarget.getType().equals(HitResult.Type.MISS) && checkRelativeBlockPosition() && ((client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof FluidBlock) || (client.world.getBlockState(client.player.getBlockPos().down().offset(client.player.getHorizontalFacing())).getBlock() instanceof AirBlock));
-    }
-
-    private boolean isNonFullBlock(){
-        if(client.world == null || client.player == null)
-            return false;
-        Block playerPosBlock = client.world.getBlockState(client.player.getBlockPos()).getBlock();
-        return playerPosBlock instanceof SoulSandBlock || playerPosBlock instanceof MudBlock || playerPosBlock instanceof SlabBlock || playerPosBlock instanceof  StairsBlock || playerPosBlock instanceof ChainBlock || playerPosBlock instanceof  EndRodBlock || playerPosBlock instanceof  BedBlock || playerPosBlock instanceof  SkullBlock || playerPosBlock instanceof  StonecutterBlock || playerPosBlock instanceof AbstractChestBlock;
+        final ClientPlayerEntity player = client.player;
+        final BlockPos facingSteppingBlock = client.player.getSteppingPos().offset(client.player.getHorizontalFacing());
+        return (player.isSneaking() || !BedrockifyClient.getInstance().settings.isReacharoundSneakingEnabled()) && player.getPitch() > BedrockifyClient.getInstance().settings.getReacharoundPitchAngle() && player.isOnGround() && client.crosshairTarget.getType().equals(HitResult.Type.MISS) && checkRelativeBlockPosition() && ((client.world.getBlockState(facingSteppingBlock).getBlock() instanceof FluidBlock) || (client.world.getBlockState(facingSteppingBlock).getBlock() instanceof AirBlock));
     }
 
     private boolean checkRelativeBlockPosition() {
@@ -56,30 +46,4 @@ public class ReachAroundPlacement {
         }
         return false;
     }
-
-    public void checkReachAroundAndExecute(Hand hand, ItemStack itemStack) {
-        ClientPlayerEntity player = client.player;
-        if (player == null || client.interactionManager == null)
-            return;
-        int count = itemStack.getCount();
-        Vector3f facing = player.getHorizontalFacing().getUnitVector();
-        if (canReachAround()) {
-            BlockHitResult blockHitResult;
-            if(isNonFullBlock()){
-                blockHitResult = new BlockHitResult(player.getPos().add(facing.x(), facing.y()-1, facing.z()), Direction.fromVector((int) -facing.x(), 0, (int) -facing.z()), player.getBlockPos().offset(player.getHorizontalFacing()), false);
-            }else{
-                blockHitResult = new BlockHitResult(player.getPos().add(facing.x(), facing.y(), facing.z()), Direction.fromVector((int) -facing.x(), 0, (int) -facing.z()), player.getBlockPos().down().offset(player.getHorizontalFacing()), false);
-            }
-            ActionResult result = client.interactionManager.interactBlock(player, hand, blockHitResult);
-            if (result.isAccepted()) {
-                if (result.shouldSwingHand()) {
-                    player.swingHand(hand);
-                    if (!itemStack.isEmpty() && (itemStack.getCount() != count || client.interactionManager.hasCreativeInventory())) {
-                        client.gameRenderer.firstPersonRenderer.resetEquipProgress(hand);
-                    }
-                }
-            }
-        }
-    }
-
 }
