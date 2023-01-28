@@ -28,18 +28,48 @@ public class ReachAroundPlacement {
     public boolean canReachAround() {
         if (client.player == null || client.world == null || client.crosshairTarget == null)
             return false;
+
+        // crosshairTarget must be MISS.
+        if (!client.crosshairTarget.getType().equals(HitResult.Type.MISS)) {
+            return false;
+        }
+
         final ClientPlayerEntity player = client.player;
         final BlockPos targetPos = getFacingSteppingBlockPos(player);
-        return (player.isSneaking() || !BedrockifyClient.getInstance().settings.isReacharoundSneakingEnabled()) && player.getPitch() > BedrockifyClient.getInstance().settings.getReacharoundPitchAngle() && player.isOnGround() && client.crosshairTarget.getType().equals(HitResult.Type.MISS) && checkRelativeBlockPosition() && ((client.world.getBlockState(targetPos).getBlock() instanceof FluidBlock) || (client.world.getBlockState(targetPos).getBlock() instanceof AirBlock));
+
+        // Not sneaking and must sneak in settings.
+        if (!player.isSneaking() && BedrockifyClient.getInstance().settings.isReacharoundSneakingEnabled()) {
+            return false;
+        }
+        // Player may be flying, climbing the ladder or vines, or on the Fluid with sneaking.
+        if (!player.isOnGround() || !isSolidBlock(client.world.getBlockState(player.getSteppingPos()))) {
+            return false;
+        }
+        // There is already a block at the ReachAround target position.
+        if (isSolidBlock(client.world.getBlockState(targetPos))) {
+            return false;
+        }
+
+        return player.getPitch() > BedrockifyClient.getInstance().settings.getReacharoundPitchAngle() && checkRelativeBlockPosition();
     }
 
     /**
-     * Helper method that retrieve Reach-Around block position.
+     * Helper method that retrieves Reach-Around block position.
      *
      * @return The position of the block to be placed.
      */
     public static BlockPos getFacingSteppingBlockPos(@NotNull Entity player) {
         return player.getSteppingPos().offset(player.getHorizontalFacing());
+    }
+
+    /**
+     * Helper method that checks the BlockState is not AIR and FLUIDS.
+     *
+     * @param blockState The target blockState.
+     * @return <code>true</code> if the block is not AIR and FLUIDS.
+     */
+    private static boolean isSolidBlock(@NotNull BlockState blockState) {
+        return !blockState.isAir() && !(blockState.getBlock() instanceof FluidBlock);
     }
 
     private boolean checkRelativeBlockPosition() {
