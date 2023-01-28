@@ -2,6 +2,7 @@ package me.juancarloscp52.bedrockify.mixin.client.features.reacharoundPlacement;
 
 
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import me.juancarloscp52.bedrockify.client.features.reacharoundPlacement.ReachAroundPlacement;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.util.hit.BlockHitResult;
@@ -45,7 +46,7 @@ public abstract class MinecraftClientMixin extends ReentrantThreadExecutor<Runna
 
         if (BedrockifyClient.getInstance().reachAroundPlacement.canReachAround()) {
             final ClientPlayerEntity player = this.player;
-            final BlockPos targetPos = player.getSteppingPos().offset(player.getHorizontalFacing());
+            final BlockPos targetPos = ReachAroundPlacement.getFacingSteppingBlockPos(player);
             this.crosshairTarget = new BlockHitResult(player.getPos(), player.getHorizontalFacing(), targetPos, false);
         }
     }

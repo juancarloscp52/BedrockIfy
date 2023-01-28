@@ -5,8 +5,10 @@ import net.minecraft.block.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import org.jetbrains.annotations.NotNull;
 
 import static net.minecraft.client.gui.DrawableHelper.fill;
 
@@ -27,8 +29,17 @@ public class ReachAroundPlacement {
         if (client.player == null || client.world == null || client.crosshairTarget == null)
             return false;
         final ClientPlayerEntity player = client.player;
-        final BlockPos facingSteppingBlock = client.player.getSteppingPos().offset(client.player.getHorizontalFacing());
-        return (player.isSneaking() || !BedrockifyClient.getInstance().settings.isReacharoundSneakingEnabled()) && player.getPitch() > BedrockifyClient.getInstance().settings.getReacharoundPitchAngle() && player.isOnGround() && client.crosshairTarget.getType().equals(HitResult.Type.MISS) && checkRelativeBlockPosition() && ((client.world.getBlockState(facingSteppingBlock).getBlock() instanceof FluidBlock) || (client.world.getBlockState(facingSteppingBlock).getBlock() instanceof AirBlock));
+        final BlockPos targetPos = getFacingSteppingBlockPos(player);
+        return (player.isSneaking() || !BedrockifyClient.getInstance().settings.isReacharoundSneakingEnabled()) && player.getPitch() > BedrockifyClient.getInstance().settings.getReacharoundPitchAngle() && player.isOnGround() && client.crosshairTarget.getType().equals(HitResult.Type.MISS) && checkRelativeBlockPosition() && ((client.world.getBlockState(targetPos).getBlock() instanceof FluidBlock) || (client.world.getBlockState(targetPos).getBlock() instanceof AirBlock));
+    }
+
+    /**
+     * Helper method that retrieve Reach-Around block position.
+     *
+     * @return The position of the block to be placed.
+     */
+    public static BlockPos getFacingSteppingBlockPos(@NotNull Entity player) {
+        return player.getSteppingPos().offset(player.getHorizontalFacing());
     }
 
     private boolean checkRelativeBlockPosition() {
