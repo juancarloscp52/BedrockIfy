@@ -13,10 +13,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class Bedrockify implements ModInitializer {
+    public static final String MOD_ID = "bedrockify";
     public static final Logger LOGGER = LogManager.getLogger();
     public BedrockifySettings settings;
     private static Bedrockify instance;
-    public static final Identifier EAT_PARTICLES = new Identifier("bedrockify", "eat-particles");
+    public static final Identifier EAT_PARTICLES = new Identifier(MOD_ID, "eat-particles");
     public static Bedrockify getInstance() {
         return instance;
     }
