@@ -66,6 +66,7 @@
   "bedrockify.options.disableFlyingMomentum": "Disable Flying Momentum:",
   "bedrockify.options.elytraStop": "Elytra Flight Cancelling:",
   "bedrockify.options.hudOpacity": "Hud Opacity:",
+  "bedrockify.options.fishingBobber3D": "3D Fishing Bobber:",
   "bedrockify.options.elytraStop.tooltip": "Press space while flying with elytra to stop flying mid air.",
   "bedrockify.loadingTips.1":"Use seagrass to attract and breed turtles.",
   "bedrockify.loadingTips.2":"Protect baby turtles from hostile mobs!",
