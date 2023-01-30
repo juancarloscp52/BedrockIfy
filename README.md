@@ -5,7 +5,9 @@ BedrockIfy is a fabric Minecraft Mod that implements some useful Minecraft Bedro
 - Bedrock-like loading screens with helpful tips.
 - Third person eating animations.
 - Position and "paper doll" overlay.
+- Dynamic Inactive Hud Opacity.
 - Saving status overlay.
+- 3D fishing hook
 - Bedrock Crafting Recipes (Toggleable).
 - Bedrock-like chat.
 - Bedrock Edition world color noise for grass and water.
