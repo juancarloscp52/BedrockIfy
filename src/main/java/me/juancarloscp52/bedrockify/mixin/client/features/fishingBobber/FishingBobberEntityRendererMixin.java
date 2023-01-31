@@ -23,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(FishingBobberEntityRenderer.class)
 public abstract class FishingBobberEntityRendererMixin extends EntityRenderer<FishingBobberEntity> {
     @Unique
-    private static final Model BOBBER_MODEL = new FishingBobber3DModel<>(MinecraftClient.getInstance().getEntityModelLoader().getModelPart(FishingBobber3DModel.MODEL_LAYER));
+    private final Model bobberModel = new FishingBobber3DModel<>(MinecraftClient.getInstance().getEntityModelLoader().getModelPart(FishingBobber3DModel.MODEL_LAYER));
 
     protected FishingBobberEntityRendererMixin(EntityRendererFactory.Context ctx) {
         super(ctx);
@@ -47,7 +47,7 @@ public abstract class FishingBobberEntityRendererMixin extends EntityRenderer<Fi
         matrixStack.push();
         matrixStack.translate(0f, -0.0075f, 0f);
         VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(FishingBobber3DModel.RENDER_LAYER);
-        BOBBER_MODEL.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1f, 1f, 1f, 1f);
+        this.bobberModel.render(matrixStack, vertexConsumer, light, OverlayTexture.DEFAULT_UV, 1f, 1f, 1f, 1f);
         matrixStack.pop();
     }
 }
