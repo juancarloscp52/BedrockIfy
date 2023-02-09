@@ -36,7 +36,7 @@ public abstract class ClientWorldMixin extends World {
     @Inject(method = "getSkyColor", at = @At("RETURN"), cancellable = true)
     private void bedrockify$modifySkyColor(Vec3d cameraPos, float tickDelta, CallbackInfoReturnable<Vec3d> cir) {
         final BedrockSunGlareShading sunGlareShading = BedrockifyClient.getInstance().bedrockSunGlareShading;
-        if (!sunGlareShading.isEnabled()) {
+        if (!sunGlareShading.shouldApplyShading()) {
             return;
         }
 

@@ -29,6 +29,14 @@ public abstract class WorldRendererMixin {
     private static final String RENDER_SKY_METHOD_SIGNATURE = "renderSky(Lnet/minecraft/client/util/math/MatrixStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/render/Camera;ZLjava/lang/Runnable;)V";
 
     /**
+     * Inject and Observe the reload event to be compatible with Iris shaders.
+     */
+    @Inject(method = "reload()V", at = @At("HEAD"))
+    private void bedrockify$reloadWorldRendererCallback(CallbackInfo ci) {
+        BedrockifyClient.getInstance().bedrockSunGlareShading.reloadCustomShaderState();
+    }
+
+    /**
      * Store the angle difference between Camera and Sun, including the Rain factor.
      */
     @Inject(method = RENDER_SKY_METHOD_SIGNATURE, at = @At("HEAD"))
@@ -39,7 +47,7 @@ public abstract class WorldRendererMixin {
 
         final BedrockSunGlareShading sunGlareShading = BedrockifyClient.getInstance().bedrockSunGlareShading;
         final float rainGradient = this.client.world.getRainGradient(tickDelta);
-        if (MathHelper.approximatelyEquals(rainGradient, 1f) || !sunGlareShading.isEnabled()) {
+        if (MathHelper.approximatelyEquals(rainGradient, 1f) || !sunGlareShading.shouldApplyShading()) {
             this.sunRadiusDelta = 1f;
             return;
         }
@@ -53,7 +61,7 @@ public abstract class WorldRendererMixin {
      */
     @ModifyConstant(method = RENDER_SKY_METHOD_SIGNATURE, constant = @Constant(floatValue = 30.0f, ordinal = 0))
     private float bedrockify$modifySunRadius(float original) {
-        if (!BedrockifyClient.getInstance().bedrockSunGlareShading.isEnabled() || this.sunRadiusDelta >= 1f) {
+        if (!BedrockifyClient.getInstance().bedrockSunGlareShading.shouldApplyShading() || this.sunRadiusDelta >= 1f) {
             return original;
         }
 
