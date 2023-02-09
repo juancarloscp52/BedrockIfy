@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.12.47'
+	id 'fabric-loom' version '1.1-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -24,6 +24,8 @@ loom {
 			runDir "build/datagen"
 		}
 	}
+
+	createRemapConfigurations(sourceSets.test)
 }
 
 sourceSets {
@@ -43,6 +45,7 @@ repositories {
 	}
 	maven { url "https://maven.shedaniel.me/" }
 	maven { url "https://maven.ryanliptak.com/" } // AppleSkin
+	maven { url "https://api.modrinth.com/maven" } // Iris
 }
 
 dependencies {
@@ -62,6 +65,13 @@ dependencies {
 	modCompileOnly("squeek.appleskin:appleskin-fabric:${project.apple_skin}:api") {
 		transitive = false
 	}
+
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
+	modTestImplementation "maven.modrinth:iris:${project.iris_version}"
+}
+
+test {
+	useJUnitPlatform()
 }
 
 processResources {
