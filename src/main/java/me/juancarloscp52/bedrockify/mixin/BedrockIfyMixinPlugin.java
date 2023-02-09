@@ -40,6 +40,10 @@ public class BedrockIfyMixinPlugin  implements IMixinConfigPlugin {
             LogManager.getLogger().info("The mod \"OptiFabric\" has been detected. This mod is not totally compatible with BedrockIfy. BedrockIfy Bedrock Shading is now disabled.");
             return false;
         }
+        if(mixinClassName.contains("me.juancarloscp52.bedrockify.mixin.client.features.bedrockShading.sunGlare") && FabricLoader.getInstance().isModLoaded("iris")){
+            LogManager.getLogger().info("The mod \"Iris Shaders\" has been detected. This mod is not totally compatible with BedrockIfy. BedrockIfy Sun Glare is now disabled.");
+            return false;
+        }
         return MixinFeatureManager.isFeatureEnabled(mixinClassName);
     }
 

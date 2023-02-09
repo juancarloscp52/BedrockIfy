@@ -67,9 +67,13 @@ public class SettingsGUI {
         guiImprovements.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.eatingAnimations"), settingsClient.eatingAnimations).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.eatingAnimations=newValue).build());
         guiImprovements.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.pickupAnimations"), settingsClient.pickupAnimations).setTooltip(wrapLines(Text.translatable("bedrockify.options.pickupAnimations.tooltip"))).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.pickupAnimations=newValue).build());
         guiImprovements.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.loadingScreen"), settingsClient.loadingScreen).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.loadingScreen=newValue).build());
-        guiImprovements.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.bedrockShading"), settingsClient.bedrockShading).setDefaultValue(true).setSaveConsumer(newValue -> {
+        guiImprovements.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.bedrockShading"), settingsClient.bedrockShading).setTooltip(wrapLines(Text.translatable("bedrockify.options.bedrockShading.tooltip"))).setDefaultValue(true).setSaveConsumer(newValue -> {
             settingsClient.bedrockShading=newValue;
             MinecraftClient.getInstance().worldRenderer.reload();
+        }).build());
+        guiImprovements.add(entryBuilder.startIntSlider(Text.translatable("bedrockify.options.sunlightIntensity"), settingsClient.sunlightIntensity,0,100).setTooltip(wrapLines(Text.translatable("bedrockify.options.sunlightIntensity.tooltip"))).setDefaultValue(50).setSaveConsumer(newValue -> {
+            settingsClient.sunlightIntensity = newValue;
+            BedrockifyClient.getInstance().bedrockSunGlareShading.onSunlightIntensityChanged();
         }).build());
         general.addEntry(guiImprovements.build());
         SubCategoryBuilder reachAround = entryBuilder.startSubCategory(Text.translatable("bedrockify.options.subCategory.Reach-Around"));

@@ -1,4 +1,4 @@
-package me.juancarloscp52.bedrockify.mixin.client.features.bedrockShading;
+package me.juancarloscp52.bedrockify.mixin.client.features.bedrockShading.lightBlock;
 
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.block.BlockState;
