@@ -107,7 +107,7 @@ public class BedrockifyClientSettings {
     }
 
     public boolean isExpTextStyle() {
-        return expTextStyle;
+        return expTextStyle && !FabricLoader.getInstance().isModLoaded("colormatic");
     }
 
 
