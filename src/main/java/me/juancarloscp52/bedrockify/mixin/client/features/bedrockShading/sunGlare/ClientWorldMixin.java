@@ -45,12 +45,7 @@ public abstract class ClientWorldMixin extends World {
         }
 
         final float rainGradient = this.client.world.getRainGradient(tickDelta);
-        if (MathHelper.approximatelyEquals(rainGradient, 1f)) {
-            // If raining, ignore modification of the sky color.
-            return;
-        }
-
-        final float angleDiff = BedrockSunGlareShading.getSunAngleDiffClamped(tickDelta);
+        final float angleDiff = sunGlareShading.getSunAngleDiff();
         final float multiplier = MathHelper.clampedLerp(sunGlareShading.getSkyAttenuation(), 1f, angleDiff + rainGradient);
         if (MathHelper.approximatelyEquals(multiplier, 1f)) {
             return;

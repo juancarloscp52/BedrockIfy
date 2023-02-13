@@ -37,10 +37,10 @@ public abstract class WorldRendererMixin {
     }
 
     /**
-     * Store the angle difference between Camera and Sun, including the Rain factor.
+     * Calculate the angle difference between Camera and Sun, and Store the delta including the rain factor.
      */
-    @Inject(method = RENDER_SKY_METHOD_SIGNATURE, at = @At("HEAD"))
-    private void bedrockify$storeSunAngleDiff(MatrixStack matrices, Matrix4f projectionMatrix, float tickDelta, Camera camera, boolean bl, Runnable runnable, CallbackInfo ci) {
+    @Inject(method = RENDER_SKY_METHOD_SIGNATURE, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;getSkyColor(Lnet/minecraft/util/math/Vec3d;F)Lnet/minecraft/util/math/Vec3d;"))
+    private void bedrockify$updateSunAngleDiff(MatrixStack matrices, Matrix4f projectionMatrix, float tickDelta, Camera camera, boolean bl, Runnable runnable, CallbackInfo ci) {
         if (this.client.world == null) {
             return;
         }
@@ -52,7 +52,8 @@ public abstract class WorldRendererMixin {
             return;
         }
 
-        this.sunRadiusDelta = BedrockSunGlareShading.getSunAngleDiffClamped(tickDelta) + rainGradient;
+        sunGlareShading.updateAngleDiff();
+        this.sunRadiusDelta = sunGlareShading.getSunAngleDiff() + rainGradient;
     }
 
     /**

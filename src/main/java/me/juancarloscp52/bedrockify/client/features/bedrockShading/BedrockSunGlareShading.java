@@ -34,9 +34,14 @@ public final class BedrockSunGlareShading {
 
     private ShaderState shaderState = ShaderState.UNSPECIFIED;
     private float skyAttenuation;
+    private float sunAngleDiff;
+    private final Vector3f sunVector3f;
+    private final MinecraftClient client;
 
     public BedrockSunGlareShading() {
         onSunlightIntensityChanged();
+        this.sunVector3f = new Vector3f();
+        this.client = MinecraftClient.getInstance();
     }
 
     /**
@@ -172,32 +177,55 @@ public final class BedrockSunGlareShading {
     }
 
     /**
-     * Helper method that gets the angle difference between Camera and Sun.<br>
-     * Only Daytime works. This will always return <code>1.0</code> at Night.
+     * Tick event callback to calculate the sun vector.
      *
      * @param tickDelta TickDelta to determine the SkyAngle.
-     * @return The dot product of camera vector and sun vector including some factors, clamped between <code>0.0 - 1.0</code>.
      */
-    public static float getSunAngleDiffClamped(float tickDelta) {
+    public void tick(float tickDelta) {
+        if (!this.shouldApplyShading()) {
+            return;
+        }
+
+        if (this.client == null || this.client.world == null) {
+            return;
+        }
+
+        if (this.client.isPaused()) {
+            return;
+        }
+
+        final float skyAngleRadian = (float) (this.client.world.getSkyAngle(tickDelta) * 2f * Math.PI);
+        this.sunVector3f.set(new Vector3f(-Math.sin(skyAngleRadian), Math.cos(skyAngleRadian), 0).normalize());
+    }
+
+    /**
+     * Helper method that updates the angle difference between Camera and Sun.<br>
+     * The result will be a dot product of camera vector and sun vector including some factors, clamped between <code>0.0 - 1.0</code>.
+     *
+     * @see BedrockSunGlareShading#getSunAngleDiff
+     */
+    public void updateAngleDiff() {
         final float clampMax = 1f;
         final float clampMin = 0f;
 
-        MinecraftClient client = MinecraftClient.getInstance();
-        if (client == null || client.world == null || client.gameRenderer == null) {
-            return clampMax;
+        if (this.client == null || this.client.world == null || this.client.gameRenderer == null || !this.shouldApplyShading()) {
+            this.sunAngleDiff = clampMax;
+            return;
         }
 
-        final Camera camera = client.gameRenderer.getCamera();
-        final float skyAngleRadian = (float) (client.world.getSkyAngle(tickDelta) * 2f * Math.PI);
-        final Vector3f sunVec3f = new Vector3f(-Math.sin(skyAngleRadian), Math.cos(skyAngleRadian), 0).normalize();
-        final float sunSetRiseFactor = (sunVec3f.y < 0) ? sunVec3f.y * -5f : 0;
-        if (sunSetRiseFactor >= 1f) {
-            return clampMax;
+        if (this.client.isPaused()) {
+            return;
         }
 
+        final float sunSetRiseFactor = (this.sunVector3f.y < 0) ? this.sunVector3f.y * -5f : 0;
+        final Camera camera = this.client.gameRenderer.getCamera();
         final Vector3f cameraVec3f = new Vector3f(0, 0, 1).rotate(camera.getRotation()).normalize();
 
-        return Math.clamp(clampMin, clampMax, (Math.safeAcos(cameraVec3f.dot(sunVec3f)) - 0.15f) * 2.f + sunSetRiseFactor);
+        this.sunAngleDiff = Math.clamp(clampMin, clampMax, (Math.safeAcos(cameraVec3f.dot(this.sunVector3f)) - 0.15f) * 2.f + sunSetRiseFactor);
+    }
+
+    public float getSunAngleDiff() {
+        return this.sunAngleDiff;
     }
 
     public float getSkyAttenuation() {

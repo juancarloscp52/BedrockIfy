@@ -102,6 +102,7 @@ public class BedrockifyClient implements ClientModInitializer {
                 client.setScreen(settingsGUI.getConfigScreen(client.currentScreen,true));
             }
             hudOpacity.tick();
+            bedrockSunGlareShading.tick(client.getTickDelta());
 
             // Stop flying drift
             if(settings.disableFlyingMomentum && null != client.player && client.player.getAbilities().flying){
