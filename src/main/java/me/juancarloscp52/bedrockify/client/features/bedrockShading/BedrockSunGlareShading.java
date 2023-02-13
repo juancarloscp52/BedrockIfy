@@ -23,7 +23,8 @@ import java.util.stream.Collectors;
  */
 public final class BedrockSunGlareShading {
     /**
-     * Test cases of the {@link ClassMethodHolder} specified by modID.
+     * Test cases of the {@link ClassMethodHolder} specified by modID.<br>
+     * See also the unittest package <code>me.juancarloscp52.bedrockify.test.client.features.bedrockShading.sunGlare</code>.
      */
     private static final Map<String, ClassMethodHolder> MOD_ID_CLASS_MAP = Util.make(Maps.newHashMap(), (map) -> {
         map.put("iris", new ClassMethodHolder("net.coderbot.iris.Iris", "getCurrentPack", new Object[0], (pack) -> {
@@ -81,7 +82,17 @@ public final class BedrockSunGlareShading {
         public final String methodName;
         @NotNull
         public final Object[] methodArgs;
+        @NotNull
         public final Predicate<Object> condition;
+
+        /**
+         * Disable feature without method invocation.
+         */
+        public static final ClassMethodHolder CONDITION_TRUE;
+
+        static {
+            CONDITION_TRUE = new ClassMethodHolder("", "", null, object -> true);
+        }
 
         /**
          * @param cName     Class canonical name.
@@ -89,7 +100,7 @@ public final class BedrockSunGlareShading {
          * @param mArgs     Method arguments to invoke.
          * @param condition {@link Predicate} for the condition whether the external shader is valid. If returns <code>true</code>, Sun Glare shading will be disabled.
          */
-        protected ClassMethodHolder(String cName, String mName, @NotNull Object[] mArgs, Predicate<Object> condition) {
+        protected ClassMethodHolder(String cName, String mName, @NotNull Object[] mArgs, @NotNull Predicate<Object> condition) {
             this.canonicalName = cName;
             this.methodName = mName;
             this.methodArgs = mArgs;
@@ -134,6 +145,11 @@ public final class BedrockSunGlareShading {
                 return ShaderState.INVOCATION_FAILED;
             }
 
+            if (holder.canonicalName.isEmpty() || holder.methodName.isEmpty() || holder.methodArgs == null) {
+                enabled |= holder.condition.test(null);
+                continue;
+            }
+
             try {
                 // Get the class.
                 final Class<?> clazz = Class.forName(holder.canonicalName);
@@ -169,9 +185,9 @@ public final class BedrockSunGlareShading {
             }
         }  // End of the MOD_ID_CLASS_MAP for-each loop.
 
-        // Output the log only once when the external shader turned on.
+        // Output the log only once.
         if (enabled && shaderState != ShaderState.EXTERNAL) {
-            BedrockifyClient.LOGGER.info("[{}] External Shader is detected. BedrockIfy Sun Glare Shading is now disabled.", Bedrockify.class.getSimpleName());
+            BedrockifyClient.LOGGER.info("[{}] The condition matches. BedrockIfy Sun Glare Shading is now disabled.", Bedrockify.class.getSimpleName());
         }
         return (enabled) ? ShaderState.EXTERNAL : ShaderState.VANILLA;
     }
@@ -200,7 +216,8 @@ public final class BedrockSunGlareShading {
 
     /**
      * Helper method that updates the angle difference between Camera and Sun.<br>
-     * The result will be a dot product of camera vector and sun vector including some factors, clamped between <code>0.0 - 1.0</code>.
+     * The result will be stored to {@link BedrockSunGlareShading#sunAngleDiff};
+     * a dot product of camera vector and sun vector including some factors, clamped between <code>0.0 - 1.0</code>.
      *
      * @see BedrockSunGlareShading#getSunAngleDiff
      */

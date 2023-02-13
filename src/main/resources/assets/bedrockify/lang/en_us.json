@@ -60,7 +60,7 @@
   "bedrockify.options.bedrockShading": "Use Bedrock Shading:",
   "bedrockify.options.bedrockShading.tooltip": "This includes the feature of Light Block Shading, Sunlight Glare and Sky Color Attenuation.",
   "bedrockify.options.sunlightIntensity": "Sunlight Intensity:",
-  "bedrockify.options.sunlightIntensity.tooltip": "The sky color attenuation when looking at the sun with vanilla rendering.",
+  "bedrockify.options.sunlightIntensity.tooltip": "The amount of sky color attenuation when looking at the sun. This is ignored when other shader mods are working.",
   "bedrockify.options.fireAspectLight": "Use Fire Aspect to light stuff:",
   "bedrockify.options.fireAspectLight.tooltip": "Right-clicking on blocks like candles and tnt with a tool enchanted with Fire Aspect will light/prime them.",
   "bedrockify.options.panorama.list": "Disable panorama on screens:",
