@@ -38,7 +38,7 @@
   "bedrockify.options.rotationalBackground.old": "Использовать старый рендеринг:",
   "bedrockify.options.rotationalBackground.old.tooltip": "Использовать старый метод рендеринга панорамы. Используйте только в случае, если задний фон не вращается.",
   "bedrockify.options.rotationalBackground.tooltip": "ПРЕДУПРЕЖДЕНИЕ: Включает вращающийся задний фон на всех экранах. Может сломать задний фон экранов других модов.",
-  "bedrockify.options.inventoryHighlight": "Подсветка слотов инвентарь:",
+  "bedrockify.options.inventoryHighlight": "Подсветка слотов инвентаря:",
   "bedrockify.options.inventoryHighlight.color1": "Цвет фона слота:",
   "bedrockify.options.inventoryHighlight.color2": "Цвет рамки слота:",
   "bedrockify.options.idleAnimation": "Скорость анимации дыхания при бездействии:",
