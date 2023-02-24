@@ -25,7 +25,9 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 public class HeldItemTooltips {
 
@@ -34,25 +36,26 @@ public class HeldItemTooltips {
     public int drawItemWithCustomTooltips(TextRenderer fontRenderer, MatrixStack matrices, Text text, float x, float y, int color, ItemStack currentStack) {
         final BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
         final int screenBorder = settings.getScreenSafeArea();
-        // Get the current held item tooltips and convert to Text.
-        final List<Text> tooltips = Lists.newArrayList();
-        for (Tooltip tooltip : getTooltips(currentStack)) {
-            tooltips.add(tooltip.getTooltipText());
-        }
-        // Limit the maximum number of shown tooltips to tooltipSize.
-        final boolean showMoreTooltip = (tooltips.size() > tooltipSize);
-        if (showMoreTooltip) {
-            // Store the number of items.
-            final int xMore = tooltips.size() - (tooltipSize-1);
-            // Trim tooltips.
-            tooltips.subList(tooltipSize - 1, tooltips.size()).clear();
-            // Add the "and x more..." tooltip.
-            tooltips.add(Text.translatable("container.shulkerBox.more", xMore).formatted(Formatting.GRAY));
-        }
         int tooltipOffset = 0;
 
         // Draw item tooltips if the option is enabled.
         if(settings.getHeldItemTooltip()>0) {
+            // Get the current held item tooltips and convert to Text.
+            final List<Text> tooltips = Lists.newArrayList();
+            for (Tooltip tooltip : getTooltips(currentStack)) {
+                tooltips.add(tooltip.getTooltipText());
+            }
+            // Limit the maximum number of shown tooltips to tooltipSize.
+            final boolean showMoreTooltip = (tooltips.size() > tooltipSize);
+            if (showMoreTooltip) {
+                // Store the number of items.
+                final int xMore = tooltips.size() - (tooltipSize-1);
+                // Trim tooltips.
+                tooltips.subList(tooltipSize - 1, tooltips.size()).clear();
+                // Add the "and x more..." tooltip.
+                tooltips.add(Text.translatable("container.shulkerBox.more", xMore).formatted(Formatting.GRAY));
+            }
+
             tooltipOffset = 12 * tooltips.size();
             //Render background behind tooltip if enabled.
             if(settings.getHeldItemTooltip()==2){
@@ -82,21 +85,21 @@ public class HeldItemTooltips {
         final List<Tooltip> result = Lists.newArrayList();
         //If the item is a enchanted book, retrieve the enchantments.
         if (item == Items.ENCHANTED_BOOK || currentStack.hasEnchantments()) {
-            result.addAll(getTooltipsFromEnchantMap(EnchantmentHelper.get(currentStack)));
+            generateTooltipsFromEnchantMap(EnchantmentHelper.get(currentStack), result);
             //If the item is a potion, retrieve the potion effects.
         } else if (item instanceof PotionItem) {
             List<Text> generated = Lists.newArrayList();
             // Lingering Potion has its own multiplier of duration, and it is hardcoded.
             item.appendTooltip(currentStack, null, generated, TooltipContext.BASIC);
-            result.addAll(getTooltipsForPotion(generated));
+            generateTooltipsForPotion(generated, result);
         } else if(item.toString().contains("shulker_box")){
             NbtCompound compoundTag = currentStack.getSubNbt("BlockEntityTag");
             if(compoundTag != null && compoundTag.contains("Items", 9)){
-                result.addAll(getTooltipsFromShulkerBox(compoundTag));
+                generateTooltipsFromShulkerBox(compoundTag, result);
             }
         } else if(item instanceof BundleItem){
             if(currentStack.getTooltipData().isPresent() && currentStack.isOf(Items.BUNDLE)){
-                result.addAll(getTooltipsFromContainer(((BundleTooltipData)currentStack.getTooltipData().get()).getInventory()));
+                generateTooltipsFromContainer(((BundleTooltipData)currentStack.getTooltipData().get()).getInventory(), result);
             }
         }
         return result;
@@ -115,50 +118,44 @@ public class HeldItemTooltips {
      * Gets a tooltip list from the given shulkerBox compound tag.
      *
      * @param compoundTag compoundTag with item information.
-     * @return Tooltip list.
+     * @param instance Where the list of {@link Tooltip} is stored.
      */
-    private List<Tooltip> getTooltipsFromShulkerBox(NbtCompound compoundTag){
+    private static void generateTooltipsFromShulkerBox(NbtCompound compoundTag, List<Tooltip> instance){
         DefaultedList<ItemStack> items = DefaultedList.ofSize(27, ItemStack.EMPTY);
         Inventories.readNbt(compoundTag, items);
-        return getTooltipsFromContainer(items);
+        generateTooltipsFromContainer(items, instance);
     }
 
-    private List<Tooltip> getTooltipsFromContainer(List<ItemStack> items){
-        ArrayList<Tooltip> tooltips = new ArrayList<>();
+    private static void generateTooltipsFromContainer(List<ItemStack> items, List<Tooltip> instance){
         for(ItemStack item : items){
             if(!item.isEmpty())
-                tooltips.add(new ContainerTooltip(item));
+                instance.add(new ContainerTooltip(item));
         }
-        return tooltips;
     }
 
     /**
      * Gets a tooltip list from the given enchantment map.
      *
      * @param enchantments enchantment map of an item.
-     * @return Tooltip list.
+     * @param instance Where the list of {@link Tooltip} is stored.
      */
-    private List<Tooltip> getTooltipsFromEnchantMap(Map<Enchantment, Integer> enchantments) {
-        ArrayList<Tooltip> enchantmentTooltips = new ArrayList<>();
-        enchantments.forEach((enchantment, value) -> enchantmentTooltips.add(new EnchantmentTooltip(enchantment,value)));
-        return enchantmentTooltips;
+    private static void generateTooltipsFromEnchantMap(Map<Enchantment, Integer> enchantments, List<Tooltip> instance) {
+        enchantments.forEach((enchantment, value) -> instance.add(new EnchantmentTooltip(enchantment,value)));
     }
 
     /**
      * Formats a generated tooltip list from the given {@link Text} list.
      *
      * @param texts tooltip list of an item.
-     * @return Tooltip list.
+     * @param instance Where the list of {@link Tooltip} is stored.
      */
-    private List<Tooltip> getTooltipsForPotion(List<Text> texts) {
-        ArrayList<Tooltip> effectTooltips = new ArrayList<>();
+    private static void generateTooltipsForPotion(List<Text> texts, List<Tooltip> instance) {
         // Trim lines after "When Applied" string if present.
         int startIndex = texts.indexOf(ScreenTexts.EMPTY);
         if (startIndex > 0) {
             texts.subList(startIndex, texts.size()).clear();
         }
-        texts.forEach((current) -> effectTooltips.add(new PotionTooltip(current)));
-        return effectTooltips;
+        texts.forEach((current) -> instance.add(new PotionTooltip(current)));
     }
 
     private void renderBackground(MatrixStack matrices, float y, int screenBorder, int tooltipOffset, int maxLength) {
