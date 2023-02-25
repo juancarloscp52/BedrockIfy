@@ -48,6 +48,7 @@ public class BedrockifyClientSettings {
     public boolean elytraStop = true;
     public boolean pickupAnimations = true;
     public boolean fishingBobber3D = true;
+    public int sunlightIntensity = 50;
 
     public boolean isPickupAnimationsEnabled() {
         return pickupAnimations;

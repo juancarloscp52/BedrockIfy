@@ -3,6 +3,7 @@ package me.juancarloscp52.bedrockify.client;
 import com.google.gson.Gson;
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockBlockShading;
+import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockSunGlareShading;
 import me.juancarloscp52.bedrockify.client.features.fishingBobber.FishingBobber3DModel;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.HeldItemTooltips;
 import me.juancarloscp52.bedrockify.client.features.hudOpacity.HudOpacity;
@@ -45,6 +46,7 @@ public class BedrockifyClient implements ClientModInitializer {
     public SettingsGUI settingsGUI;
     public WorldColorNoiseSampler worldColorNoiseSampler;
     public BedrockBlockShading bedrockBlockShading;
+    public BedrockSunGlareShading bedrockSunGlareShading;
     public HudOpacity hudOpacity;
     public long deltaTime = 0;
     private int timeFlying = 0;
@@ -66,6 +68,7 @@ public class BedrockifyClient implements ClientModInitializer {
         settingsGUI=new SettingsGUI();
         worldColorNoiseSampler = new WorldColorNoiseSampler();
         bedrockBlockShading = new BedrockBlockShading();
+        bedrockSunGlareShading = new BedrockSunGlareShading();
         hudOpacity = new HudOpacity();
         keyBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding("bedrockIfy.key.settings", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_B, "BedrockIfy"));
 
@@ -99,6 +102,7 @@ public class BedrockifyClient implements ClientModInitializer {
                 client.setScreen(settingsGUI.getConfigScreen(client.currentScreen,true));
             }
             hudOpacity.tick();
+            bedrockSunGlareShading.tick(client.getTickDelta());
 
             // Stop flying drift
             if(settings.disableFlyingMomentum && null != client.player && client.player.getAbilities().flying){
