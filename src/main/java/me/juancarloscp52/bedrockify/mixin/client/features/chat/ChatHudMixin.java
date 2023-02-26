@@ -199,7 +199,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
             chatY = MathHelper.floor(chatY/ (this.getChatScale() * (this.client.options.getChatLineSpacing().getValue() + 1.0D)));
             if(chatX>=0.0D && chatY >= 0.0D){
                 int lines = Math.min(this.getVisibleLineCount(), this.visibleMessages.size());
-                if(chatX<= MathHelper.fastFloor(this.getWidth()/getChatScale())){
+                if(chatX<= MathHelper.floor(this.getWidth()/getChatScale())){
                     if(chatY < 9*lines+lines){
                         int line = (int)(chatY/9.0D + this.scrolledLines);
                         if(line>=0 && line<this.visibleMessages.size()){

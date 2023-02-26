@@ -20,6 +20,7 @@ public class AbstractQuadRendererMixin {
 
     @Redirect(method = "shadeFlatQuad", at=@At(value = "INVOKE",target = "Lnet/minecraft/world/BlockRenderView;getBrightness(Lnet/minecraft/util/math/Direction;Z)F"))
     private float getBlockShade(BlockRenderView blockRenderView, Direction direction, boolean shaded){
+
         if(blockInfo.blockState.getLuminance()>2 && shaded && BedrockifyClient.getInstance().settings.bedrockShading)
             return BedrockifyClient.getInstance().bedrockBlockShading.getBlockShade(direction);
         else

@@ -4,13 +4,14 @@ import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.ClickableWidget;
 import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 import java.util.function.Supplier;
 
@@ -26,12 +27,10 @@ public abstract class OptionsScreenMixin extends Screen {
     /**
      * Add bedrockify settings button to the game options screen.
      */
-    @Redirect(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/GridWidget$Adder;add(Lnet/minecraft/client/gui/widget/ClickableWidget;)Lnet/minecraft/client/gui/widget/ClickableWidget;",ordinal = 10))
-    public <T extends ClickableWidget> T addBedrockIfyButton(GridWidget.Adder instance, T widget){
-        ClickableWidget ret = instance.add(widget);
+    @Inject(method = "init", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/widget/GridWidget$Adder;add(Lnet/minecraft/client/gui/widget/Widget;)Lnet/minecraft/client/gui/widget/Widget;", ordinal = 10,shift = At.Shift.AFTER),locals = LocalCapture.CAPTURE_FAILHARD)
+    public void addBedrockIfyButton(CallbackInfo ci, GridWidget gridWidget, GridWidget.Adder adder){
         if(BedrockifyClient.getInstance().settings.isBedrockIfyButtonEnabled()){
-            ret = instance.add(this.createButton(Text.translatable("bedrockify.options.settings"),() -> BedrockifyClient.getInstance().settingsGUI.getConfigScreen(this,this.client.world != null)));
+            adder.add(this.createButton(Text.translatable("bedrockify.options.settings"),() -> BedrockifyClient.getInstance().settingsGUI.getConfigScreen(this,this.client.world != null)));
         }
-        return (T) ret;
     }
 }

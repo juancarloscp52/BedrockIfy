@@ -15,23 +15,23 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 @Mixin(HandledScreen.class)
 public abstract class HandledScreenMixin {
 
-    @Shadow protected abstract void drawItem(ItemStack stack, int xPosition, int yPosition, String amountText);
+    @Shadow protected abstract void drawItem(MatrixStack matrices, ItemStack stack, int x, int y, String amountText);
 
-    @Redirect(method = "render", at= @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;drawItem(Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V"))
-    private void drawBiggerItem(HandledScreen handledScreen, ItemStack stack, int xPosition, int yPosition, String amountText){
+    @Shadow protected int x;
+
+    @Redirect(method = "render", at= @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/screen/ingame/HandledScreen;drawItem(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/item/ItemStack;IILjava/lang/String;)V"))
+    private void drawBiggerItem(HandledScreen instance, MatrixStack matrices, ItemStack stack, int xPosition, int yPosition, String amountText){
         BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
         if(!settings.isBiggerIconsEnabled()){
-            this.drawItem(stack, xPosition, yPosition, amountText);
+            this.drawItem(matrices,stack, xPosition, yPosition, amountText);
             return;
         }
-        MatrixStack matrixStack = RenderSystem.getModelViewStack();
-        matrixStack.push();
+        matrices.push();
         float multiplier = 1.3f;
-        matrixStack.scale(multiplier,multiplier,1);
+        matrices.scale(multiplier,multiplier,multiplier);
         RenderSystem.applyModelViewMatrix();
-        this.drawItem(stack, MathHelper.ceil(xPosition/multiplier)-2, MathHelper.ceil(yPosition/multiplier)-2, amountText);
-        matrixStack = RenderSystem.getModelViewStack();
-        matrixStack.pop();
+        this.drawItem(matrices, stack, MathHelper.ceil(xPosition/multiplier)-2, MathHelper.ceil(yPosition/multiplier)-2, amountText);
+        matrices.pop();
         RenderSystem.applyModelViewMatrix();
     }
 

@@ -58,17 +58,17 @@ public class BedrockIfyWorldGenBootstrap {
 
     // Create tree placed features
     private static void initializeTreePlacedFeatures(RegistryEntryLookup<ConfiguredFeature<?,?>> lookup){
-        PLACED_DYING_BIRCH_TREE = new PlacedFeature(lookup.getOrThrow(DyingTrees.DYING_BIRCH_TREE),VegetationPlacedFeatures.modifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(0, 0.25f, 2), Blocks.BIRCH_SAPLING));
-        PLACED_DYING_OAK_TREE = new PlacedFeature(lookup.getOrThrow(DyingTrees.DYING_OAK_TREE),VegetationPlacedFeatures.modifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(1, 0.1f, 0), Blocks.OAK_SAPLING));
-        PLACED_DYING_OAK_TREE_PLAINS = new PlacedFeature(lookup.getOrThrow(DyingTrees.DYING_OAK_TREE),VegetationPlacedFeatures.modifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(0, 0.01f, 1), Blocks.OAK_SAPLING));
-        PLACED_DYING_SPRUCE_TREE = new PlacedFeature(lookup.getOrThrow(DyingTrees.DYING_SPRUCE_TREE),VegetationPlacedFeatures.modifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(1, 0.1f, 0), Blocks.SPRUCE_SAPLING));
-        PLACED_DYING_PINE_TREE = new PlacedFeature(lookup.getOrThrow(DyingTrees.DYING_PINE_TREE),VegetationPlacedFeatures.modifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(1, 0.1f, 0), Blocks.SPRUCE_SAPLING));
-        PLACED_DYING_DARK_OAK_TREE = new PlacedFeature(lookup.getOrThrow(DyingTrees.DYING_DARK_OAK_TREE),VegetationPlacedFeatures.modifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(1, 0.1f, 0), Blocks.DARK_OAK_SAPLING));
+        PLACED_DYING_BIRCH_TREE = new PlacedFeature(lookup.getOrThrow(DyingTrees.DYING_BIRCH_TREE),VegetationPlacedFeatures.treeModifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(0, 0.25f, 2), Blocks.BIRCH_SAPLING));
+        PLACED_DYING_OAK_TREE = new PlacedFeature(lookup.getOrThrow(DyingTrees.DYING_OAK_TREE),VegetationPlacedFeatures.treeModifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(1, 0.1f, 0), Blocks.OAK_SAPLING));
+        PLACED_DYING_OAK_TREE_PLAINS = new PlacedFeature(lookup.getOrThrow(DyingTrees.DYING_OAK_TREE),VegetationPlacedFeatures.treeModifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(0, 0.01f, 1), Blocks.OAK_SAPLING));
+        PLACED_DYING_SPRUCE_TREE = new PlacedFeature(lookup.getOrThrow(DyingTrees.DYING_SPRUCE_TREE),VegetationPlacedFeatures.treeModifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(1, 0.1f, 0), Blocks.SPRUCE_SAPLING));
+        PLACED_DYING_PINE_TREE = new PlacedFeature(lookup.getOrThrow(DyingTrees.DYING_PINE_TREE),VegetationPlacedFeatures.treeModifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(1, 0.1f, 0), Blocks.SPRUCE_SAPLING));
+        PLACED_DYING_DARK_OAK_TREE = new PlacedFeature(lookup.getOrThrow(DyingTrees.DYING_DARK_OAK_TREE),VegetationPlacedFeatures.treeModifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(1, 0.1f, 0), Blocks.DARK_OAK_SAPLING));
 
-        PLACED_FALLEN_OAK_TREE = new PlacedFeature(lookup.getOrThrow(DyingTrees.FALLEN_OAK_TREE_CONFIGURED),VegetationPlacedFeatures.modifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(0, 0.1f, 1), Blocks.OAK_SAPLING));
-        PLACED_FALLEN_OAK_TREE_PLAINS = new PlacedFeature(lookup.getOrThrow(DyingTrees.FALLEN_OAK_TREE_CONFIGURED),VegetationPlacedFeatures.modifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(0, 0.01f, 1), Blocks.OAK_SAPLING));
-        PLACED_FALLEN_BIRCH_TREE = new PlacedFeature(lookup.getOrThrow(DyingTrees.FALLEN_BIRCH_TREE_CONFIGURED),VegetationPlacedFeatures.modifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(0, 0.1f, 1), Blocks.BIRCH_SAPLING));
-        PLACED_FALLEN_SPRUCE_TREE = new PlacedFeature(lookup.getOrThrow(DyingTrees.FALLEN_SPRUCE_TREE_CONFIGURED),VegetationPlacedFeatures.modifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(0, 0.2f, 1), Blocks.SPRUCE_SAPLING));
+        PLACED_FALLEN_OAK_TREE = new PlacedFeature(lookup.getOrThrow(DyingTrees.FALLEN_OAK_TREE_CONFIGURED),VegetationPlacedFeatures.treeModifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(0, 0.1f, 1), Blocks.OAK_SAPLING));
+        PLACED_FALLEN_OAK_TREE_PLAINS = new PlacedFeature(lookup.getOrThrow(DyingTrees.FALLEN_OAK_TREE_CONFIGURED),VegetationPlacedFeatures.treeModifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(0, 0.01f, 1), Blocks.OAK_SAPLING));
+        PLACED_FALLEN_BIRCH_TREE = new PlacedFeature(lookup.getOrThrow(DyingTrees.FALLEN_BIRCH_TREE_CONFIGURED),VegetationPlacedFeatures.treeModifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(0, 0.1f, 1), Blocks.BIRCH_SAPLING));
+        PLACED_FALLEN_SPRUCE_TREE = new PlacedFeature(lookup.getOrThrow(DyingTrees.FALLEN_SPRUCE_TREE_CONFIGURED),VegetationPlacedFeatures.treeModifiersWithWouldSurvive(PlacedFeatures.createCountExtraModifier(0, 0.2f, 1), Blocks.SPRUCE_SAPLING));
 
         PLACED_FERN_BONEMEAL = new PlacedFeature(lookup.getOrThrow(FernBonemeal.SINGLE_PIECE_OF_FERN), Collections.singletonList(PlacedFeatures.isAir()));
 
@@ -94,7 +94,7 @@ public class BedrockIfyWorldGenBootstrap {
     }
 
     public static void configureFeatures(Registerable<ConfiguredFeature<?, ?>> registry){
-        RegistryEntryLookup<PlacedFeature> placedFeatureLookup = registry.getRegistryLookup(RegistryKeys.PLACED_FEATURE);
+        //RegistryEntryLookup<PlacedFeature> placedFeatureLookup = registry.getRegistryLookup(RegistryKeys.PLACED_FEATURE);
         registry.register(DyingTrees.DYING_BIRCH_TREE, DYING_BIRCH_TREE_CONFIGURED);
         registry.register(DyingTrees.DYING_OAK_TREE, DYING_OAK_TREE_CONFIGURED);
         registry.register(DyingTrees.DYING_SPRUCE_TREE, DYING_SPRUCE_TREE_CONFIGURED);

@@ -20,7 +20,7 @@ public abstract class RecipeManagerMixin {
 
     @Shadow public abstract Optional<? extends Recipe<?>> get(Identifier id);
 
-    @Inject(method = "apply", at=@At("HEAD"))
+    @Inject(method = "apply(Ljava/util/Map;Lnet/minecraft/resource/ResourceManager;Lnet/minecraft/util/profiler/Profiler;)V", at=@At("HEAD"))
     public void applyRecipes(Map<Identifier, JsonElement> map, ResourceManager resourceManager, Profiler profiler, CallbackInfo info){
         HashMap<Identifier, JsonElement> bedrockifyRecipes = new HashMap<>();
         Iterator<Map.Entry<Identifier, JsonElement>> mapIterator = map.entrySet().iterator();

@@ -22,7 +22,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
     private float pickedItemCooldownLeft =0.0f;
 
     @Inject(method = "renderHotbarItem", at=@At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;getBobbingAnimationTime()I"))
-    private void captureItemStack(int x, int y, float tickDelta, PlayerEntity player, ItemStack stack, int i, CallbackInfo ci){
+    private void captureItemStack(MatrixStack matrices, int x, int y, float tickDelta, PlayerEntity player, ItemStack stack, int i, CallbackInfo ci){
         pickedItemCooldownLeft = stack.getBobbingAnimationTime()-tickDelta;
     }
     @Redirect(method = "renderHotbarItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;scale(FFF)V"))
