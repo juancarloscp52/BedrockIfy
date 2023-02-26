@@ -7,7 +7,6 @@ import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockSunGla
 import me.juancarloscp52.bedrockify.client.features.fishingBobber.FishingBobber3DModel;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.HeldItemTooltips;
 import me.juancarloscp52.bedrockify.client.features.hudOpacity.HudOpacity;
-import me.juancarloscp52.bedrockify.client.features.quickArmorSwap.ArmorReplacer;
 import me.juancarloscp52.bedrockify.client.features.reacharoundPlacement.ReachAroundPlacement;
 import me.juancarloscp52.bedrockify.client.features.worldColorNoise.WorldColorNoiseSampler;
 import me.juancarloscp52.bedrockify.client.gui.Overlay;
@@ -18,7 +17,6 @@ import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -26,7 +24,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.TypedActionResult;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
@@ -91,11 +88,6 @@ public class BedrockifyClient implements ClientModInitializer {
             });
         });
 
-        UseItemCallback.EVENT.register((playerEntity, world, hand) -> {
-            if(settings.isQuickArmorSwapEnabled())
-                return ArmorReplacer.tryChangeArmor(playerEntity,hand);
-            return TypedActionResult.pass(playerEntity.getStackInHand(hand));
-        });
         HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> BedrockifyClient.getInstance().overlay.renderOverlay(matrixStack));
         ClientTickEvents.END_CLIENT_TICK.register(client-> {
             while (keyBinding.wasPressed()){

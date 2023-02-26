@@ -38,7 +38,6 @@ public class BedrockifyClientSettings {
     public boolean savingOverlay = true;
     public boolean eatingAnimations = true;
     public boolean expTextStyle = true;
-    public boolean quickArmorSwap = true;
     public boolean transparentHotBar = true;
     public int hudOpacity = 50;
     public boolean biggerIcons = true;
@@ -81,10 +80,6 @@ public class BedrockifyClientSettings {
 
     public boolean isBiggerIconsEnabled() {
         return biggerIcons;
-    }
-
-    public boolean isQuickArmorSwapEnabled() {
-        return quickArmorSwap;
     }
 
     public boolean isTransparentHotBarEnabled() {
