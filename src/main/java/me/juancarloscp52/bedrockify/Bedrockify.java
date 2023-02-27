@@ -19,6 +19,7 @@ public class Bedrockify implements ModInitializer {
     public BedrockifySettings settings;
     private static Bedrockify instance;
     public static final Identifier EAT_PARTICLES = new Identifier(MOD_ID, "eat-particles");
+    public static final Identifier CAULDRON_ACTION_PARTICLES = new Identifier(MOD_ID, "cauldron_particles");
     public static Bedrockify getInstance() {
         return instance;
     }
