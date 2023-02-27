@@ -43,7 +43,8 @@
     "client.features.useAnimations.ClientPlayerEntityMixin",
     "client.features.useAnimations.ClientPlayerInteractionManagerMixin",
     "client.features.useAnimations.ClientPlayNetworkHandlerMixin",
-    "client.features.worldColorNoise.BiomeColorsMixin"
+    "client.features.worldColorNoise.BiomeColorsMixin",
+    "client.compat.sodium.LinearColorBlenderMixin"
   ],
   "mixins": [
     "common.features.animalEatingParticles.AnimalEntityMixin",
