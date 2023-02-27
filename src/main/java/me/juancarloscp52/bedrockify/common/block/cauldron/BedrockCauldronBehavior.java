@@ -43,7 +43,7 @@ public interface BedrockCauldronBehavior {
     Map<Item, CauldronBehavior> COLORED_WATER_CAULDRON_BEHAVIOR = CauldronBehavior.createMap();
 
     CauldronBehavior DYE_ITEM_BY_COLORED_WATER = (state, world, pos, player, hand, stack) -> {
-        if (state == null || world == null || pos == null) {
+        if (state == null || world == null || pos == null || !Bedrockify.getInstance().settings.bedrockCauldron) {
             return ActionResult.PASS;
         }
 
@@ -78,7 +78,7 @@ public interface BedrockCauldronBehavior {
     };
 
     CauldronBehavior DYE_WATER = (state, world, pos, player, hand, stack) -> {
-        if (state == null || world == null || pos == null) {
+        if (state == null || world == null || pos == null || !Bedrockify.getInstance().settings.bedrockCauldron) {
             return ActionResult.PASS;
         }
 
@@ -116,7 +116,7 @@ public interface BedrockCauldronBehavior {
      * Increases the water level and replaces the block with the vanilla Water Cauldron.
      */
     CauldronBehavior PLACE_WATER_BY_POTION = (state, world, pos, player, hand, stack) -> {
-        if (state == null || world == null || pos == null) {
+        if (state == null || world == null || pos == null || !Bedrockify.getInstance().settings.bedrockCauldron) {
             return ActionResult.PASS;
         }
         if (PotionUtil.getPotion(stack) != Potions.WATER) {
@@ -150,7 +150,7 @@ public interface BedrockCauldronBehavior {
      * Decreases the fluid level and takes out from the Potion Cauldron.
      */
     CauldronBehavior PICK_POTION_FLUID = (state, world, pos, player, hand, stack) -> {
-        if (state == null || world == null || pos == null) {
+        if (state == null || world == null || pos == null || !Bedrockify.getInstance().settings.bedrockCauldron) {
             return ActionResult.PASS;
         }
 
@@ -189,7 +189,7 @@ public interface BedrockCauldronBehavior {
      * Replaces Empty Cauldron with Potion Cauldron, or increases its fluid.
      */
     CauldronBehavior PLACE_POTION_FLUID = (state, world, pos, player, hand, stack) -> {
-        if (state == null || world == null || pos == null) {
+        if (state == null || world == null || pos == null || !Bedrockify.getInstance().settings.bedrockCauldron) {
             return ActionResult.PASS;
         }
 
