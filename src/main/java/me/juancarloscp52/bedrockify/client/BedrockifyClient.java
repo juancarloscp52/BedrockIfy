@@ -11,10 +11,13 @@ import me.juancarloscp52.bedrockify.client.features.reacharoundPlacement.ReachAr
 import me.juancarloscp52.bedrockify.client.features.worldColorNoise.WorldColorNoiseSampler;
 import me.juancarloscp52.bedrockify.client.gui.Overlay;
 import me.juancarloscp52.bedrockify.client.gui.SettingsGUI;
+import me.juancarloscp52.bedrockify.common.block.entity.WaterCauldronBlockEntity;
+import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronBlocks;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
@@ -32,6 +35,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Optional;
 
 public class BedrockifyClient implements ClientModInitializer {
 
@@ -71,6 +75,16 @@ public class BedrockifyClient implements ClientModInitializer {
 
         // Register 3D Bobber Entity.
         EntityModelLayerRegistry.registerModelLayer(FishingBobber3DModel.MODEL_LAYER, FishingBobber3DModel::generateModel);
+
+        // Register the Color Tint of Colored Cauldron Block.
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
+            if (world == null || pos == null) {
+                return -1;
+            }
+
+            final Optional<WaterCauldronBlockEntity> entity = world.getBlockEntity(pos, BedrockCauldronBlocks.WATER_CAULDRON_ENTITY);
+            return entity.map(WaterCauldronBlockEntity::getTintColor).orElse(-1);
+        }, BedrockCauldronBlocks.COLORED_WATER_CAULDRON);
 
 
         ClientPlayNetworking.registerGlobalReceiver(Bedrockify.EAT_PARTICLES, (client, handler, buf, responseSender) -> {
