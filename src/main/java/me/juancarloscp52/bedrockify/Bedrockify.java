@@ -1,9 +1,11 @@
 package me.juancarloscp52.bedrockify;
 
 import com.google.gson.Gson;
+import me.juancarloscp52.bedrockify.common.block.cauldron.BedrockCauldronBehavior;
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronBlocks;
 import me.juancarloscp52.bedrockify.common.features.worldGeneration.DyingTrees;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,6 +34,9 @@ public class Bedrockify implements ModInitializer {
         instance = this;
         DyingTrees.registerTrees();
         BedrockCauldronBlocks.register();
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+            BedrockCauldronBehavior.registerBehavior();
+        });
     }
 
     public void loadSettings() {

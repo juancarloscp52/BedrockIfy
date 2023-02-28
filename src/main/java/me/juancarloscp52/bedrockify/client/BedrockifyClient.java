@@ -15,6 +15,7 @@ import me.juancarloscp52.bedrockify.common.block.cauldron.BedrockCauldronBehavio
 import me.juancarloscp52.bedrockify.common.block.entity.WaterCauldronBlockEntity;
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronBlocks;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -91,7 +92,9 @@ public class BedrockifyClient implements ClientModInitializer {
         }, BedrockCauldronBlocks.POTION_CAULDRON, BedrockCauldronBlocks.COLORED_WATER_CAULDRON);
 
         // Lazy initialization of Bedrock's cauldron behavior after all the registries are ready.
-        MinecraftClient.getInstance().send(BedrockCauldronBehavior::registerBehavior);
+        ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
+            BedrockCauldronBehavior.registerBehavior();
+        });
 
 
         ClientPlayNetworking.registerGlobalReceiver(Bedrockify.EAT_PARTICLES, (client, handler, buf, responseSender) -> {
