@@ -43,11 +43,16 @@
     "client.features.useAnimations.ClientPlayerEntityMixin",
     "client.features.useAnimations.ClientPlayerInteractionManagerMixin",
     "client.features.useAnimations.ClientPlayNetworkHandlerMixin",
-    "client.features.worldColorNoise.BiomeColorsMixin"
+    "client.features.worldColorNoise.BiomeColorsMixin",
+    "client.compat.sodium.LinearColorBlenderMixin"
   ],
   "mixins": [
     "common.features.animalEatingParticles.AnimalEntityMixin",
     "common.features.animalEatingParticles.WolfEntityMixin",
+    "common.features.cauldron.AbstractCauldronBlockMixin",
+    "common.features.cauldron.ArmorDyeRecipeMixin",
+    "common.features.cauldron.CauldronBehaviorMixin",
+    "common.features.cauldron.LeveledCauldronBlockAccessor",
     "common.features.fernBonemeal.GrassBlockMixin",
     "common.features.fertilizableBlocks.FlowerBlockMixin",
     "common.features.fertilizableBlocks.SugarCaneBlockMixin",
