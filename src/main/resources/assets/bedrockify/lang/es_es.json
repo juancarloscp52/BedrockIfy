@@ -71,6 +71,8 @@
   "bedrockify.options.elytraStop.tooltip": "Presiona espacio para parar el vuelo con élitros estando en el aire.",
   "bedrockify.options.hudOpacity": "Opacidad del HUD:",
   "bedrockify.options.fishingBobber3D": "Cebo 3D al pescar:",
+  "bedrockify.options.bedrockCauldron": "Usar Caldero de Bedrock Edition:",
+  "bedrockify.options.bedrockCauldron.tooltip": "Activa la funcionalidad de calderos como Bedrock Edition, esto permite a los calderos contener agua tintada y pociones. Desactivar esta opcion no eliminará los calderos que contengan estos liquidos que existan ya en el mundo.",
   "bedrockify.loadingTips.1":"Usa fondo marino para atraer y alimentar a las tortugas marinas.",
   "bedrockify.loadingTips.2":"¡Protege a las tortugas bebé de las criaturas enemigas!",
   "bedrockify.loadingTips.3":"Las tortugas bebé sueltan escamas al crecer, que se pueden usar para fabricar caparazones de tortuga.",
