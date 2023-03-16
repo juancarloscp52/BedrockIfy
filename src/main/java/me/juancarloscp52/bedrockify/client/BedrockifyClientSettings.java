@@ -11,10 +11,25 @@ import java.util.List;
 
 public class BedrockifyClientSettings {
 
+    public enum ButtonPosition {
+        DISABLED("bedrockify.options.button.hidden"),
+        TOP_LEFT("bedrockify.options.button.topLeft"),
+        TOP_RIGHT("bedrockify.options.button.topRight"),
+        BOTTOM_LEFT("bedrockify.options.button.bottomLeft"),
+        BOTTOM_RIGHT("bedrockify.options.button.bottomRight"),
+        IN_GRID("bedrockify.options.button.inGrid"),
+        BELOW_SLIDERS("bedrockify.options.button.underSliders");
+
+        public final String text;
+        ButtonPosition(String text) {
+            this.text = text;
+        }
+    }
+
     private final static List<Class<? extends Screen>> MINECRAFT_IGNORED_SCREENS = Arrays.asList(PackScreen.class, SocialInteractionsScreen.class);
     public final static List<String> PANORAMA_IGNORED_SCREENS = Arrays.asList(".modmenu.gui.ModsScreen", ".iris.gui.", ".modmanager.gui.", "yacl.gui.YACLScreen");
     public boolean loadingScreen = true;
-    public boolean bedrockIfyButton = true;
+    public ButtonPosition bedrockIfyButtonPosition = ButtonPosition.BELOW_SLIDERS;
     public boolean showPositionHUD = true;
     public byte FPSHUD = 0;
     public byte heldItemTooltip = 2;
@@ -145,10 +160,6 @@ public class BedrockifyClientSettings {
 
     public boolean isShowChunkMapEnabled() {
         return showChunkMap;
-    }
-
-    public boolean isBedrockIfyButtonEnabled() {
-        return bedrockIfyButton;
     }
 
     public boolean isSavingOverlayEnabled() {
