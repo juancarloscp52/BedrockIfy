@@ -5,7 +5,8 @@
   "name": "BedrockIfy",
   "description": "BedrockIfy implements some Minecraft Bedrock features into Java edition.",
   "authors": [
-    "juancarloscp52"
+    "juancarloscp52",
+    "lonefelidae16"
   ],
   "contact": {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/bedrockify",
