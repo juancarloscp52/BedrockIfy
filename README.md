@@ -8,6 +8,8 @@ BedrockIfy is a fabric Minecraft Mod that implements some useful Minecraft Bedro
 - Dynamic Inactive Hud Opacity.
 - Saving status overlay.
 - 3D fishing hook
+- Bedrock Cauldrons that hold dyed water and potions
+- Bedrock Sun Glare
 - Bedrock Crafting Recipes (Toggleable).
 - Bedrock-like chat.
 - Bedrock Edition world color noise for grass and water.
@@ -24,9 +26,11 @@ Bedrockify also includes "eye-candy" features like the ability use the rotating 
 All Features are customizable through the In-Game BedrockIfy Settings Menu!
 #### ScreenShots:
 ![HUD](https://github.com/juancarloscp52/BedrockIfy/blob/master/readme%20images/HUD.png)
+![Bedrock Cauldrons](https://github.com/juancarloscp52/BedrockIfy/blob/1.19.4/readme%20images/cauldrons.png)
 ![Loading Screen](https://github.com/juancarloscp52/BedrockIfy/blob/master/readme%20images/loading%20screen.png)
 ![Reach-around block placement](https://github.com/juancarloscp52/BedrockIfy/blob/master/readme%20images/reacharound.gif)
 ![Rotating background on all screens](https://github.com/juancarloscp52/BedrockIfy/blob/master/readme%20images/menu.gif)
+![Bedrock Sun Glare example](https://github.com/juancarloscp52/BedrockIfy/blob/1.19.4/readme%20images/darksky.gif)
 
 ## Installation:
 This mod requires [Fabric](https://fabricmc.net/use/) and [Fabric API](https://www.curseforge.com/minecraft/mc-mods/fabric-api), or [Quilt](https://quiltmc.org/install/) with the [Quilted Fabric API](https://modrinth.com/mod/qsl) 
