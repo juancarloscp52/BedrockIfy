@@ -8,7 +8,7 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.ColorHelper;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -69,7 +69,7 @@ public abstract class InGameHudMixin extends DrawableHelper {
 
         if(color == 0)
             return 0;
-        return fontRenderer.drawWithShadow(matrices, text, x, y-screenBorder-3, MathHelper.packRgb(127, 252, 32) | (alpha << 24));
+        return fontRenderer.drawWithShadow(matrices, text, x, y-screenBorder-3, ColorHelper.Argb.getArgb(alpha,127, 252, 32));
     }
 
     /**
