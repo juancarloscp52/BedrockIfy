@@ -27,7 +27,7 @@ public class ItemTooltipsMixin {
      */
     @Redirect(method = "renderHeldItemTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I"))
     private int drawCustomTooltips(TextRenderer fontRenderer, MatrixStack matrices, Text text, float x, float y, int color) {
-        return BedrockifyClient.getInstance().heldItemTooltips.drawItemWithCustomTooltips(fontRenderer, matrices, text, x, y, color, currentStack);
+        return BedrockifyClient.getInstance().heldItemTooltips.drawItemWithCustomTooltips(fontRenderer, matrices, text, x, MinecraftClient.getInstance().getWindow().getScaledHeight() - 38, color, currentStack);
     }
     /**
      * Draw custom tooltips for effects and enchantments before the heldItemTooltip is rendered.

@@ -12,9 +12,11 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.item.BundleTooltipData;
 import net.minecraft.client.item.TooltipContext;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NbtCompound;
@@ -37,6 +39,22 @@ public class HeldItemTooltips {
         final BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
         final int screenBorder = settings.getScreenSafeArea();
         int tooltipOffset = 0;
+
+        //Set tooltip position depending on hotbar displayed information
+        ClientPlayerEntity player = MinecraftClient.getInstance().player;
+        if(null ==player || null==MinecraftClient.getInstance().interactionManager)
+            return 0;
+        if(MinecraftClient.getInstance().interactionManager.hasStatusBars()){
+            y-=16;
+            if(player.getArmor()>0){
+                y-=10;
+            }
+            if(player.getAbsorptionAmount()>0){
+                y-=10;
+            }
+        }else if((player.getVehicle()!=null && player.getVehicle() instanceof LivingEntity)){
+            y-=16;
+        }
 
         // Draw item tooltips if the option is enabled.
         if(settings.getHeldItemTooltip()>0) {
