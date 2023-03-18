@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_16",
   "plugin": "me.juancarloscp52.bedrockify.mixin.BedrockIfyMixinPlugin",
   "client": [
+    "client.compat.sodium.LinearColorBlenderMixin",
     "client.core.bedrockIfyButton.OptionsScreenMixin",
     "client.core.clientRenderTimer.MinecraftClientMixin",
     "client.features.bedrockShading.lightBlock.AbstractQuadRendererMixin",
@@ -32,6 +33,8 @@
     "client.features.panoramaBackground.RotatingCubeMapRendererAccessor",
     "client.features.panoramaBackground.RotatingCubeMapRendererMixin",
     "client.features.panoramaBackground.ScreenMixin",
+    "client.features.panoramaBackground.TabButtonWidgetMixin",
+    "client.features.panoramaBackground.TabNavigationWidgetMixin",
     "client.features.panoramaBackground.TitleScreenMixin",
     "client.features.pickupAnimations.InGameHudMixin",
     "client.features.reacharoundPlacement.MinecraftClientMixin",
@@ -43,8 +46,7 @@
     "client.features.useAnimations.ClientPlayerEntityMixin",
     "client.features.useAnimations.ClientPlayerInteractionManagerMixin",
     "client.features.useAnimations.ClientPlayNetworkHandlerMixin",
-    "client.features.worldColorNoise.BiomeColorsMixin",
-    "client.compat.sodium.LinearColorBlenderMixin"
+    "client.features.worldColorNoise.BiomeColorsMixin"
   ],
   "mixins": [
     "common.features.animalEatingParticles.AnimalEntityMixin",
