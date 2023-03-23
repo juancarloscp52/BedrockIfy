@@ -3,23 +3,27 @@ package me.juancarloscp52.bedrockify.mixin.client.features.useAnimations;
 import me.juancarloscp52.bedrockify.client.features.useAnimations.AnimationsHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
-import net.minecraft.item.Item;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.network.packet.s2c.play.InventoryS2CPacket;
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket;
 import net.minecraft.screen.PlayerScreenHandler;
+import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.List;
-
 @Environment(EnvType.CLIENT)
 @Mixin(ClientPlayNetworkHandler.class)
 public abstract class ClientPlayNetworkHandlerMixin {
+    @Shadow
+    private @Final MinecraftClient client;
+
     /**
      * Animate always by receiving S2C packet.<br>
      * Original method prevents the bobbing animation when decrementing and damaging.
@@ -45,26 +49,16 @@ public abstract class ClientPlayNetworkHandlerMixin {
      */
     @Inject(method = "onInventory", at = @At("RETURN"))
     private void bedrockify$animateAlwaysInventory(InventoryS2CPacket packet, CallbackInfo ci) {
-        if (packet.getSyncId() != 0) {
+        final PlayerEntity player = this.client.player;
+        if (packet.getSyncId() != 0 || player == null) {
             return;
         }
 
-        final List<ItemStack> stacks = packet.getContents();
-        final Item target = AnimationsHelper.consumeChangedItem();
-        if (target == Items.AIR) {
+        final int target = AnimationsHelper.consumeChangedSlot();
+        if (!PlayerInventory.isValidHotbarIndex(target) && target != PlayerInventory.OFF_HAND_SLOT) {
             return;
         }
 
-        for (int i = 0; i < stacks.size(); ++i) {
-            if (!PlayerScreenHandler.isInHotbar(i)) {
-                continue;
-            }
-
-            final ItemStack itemStack = stacks.get(i);
-            if (itemStack.isOf(target) && !itemStack.isEmpty()) {
-                AnimationsHelper.doBobbingAnimation(itemStack);
-                return;
-            }
-        }
+        AnimationsHelper.doBobbingAnimation(player.getInventory().getStack(target));
     }
 }

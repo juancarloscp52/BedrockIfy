@@ -1,14 +1,12 @@
 package me.juancarloscp52.bedrockify.client.features.useAnimations;
 
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 
 public final class AnimationsHelper {
     public static final int ANIMATION_TIME = 5;
 
-    private static Item updatedItemInInventory = Items.AIR;
+    private static int updatedItemIdx = -1;
 
     private AnimationsHelper() {
     }
@@ -30,22 +28,22 @@ public final class AnimationsHelper {
     }
 
     /**
-     * Stores the changed item.
+     * Stores the slot index where the item changed.
      *
-     * @param itemStack Target itemStack.
+     * @param slotIdx Target slot index.
      */
-    public static void notifyChangedItem(ItemStack itemStack) {
-        updatedItemInInventory = itemStack.getItem();
+    public static void notifyChangedSlot(int slotIdx) {
+        updatedItemIdx = slotIdx;
     }
 
     /**
-     * Returns the stored item and reset it.
+     * Returns the stored slot index and reset it.
      *
      * @return Target item.
      */
-    public static Item consumeChangedItem() {
-        final Item ret = updatedItemInInventory;
-        updatedItemInInventory = Items.AIR;
+    public static int consumeChangedSlot() {
+        final int ret = updatedItemIdx;
+        updatedItemIdx = -1;
         return ret;
     }
 }
