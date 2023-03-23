@@ -3,24 +3,23 @@ package me.juancarloscp52.bedrockify.mixin.client.features.useAnimations;
 import me.juancarloscp52.bedrockify.client.features.useAnimations.AnimationsHelper;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.network.packet.s2c.play.InventoryS2CPacket;
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket;
 import net.minecraft.screen.PlayerScreenHandler;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import java.util.List;
+
 @Environment(EnvType.CLIENT)
 @Mixin(ClientPlayNetworkHandler.class)
 public abstract class ClientPlayNetworkHandlerMixin {
-    @Shadow
-    private @Final MinecraftClient client;
-
     /**
      * Animate always by receiving S2C packet.<br>
      * Original method prevents the bobbing animation when decrementing and damaging.
@@ -28,7 +27,7 @@ public abstract class ClientPlayNetworkHandlerMixin {
      * @see ClientPlayNetworkHandler#onScreenHandlerSlotUpdate
      */
     @Inject(method = "onScreenHandlerSlotUpdate", at = @At("RETURN"))
-    private void bedrockify$animateAlways(ScreenHandlerSlotUpdateS2CPacket packet, CallbackInfo ci) {
+    private void bedrockify$animateAlwaysSlotUpdate(ScreenHandlerSlotUpdateS2CPacket packet, CallbackInfo ci) {
         final ItemStack itemStack = packet.getItemStack();
         final int slotIdx = packet.getSlot();
         if (packet.getSyncId() != 0 && !PlayerScreenHandler.isInHotbar(slotIdx) || itemStack == null) {
@@ -36,5 +35,36 @@ public abstract class ClientPlayNetworkHandlerMixin {
         }
 
         AnimationsHelper.doBobbingAnimation(itemStack);
+    }
+
+    /**
+     * Animate always by receiving S2C packet.<br>
+     * This handles a packet that could not be caught by {@link ClientPlayNetworkHandler#onScreenHandlerSlotUpdate}.
+     *
+     * @see ClientPlayNetworkHandler#onInventory
+     */
+    @Inject(method = "onInventory", at = @At("RETURN"))
+    private void bedrockify$animateAlwaysInventory(InventoryS2CPacket packet, CallbackInfo ci) {
+        if (packet.getSyncId() != 0) {
+            return;
+        }
+
+        final List<ItemStack> stacks = packet.getContents();
+        final Item target = AnimationsHelper.consumeChangedItem();
+        if (target == Items.AIR) {
+            return;
+        }
+
+        for (int i = 0; i < stacks.size(); ++i) {
+            if (!PlayerScreenHandler.isInHotbar(i)) {
+                continue;
+            }
+
+            final ItemStack itemStack = stacks.get(i);
+            if (itemStack.isOf(target) && !itemStack.isEmpty()) {
+                AnimationsHelper.doBobbingAnimation(itemStack);
+                return;
+            }
+        }
     }
 }
