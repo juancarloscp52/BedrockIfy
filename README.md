@@ -21,6 +21,7 @@ BedrockIfy is a fabric Minecraft Mod that implements some useful Minecraft Bedro
 - Bedrock Light block shading.
 - Disable flying momentum (Drift) in creative mode.
 - Stop elytra flying by pressing space on air.
+- Bedrock bonemeal functionality for flowers and sugar cane.
 
 Bedrockify also includes "eye-candy" features like the ability use the rotating title screen background in all option screens instead of the boring vanilla dirt background.
 All Features are customizable through the In-Game BedrockIfy Settings Menu!
