@@ -10,7 +10,6 @@ import net.minecraft.resource.ResourceManager;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
-import java.awt.*;
 import java.io.InputStream;
 
 public class SheepSkinResource implements SimpleSynchronousResourceReloadListener {
@@ -36,11 +35,11 @@ public class SheepSkinResource implements SimpleSynchronousResourceReloadListene
         manager.getResource(TEXTURE_SHEEP_SKIN).ifPresentOrElse(resource -> {
             try (InputStream stream = resource.getInputStream()) {
                 final NativeImage nativeImage = NativeImage.read(stream);
-                final Point resClamped = clampResolution(nativeImage);
+                final int[] resClamped = clampResolution(nativeImage);
 
                 // Vanilla texture: width = 64, height = 32
-                final float imageWidthMul = (float) (resClamped.getX() / 64.);
-                final float imageHeightMul = (float) (resClamped.getY() / 32.);
+                final float imageWidthMul = (float) (resClamped[0] / 64.);
+                final float imageHeightMul = (float) (resClamped[1] / 32.);
                 if (!MathHelper.approximatelyEquals(imageHeightMul, imageWidthMul)) {
                     BedrockifyClient.LOGGER.warn("[{}] Illegal resolution detected on {}! BedrockIfy Sheep Colors may not work properly.", Bedrockify.class.getSimpleName(), TEXTURE_SHEEP_SKIN.getPath());
                 }
@@ -52,7 +51,7 @@ public class SheepSkinResource implements SimpleSynchronousResourceReloadListene
                         final int b = abgr >> 16 & 0xFF;
                         final int g = abgr >> 8 & 0xFF;
                         final int r = abgr & 0xFF;
-                        final float[] hsb = Color.RGBtoHSB(r, g, b, null);
+                        final double[] hsb = rgb2hsv(r, g, b);
                         if (!isInFaceRegion(x / imageWidthMul, y / imageHeightMul) && isPixelMostlyWhite(hsb)) {
                             nativeImage.setColor(x, y, abgr);
                         } else {
@@ -72,16 +71,24 @@ public class SheepSkinResource implements SimpleSynchronousResourceReloadListene
         });
     }
 
+    // source: https://stackoverflow.com/questions/8022885/rgb-to-hsv-color-in-javascript/54070620#54070620
+    // input: r,g,b in [0,1], out: h in [0,360) and s,v in [0,1]
+    public static double[] rgb2hsv(double r, double g, double b) {
+        double v = Math.max(Math.max(r, g), b), c = v - Math.min(Math.min(r, g), b);
+        var h = c != 0.0 ? ((v == r) ? (g - b) / c : ((v == g) ? 2 + (b - r) / c : 4 + (r - g) / c)) : 0.0;
+        return new double[]{60 * (h < 0 ? h + 6 : h), v != 0.0 ? c / v : 0.0, v};
+    }
+
     /**
      * Calculates and Clamps the resolution to make easy to determine the face region.
      *
      * @param nativeImage Target image.
      * @return Clamped resolution.
      */
-    private static Point clampResolution(NativeImage nativeImage) {
-        final Point ret = new Point();
-        ret.x = (int) (Math.ceil(nativeImage.getWidth() / (float) RESOLUTION_CHECK_STEP)) * RESOLUTION_CHECK_STEP;
-        ret.y = (int) (Math.ceil(nativeImage.getHeight() / (float) RESOLUTION_CHECK_STEP)) * RESOLUTION_CHECK_STEP;
+    private static int[] clampResolution(NativeImage nativeImage) {
+        final int[] ret = new int[2];
+        ret[0] = (int) (Math.ceil(nativeImage.getWidth() / (float) RESOLUTION_CHECK_STEP)) * RESOLUTION_CHECK_STEP;
+        ret[1] = (int) (Math.ceil(nativeImage.getHeight() / (float) RESOLUTION_CHECK_STEP)) * RESOLUTION_CHECK_STEP;
         return ret;
     }
 
@@ -100,7 +107,7 @@ public class SheepSkinResource implements SimpleSynchronousResourceReloadListene
     /**
      * @param hsb Target HSB color.
      */
-    private static boolean isPixelMostlyWhite(float[] hsb) {
-        return hsb[1] < 0.11f && hsb[2] > 0.82f;
+    private static boolean isPixelMostlyWhite(double[] hsb) {
+        return hsb[1] < 0.11 && hsb[2] > 0.82;
     }
 }
