@@ -1,7 +1,8 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.sheepColors;
 
-import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import me.juancarloscp52.bedrockify.client.features.sheepColors.SheepSkinResource;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -13,7 +14,6 @@ import net.minecraft.client.render.entity.model.SheepEntityModel;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.util.DyeColor;
-import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -22,9 +22,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(SheepWoolFeatureRenderer.class)
 public abstract class SheepWoolFeatureRendererMixin extends FeatureRenderer<SheepEntity, SheepEntityModel<SheepEntity>> {
-    @Unique
-    private static final Identifier TEXTURE_SHEARED = new Identifier(Bedrockify.MOD_ID, "textures/entity/sheep_sheared.png");
-
     public SheepWoolFeatureRendererMixin(FeatureRendererContext<SheepEntity, SheepEntityModel<SheepEntity>> context) {
         super(context);
     }
@@ -57,7 +54,7 @@ public abstract class SheepWoolFeatureRendererMixin extends FeatureRenderer<Shee
             blue = color[2];
         }
 
-        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(sheepModel.getLayer(TEXTURE_SHEARED));
+        VertexConsumer vertexConsumer = vertexConsumerProvider.getBuffer(sheepModel.getLayer(SheepSkinResource.TEXTURE_SHEARED));
         sheepModel.render(matrixStack, vertexConsumer, light, LivingEntityRenderer.getOverlay(sheepEntity, 0.075f), red, green, blue, 1f);
     }
 }
