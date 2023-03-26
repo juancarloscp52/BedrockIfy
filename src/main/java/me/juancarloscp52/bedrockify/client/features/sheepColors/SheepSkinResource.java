@@ -48,9 +48,9 @@ public class SheepSkinResource implements SimpleSynchronousResourceReloadListene
                 for (int x = 0; x < nativeImage.getWidth(); x++) {
                     for (int y = 0; y < nativeImage.getHeight(); y++) {
                         final int abgr = nativeImage.getColor(x, y);
-                        final int b = abgr >> 16 & 0xFF;
-                        final int g = abgr >> 8 & 0xFF;
-                        final int r = abgr & 0xFF;
+                        final double b = (abgr >> 16 & 0xFF) / 255.;
+                        final double g = (abgr >> 8 & 0xFF) / 255.;
+                        final double r = (abgr & 0xFF) / 255.;
                         final double[] hsv = rgb2hsv(r, g, b);
                         if (!isInFaceRegion(x / imageWidthMul, y / imageHeightMul) && isPixelMostlyWhite(hsv)) {
                             nativeImage.setColor(x, y, abgr);
@@ -72,7 +72,8 @@ public class SheepSkinResource implements SimpleSynchronousResourceReloadListene
     }
 
     /**
-     * Converts from RGB color space to HSV.
+     * Converts from RGB color space to HSV.<br>
+     * All components must be clamped between <code>0.0 - 1.0</code>.
      *
      * @param r Red component.
      * @param g Green component.
@@ -112,9 +113,9 @@ public class SheepSkinResource implements SimpleSynchronousResourceReloadListene
     }
 
     /**
-     * @param hsb Target HSB color.
+     * @param hsv Target HSV color.
      */
-    private static boolean isPixelMostlyWhite(double[] hsb) {
-        return hsb[1] < 0.11 && hsb[2] > 0.82;
+    private static boolean isPixelMostlyWhite(double[] hsv) {
+        return hsv[1] < 0.11 && hsv[2] > 0.82;
     }
 }
