@@ -71,6 +71,7 @@ public class SheepSkinResource implements SimpleSynchronousResourceReloadListene
         });
     }
 
+    // source: https://stackoverflow.com/questions/8022885/rgb-to-hsv-color-in-javascript/54070620#54070620
     // input: r,g,b in [0,1], out: h in [0,360) and s,v in [0,1]
     public static double[] rgb2hsv(double r, double g, double b) {
         double v = Math.max(Math.max(r, g), b), c = v - Math.min(Math.min(r, g), b);
