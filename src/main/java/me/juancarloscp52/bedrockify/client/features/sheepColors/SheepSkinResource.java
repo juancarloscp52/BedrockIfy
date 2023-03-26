@@ -33,7 +33,7 @@ public class SheepSkinResource implements SimpleSynchronousResourceReloadListene
      */
     @Override
     public void reload(ResourceManager manager) {
-        manager.getResource(TEXTURE_SHEEP_SKIN).ifPresent(resource -> {
+        manager.getResource(TEXTURE_SHEEP_SKIN).ifPresentOrElse(resource -> {
             try (InputStream stream = resource.getInputStream()) {
                 final NativeImage nativeImage = NativeImage.read(stream);
                 final Point resClamped = clampResolution(nativeImage);
@@ -67,6 +67,8 @@ public class SheepSkinResource implements SimpleSynchronousResourceReloadListene
             } catch (Throwable ex) {
                 BedrockifyClient.LOGGER.error("[%s] Unable to extract sheep texture.".formatted(Bedrockify.class.getSimpleName()), ex);
             }
+        }, () -> {
+            BedrockifyClient.LOGGER.error("[{}] Failed to load sheep texture: {}", Bedrockify.class.getSimpleName(), TEXTURE_SHEEP_SKIN.getPath());
         });
     }
 
@@ -96,7 +98,7 @@ public class SheepSkinResource implements SimpleSynchronousResourceReloadListene
     }
 
     /**
-     * @param hsb Target color.
+     * @param hsb Target HSB color.
      */
     private static boolean isPixelMostlyWhite(float[] hsb) {
         return hsb[1] < 0.11f && hsb[2] > 0.82f;

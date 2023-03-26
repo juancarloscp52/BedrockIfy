@@ -2,7 +2,6 @@ package me.juancarloscp52.bedrockify.mixin.client.features.sheepColors;
 
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.sheepColors.SheepSkinResource;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.model.Model;
 import net.minecraft.client.render.VertexConsumer;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -15,7 +14,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.passive.SheepEntity;
 import net.minecraft.util.DyeColor;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -28,7 +26,7 @@ public abstract class SheepWoolFeatureRendererMixin extends FeatureRenderer<Shee
 
     @Inject(method = "render", at = @At("RETURN"))
     private void bedrockify$renderWoolColorAfterShearing(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, SheepEntity sheepEntity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch, CallbackInfo ci) {
-        if (!sheepEntity.isSheared() || !BedrockifyClient.getInstance().settings.sheepColors) {
+        if (!sheepEntity.isSheared() || !BedrockifyClient.getInstance().settings.sheepColors || SheepSkinResource.TEXTURE_SHEARED == null) {
             return;
         }
 
