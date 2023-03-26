@@ -51,8 +51,8 @@ public class SheepSkinResource implements SimpleSynchronousResourceReloadListene
                         final int b = abgr >> 16 & 0xFF;
                         final int g = abgr >> 8 & 0xFF;
                         final int r = abgr & 0xFF;
-                        final double[] hsb = rgb2hsv(r, g, b);
-                        if (!isInFaceRegion(x / imageWidthMul, y / imageHeightMul) && isPixelMostlyWhite(hsb)) {
+                        final double[] hsv = rgb2hsv(r, g, b);
+                        if (!isInFaceRegion(x / imageWidthMul, y / imageHeightMul) && isPixelMostlyWhite(hsv)) {
                             nativeImage.setColor(x, y, abgr);
                         } else {
                             nativeImage.setColor(x, y, 0);
@@ -71,8 +71,15 @@ public class SheepSkinResource implements SimpleSynchronousResourceReloadListene
         });
     }
 
-    // source: https://stackoverflow.com/questions/8022885/rgb-to-hsv-color-in-javascript/54070620#54070620
-    // input: r,g,b in [0,1], out: h in [0,360) and s,v in [0,1]
+    /**
+     * Converts from RGB color space to HSV.
+     *
+     * @param r Red component.
+     * @param g Green component.
+     * @param b Blue component.
+     * @return HSV color space: double[] { h: [0, 360), s: [0, 1], v: [0, 1] }
+     * @see <a href="https://stackoverflow.com/questions/8022885/rgb-to-hsv-color-in-javascript/54070620#54070620">https://stackoverflow.com/questions/8022885/rgb-to-hsv-color-in-javascript/54070620#54070620</a>
+     */
     public static double[] rgb2hsv(double r, double g, double b) {
         double v = Math.max(Math.max(r, g), b), c = v - Math.min(Math.min(r, g), b);
         var h = c != 0.0 ? ((v == r) ? (g - b) / c : ((v == g) ? 2 + (b - r) / c : 4 + (r - g) / c)) : 0.0;
