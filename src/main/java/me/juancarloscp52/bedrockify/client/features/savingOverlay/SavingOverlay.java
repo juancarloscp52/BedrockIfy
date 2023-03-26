@@ -25,10 +25,10 @@ public class SavingOverlay extends DrawableHelper {
             RenderSystem.defaultBlendFunc();
             RenderSystem.setShaderColor(1,1,1,BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false));
             // Draw chest
-            this.drawTexture(matrixStack, client.getWindow().getScaledWidth()-(21+settings.getScreenSafeArea()), 19 + settings.getScreenSafeArea(), 0, 99, 16, 17);
+            drawTexture(matrixStack, client.getWindow().getScaledWidth()-(21+settings.getScreenSafeArea()), 19 + settings.getScreenSafeArea(), 0, 99, 16, 17);
             // Draw arrow
             renderTimer+= BedrockifyClient.getInstance().deltaTime*0.000000001f;
-            this.drawTexture(matrixStack, client.getWindow().getScaledWidth()-(19+settings.getScreenSafeArea()), 5 + settings.getScreenSafeArea() + MathHelper.fastFloor(MathHelper.abs(MathHelper.sin(renderTimer * 3.1415926F) * 6)), 16, 100, 12, 15);
+            drawTexture(matrixStack, client.getWindow().getScaledWidth()-(19+settings.getScreenSafeArea()), 5 + settings.getScreenSafeArea() + MathHelper.floor(MathHelper.abs(MathHelper.sin(renderTimer * 3.1415926F) * 6)), 16, 100, 12, 15);
             RenderSystem.setShaderColor(1,1,1,1);
         }
     }

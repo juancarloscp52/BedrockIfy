@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_16",
   "plugin": "me.juancarloscp52.bedrockify.mixin.BedrockIfyMixinPlugin",
   "client": [
+    "client.compat.sodium.LinearColorBlenderMixin",
     "client.core.bedrockIfyButton.OptionsScreenMixin",
     "client.core.clientRenderTimer.MinecraftClientMixin",
     "client.features.bedrockShading.lightBlock.AbstractQuadRendererMixin",
@@ -32,6 +33,8 @@
     "client.features.panoramaBackground.RotatingCubeMapRendererAccessor",
     "client.features.panoramaBackground.RotatingCubeMapRendererMixin",
     "client.features.panoramaBackground.ScreenMixin",
+    "client.features.panoramaBackground.TabButtonWidgetMixin",
+    "client.features.panoramaBackground.TabNavigationWidgetMixin",
     "client.features.panoramaBackground.TitleScreenMixin",
     "client.features.pickupAnimations.InGameHudMixin",
     "client.features.reacharoundPlacement.MinecraftClientMixin",
@@ -49,6 +52,10 @@
   "mixins": [
     "common.features.animalEatingParticles.AnimalEntityMixin",
     "common.features.animalEatingParticles.WolfEntityMixin",
+    "common.features.cauldron.AbstractCauldronBlockMixin",
+    "common.features.cauldron.ArmorDyeRecipeMixin",
+    "common.features.cauldron.CauldronBehaviorMixin",
+    "common.features.cauldron.LeveledCauldronBlockAccessor",
     "common.features.fernBonemeal.GrassBlockMixin",
     "common.features.fertilizableBlocks.FlowerBlockMixin",
     "common.features.fertilizableBlocks.SugarCaneBlockMixin",

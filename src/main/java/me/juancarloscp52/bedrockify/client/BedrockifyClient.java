@@ -7,26 +7,31 @@ import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockSunGla
 import me.juancarloscp52.bedrockify.client.features.fishingBobber.FishingBobber3DModel;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.HeldItemTooltips;
 import me.juancarloscp52.bedrockify.client.features.hudOpacity.HudOpacity;
-import me.juancarloscp52.bedrockify.client.features.quickArmorSwap.ArmorReplacer;
 import me.juancarloscp52.bedrockify.client.features.reacharoundPlacement.ReachAroundPlacement;
 import me.juancarloscp52.bedrockify.client.features.worldColorNoise.WorldColorNoiseSampler;
 import me.juancarloscp52.bedrockify.client.gui.Overlay;
 import me.juancarloscp52.bedrockify.client.gui.SettingsGUI;
+import me.juancarloscp52.bedrockify.common.block.cauldron.BedrockCauldronBehavior;
+import me.juancarloscp52.bedrockify.common.block.entity.WaterCauldronBlockEntity;
+import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronBlocks;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.fabric.api.event.player.UseItemCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
 import net.minecraft.particle.ItemStackParticleEffect;
+import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.util.TypedActionResult;
+import net.minecraft.registry.Registries;
+import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
@@ -35,6 +40,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Optional;
 
 public class BedrockifyClient implements ClientModInitializer {
 
@@ -75,6 +81,21 @@ public class BedrockifyClient implements ClientModInitializer {
         // Register 3D Bobber Entity.
         EntityModelLayerRegistry.registerModelLayer(FishingBobber3DModel.MODEL_LAYER, FishingBobber3DModel::generateModel);
 
+        // Register the Color Tint of Potion-filled and Colored Cauldron Block.
+        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
+            if (world == null || pos == null) {
+                return -1;
+            }
+
+            final Optional<WaterCauldronBlockEntity> entity = world.getBlockEntity(pos, BedrockCauldronBlocks.WATER_CAULDRON_ENTITY);
+            return entity.map(WaterCauldronBlockEntity::getTintColor).orElse(-1);
+        }, BedrockCauldronBlocks.POTION_CAULDRON, BedrockCauldronBlocks.COLORED_WATER_CAULDRON);
+
+        // Lazy initialization of Bedrock's cauldron behavior after all the registries are ready.
+        ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
+            BedrockCauldronBehavior.registerBehavior();
+        });
+
 
         ClientPlayNetworking.registerGlobalReceiver(Bedrockify.EAT_PARTICLES, (client, handler, buf, responseSender) -> {
             ItemStack stack = buf.readItemStack();
@@ -91,11 +112,24 @@ public class BedrockifyClient implements ClientModInitializer {
             });
         });
 
-        UseItemCallback.EVENT.register((playerEntity, world, hand) -> {
-            if(settings.isQuickArmorSwapEnabled())
-                return ArmorReplacer.tryChangeArmor(playerEntity,hand);
-            return TypedActionResult.pass(playerEntity.getStackInHand(hand));
+        ClientPlayNetworking.registerGlobalReceiver(Bedrockify.CAULDRON_ACTION_PARTICLES, (client, handler, buf, responseSender) -> {
+            final Identifier particleId = buf.readIdentifier();
+            final double x = buf.readDouble();
+            final double y = buf.readDouble();
+            final double z = buf.readDouble();
+            final double vx = buf.readDouble();
+            final double vy = buf.readDouble();
+            final double vz = buf.readDouble();
+            if (!(Registries.PARTICLE_TYPE.get(particleId) instanceof final ParticleEffect particle)) {
+                return;
+            }
+            client.send(() -> {
+                if (client.world != null) {
+                    client.world.addParticle(particle, x, y, z, vx, vy, vz);
+                }
+            });
         });
+
         HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> BedrockifyClient.getInstance().overlay.renderOverlay(matrixStack));
         ClientTickEvents.END_CLIENT_TICK.register(client-> {
             while (keyBinding.wasPressed()){

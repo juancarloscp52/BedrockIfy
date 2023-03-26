@@ -10,6 +10,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.ShulkerBoxColoringRecipe;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ShulkerBoxColoringRecipe.class)
 public class ShulkerBoxColoringRecipeMixin {
 
-    @Inject(method = "matches",at=@At("HEAD"),cancellable = true)
+    @Inject(method = "matches(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/world/World;)Z",at=@At("HEAD"),cancellable = true)
     public void customMatches(CraftingInventory craftingInventory, World world, CallbackInfoReturnable<Boolean> info){
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled()){
             return;
@@ -48,8 +49,8 @@ public class ShulkerBoxColoringRecipeMixin {
         }
         info.setReturnValue(i == 1 && j == 1);
     }
-    @Inject(method = "craft", at=@At("HEAD"),cancellable = true)
-    public void craft(CraftingInventory craftingInventory, CallbackInfoReturnable<ItemStack> infoReturnable) {
+    @Inject(method = "craft(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;", at=@At("HEAD"),cancellable = true)
+    public void craft(CraftingInventory craftingInventory, DynamicRegistryManager dynamicRegistryManager, CallbackInfoReturnable<ItemStack> cir) {
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled()){
             return;
         }
@@ -73,6 +74,6 @@ public class ShulkerBoxColoringRecipeMixin {
             itemStack3.setNbt(itemStack.getNbt().copy());
         }
 
-        infoReturnable.setReturnValue(itemStack3);
+        cir.setReturnValue(itemStack3);
     }
 }

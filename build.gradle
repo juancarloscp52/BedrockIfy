@@ -45,7 +45,7 @@ repositories {
 	}
 	maven { url "https://maven.shedaniel.me/" }
 	maven { url "https://maven.ryanliptak.com/" } // AppleSkin
-	maven { url "https://api.modrinth.com/maven" } // Iris
+	maven { url "https://api.modrinth.com/maven" } // Iris, Sodium
 }
 
 dependencies {
@@ -65,6 +65,7 @@ dependencies {
 	modCompileOnly("squeek.appleskin:appleskin-fabric:${project.apple_skin}:api") {
 		transitive = false
 	}
+	modCompileOnly "maven.modrinth:sodium:${project.sodium_version}"
 
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 	modTestImplementation "maven.modrinth:iris:${project.iris_version}"

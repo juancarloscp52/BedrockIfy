@@ -11,6 +11,7 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.recipe.FireworkStarRecipe;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -35,7 +36,7 @@ public class FireworkStarRecipeMixin {
 
     @Shadow @Final private static Map<Item, FireworkRocketItem.Type> TYPE_MODIFIER_MAP;
 
-    @Inject(method = "matches",at=@At("HEAD"),cancellable = true)
+    @Inject(method = "matches(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/world/World;)Z",at=@At("HEAD"),cancellable = true)
     public void matches(CraftingInventory craftingInventory, World world, CallbackInfoReturnable<Boolean> infoReturnable) {
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
             return;
@@ -89,8 +90,8 @@ public class FireworkStarRecipeMixin {
         infoReturnable.setReturnValue(bl && bl2);
     }
 
-    @Inject(method = "craft",at=@At("HEAD"),cancellable = true)
-    public void craft(CraftingInventory craftingInventory, CallbackInfoReturnable<ItemStack> infoReturnable) {
+    @Inject(method = "craft(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;",at=@At("HEAD"),cancellable = true)
+    public void craft(CraftingInventory craftingInventory, DynamicRegistryManager dynamicRegistryManager, CallbackInfoReturnable<ItemStack> cir) {
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
             return;
         ItemStack itemStack = new ItemStack(Items.FIREWORK_STAR);
@@ -115,7 +116,7 @@ public class FireworkStarRecipeMixin {
 
         compoundTag.putIntArray("Colors", list);
         compoundTag.putByte("Type", (byte)type.getId());
-        infoReturnable.setReturnValue(itemStack);
+        cir.setReturnValue(itemStack);
     }
 
 }

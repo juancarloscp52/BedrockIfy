@@ -1,5 +1,6 @@
 package me.juancarloscp52.bedrockify.mixin;
 
+import me.juancarloscp52.bedrockify.mixin.client.compat.sodium.LinearColorBlenderMixin;
 import me.juancarloscp52.bedrockify.mixin.featureManager.MixinFeatureManager;
 import net.fabricmc.loader.api.FabricLoader;
 import org.apache.logging.log4j.LogManager;
@@ -39,6 +40,10 @@ public class BedrockIfyMixinPlugin  implements IMixinConfigPlugin {
         if(mixinClassName.contains("me.juancarloscp52.bedrockify.mixin.client.features.bedrockShading") && FabricLoader.getInstance().isModLoaded("optifabric")){
             LogManager.getLogger().info("The mod \"OptiFabric\" has been detected. This mod is not totally compatible with BedrockIfy. BedrockIfy Bedrock Shading is now disabled.");
             return false;
+        }
+        if (mixinClassName.contains(LinearColorBlenderMixin.class.getPackageName())) {
+            // Workaround of https://github.com/CaffeineMC/sodium-fabric/issues/895
+            return FabricLoader.getInstance().isModLoaded("sodium");
         }
         return MixinFeatureManager.isFeatureEnabled(mixinClassName);
     }

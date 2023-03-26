@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.FireworkStarFadeRecipe;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,7 +23,7 @@ import java.util.List;
 public class FireworkStarFadeRecipeMixin {
     @Shadow @Final private static Ingredient INPUT_STAR;
 
-    @Inject(method = "matches",at=@At("HEAD"),cancellable = true)
+    @Inject(method = "matches(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/world/World;)Z",at=@At("HEAD"),cancellable = true)
     public void matches(CraftingInventory craftingInventory, World world, CallbackInfoReturnable<Boolean> infoReturnable) {
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
             return;
@@ -53,8 +54,8 @@ public class FireworkStarFadeRecipeMixin {
         infoReturnable.setReturnValue(bl2 && bl);
     }
 
-    @Inject(method = "craft",at=@At("HEAD"),cancellable = true)
-    public void craft(CraftingInventory craftingInventory, CallbackInfoReturnable<ItemStack> infoReturnable) {
+    @Inject(method = "craft(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;",at=@At("HEAD"),cancellable = true)
+    public void craft(CraftingInventory craftingInventory, DynamicRegistryManager dynamicRegistryManager, CallbackInfoReturnable<ItemStack> cir) {
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
             return;
         List<Integer> list = Lists.newArrayList();
@@ -73,9 +74,9 @@ public class FireworkStarFadeRecipeMixin {
 
         if (itemStack != null && !list.isEmpty()) {
             itemStack.getOrCreateSubNbt("Explosion").putIntArray("FadeColors", list);
-            infoReturnable.setReturnValue(itemStack);
+            cir.setReturnValue(itemStack);
         } else {
-            infoReturnable.setReturnValue(ItemStack.EMPTY);
+            cir.setReturnValue(ItemStack.EMPTY);
         }
     }
 }

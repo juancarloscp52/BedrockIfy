@@ -46,7 +46,7 @@ public class BedrockifyRotatingCubeMapRenderer {
             RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.doBackgroundFade ? (float)MathHelper.ceil(MathHelper.clamp(alpha, 0.0F, 1.0F)) : 1.0F);
             Window window = MinecraftClient.getInstance().getWindow();
-            DrawableHelper.drawTexture(new MatrixStack(), 0, 0, window.getScaledWidth(), window.getScaledHeight(), 0.0F, 0.0F, 16, 128, 16, 128);
+            DrawableHelper.drawTexture(new MatrixStack(), 0, 0, window.getScaledWidth(), window.getHeight(), 0.0F, 0.0F, 16, 128, 16, 128);
         }
     }
 
