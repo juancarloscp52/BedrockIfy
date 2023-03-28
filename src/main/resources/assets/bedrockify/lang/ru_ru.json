@@ -67,7 +67,7 @@
   "bedrockify.options.bedrockShading": "Использовать освещение из Bedrock:",
   "bedrockify.options.bedrockShading.tooltip": "Это включает в себя затенение световых блоков, солнечного света и затухание цвета неба.",
   "bedrockify.options.sunlightIntensity": "Интенсивность солнечного света:",
-  "bedrockify.options.sunlightIntensity.tooltip": Интенсивность затемнения неба при взгляде на солнце. Игнорируется при работе других шейдеров.",
+  "bedrockify.options.sunlightIntensity.tooltip": "Интенсивность затемнения неба при взгляде на солнце. Игнорируется при работе других шейдеров.",
   "bedrockify.options.fireAspectLight": "«Заговор огня» для зажигания:",
   "bedrockify.options.fireAspectLight.tooltip": "ПКМ по блокам, вроде свечей и динамита, с предметом, зачарованным на «Заговор огня», подожжет их.",
   "bedrockify.options.panorama.list": "Отключить панораму на:",
