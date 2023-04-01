@@ -55,11 +55,8 @@ public class SettingsGUI {
         guiImprovements.add(entryBuilder.startIntSlider(Text.translatable("bedrockify.options.screenSafeArea"), settingsClient.screenSafeArea,0,30).setDefaultValue(0).setSaveConsumer((newValue)-> settingsClient.screenSafeArea=newValue).build());
         guiImprovements.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.ignoreBorder"), settingsClient.overlayIgnoresSafeArea).setDefaultValue(false).setSaveConsumer(newValue -> settingsClient.overlayIgnoresSafeArea=newValue).build());
         guiImprovements.add(entryBuilder.startIntSlider(Text.translatable("bedrockify.options.hudOpacity"), settingsClient.hudOpacity,0,100).setDefaultValue(50).setSaveConsumer((newValue)-> settingsClient.hudOpacity=newValue).build());
-        guiImprovements.add(entryBuilder.startSelector(Text.translatable("bedrockify.options.tooltips"), new Byte []{0,1,2}, settingsClient.heldItemTooltip).setDefaultValue((byte) 2).setNameProvider((value)-> switch (value) {
-            case 0 -> Text.translatable("bedrockify.options.off");
-            case 1 -> Text.translatable("bedrockify.options.on");
-            default -> Text.translatable("bedrockify.options.withBackground");
-        }).setSaveConsumer((newValue)-> settingsClient.heldItemTooltip=newValue).build());
+        guiImprovements.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.tooltips"), settingsClient.heldItemTooltips).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.heldItemTooltips =newValue).build());
+        guiImprovements.add(entryBuilder.startIntSlider(Text.translatable("bedrockify.options.tooltips.background"),(int)Math.ceil(settingsClient.heldItemTooltipBackground*100),0,100).setDefaultValue(50).setSaveConsumer(newValue -> settingsClient.heldItemTooltipBackground=newValue/100d).build());
         guiImprovements.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.inventoryHighlight"), settingsClient.slotHighlight).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.slotHighlight=newValue).build());
         guiImprovements.add(entryBuilder.startAlphaColorField(Text.translatable("bedrockify.options.inventoryHighlight.color1"), settingsClient.highLightColor1).setDefaultValue((255 << 8) + (255) + (255 << 16) + (255 << 24)).setSaveConsumer(newValue -> settingsClient.highLightColor1=newValue).build());
         guiImprovements.add(entryBuilder.startAlphaColorField(Text.translatable("bedrockify.options.inventoryHighlight.color2"), settingsClient.highLightColor2).setDefaultValue(64 + (170 << 8) + (109 << 16) + (255 << 24)).setSaveConsumer(newValue -> settingsClient.highLightColor2=newValue).build());

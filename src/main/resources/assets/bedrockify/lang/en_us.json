@@ -34,6 +34,7 @@
   "bedrockify.options.chatStyle.bedrock": "Bedrock",
   "bedrockify.options.chatStyle.vanilla": "Java",
   "bedrockify.options.tooltips": "Item Tooltips:",
+  "bedrockify.options.tooltips.background": "Tooltips Background Opacity:",
   "bedrockify.options.rotationalBackground": "Panorama Background On All Screens:",
   "bedrockify.options.rotationalBackground.old": "Use Old Panorama Rendering:",
   "bedrockify.options.rotationalBackground.old.tooltip": "Use the old method of rendering the rotational background. Only use if the screen background is not moving.",

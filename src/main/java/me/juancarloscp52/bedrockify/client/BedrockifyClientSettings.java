@@ -32,7 +32,9 @@ public class BedrockifyClientSettings {
     public ButtonPosition bedrockIfyButtonPosition = ButtonPosition.BELOW_SLIDERS;
     public boolean showPositionHUD = true;
     public byte FPSHUD = 0;
-    public byte heldItemTooltip = 2;
+    public boolean heldItemTooltips = true;
+    public double heldItemTooltipBackground = .5d;
+
     public boolean showPaperDoll = true;
     public boolean showChunkMap = false;
     public boolean reacharound = true;
@@ -129,10 +131,6 @@ public class BedrockifyClientSettings {
 
     public int getHighLightColor2() {
         return this.highLightColor2;
-    }
-
-    public byte getHeldItemTooltip() {
-        return this.heldItemTooltip;
     }
 
     public byte getFPSHUDoption() {

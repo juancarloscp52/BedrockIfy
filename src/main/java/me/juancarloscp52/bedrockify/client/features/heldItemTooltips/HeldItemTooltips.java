@@ -57,7 +57,7 @@ public class HeldItemTooltips {
         }
 
         // Draw item tooltips if the option is enabled.
-        if(settings.getHeldItemTooltip()>0) {
+        if(settings.heldItemTooltips) {
             // Get the current held item tooltips and convert to Text.
             final List<Text> tooltips = Lists.newArrayList();
             for (Tooltip tooltip : getTooltips(currentStack)) {
@@ -75,11 +75,10 @@ public class HeldItemTooltips {
             }
 
             tooltipOffset = 12 * tooltips.size();
-            //Render background behind tooltip if enabled.
-            if(settings.getHeldItemTooltip()==2){
-                int maxLength = getMaxTooltipLength(tooltips,fontRenderer,currentStack);
-                renderBackground(matrices, y, screenBorder, tooltipOffset, maxLength);
-            }
+            //Render background behind tooltip.
+            int maxLength = getMaxTooltipLength(tooltips,fontRenderer,currentStack);
+            renderBackground(matrices, y, screenBorder, tooltipOffset, maxLength);
+
 
             int i = tooltips.size() - 1;
             for (Text elem : tooltips) {
@@ -178,7 +177,7 @@ public class HeldItemTooltips {
 
     private void renderBackground(MatrixStack matrices, float y, int screenBorder, int tooltipOffset, int maxLength) {
         MinecraftClient client = MinecraftClient.getInstance();
-        int background = MathHelper.ceil((255.0D * MinecraftClient.getInstance().options.getTextBackgroundOpacity().getValue()))<<24;
+        int background = MathHelper.ceil((255.0D * BedrockifyClient.getInstance().settings.heldItemTooltipBackground))<<24;
         DrawableHelper.fill(matrices, MathHelper.ceil((client.getWindow().getScaledWidth()-maxLength)/2f-3),MathHelper.ceil(y - tooltipOffset -5- screenBorder), MathHelper.ceil((client.getWindow().getScaledWidth()+maxLength)/2f+1),MathHelper.ceil(y - tooltipOffset -4- screenBorder),background);
         DrawableHelper.fill(matrices,MathHelper.ceil((client.getWindow().getScaledWidth()-maxLength)/2f-3),MathHelper.ceil(y+12-screenBorder), MathHelper.ceil((client.getWindow().getScaledWidth()+maxLength)/2f+1),MathHelper.ceil(y+13-screenBorder),background);
         DrawableHelper.fill(matrices,MathHelper.ceil((client.getWindow().getScaledWidth()-maxLength)/2f-4), MathHelper.ceil(y - tooltipOffset -4- screenBorder),MathHelper.ceil((client.getWindow().getScaledWidth()+maxLength)/2f+2), MathHelper.ceil(y+12-screenBorder),background);
