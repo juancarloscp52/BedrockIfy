@@ -2,6 +2,7 @@ package me.juancarloscp52.bedrockify.mixin.client.features.panoramaBackground;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.systems.RenderSystem;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.panoramaBackground.BedrockifyRotatingCubeMapRenderer;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
@@ -33,6 +34,9 @@ public abstract class TabNavigationWidgetMixin {
 
     @Inject(method = "render",at=@At("HEAD"),cancellable = true)
     public void render(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+
+        if(!BedrockifyClient.getInstance().settings.cubeMapBackground)
+            return;
 
         //Panorama background
         BedrockifyRotatingCubeMapRenderer.getInstance().render(1,false);

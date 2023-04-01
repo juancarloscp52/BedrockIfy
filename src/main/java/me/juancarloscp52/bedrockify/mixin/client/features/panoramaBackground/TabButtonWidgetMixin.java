@@ -1,6 +1,8 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.panoramaBackground;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.widget.ClickableWidget;
@@ -32,6 +34,8 @@ public abstract class TabButtonWidgetMixin extends ClickableWidget {
 
     @Inject(method = "renderButton", at=@At("HEAD"),cancellable = true)
     public void renderButton(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+        if(!BedrockifyClient.getInstance().settings.cubeMapBackground)
+            return;
         RenderSystem.setShaderTexture(0, TEXTURE);
         TabButtonWidget.drawNineSlicedTexture(matrices, this.getX(), this.getY(), this.width, this.height, 2, 2, 2, 0, 130, 24, 0, this.getTextureV());
         if(!this.isCurrentTab()){

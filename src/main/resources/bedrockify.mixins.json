@@ -29,6 +29,7 @@
     "client.features.loadingScreens.ProgressScreenMixin",
     "client.features.loadingScreens.SaveLevelScreenMixin",
     "client.features.panoramaBackground.EntryListWidgetMixin",
+    "client.features.panoramaBackground.ExperimentsScreenMixin",
     "client.features.panoramaBackground.GameRendererMixin",
     "client.features.panoramaBackground.RotatingCubeMapRendererAccessor",
     "client.features.panoramaBackground.RotatingCubeMapRendererMixin",
