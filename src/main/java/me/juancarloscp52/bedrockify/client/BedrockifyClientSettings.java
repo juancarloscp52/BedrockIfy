@@ -27,7 +27,7 @@ public class BedrockifyClientSettings {
     }
 
     private final static List<Class<? extends Screen>> MINECRAFT_IGNORED_SCREENS = Arrays.asList(PackScreen.class, SocialInteractionsScreen.class);
-    public final static List<String> PANORAMA_IGNORED_SCREENS = Arrays.asList(".modmenu.gui.ModsScreen", ".iris.gui.", ".modmanager.gui.", "yacl.gui.YACLScreen");
+    public final static List<String> PANORAMA_IGNORED_SCREENS = Arrays.asList(".modmenu.gui.ModsScreen", ".iris.gui.", ".voicechat.gui",".modmanager.gui.", "yacl.gui.YACLScreen");
     public boolean loadingScreen = true;
     public ButtonPosition bedrockIfyButtonPosition = ButtonPosition.BELOW_SLIDERS;
     public boolean showPositionHUD = true;
