@@ -11,6 +11,7 @@ import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.MathHelper;
 
 public class BedrockifyRotatingCubeMapRenderer {
@@ -18,6 +19,8 @@ public class BedrockifyRotatingCubeMapRenderer {
     private CubeMapRenderer cubeMap = TitleScreen.PANORAMA_CUBE_MAP;
     private static BedrockifyRotatingCubeMapRenderer INSTANCE;
     private float time= 0;
+    private static final Identifier PANORAMA_OVERLAY = new Identifier("textures/gui/title/background/panorama_overlay.png");
+
     private boolean doBackgroundFade;
     private long backgroundFadeStart;
     private Identifier overlay = new Identifier("textures/gui/title/background/panorama_overlay.png");
@@ -41,12 +44,21 @@ public class BedrockifyRotatingCubeMapRenderer {
     public void render(float alpha, boolean titleScreen){
         this.cubeMap.draw(MinecraftClient.getInstance(), MathHelper.sin(time*0.001F)*5.0F + 25.0F,-this.time*0.1F,alpha);
         if(!titleScreen){
+            MatrixStack matrices = new MatrixStack();
             RenderSystem.setShaderTexture(0,overlay);
             RenderSystem.enableBlend();
             RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.doBackgroundFade ? (float)MathHelper.ceil(MathHelper.clamp(alpha, 0.0F, 1.0F)) : 1.0F);
             Window window = MinecraftClient.getInstance().getWindow();
-            DrawableHelper.drawTexture(new MatrixStack(), 0, 0, window.getScaledWidth(), window.getHeight(), 0.0F, 0.0F, 16, 128, 16, 128);
+            DrawableHelper.drawTexture(matrices, 0, 0, window.getScaledWidth(), window.getHeight(), 0.0F, 0.0F, 16, 128, 16, 128);
+
+            //Render panorama overlay
+            RenderSystem.setShaderTexture(0, PANORAMA_OVERLAY);
+            RenderSystem.enableBlend();
+            float f = this.doBackgroundFade ? (float)(Util.getMeasuringTimeMs() - this.backgroundFadeStart) / 1000.0f : 1.0f;
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, this.doBackgroundFade ? (float)MathHelper.ceil(MathHelper.clamp(f, 0.0f, 1.0f)) : 1.0f);
+            TitleScreen.drawTexture(matrices, 0, 0, MinecraftClient.getInstance().getWindow().getScaledWidth(), MinecraftClient.getInstance().getWindow().getScaledHeight(), 0.0f, 0.0f, 16, 128, 16, 128);
+            RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
         }
     }
 
