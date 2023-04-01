@@ -5,7 +5,10 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.packet.s2c.play.InventoryS2CPacket;
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket;
 import net.minecraft.screen.PlayerScreenHandler;
 import org.spongepowered.asm.mixin.Final;
@@ -28,7 +31,7 @@ public abstract class ClientPlayNetworkHandlerMixin {
      * @see ClientPlayNetworkHandler#onScreenHandlerSlotUpdate
      */
     @Inject(method = "onScreenHandlerSlotUpdate", at = @At("RETURN"))
-    private void bedrockify$animateAlways(ScreenHandlerSlotUpdateS2CPacket packet, CallbackInfo ci) {
+    private void bedrockify$animateAlwaysSlotUpdate(ScreenHandlerSlotUpdateS2CPacket packet, CallbackInfo ci) {
         final ItemStack itemStack = packet.getItemStack();
         final int slotIdx = packet.getSlot();
         if (packet.getSyncId() != 0 && !PlayerScreenHandler.isInHotbar(slotIdx) || itemStack == null) {
@@ -36,5 +39,26 @@ public abstract class ClientPlayNetworkHandlerMixin {
         }
 
         AnimationsHelper.doBobbingAnimation(itemStack);
+    }
+
+    /**
+     * Animate always by receiving S2C packet.<br>
+     * This handles a packet that could not be caught by {@link ClientPlayNetworkHandler#onScreenHandlerSlotUpdate}.
+     *
+     * @see ClientPlayNetworkHandler#onInventory
+     */
+    @Inject(method = "onInventory", at = @At("RETURN"))
+    private void bedrockify$animateAlwaysInventory(InventoryS2CPacket packet, CallbackInfo ci) {
+        final PlayerEntity player = this.client.player;
+        if (packet.getSyncId() != 0 || player == null) {
+            return;
+        }
+
+        final int target = AnimationsHelper.consumeChangedSlot();
+        if (!PlayerInventory.isValidHotbarIndex(target) && target != PlayerInventory.OFF_HAND_SLOT) {
+            return;
+        }
+
+        AnimationsHelper.doBobbingAnimation(player.getInventory().getStack(target));
     }
 }
