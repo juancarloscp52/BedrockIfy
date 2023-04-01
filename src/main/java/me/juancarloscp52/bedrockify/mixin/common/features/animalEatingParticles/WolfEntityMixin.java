@@ -18,4 +18,8 @@ public class WolfEntityMixin {
     public void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir){
         EatingParticlesUtil.spawnItemParticles(player,player.getStackInHand(hand),((AnimalEntity)(Object)this));
     }
+    @Inject(method = "interactMob",at=@At(value = "INVOKE",target = "Lnet/minecraft/entity/passive/WolfEntity;heal(F)V"))
+    public void interactMobOnHeal(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir){
+        EatingParticlesUtil.spawnItemParticles(player,player.getStackInHand(hand),((AnimalEntity)(Object)this));
+    }
 }
