@@ -1,6 +1,7 @@
 package me.juancarloscp52.bedrockify.client.features.loadingScreens;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -86,14 +87,16 @@ public class LoadingScreenWidget extends DrawableHelper {
 
     private void renderLoadingWidget(MatrixStack matrices, int x, int y, MinecraftClient client) {
         RenderSystem.setShaderTexture(0,WIDGET_TEXTURE);
-        this.drawTexture(matrices, x - 256 / 2, y - 89 / 2, 0, 0, 256, 89);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
+        DrawableHelper.drawTexture(matrices, x - 256 / 2, y - 89 / 2, 0, 0, 256, 89);
     }
 
     private void renderLogo(MatrixStack matrices, int x, int y, MinecraftClient client) {
         RenderSystem.setShaderTexture(0,MINECRAFT_TITLE_TEXTURE);
-        this.drawWithOutline(x - 137, (y / 2) - (89 / 2), (integer, integer2) -> {
-            this.drawTexture(matrices, integer, integer2, 0, 0, 155, 44);
-            this.drawTexture(matrices, integer + 155, integer2, 0, 45, 155, 44);
+        drawWithOutline(x - 137, (y / 2) - (89 / 2), (integer, integer2) -> {
+            DrawableHelper.drawTexture(matrices, integer, integer2, 0, 0, 155, 44);
+            DrawableHelper.drawTexture(matrices, integer + 155, integer2, 0, 45, 155, 44);
         });
         RenderSystem.setShaderTexture(0,EDITION_TITLE_TEXTURE);
         drawTexture(matrices, x - 137 + 88, (y / 2) - (89 / 2) + 37, 0.0F, 0.0F, 98, 14, 128, 16);
@@ -124,9 +127,9 @@ public class LoadingScreenWidget extends DrawableHelper {
     private void renderLoadingBar(MatrixStack matrices, MinecraftClient client, int x, int y, int progress) {
         RenderSystem.setShaderTexture(0,WIDGET_TEXTURE);
         int barProgress = (int) ((MathHelper.clamp(progress,0,100)/100.0f) * 223.0f);
-        this.drawTexture(matrices, x - 111, y + 26, 0, 89, 222, 5);
+        DrawableHelper.drawTexture(matrices, x - 111, y + 26, 0, 89, 222, 5);
         if (barProgress > 0)
-            this.drawTexture(matrices, x - 111, y + 26, 0, 94, barProgress, 5);
+            DrawableHelper.drawTexture(matrices, x - 111, y + 26, 0, 94, barProgress, 5);
     }
 
 }
