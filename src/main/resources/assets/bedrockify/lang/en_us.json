@@ -80,6 +80,7 @@
   "bedrockify.options.elytraStop.tooltip": "Press space while flying with elytra to stop flying mid air.",
   "bedrockify.options.bedrockCauldron": "Bedrock Cauldron functionality:",
   "bedrockify.options.bedrockCauldron.tooltip": "Toggles Bedrock Cauldron functionality, enabling cauldrons to hold tinted water and potions. Disabling this option won't remove cauldrons holding the new special liquids that already exists in the world.",
+  "bedrockify.options.sheepcolors": "Enable sheared sheep colors:",
   "bedrockify.loadingTips.1":"Use seagrass to attract and breed turtles.",
   "bedrockify.loadingTips.2":"Protect baby turtles from hostile mobs!",
   "bedrockify.loadingTips.3":"Baby turtles will drop scutes when they grow - these can be crafted into turtle shells.",

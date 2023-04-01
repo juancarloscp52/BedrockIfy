@@ -1,6 +1,7 @@
 package me.juancarloscp52.bedrockify.mixin;
 
 import me.juancarloscp52.bedrockify.mixin.client.compat.sodium.LinearColorBlenderMixin;
+import me.juancarloscp52.bedrockify.mixin.client.features.sheepColors.SheepWoolFeatureRendererMixin;
 import me.juancarloscp52.bedrockify.mixin.featureManager.MixinFeatureManager;
 import net.fabricmc.loader.api.FabricLoader;
 import org.apache.logging.log4j.LogManager;
@@ -44,6 +45,10 @@ public class BedrockIfyMixinPlugin  implements IMixinConfigPlugin {
         if (mixinClassName.contains(LinearColorBlenderMixin.class.getPackageName())) {
             // Workaround of https://github.com/CaffeineMC/sodium-fabric/issues/895
             return FabricLoader.getInstance().isModLoaded("sodium");
+        }
+        if (mixinClassName.equals(SheepWoolFeatureRendererMixin.class.getCanonicalName()) && FabricLoader.getInstance().isModLoaded("optifabric")) {
+            LogManager.getLogger().info("The mod \"OptiFabric\" has been detected. This mod is not totally compatible with BedrockIfy. BedrockIfy Sheep Colors is now disabled.");
+            return false;
         }
         return MixinFeatureManager.isFeatureEnabled(mixinClassName);
     }

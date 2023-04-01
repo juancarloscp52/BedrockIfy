@@ -30,6 +30,7 @@ public class MixinFeatureManager {
         features.put("client.features.savingOverlay", true);
         features.put("client.features.screenSafeArea", true);
         features.put("client.features.slotHighlight", true);
+        features.put("client.features.sheepColors", true);
         features.put("client.features.worldColorNoise",true);
         features.put("client.features.biggerDraggingItem",true);
         //features.put("client.features.sneakingShield", true);

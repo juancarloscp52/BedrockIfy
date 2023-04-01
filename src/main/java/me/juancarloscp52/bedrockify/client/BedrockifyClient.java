@@ -8,6 +8,7 @@ import me.juancarloscp52.bedrockify.client.features.fishingBobber.FishingBobber3
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.HeldItemTooltips;
 import me.juancarloscp52.bedrockify.client.features.hudOpacity.HudOpacity;
 import me.juancarloscp52.bedrockify.client.features.reacharoundPlacement.ReachAroundPlacement;
+import me.juancarloscp52.bedrockify.client.features.sheepColors.SheepSkinResource;
 import me.juancarloscp52.bedrockify.client.features.worldColorNoise.WorldColorNoiseSampler;
 import me.juancarloscp52.bedrockify.client.gui.Overlay;
 import me.juancarloscp52.bedrockify.client.gui.SettingsGUI;
@@ -22,6 +23,8 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
@@ -31,6 +34,7 @@ import net.minecraft.particle.ItemStackParticleEffect;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.Registries;
+import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -95,6 +99,11 @@ public class BedrockifyClient implements ClientModInitializer {
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
             BedrockCauldronBehavior.registerBehavior();
         });
+
+        // Register sheared sheep texture dynamically.
+        if (!FabricLoader.getInstance().isModLoaded("optifabric")) {
+            ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new SheepSkinResource());
+        }
 
 
         ClientPlayNetworking.registerGlobalReceiver(Bedrockify.EAT_PARTICLES, (client, handler, buf, responseSender) -> {
