@@ -1,6 +1,8 @@
 package me.juancarloscp52.bedrockify.common.block.entity;
 
+import me.juancarloscp52.bedrockify.common.block.ColoredWaterCauldronBlock;
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronBlocks;
+import me.juancarloscp52.bedrockify.common.features.cauldron.ColorBlenderHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -63,9 +65,21 @@ public class WaterCauldronBlockEntity extends BlockEntity {
         this.setTintColor(PotionUtil.getColor(potion));
     }
 
-    public <T extends DyeItem> void setDyeItem(T item) {
-        this.fluidId = Registries.ITEM.getId(item);
-        this.setTintColor(item.getColor().getFireworkColor());
+    public <T extends DyeItem> void blendDyeItem(T item) {
+        float[] colorComponents = item.getColor().getColorComponents();
+        int red = (int) (colorComponents[0] * 255);
+        int green = (int) (colorComponents[1] * 255);
+        int blue = (int) (colorComponents[2] * 255);
+        final int itemColor = red << 16 | green << 8 | blue;
+
+        final int resultColor;
+        if (Objects.equals(this.fluidId, Registries.BLOCK.getId(BedrockCauldronBlocks.COLORED_WATER_CAULDRON))) {
+            resultColor = ColorBlenderHelper.blendColors(this.getTintColor(), itemColor);
+        } else {
+            this.fluidId = Registries.BLOCK.getId(BedrockCauldronBlocks.COLORED_WATER_CAULDRON);
+            resultColor = itemColor;
+        }
+        this.setTintColor(resultColor);
     }
 
     private void setTintColor(int tintColor) {
@@ -79,9 +93,8 @@ public class WaterCauldronBlockEntity extends BlockEntity {
      */
     private void checkExactIds() {
         boolean valid = false;
-        if (Registries.ITEM.get(this.getFluidId()) instanceof DyeItem dyeItem) {
+        if (Registries.BLOCK.get(this.getFluidId()) instanceof ColoredWaterCauldronBlock) {
             valid = true;
-            this.setDyeItem(dyeItem);
         } else {
             final Potion potion = Registries.POTION.get(this.getFluidId());
             if (!Objects.equals(Registries.POTION.getId(potion), Registries.POTION.getDefaultId())) {

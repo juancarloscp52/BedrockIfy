@@ -22,6 +22,8 @@ public class ColoredWaterCauldronBlock extends AbstractBECauldronBlock {
     public static final IntProperty LEVEL = BedrockCauldronProperties.LEVEL_6;
     public static final int MAX_LEVEL = BedrockCauldronProperties.MAX_LEVEL_6;
 
+    private static final int BOTTLE_LEVEL = MAX_LEVEL / LeveledCauldronBlock.MAX_LEVEL;
+
     public ColoredWaterCauldronBlock(Settings settings) {
         super(settings, BedrockCauldronBehavior.COLORED_WATER_CAULDRON_BEHAVIOR);
         this.setDefaultState(this.getStateManager().getDefaultState().with(LEVEL, 2));
@@ -42,7 +44,7 @@ public class ColoredWaterCauldronBlock extends AbstractBECauldronBlock {
         return MathHelper.lerp((float) state.get(LEVEL) / MAX_LEVEL, 0.375, 0.9375);
     }
 
-    public static void dyeAndDecrement(BlockState state, World world, BlockPos pos) {
+    public static void decrementWhenDye(BlockState state, World world, BlockPos pos) {
         final int decremented = state.get(LEVEL) - 1;
         final BlockState newState = (decremented == 0) ? Blocks.CAULDRON.getDefaultState() : state.with(LEVEL, decremented);
         world.setBlockState(pos, newState);
@@ -69,5 +71,16 @@ public class ColoredWaterCauldronBlock extends AbstractBECauldronBlock {
         }
 
         return (int) Math.floor((float) state.get(LEVEL) / MAX_LEVEL * LeveledCauldronBlock.MAX_LEVEL);
+    }
+
+    public static boolean tryPickFluid(BlockState state, World world, BlockPos pos) {
+        final int nextLevel = state.get(LEVEL) - BOTTLE_LEVEL;
+        if (nextLevel < 0) {
+            return false;
+        }
+        BlockState blockState = (nextLevel == 0) ? Blocks.CAULDRON.getDefaultState() : state.with(LEVEL, nextLevel);
+        world.setBlockState(pos, blockState);
+        world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(blockState));
+        return true;
     }
 }

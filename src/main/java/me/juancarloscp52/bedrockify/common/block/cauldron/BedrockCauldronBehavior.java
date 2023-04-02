@@ -5,6 +5,7 @@ import me.juancarloscp52.bedrockify.common.block.ColoredWaterCauldronBlock;
 import me.juancarloscp52.bedrockify.common.block.PotionCauldronBlock;
 import me.juancarloscp52.bedrockify.common.block.entity.WaterCauldronBlockEntity;
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronBlocks;
+import me.juancarloscp52.bedrockify.common.features.cauldron.ColorBlenderHelper;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -31,7 +32,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
@@ -59,17 +59,10 @@ public interface BedrockCauldronBehavior {
         }
 
         final WaterCauldronBlockEntity blockEntity = entity.get();
-        if (!(Registries.ITEM.get(blockEntity.getFluidId()) instanceof final DyeItem dyeItem)) {
-            Bedrockify.LOGGER.error(
-                    "[%s] something went wrong to get color".formatted(Bedrockify.class.getSimpleName()),
-                    new IllegalStateException("%s#getFluidId is not an instance of DyeItem".formatted(WaterCauldronBlockEntity.class.getSimpleName())));
-            return emptyCauldronFromWrongState(state, world, pos, player, hand, stack);
-        }
-
         if (!world.isClient) {
-            ColoredWaterCauldronBlock.dyeAndDecrement(state, world, pos);
+            ColoredWaterCauldronBlock.decrementWhenDye(state, world, pos);
             player.incrementStat(Stats.USE_CAULDRON);
-            player.setStackInHand(hand, DyeableItem.blendAndSetColor(stack, List.of(dyeItem)));
+            player.setStackInHand(hand, ColorBlenderHelper.blendColors(stack, blockEntity.getTintColor()));
             world.playSound(null, pos, SoundEvents.ENTITY_GENERIC_SPLASH, SoundCategory.BLOCKS, 0.15f, 1.25f);
             world.emitGameEvent(null, GameEvent.FLUID_PICKUP, pos);
         }
@@ -113,7 +106,7 @@ public interface BedrockCauldronBehavior {
             world.emitGameEvent(null, GameEvent.BLOCK_CHANGE, pos);
         }
         world.getBlockEntity(pos, BedrockCauldronBlocks.WATER_CAULDRON_ENTITY).ifPresent(blockEntity -> {
-            blockEntity.setDyeItem(dyeItem);
+            blockEntity.blendDyeItem(dyeItem);
         });
 
         return ActionResult.success(world.isClient);
@@ -338,6 +331,28 @@ public interface BedrockCauldronBehavior {
         return ActionResult.success(world.isClient);
     };
 
+    CauldronBehavior PICK_COLORED_WATER = (state, world, pos, player, hand, stack) -> {
+        if (!world.isClient) {
+            if (!ColoredWaterCauldronBlock.tryPickFluid(state, world, pos)) {
+                return ActionResult.SUCCESS;
+            }
+            Item item = stack.getItem();
+            player.setStackInHand(hand, ItemUsage.exchangeStack(stack, player, PotionUtil.setPotion(new ItemStack(Items.POTION), Potions.WATER)));
+            player.incrementStat(Stats.USE_CAULDRON);
+            player.incrementStat(Stats.USED.getOrCreateStat(item));
+            world.playSound(null, pos, SoundEvents.ITEM_BOTTLE_FILL, SoundCategory.BLOCKS);
+            world.emitGameEvent(null, GameEvent.FLUID_PICKUP, pos);
+        }
+
+        return ActionResult.success(world.isClient);
+    };
+
+    CauldronBehavior FILL_BUCKET_WITH_COLORED_WATER = (state, world, pos, player, hand, stack) -> {
+        return CauldronBehavior.emptyCauldron(state, world, pos, player, hand, stack, new ItemStack(Items.WATER_BUCKET), (statex) -> {
+            return statex.get(ColoredWaterCauldronBlock.LEVEL) == ColoredWaterCauldronBlock.MAX_LEVEL;
+        }, SoundEvents.ITEM_BUCKET_FILL);
+    };
+
     /**
      * Helper method that checks and retrieves the {@link WaterCauldronBlockEntity}.<br>
      * There are no Entity, the error log will appear.
@@ -462,8 +477,8 @@ public interface BedrockCauldronBehavior {
         Registries.ITEM.stream().filter(item -> item instanceof DyeableItem).forEach(item -> {
             COLORED_WATER_CAULDRON_BEHAVIOR.putIfAbsent(item, DYE_ITEM_BY_COLORED_WATER);
         });
-        COLORED_WATER_CAULDRON_BEHAVIOR.putIfAbsent(Items.BUCKET, CauldronBehavior.WATER_CAULDRON_BEHAVIOR.get(Items.BUCKET));
-        COLORED_WATER_CAULDRON_BEHAVIOR.putIfAbsent(Items.GLASS_BOTTLE, CauldronBehavior.WATER_CAULDRON_BEHAVIOR.get(Items.GLASS_BOTTLE));
+        COLORED_WATER_CAULDRON_BEHAVIOR.putIfAbsent(Items.BUCKET, FILL_BUCKET_WITH_COLORED_WATER);
+        COLORED_WATER_CAULDRON_BEHAVIOR.putIfAbsent(Items.GLASS_BOTTLE, PICK_COLORED_WATER);
         CauldronBehavior.registerBucketBehavior(COLORED_WATER_CAULDRON_BEHAVIOR);
 
         // Behavior of the potion.
