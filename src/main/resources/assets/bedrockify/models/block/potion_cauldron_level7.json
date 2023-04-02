@@ -1,0 +1,11 @@
+{
+  "parent": "bedrockify:block/template_cauldron_8_level7",
+  "textures": {
+    "bottom": "minecraft:block/cauldron_bottom",
+    "content": "minecraft:block/water_still",
+    "inside": "minecraft:block/cauldron_inner",
+    "particle": "minecraft:block/cauldron_side",
+    "side": "minecraft:block/cauldron_side",
+    "top": "minecraft:block/cauldron_top"
+  }
+}
