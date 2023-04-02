@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.hud.InGameHud;
@@ -36,7 +37,8 @@ public abstract class InGameHudMixin extends DrawableHelper {
             drawTexture(matrices, x, y - screenBorder, u, v, width, height);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false));
         }else{
-            drawTexture(matrices, x, y - screenBorder, u, v, width, width == 24 ? height+2 : height);
+            boolean raisedEnabled = FabricLoader.getInstance().isModLoaded("raised");
+            drawTexture(matrices, x, y - screenBorder, u, v, width, (width  == 24 && !raisedEnabled) ? height+2 : height);
         }
     }
 
