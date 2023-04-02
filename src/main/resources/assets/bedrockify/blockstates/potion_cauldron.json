@@ -1,12 +1,27 @@
 {
   "variants": {
-    "level=1": {
-      "model": "minecraft:block/water_cauldron_level1"
+    "c_level=1": {
+      "model": "bedrockify:block/potion_cauldron_level1"
     },
-    "level=2": {
-      "model": "minecraft:block/water_cauldron_level2"
+    "c_level=2": {
+      "model": "bedrockify:block/potion_cauldron_level2"
     },
-    "level=3": {
+    "c_level=3": {
+      "model": "bedrockify:block/potion_cauldron_level3"
+    },
+    "c_level=4": {
+      "model": "bedrockify:block/potion_cauldron_level4"
+    },
+    "c_level=5": {
+      "model": "bedrockify:block/potion_cauldron_level5"
+    },
+    "c_level=6": {
+      "model": "bedrockify:block/potion_cauldron_level6"
+    },
+    "c_level=7": {
+      "model": "bedrockify:block/potion_cauldron_level7"
+    },
+    "c_level=8": {
       "model": "minecraft:block/water_cauldron_full"
     }
   }
