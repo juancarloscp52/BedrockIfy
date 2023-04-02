@@ -6,6 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.LogoDrawer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
@@ -21,16 +22,16 @@ public class LoadingScreenWidget extends DrawableHelper {
     private static LoadingScreenWidget instance = null;
     private static final int TIPS_NUM = 62;
     private final Identifier WIDGET_TEXTURE = new Identifier("bedrockify", "textures/gui/bedrockify_widgets.png");
-    private final Identifier MINECRAFT_TITLE_TEXTURE = new Identifier("textures/gui/title/minecraft.png");
-    private final Identifier EDITION_TITLE_TEXTURE = new Identifier("textures/gui/title/edition.png");
     private Text tip;
     private static final List<Integer> EXCLUDED_TIPS = Lists.asList(15,new Integer[]{23,28,29,32,33,34,35,62});
     private long lastTipUpdate = 0;
     private final ExternalLoadingTips externalLoadingTips;
+    private final LogoDrawer logoDrawer;
 
     private LoadingScreenWidget() {
         externalLoadingTips = ExternalLoadingTips.loadSettings();
         externalLoadingTips.saveSettings();
+        logoDrawer = new LogoDrawer(false);
     }
 
     public static LoadingScreenWidget getInstance() {
@@ -73,34 +74,25 @@ public class LoadingScreenWidget extends DrawableHelper {
     public void render(MatrixStack matrices, int width, int height, Text title, Text message, int progress) {
         MinecraftClient client = MinecraftClient.getInstance();
 
-        renderLogo(matrices, width, height, client);
-        renderLoadingWidget(matrices, width, height, client);
+        logoDrawer.draw(matrices,client.getWindow().getScaledWidth(),1,(height/2) - (89 / 2));
+        renderLoadingWidget(matrices, width, height);
 
         TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
         textRenderer.draw(matrices, title, width - textRenderer.getWidth(title) / 2, height - 9 / 2 - 32, 76 + (76 << 8) + (76 << 16));
         renderTextBody(matrices, width, height, message, textRenderer);
 
         if (progress >= 0) {
-            renderLoadingBar(matrices, client, width, height, progress);
+            renderLoadingBar(matrices, width, height, progress);
         }
     }
 
-    private void renderLoadingWidget(MatrixStack matrices, int x, int y, MinecraftClient client) {
+    private void renderLoadingWidget(MatrixStack matrices, int x, int y) {
         RenderSystem.setShaderTexture(0,WIDGET_TEXTURE);
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
         DrawableHelper.drawTexture(matrices, x - 256 / 2, y - 89 / 2, 0, 0, 256, 89);
     }
 
-    private void renderLogo(MatrixStack matrices, int x, int y, MinecraftClient client) {
-        RenderSystem.setShaderTexture(0,MINECRAFT_TITLE_TEXTURE);
-        drawWithOutline(x - 137, (y / 2) - (89 / 2), (integer, integer2) -> {
-            DrawableHelper.drawTexture(matrices, integer, integer2, 0, 0, 155, 44);
-            DrawableHelper.drawTexture(matrices, integer + 155, integer2, 0, 45, 155, 44);
-        });
-        RenderSystem.setShaderTexture(0,EDITION_TITLE_TEXTURE);
-        drawTexture(matrices, x - 137 + 88, (y / 2) - (89 / 2) + 37, 0.0F, 0.0F, 98, 14, 128, 16);
-    }
 
     private void renderTextBody(MatrixStack matrices, int x, int y, Text message, TextRenderer textRenderer) {
         if (message == null)
@@ -124,7 +116,7 @@ public class LoadingScreenWidget extends DrawableHelper {
     }
 
 
-    private void renderLoadingBar(MatrixStack matrices, MinecraftClient client, int x, int y, int progress) {
+    private void renderLoadingBar(MatrixStack matrices, int x, int y, int progress) {
         RenderSystem.setShaderTexture(0,WIDGET_TEXTURE);
         int barProgress = (int) ((MathHelper.clamp(progress,0,100)/100.0f) * 223.0f);
         DrawableHelper.drawTexture(matrices, x - 111, y + 26, 0, 89, 222, 5);
