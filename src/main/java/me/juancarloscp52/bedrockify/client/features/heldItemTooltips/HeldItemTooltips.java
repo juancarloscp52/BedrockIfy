@@ -103,8 +103,8 @@ public class HeldItemTooltips {
         //If the item is a enchanted book, retrieve the enchantments.
         if (item == Items.ENCHANTED_BOOK || currentStack.hasEnchantments()) {
             generateTooltipsFromEnchantMap(EnchantmentHelper.get(currentStack), result);
-            //If the item is a potion, retrieve the potion effects.
-        } else if (item instanceof PotionItem) {
+            //If the item has a potion effects, retrieve them.
+        } else if (item instanceof PotionItem || item instanceof TippedArrowItem) {
             List<Text> generated = Lists.newArrayList();
             // Lingering Potion has its own multiplier of duration, and it is hardcoded.
             item.appendTooltip(currentStack, null, generated, TooltipContext.BASIC);
