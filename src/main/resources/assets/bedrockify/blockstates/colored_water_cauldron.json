@@ -1,21 +1,21 @@
 {
   "variants": {
-    "level=1": {
+    "c_level=1": {
       "model": "bedrockify:block/colored_water_cauldron_level1"
     },
-    "level=2": {
+    "c_level=2": {
       "model": "minecraft:block/water_cauldron_level1"
     },
-    "level=3": {
+    "c_level=3": {
       "model": "bedrockify:block/colored_water_cauldron_level3"
     },
-    "level=4": {
+    "c_level=4": {
       "model": "minecraft:block/water_cauldron_level2"
     },
-    "level=5": {
+    "c_level=5": {
       "model": "bedrockify:block/colored_water_cauldron_level5"
     },
-    "level=6": {
+    "c_level=6": {
       "model": "minecraft:block/water_cauldron_full"
     }
   }

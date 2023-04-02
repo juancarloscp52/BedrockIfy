@@ -9,6 +9,6 @@ public final class BedrockCauldronProperties {
     public static final int MAX_LEVEL_6 = 6;
     public static final int MAX_LEVEL_8 = 8;
 
-    public static final IntProperty LEVEL_6 = IntProperty.of("level", 1, MAX_LEVEL_6);
-    public static final IntProperty LEVEL_8 = IntProperty.of("level", 1, MAX_LEVEL_8);
+    public static final IntProperty LEVEL_6 = IntProperty.of("c_level", 1, MAX_LEVEL_6);
+    public static final IntProperty LEVEL_8 = IntProperty.of("c_level", 1, MAX_LEVEL_8);
 }
