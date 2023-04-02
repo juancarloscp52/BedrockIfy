@@ -84,8 +84,8 @@ public interface BedrockCauldronBehavior {
         final int level;
         if (entity.isPresent()) {
             // The Cauldron already has color.
-            final WaterCauldronBlockEntity blockEntity = entity.get();
-            if (Objects.equals(blockEntity.getFluidId(), Registries.ITEM.getId(dyeItem))) {
+            final int currentColor = entity.get().getTintColor();
+            if (ColorBlenderHelper.blendColors(currentColor, ColorBlenderHelper.fromDyeItem(dyeItem)) == currentColor) {
                 return ActionResult.SUCCESS;
             }
             level = state.get(ColoredWaterCauldronBlock.LEVEL);

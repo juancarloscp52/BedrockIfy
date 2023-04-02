@@ -1,5 +1,6 @@
 package me.juancarloscp52.bedrockify.common.features.cauldron;
 
+import net.minecraft.item.DyeItem;
 import net.minecraft.item.DyeableItem;
 import net.minecraft.item.ItemStack;
 
@@ -69,5 +70,13 @@ public final class ColorBlenderHelper {
         final int resultBlue = (int) (normalizedBlue * peekMul / peek);
 
         return resultRed << 16 | resultGreen << 8 | resultBlue;
+    }
+
+    public static int fromDyeItem(DyeItem item) {
+        final float[] colorComponents = item.getColor().getColorComponents();
+        final int red = (int) (colorComponents[0] * 255);
+        final int green = (int) (colorComponents[1] * 255);
+        final int blue = (int) (colorComponents[2] * 255);
+        return red << 16 | green << 8 | blue;
     }
 }

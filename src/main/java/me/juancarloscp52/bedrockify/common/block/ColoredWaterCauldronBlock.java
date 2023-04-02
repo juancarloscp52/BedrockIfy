@@ -26,7 +26,7 @@ public class ColoredWaterCauldronBlock extends AbstractBECauldronBlock {
 
     public ColoredWaterCauldronBlock(Settings settings) {
         super(settings, BedrockCauldronBehavior.COLORED_WATER_CAULDRON_BEHAVIOR);
-        this.setDefaultState(this.getStateManager().getDefaultState().with(LEVEL, 2));
+        this.setDefaultState(this.getStateManager().getDefaultState().with(LEVEL, BOTTLE_LEVEL));
     }
 
     @Override

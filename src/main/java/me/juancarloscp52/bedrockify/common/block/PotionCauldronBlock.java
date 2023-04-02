@@ -99,7 +99,7 @@ public class PotionCauldronBlock extends AbstractBECauldronBlock {
         if (!state.contains(LEVEL)) {
             Bedrockify.LOGGER.error(
                     "[%s] cannot retrieve fluid level".formatted(Bedrockify.class.getSimpleName()),
-                    new IllegalStateException("BlockState of %s does not have state: LEVEL".formatted(state.getBlock())));
+                    new IllegalStateException("BlockState of %s does not have state: %s".formatted(state.getBlock(), LEVEL)));
             return false;
         }
 

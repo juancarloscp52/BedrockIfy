@@ -66,12 +66,7 @@ public class WaterCauldronBlockEntity extends BlockEntity {
     }
 
     public <T extends DyeItem> void blendDyeItem(T item) {
-        float[] colorComponents = item.getColor().getColorComponents();
-        int red = (int) (colorComponents[0] * 255);
-        int green = (int) (colorComponents[1] * 255);
-        int blue = (int) (colorComponents[2] * 255);
-        final int itemColor = red << 16 | green << 8 | blue;
-
+        final int itemColor = ColorBlenderHelper.fromDyeItem(item);
         final int resultColor;
         if (Objects.equals(this.fluidId, Registries.BLOCK.getId(BedrockCauldronBlocks.COLORED_WATER_CAULDRON))) {
             resultColor = ColorBlenderHelper.blendColors(this.getTintColor(), itemColor);
@@ -93,7 +88,10 @@ public class WaterCauldronBlockEntity extends BlockEntity {
      */
     private void checkExactIds() {
         boolean valid = false;
-        if (Registries.BLOCK.get(this.getFluidId()) instanceof ColoredWaterCauldronBlock) {
+        if (Registries.ITEM.get(this.getFluidId()) instanceof DyeItem dyeItem) {
+            this.blendDyeItem(dyeItem);
+            valid = true;
+        } else if (Registries.BLOCK.get(this.getFluidId()) instanceof ColoredWaterCauldronBlock) {
             valid = true;
         } else {
             final Potion potion = Registries.POTION.get(this.getFluidId());
