@@ -26,7 +26,6 @@ public class Bedrockify implements ModInitializer {
         return instance;
     }
 
-    //TODO: Fix weird background on resource pack screen.
     @Override
     public void onInitialize() {
         LOGGER.info("Initializing BedrockIfy.");
@@ -34,9 +33,7 @@ public class Bedrockify implements ModInitializer {
         instance = this;
         DyingTrees.registerTrees();
         BedrockCauldronBlocks.register();
-        ServerLifecycleEvents.SERVER_STARTED.register(server -> {
-            BedrockCauldronBehavior.registerBehavior();
-        });
+        ServerLifecycleEvents.SERVER_STARTED.register(server -> BedrockCauldronBehavior.registerBehavior());
     }
 
     public void loadSettings() {
