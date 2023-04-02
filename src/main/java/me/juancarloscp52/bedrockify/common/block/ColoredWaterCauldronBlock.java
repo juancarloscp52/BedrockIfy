@@ -40,6 +40,11 @@ public class ColoredWaterCauldronBlock extends AbstractBECauldronBlock {
     }
 
     @Override
+    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+        return (int) Math.ceil((float) state.get(LEVEL) / MAX_LEVEL * LeveledCauldronBlock.MAX_LEVEL);
+    }
+
+    @Override
     public double getFluidHeight(BlockState state) {
         return MathHelper.lerp((float) state.get(LEVEL) / MAX_LEVEL, 0.375, 0.9375);
     }

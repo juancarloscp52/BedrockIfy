@@ -7,6 +7,7 @@ import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronProp
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.state.StateManager;
@@ -41,6 +42,11 @@ public class PotionCauldronBlock extends AbstractBECauldronBlock {
     @Override
     public boolean isFull(BlockState state) {
         return state.get(LEVEL) == MAX_LEVEL;
+    }
+
+    @Override
+    public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
+        return (int) Math.ceil((float) state.get(LEVEL) / MAX_LEVEL * LeveledCauldronBlock.MAX_LEVEL);
     }
 
     @Override
