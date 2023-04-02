@@ -16,6 +16,7 @@
     "client.features.biggerDraggingItem.HandledScreenMixin",
     "client.features.chat.ChatHudMixin",
     "client.features.eatingAnimations.PlayerEntityModelMixin",
+    "client.features.editionBranding.LogoDrawerMixin",
     "client.features.fishingBobber.FishingBobberEntityRendererMixin",
     "client.features.heldItemTooltips.ItemTooltipsMixin",
     "client.features.hudOpacity.BossBarHudMixin",

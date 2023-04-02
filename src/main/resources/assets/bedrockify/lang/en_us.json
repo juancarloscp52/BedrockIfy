@@ -41,6 +41,7 @@
   "bedrockify.options.chatStyle": "Chat Style:",
   "bedrockify.options.chatStyle.bedrock": "Bedrock",
   "bedrockify.options.chatStyle.vanilla": "Java",
+  "bedrockify.options.editionBranding": "Hide Edition Branding:",
   "bedrockify.options.tooltips": "Item Tooltips:",
   "bedrockify.options.tooltips.background": "Tooltips Background Opacity:",
   "bedrockify.options.rotationalBackground": "Panorama Background On All Screens:",

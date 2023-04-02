@@ -21,6 +21,7 @@
   "bedrockify.options.chatStyle": "Estilo de chat:",
   "bedrockify.options.chatStyle.bedrock": "Bedrock",
   "bedrockify.options.chatStyle.vanilla": "Vanilla",
+  "bedrockify.options.editionBranding": "Ocultar logo de edición:",
   "bedrockify.options.tooltips": "Descripción de ítems:",
   "bedrockify.options.tooltips.background": "Opacidad del fondo de descripciones:",
   "bedrockify.options.rotationalBackground": "Fondo panorama en todas las pantallas:",

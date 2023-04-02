@@ -121,6 +121,7 @@ public class SettingsGUI {
             gui.addEntry(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.pickupAnimations"), settingsClient.pickupAnimations).setTooltip(wrapLines(Text.translatable("bedrockify.options.pickupAnimations.tooltip"))).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.pickupAnimations=newValue).build());
             gui.addEntry(entryBuilder.startIntSlider(Text.translatable("bedrockify.options.hudOpacity"), settingsClient.hudOpacity,0,100).setDefaultValue(50).setSaveConsumer((newValue)-> settingsClient.hudOpacity=newValue).build());
             gui.addEntry(entryBuilder.startEnumSelector(Text.translatable("bedrockify.options.showBedrockIfyButton"), BedrockifyClientSettings.ButtonPosition.class, settingsClient.bedrockIfyButtonPosition).setTooltip(wrapLines(Text.translatable("bedrockify.options.showBedrockIfyButton.tooltip"))).setEnumNameProvider(anEnum -> Text.translatable(((BedrockifyClientSettings.ButtonPosition)anEnum).text)).setDefaultValue(BedrockifyClientSettings.ButtonPosition.BELOW_SLIDERS).setSaveConsumer(buttonPosition -> settingsClient.bedrockIfyButtonPosition =buttonPosition).build());
+            gui.addEntry(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.editionBranding"), settingsClient.hideEditionBranding).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.hideEditionBranding =newValue).build());
 
 
         /*

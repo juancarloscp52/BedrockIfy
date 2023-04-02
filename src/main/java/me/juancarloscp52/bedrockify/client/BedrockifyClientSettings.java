@@ -66,6 +66,7 @@ public class BedrockifyClientSettings {
     public boolean fishingBobber3D = true;
     public int sunlightIntensity = 50;
     public boolean sheepColors = true;
+    public boolean hideEditionBranding = false;
 
     public boolean isPickupAnimationsEnabled() {
         return pickupAnimations;
