@@ -77,7 +77,7 @@ public class HeldItemTooltips {
             tooltipOffset = 12 * tooltips.size();
             //Render background behind tooltip.
             int maxLength = getMaxTooltipLength(tooltips,fontRenderer,currentStack);
-            renderBackground(matrices, y, screenBorder, tooltipOffset, maxLength);
+            renderBackground(matrices, y, screenBorder, tooltipOffset, maxLength, color >> 24 & 0xff);
 
 
             int i = tooltips.size() - 1;
@@ -175,9 +175,9 @@ public class HeldItemTooltips {
         texts.forEach((current) -> instance.add(new PotionTooltip(current)));
     }
 
-    private void renderBackground(MatrixStack matrices, float y, int screenBorder, int tooltipOffset, int maxLength) {
+    private void renderBackground(MatrixStack matrices, float y, int screenBorder, int tooltipOffset, int maxLength, int alpha) {
         MinecraftClient client = MinecraftClient.getInstance();
-        int background = MathHelper.ceil((255.0D * BedrockifyClient.getInstance().settings.heldItemTooltipBackground))<<24;
+        int background = MathHelper.lerp(alpha / 255f, 0, MathHelper.ceil((255.0D * BedrockifyClient.getInstance().settings.heldItemTooltipBackground))) << 24;
         DrawableHelper.fill(matrices, MathHelper.ceil((client.getWindow().getScaledWidth()-maxLength)/2f-3),MathHelper.ceil(y - tooltipOffset -5- screenBorder), MathHelper.ceil((client.getWindow().getScaledWidth()+maxLength)/2f+1),MathHelper.ceil(y - tooltipOffset -4- screenBorder),background);
         DrawableHelper.fill(matrices,MathHelper.ceil((client.getWindow().getScaledWidth()-maxLength)/2f-3),MathHelper.ceil(y+12-screenBorder), MathHelper.ceil((client.getWindow().getScaledWidth()+maxLength)/2f+1),MathHelper.ceil(y+13-screenBorder),background);
         DrawableHelper.fill(matrices,MathHelper.ceil((client.getWindow().getScaledWidth()-maxLength)/2f-4), MathHelper.ceil(y - tooltipOffset -4- screenBorder),MathHelper.ceil((client.getWindow().getScaledWidth()+maxLength)/2f+2), MathHelper.ceil(y+12-screenBorder),background);

@@ -2,13 +2,16 @@ package me.juancarloscp52.bedrockify.client.features.hudOpacity;
 
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.util.math.MathHelper;
 
 public class HudOpacity {
 
-    private final int maxInactiveTicks = 120; // 6 seconds.
+    private static final int maxInactiveTicks = 120; // 6 seconds.
+    private static final int FADE_OUT_START_TICK = 100;
+    private static final int FADE_IN_DURATION_TICK = 5;
     int inactiveTicks = 0;
     int previousSelectedSlot = -1;
-    boolean hasReachedMax = false;
+    float currentOpacity = 1f;
 
     public float getHudOpacity(boolean isHotBarBackground){
         float opacity = BedrockifyClient.getInstance().settings.hudOpacity/100f;
@@ -17,17 +20,7 @@ public class HudOpacity {
         if(opacity>=max-0.05)
             return max;
 
-        float delta = max - opacity;
-        if(inactiveTicks > 100){
-            hasReachedMax=true;
-            return max - (delta * ((inactiveTicks-100f)/20f));
-        }else{
-            if(inactiveTicks<=5 && hasReachedMax){
-                return opacity + (delta * ((inactiveTicks)/5f));
-            } else
-                hasReachedMax=false;
-            return max;
-        }
+        return currentOpacity;
     }
 
     public void resetTicks(){
@@ -44,6 +37,19 @@ public class HudOpacity {
                 resetTicks();
             }
         }
+
+        float opacity = BedrockifyClient.getInstance().settings.hudOpacity/100f;
+        float delta = 1f - opacity;
+        if(inactiveTicks > FADE_OUT_START_TICK && currentOpacity > opacity){
+            currentOpacity -= delta / (maxInactiveTicks - FADE_OUT_START_TICK);
+            clampOpacity(opacity);
+        }else if(inactiveTicks<=FADE_IN_DURATION_TICK && currentOpacity < 1f){
+            currentOpacity += delta / FADE_IN_DURATION_TICK;
+            clampOpacity(opacity);
+        }
     }
 
+    private void clampOpacity(float minimum) {
+        currentOpacity = MathHelper.clamp(currentOpacity, minimum, 1f);
+    }
 }
