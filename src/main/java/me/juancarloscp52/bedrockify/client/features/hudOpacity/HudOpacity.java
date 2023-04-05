@@ -14,13 +14,8 @@ public class HudOpacity {
     float currentOpacity = 1f;
 
     public float getHudOpacity(boolean isHotBarBackground){
-        float opacity = BedrockifyClient.getInstance().settings.hudOpacity/100f;
         float max = BedrockifyClient.getInstance().settings.isTransparentHotBarEnabled() && isHotBarBackground? 0.6F:1.0F;
-
-        if(opacity>=max-0.05)
-            return max;
-
-        return currentOpacity;
+        return Math.min(currentOpacity, max);
     }
 
     public void resetTicks(){
