@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "boat",
+  "pattern": [
+    "#S#",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:cherry_planks"
+    },
+    "S": {
+      "item": "minecraft:wooden_shovel"
+    }
+  },
+  "result": {
+    "item": "minecraft:cherry_boat"
+  },
+  "show_notification": true
+}
