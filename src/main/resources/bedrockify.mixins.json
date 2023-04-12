@@ -21,6 +21,7 @@
     "client.features.heldItemTooltips.ItemTooltipsMixin",
     "client.features.hudOpacity.BossBarHudMixin",
     "client.features.hudOpacity.InGameHudMixin",
+    "client.features.hudOpacity.ItemRendererMixin",
     "client.features.hudOpacity.SubtitlesHudMixin",
     "client.features.idleHandAnimations.HeldItemRendererMixin",
     "client.features.loadingScreens.ConnectScreenMixin",
