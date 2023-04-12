@@ -66,6 +66,7 @@ dependencies {
 		transitive = false
 	}
 	modCompileOnly "maven.modrinth:sodium:${project.sodium_version}"
+	modCompileOnly "maven.modrinth:fastload:${project.fastload_version}"
 
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 	modTestImplementation "maven.modrinth:iris:${project.iris_version}"

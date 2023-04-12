@@ -48,6 +48,9 @@ public class BedrockIfyMixinPlugin  implements IMixinConfigPlugin {
             LogManager.getLogger().info("The mod \"OptiFabric\" has been detected. This mod is not totally compatible with BedrockIfy. BedrockIfy Sheep Colors is now disabled.");
             return false;
         }
+        if (mixinClassName.contains("me.juancarloscp52.bedrockify.mixin.client.compat.fastload")) {
+            return FabricLoader.getInstance().isModLoaded("fastload");
+        }
         return MixinFeatureManager.isFeatureEnabled(mixinClassName);
     }
 
