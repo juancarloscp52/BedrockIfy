@@ -2,6 +2,7 @@ package me.juancarloscp52.bedrockify.client;
 
 import com.google.gson.Gson;
 import me.juancarloscp52.bedrockify.Bedrockify;
+import me.juancarloscp52.bedrockify.client.compat.FastloadCompat;
 import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockBlockShading;
 import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockSunGlareShading;
 import me.juancarloscp52.bedrockify.client.features.fishingBobber.FishingBobber3DModel;
@@ -70,6 +71,8 @@ public class BedrockifyClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         instance = this;
+        if (FabricLoader.getInstance().isModLoaded("fastload"))
+            FastloadCompat.register();
         loadSettings();
         LOGGER.info("Initializing BedrockIfy Client.");
         overlay = new Overlay((MinecraftClient.getInstance()));

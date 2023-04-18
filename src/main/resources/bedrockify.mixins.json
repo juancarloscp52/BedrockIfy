@@ -5,7 +5,6 @@
   "compatibilityLevel": "JAVA_16",
   "plugin": "me.juancarloscp52.bedrockify.mixin.BedrockIfyMixinPlugin",
   "client": [
-    "client.compat.fastload.BuildingTerrainScreen",
     "client.compat.sodium.LinearColorBlenderMixin",
     "client.core.bedrockIfyButton.OptionsScreenMixin",
     "client.core.clientRenderTimer.MinecraftClientMixin",
