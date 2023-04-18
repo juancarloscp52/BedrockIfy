@@ -71,10 +71,10 @@ public class BedrockifyClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         instance = this;
-        if (FabricLoader.getInstance().isModLoaded("fastload"))
-            FastloadCompat.register();
         loadSettings();
         LOGGER.info("Initializing BedrockIfy Client.");
+        if (FabricLoader.getInstance().isModLoaded("fastload"))
+            FastloadCompat.register();
         overlay = new Overlay((MinecraftClient.getInstance()));
         reachAroundPlacement = new ReachAroundPlacement(MinecraftClient.getInstance());
         heldItemTooltips = new HeldItemTooltips();
