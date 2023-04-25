@@ -28,6 +28,9 @@ public abstract class TabNavigationWidgetMixin {
     @Shadow private int tabNavWidth;
     @Shadow @Final private ImmutableList<TabButtonWidget> tabButtons;
     @Shadow @Nullable protected abstract TabButtonWidget getCurrentTabButton();
+
+    @Shadow protected abstract int getCurrentTabIndex();
+
     private static final Identifier HEADER_SEPARATOR_TEXTURE = new Identifier("bedrockify","textures/gui/header_separator.png");
     private static final Identifier FOOTER_SEPARATOR_TEXTURE = new Identifier("bedrockify","textures/gui/footer_separator.png");
     private static final Identifier OPTIONS_BACKGROUND_TEXTURE = new Identifier("textures/gui/options_background.png");
@@ -60,7 +63,9 @@ public abstract class TabNavigationWidgetMixin {
         //Left background
         Screen.drawTexture(matrices, 0, 0, 0, 0.0f, 0.0f, this.getCurrentTabButton().getX(), 22, 32, 32);
         //right background
-        Screen.drawTexture(matrices, this.getCurrentTabButton().getX()+this.getCurrentTabButton().getWidth(), 0, 0, 0.0f, 0.0f, MinecraftClient.getInstance().getWindow().getScaledWidth(), 22, 32, 32);
+        //Compute dirt texture horizontal offset, so that the texture stays in the same position regardless selected button.
+        float textureHOffset = ((this.getCurrentTabIndex()+1)*this.getCurrentTabButton().getWidth()) % 16;
+        Screen.drawTexture(matrices, this.getCurrentTabButton().getX()+this.getCurrentTabButton().getWidth(), 0, 0, textureHOffset, 0.0f, MinecraftClient.getInstance().getWindow().getScaledWidth(), 22, 32, 32);
         RenderSystem.setShaderColor(1.0f, 1.0f, 1.0f, 1.0f);
 
         RenderSystem.setShaderTexture(0,HEADER_SEPARATOR_TEXTURE);
