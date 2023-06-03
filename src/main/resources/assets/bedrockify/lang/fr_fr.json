@@ -1,5 +1,5 @@
 {
-  "bedrockIfy.key.settings": "Ouvrir les paramettres Bedrockify",
+  "bedrockIfy.key.settings": "Ouvrir les paramètres de Bedrockify",
   "bedrockify.hud.position": "Position:",
   "bedrockify.hud.fps": "IPS:",
   "bedrockify.options.on": "On",
@@ -12,8 +12,8 @@
   "bedrockify.options.subCategory.visualImprovements": "Améliorations de l'interface/visuelles...",
   "bedrockify.options.subCategory.Reach-Around": "Placement de proximité...",
   "bedrockify.options.subCategory.Reach-Around.description": "Placer les blocs devant le bloc sur lequel vous êtes.",
-  "bedrockify.options.subCategory.other": "Autres paramettres...",
-  "bedrockify.options.settings": "Paramettres Bedrockify",
+  "bedrockify.options.subCategory.other": "Autres paramètres...",
+  "bedrockify.options.settings": "Paramètres Bedrockify",
   "bedrockify.options.screenSafeArea": "Zone de sécurité de l'écran:",
   "bedrockify.options.coordinatesPosition": "Position des coordonnées:",
   "bedrockify.options.showCoordinates": "Afficher les coordonnées:",
