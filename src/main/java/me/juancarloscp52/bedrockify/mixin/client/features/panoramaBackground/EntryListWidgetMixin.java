@@ -3,10 +3,9 @@ package me.juancarloscp52.bedrockify.mixin.client.features.panoramaBackground;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.panoramaBackground.BedrockifyRotatingCubeMapRenderer;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.pack.PackScreen;
 import net.minecraft.client.gui.widget.EntryListWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -26,23 +25,24 @@ public abstract class EntryListWidgetMixin {
     protected int top;
 
     @Shadow
-    protected abstract void renderBackground(MatrixStack matrices);
-
-    @Shadow
     public abstract void setRenderBackground(boolean renderBackground);
 
     @Shadow
     public abstract void setRenderHorizontalShadows(boolean renderHorizontalShadows);
 
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/EntryListWidget;renderBackground(Lnet/minecraft/client/util/math/MatrixStack;)V"))
-    private void renderPanorama(EntryListWidget entryListWidget, MatrixStack matrices) {
-        if (!BedrockifyClient.getInstance().settings.isCubemapBackgroundEnabled() || shouldIgnoreScreen() /*|| this.client.currentScreen.getClass().getName().equals("net.minecraft.class_5522")*/) {
-            this.renderBackground(matrices);
+    @Shadow private boolean renderBackground;
+
+    @Shadow protected abstract void renderBackground(DrawContext context);
+
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/widget/EntryListWidget;renderBackground(Lnet/minecraft/client/gui/DrawContext;)V"))
+    private void renderPanorama(EntryListWidget instance, DrawContext drawContext) {
+        if (!BedrockifyClient.getInstance().settings.isCubemapBackgroundEnabled() || shouldIgnoreScreen()) {
+            this.renderBackground(drawContext);
             return;
         }
 
-        BedrockifyRotatingCubeMapRenderer.getInstance().render();
-        DrawableHelper.fill(matrices, 0, this.top, client.getWindow().getScaledWidth(), this.bottom, (100 << 24));
+        BedrockifyRotatingCubeMapRenderer.getInstance().render(drawContext);
+        drawContext.fill(0, this.top, client.getWindow().getScaledWidth(), this.bottom, (100 << 24));
     }
 
     @Inject(method = "<init>(Lnet/minecraft/client/MinecraftClient;IIIII)V", at = @At("RETURN"))
@@ -54,9 +54,6 @@ public abstract class EntryListWidgetMixin {
     }
 
     private boolean shouldIgnoreScreen() {
-//        return this.client.currentScreen.getClass().getName().contains(".modmenu.gui.ModsScreen")/* Mod Menu*/ ||
-//                this.client.currentScreen.getClass().getName().contains(".iris.gui.") /* Iris Shaders Compat*/ ||
-//                this.client.currentScreen.getClass().getName().contains(".modmanager.gui."); /* Mod Manager */
         return BedrockifyClient.getInstance().settings.panoramaIgnoreScreen(this.client.currentScreen);
     }
 }

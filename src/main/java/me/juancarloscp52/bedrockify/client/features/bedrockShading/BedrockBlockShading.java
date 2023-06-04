@@ -13,7 +13,7 @@ public class BedrockBlockShading {
         MinecraftClient client = MinecraftClient.getInstance();
         return switch (direction) {
             case UP -> 1.0f;
-            case DOWN -> client.player.world.getRegistryKey() == World.NETHER ? 0.9f : 0.87f;
+            case DOWN -> client.player.getWorld().getRegistryKey() == World.NETHER ? 0.9f : 0.87f;
             case NORTH, SOUTH -> 0.95f;
             default -> 0.9f;
         };

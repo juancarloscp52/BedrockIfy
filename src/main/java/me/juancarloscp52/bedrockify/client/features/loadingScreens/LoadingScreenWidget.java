@@ -5,9 +5,8 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.LogoDrawer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -17,7 +16,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class LoadingScreenWidget extends DrawableHelper {
+public class LoadingScreenWidget {
 
     private static LoadingScreenWidget instance = null;
     private static final int TIPS_NUM = 62;
@@ -64,43 +63,42 @@ public class LoadingScreenWidget extends DrawableHelper {
 
     /**
      * Renders the bedrockify loading screen.
-     * @param matrices Current MatrixStack.
+     * @param drawContext Current draw context.
      * @param width window width
      * @param height window height
      * @param title Title of the loading screen.
      * @param message Message of the loading screen. Set to null to use a random tip.
      * @param progress Loading screen progress. Set to -1 is the screen has no progress bar.
      */
-    public void render(MatrixStack matrices, int width, int height, Text title, Text message, int progress) {
+    public void render(DrawContext drawContext, int width, int height, Text title, Text message, int progress) {
         MinecraftClient client = MinecraftClient.getInstance();
 
-        logoDrawer.draw(matrices,client.getWindow().getScaledWidth(),1,(height/2) - (89 / 2));
-        renderLoadingWidget(matrices, width, height);
+        logoDrawer.draw(drawContext,client.getWindow().getScaledWidth(),1,(height/2) - (89 / 2));
+        renderLoadingWidget(drawContext, width, height);
 
         TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
-        textRenderer.draw(matrices, title, width - textRenderer.getWidth(title) / 2, height - 9 / 2 - 32, 76 + (76 << 8) + (76 << 16));
-        renderTextBody(matrices, width, height, message, textRenderer);
+        drawContext.drawText(textRenderer, title, width - textRenderer.getWidth(title) / 2, height - 9 / 2 - 32, 76 + (76 << 8) + (76 << 16),false);
+        renderTextBody(drawContext, width, height, message, textRenderer);
 
         if (progress >= 0) {
-            renderLoadingBar(matrices, width, height, progress);
+            renderLoadingBar(drawContext, width, height, progress);
         }
     }
 
-    private void renderLoadingWidget(MatrixStack matrices, int x, int y) {
-        RenderSystem.setShaderTexture(0,WIDGET_TEXTURE);
+    private void renderLoadingWidget(DrawContext drawContext, int x, int y) {
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA);
-        DrawableHelper.drawTexture(matrices, x - 256 / 2, y - 89 / 2, 0, 0, 256, 89);
+        drawContext.drawTexture(WIDGET_TEXTURE, x - 256 / 2, y - 89 / 2, 0, 0, 256, 89);
     }
 
 
-    private void renderTextBody(MatrixStack matrices, int x, int y, Text message, TextRenderer textRenderer) {
+    private void renderTextBody(DrawContext drawContext, int x, int y, Text message, TextRenderer textRenderer) {
         if (message == null)
             message = getTip();
         List<OrderedText> text = textRenderer.wrapLines(message, 230);
         int maxLineWidth = getMaxLineWidth(textRenderer, text);
         for (int i = 0; i < 4 && i < text.size(); i++) {
-            textRenderer.draw(matrices, text.get(i), x - maxLineWidth / 2, y - 15 + (i * 9), 16777215);
+            drawContext.drawText(textRenderer, text.get(i), x - maxLineWidth / 2, y - 15 + (i * 9), 16777215,false);
         }
 
     }
@@ -116,12 +114,11 @@ public class LoadingScreenWidget extends DrawableHelper {
     }
 
 
-    private void renderLoadingBar(MatrixStack matrices, int x, int y, int progress) {
-        RenderSystem.setShaderTexture(0,WIDGET_TEXTURE);
+    private void renderLoadingBar(DrawContext drawContext, int x, int y, int progress) {
         int barProgress = (int) ((MathHelper.clamp(progress,0,100)/100.0f) * 223.0f);
-        DrawableHelper.drawTexture(matrices, x - 111, y + 26, 0, 89, 222, 5);
+        drawContext.drawTexture(WIDGET_TEXTURE, x - 111, y + 26, 0, 89, 222, 5);
         if (barProgress > 0)
-            DrawableHelper.drawTexture(matrices, x - 111, y + 26, 0, 94, barProgress, 5);
+            drawContext.drawTexture(WIDGET_TEXTURE, x - 111, y + 26, 0, 94, barProgress, 5);
     }
 
 }

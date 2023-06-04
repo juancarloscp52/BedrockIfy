@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.BedrockifyClientSettings;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.ChatHud;
 import net.minecraft.client.gui.hud.ChatHudLine;
 import net.minecraft.client.gui.hud.MessageIndicator;
@@ -24,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import java.util.List;
 
 @Mixin(ChatHud.class)
-public abstract class ChatHudMixin extends DrawableHelper {
+public abstract class ChatHudMixin {
 
     @Shadow @Final private List<ChatHudLine.Visible> visibleMessages;
     @Shadow protected abstract boolean isChatFocused();
@@ -38,19 +38,17 @@ public abstract class ChatHudMixin extends DrawableHelper {
     @Shadow private boolean hasUnreadNewMessages;
     @Shadow public abstract int getVisibleLineCount();
     @Shadow protected abstract boolean isChatHidden();
-    @Shadow public abstract void addMessage(Text message);
-
     @Shadow protected abstract int getLineHeight();
 
     @Shadow protected abstract int getIndicatorX(ChatHudLine.Visible line);
-
-    @Shadow protected abstract void drawIndicatorIcon(MatrixStack matrices, int x, int y, MessageIndicator.Icon icon);
 
     @Shadow protected abstract int getMessageIndex(double chatLineX, double chatLineY);
 
     @Shadow protected abstract double toChatLineX(double x);
 
     @Shadow protected abstract double toChatLineY(double y);
+
+    @Shadow protected abstract void drawIndicatorIcon(DrawContext context, int x, int y, MessageIndicator.Icon icon);
 
     private int counter1 =0;
     BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
@@ -59,7 +57,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
      * Use bedrock-like chat if enabled.
      */
     @Inject(method = "render", at=@At("HEAD"),cancellable = true)
-    private void render(MatrixStack matrices, int ticks, int mouseX, int mouseY, CallbackInfo info){
+    private void render(DrawContext drawContext, int ticks, int mouseX, int mouseY, CallbackInfo info){
 
         if(!settings.isBedrockChatEnabled() || client.options.debugEnabled)
             return;
@@ -80,7 +78,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
         int posY = 2+settings.getPositionHUDHeight() + (settings.getPositionHUDHeight()<50? 50:0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + (settings.getFPSHUDoption()==2 ? 10 : 0) + safeArea;
         float chatScale = (float) this.getChatScale();
         int scaledChatWidth = MathHelper.ceil((double)this.getWidth() / chatScale);
-
+        MatrixStack matrices = drawContext.getMatrices();
         matrices.push();
         matrices.scale(chatScale, chatScale, 1.0F);
         matrices.translate(safeArea, (float) (48-MinecraftClient.getInstance().getWindow().getScaledHeight() + (counter1*(9.0D * chatScale* (this.client.options.getChatLineSpacing().getValue() + 1.0D))))+ posY, 0.0F);
@@ -99,7 +97,7 @@ public abstract class ChatHudMixin extends DrawableHelper {
             int s = i + this.scrolledLines;
             ChatHudLine.Visible visible = this.visibleMessages.get(s);
             int ticksSinceCreation = ticks - visible.addedTime();
-            if (visible == null || ticksSinceCreation >= 200 && !isChatFocused) continue;
+            if (ticksSinceCreation >= 200 && !isChatFocused) continue;
             double opacityMultiplayer = isChatFocused ? 1.0D : getMessageOpacityMultiplier(ticksSinceCreation);
             int finalTextOpacity = (int)((255.0D * opacityMultiplayer * textOpacity)*BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false)); //u
             int finalBackgroundOpacity = (int)((255.0D * opacityMultiplayer * backgroundOpacity)*BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false));//v
@@ -112,20 +110,20 @@ public abstract class ChatHudMixin extends DrawableHelper {
             int currentMessageHeight2 = (int) (x + chatLineSpacing2);
             matrices.push();
             matrices.translate(0.0f, 0.0f, 50.0f);
-            ChatHud.fill(matrices, 0, (int) x, scaledChatWidth+6, (int)(x-chatLineSpacing1), finalBackgroundOpacity << 24);
+            drawContext.fill(0, (int) x, scaledChatWidth+6, (int)(x-chatLineSpacing1), finalBackgroundOpacity << 24);
             MessageIndicator messageIndicator = visible.indicator();
             if (messageIndicator != null) {
                 int z = messageIndicator.indicatorColor() | finalTextOpacity << 24;
-                ChatHud.fill(matrices, 0, (int)(x - chatLineSpacing1), 2, (int)x, z);
+                drawContext.fill(0, (int)(x - chatLineSpacing1), 2, (int)x, z);
                 if (s == messageIndex && messageIndicator.icon() != null) {
                     int aa = this.getIndicatorX(visible);
                     int ab = currentMessageHeight2 + this.client.textRenderer.fontHeight;
-                    this.drawIndicatorIcon(matrices, aa, ab, messageIndicator.icon());
+                    this.drawIndicatorIcon(drawContext, aa, ab, messageIndicator.icon());
                 }
             }
             RenderSystem.enableBlend();
             matrices.translate(0.0f, 0.0f, 50.0f);
-            this.client.textRenderer.drawWithShadow(matrices, visible.content(), 4.0f, (float)currentMessageHeight2, 0xFFFFFF + (finalTextOpacity << 24));
+            drawContext.drawTextWithShadow(client.textRenderer, visible.content(), 4, currentMessageHeight2, 0xFFFFFF + (finalTextOpacity << 24));
             RenderSystem.disableBlend();
             matrices.pop();
         }
@@ -135,10 +133,10 @@ public abstract class ChatHudMixin extends DrawableHelper {
             int backgroundOpacityFinal = (int)(255.0D * backgroundOpacity*BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false));
             matrices.push();
             matrices.translate(0.0f, m, 50.0f);
-            ChatHud.fill(matrices, -2, 0, scaledChatWidth + 4, 9, backgroundOpacityFinal << 24);
+            drawContext.fill(-2, 0, scaledChatWidth + 4, 9, backgroundOpacityFinal << 24);
             RenderSystem.enableBlend();
             matrices.translate(0.0f, 0.0f, 50.0f);
-            this.client.textRenderer.drawWithShadow(matrices, Text.translatable("chat.queue", ac), 2.0f, 1.0f, 0xFFFFFF + (textOpacityFinal << 24));
+            drawContext.drawTextWithShadow(client.textRenderer, Text.translatable("chat.queue", ac), 2, 1, 0xFFFFFF + (textOpacityFinal << 24));
             matrices.pop();
             RenderSystem.disableBlend();
         }
@@ -153,8 +151,8 @@ public abstract class ChatHudMixin extends DrawableHelper {
                 int alpha = z > 0 ? 170 : 96;
                 int color = this.hasUnreadNewMessages ? 13382451 : 3355562;
                 matrices.translate(-3.0F, 0.0F, 0.0F);
-                fill(matrices, 2, -z, 2, -z - aa, color + (alpha << 24));
-                fill(matrices, 4, -z, 1, -z - aa, 13421772 + (alpha << 24));
+                drawContext.fill(2, -z, 2, -z - aa, color + (alpha << 24));
+                drawContext.fill(4, -z, 1, -z - aa, 13421772 + (alpha << 24));
             }
         }
         matrices.pop();

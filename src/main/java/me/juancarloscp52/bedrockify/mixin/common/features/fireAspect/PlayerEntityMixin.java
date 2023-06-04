@@ -28,7 +28,7 @@ public class PlayerEntityMixin {
             if(null != itemStack && !tntMinecart.isPrimed()  && (((itemStack.hasEnchantments() || itemStack.getItem() instanceof EnchantedBookItem) && EnchantmentHelper.get(itemStack).containsKey(Enchantments.FIRE_ASPECT)) || (itemStack.isOf(Items.FLINT_AND_STEEL) || itemStack.isOf(Items.FIRE_CHARGE)))){
                 tntMinecart.prime();
                 itemStack.damage(1, player,((e) -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND)));
-                player.world.playSound(player, player.getBlockPos(), SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, player.world.getRandom().nextFloat() * 0.4F + 0.8F);
+                player.getWorld().playSound(player, player.getBlockPos(), SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, player.getWorld().getRandom().nextFloat() * 0.4F + 0.8F);
                 return ActionResult.SUCCESS;
             }
         }

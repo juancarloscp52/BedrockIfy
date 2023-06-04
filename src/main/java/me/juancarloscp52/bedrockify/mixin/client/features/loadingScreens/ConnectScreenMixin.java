@@ -4,13 +4,13 @@ import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.loadingScreens.LoadingScreenWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.screen.ConnectScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.Text;
@@ -34,12 +34,12 @@ public class ConnectScreenMixin extends Screen {
     /**
      * Draws the loading screen widget.
      */
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ConnectScreen;drawCenteredTextWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)V"))
-    public void drawLoadingScreenWidget(MatrixStack matrices, TextRenderer textRenderer, Text text, int x, int y, int color) {
+    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawCenteredTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)V"))
+    public void drawLoadingScreenWidget(DrawContext drawContext, TextRenderer textRenderer, Text text, int x, int y, int color) {
         if(BedrockifyClient.getInstance().settings.isLoadingScreenEnabled()){
-            LoadingScreenWidget.getInstance().render(matrices, MinecraftClient.getInstance().getWindow().getScaledWidth() / 2, MinecraftClient.getInstance().getWindow().getScaledHeight() / 2, Text.literal(text.getString()), null, -1);
+            LoadingScreenWidget.getInstance().render(drawContext, MinecraftClient.getInstance().getWindow().getScaledWidth() / 2, MinecraftClient.getInstance().getWindow().getScaledHeight() / 2, Text.literal(text.getString()), null, -1);
         }else{
-            drawCenteredTextWithShadow(matrices, textRenderer, text, x, y, color);
+            drawContext.drawCenteredTextWithShadow(textRenderer, text, x, y, color);
         }
     }
 

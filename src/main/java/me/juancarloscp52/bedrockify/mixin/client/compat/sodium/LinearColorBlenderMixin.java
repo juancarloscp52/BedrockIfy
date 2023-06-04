@@ -1,5 +1,4 @@
 package me.juancarloscp52.bedrockify.mixin.client.compat.sodium;
-
 import me.jellysquid.mods.sodium.client.model.quad.ModelQuadView;
 import me.jellysquid.mods.sodium.client.model.quad.blender.ColorSampler;
 import me.jellysquid.mods.sodium.client.model.quad.blender.FlatColorBlender;

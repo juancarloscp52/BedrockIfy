@@ -32,7 +32,7 @@ public class FallenTreeFeature extends Feature<DefaultFeatureConfig> {
         int size = random.nextInt(3)+3;
         int distance = random.nextInt(6)>1? 1:2;
         BlockPos trunkTopPos = world.getTopPosition(Heightmap.Type.MOTION_BLOCKING_NO_LEAVES,pos);
-        if(!world.getBlockState(trunkTopPos).getMaterial().isReplaceable() || !(world.getBlockState(trunkTopPos.down()).isOf(Blocks.DIRT) || world.getBlockState(trunkTopPos.down()).isOf(Blocks.COARSE_DIRT) || world.getBlockState(trunkTopPos.down()).isOf(Blocks.PODZOL) || world.getBlockState(trunkTopPos.down()).isOf(Blocks.GRASS_BLOCK) || world.getBlockState(trunkTopPos.down()).isOf(Blocks.DIRT_PATH))){
+        if(!world.getBlockState(trunkTopPos).isReplaceable() || !(world.getBlockState(trunkTopPos.down()).isOf(Blocks.DIRT) || world.getBlockState(trunkTopPos.down()).isOf(Blocks.COARSE_DIRT) || world.getBlockState(trunkTopPos.down()).isOf(Blocks.PODZOL) || world.getBlockState(trunkTopPos.down()).isOf(Blocks.GRASS_BLOCK) || world.getBlockState(trunkTopPos.down()).isOf(Blocks.DIRT_PATH))){
             return false;
         }
 
@@ -61,16 +61,16 @@ public class FallenTreeFeature extends Feature<DefaultFeatureConfig> {
         for(int i =0; i < size; i++){
             BlockPos.Mutable temp = start.offset(direction,i).mutableCopy();
             temp.setY(maxY);
-            if(((maxY-start.getY())> 3 || (pos.getY()-maxY) > 3 || !world.getBlockState(temp).getMaterial().isReplaceable() || world.getBlockState(temp.down()).getMaterial().isLiquid() || world.getBlockState(temp.down()).isIn(BlockTags.LOGS) || world.getBlockState(temp.down()).isOf(Blocks.RED_MUSHROOM_BLOCK) || world.getBlockState(temp.down()).isOf(Blocks.BROWN_MUSHROOM_BLOCK)) && i<2){
+            if(((maxY-start.getY())> 3 || (pos.getY()-maxY) > 3 || !world.getBlockState(temp).isReplaceable() || world.getBlockState(temp.down()).isLiquid() || world.getBlockState(temp.down()).isIn(BlockTags.LOGS) || world.getBlockState(temp.down()).isOf(Blocks.RED_MUSHROOM_BLOCK) || world.getBlockState(temp.down()).isOf(Blocks.BROWN_MUSHROOM_BLOCK)) && i<2){
                 return generateFallenTrunk(world, direction.rotateYClockwise(), size, distance, pos, tries-1);
             }
         }
         for(int i = 0; i < size; i++){
             BlockPos.Mutable temp = start.offset(direction,i).mutableCopy();
             temp.setY(maxY);
-            if(world.getBlockState(temp).getMaterial().isReplaceable()){
+            if(world.getBlockState(temp).isReplaceable()){
                 world.setBlockState(temp, this.trunk.getDefaultState().with(PillarBlock.AXIS,direction.getAxis()),3);
-                if(world.getBlockState(temp.up()).getMaterial().isReplaceable()){
+                if(world.getBlockState(temp.up()).isReplaceable()){
                     world.setBlockState(temp.up(), Blocks.AIR.getDefaultState(),3);
                 }
                 setVines(world,temp,false);
@@ -90,7 +90,7 @@ public class FallenTreeFeature extends Feature<DefaultFeatureConfig> {
 
     public void setVineOnTrunk(StructureWorldAccess world, BlockPos trunkPos, Direction direction, boolean dontRandomize){
         BlockPos vinePos = trunkPos.offset(direction.getOpposite());
-        if (world.getBlockState(vinePos).getMaterial().isReplaceable() && (world.getRandom().nextInt(6)>3 || dontRandomize))
+        if (world.getBlockState(vinePos).isReplaceable() && (world.getRandom().nextInt(6)>3 || dontRandomize))
             world.setBlockState(vinePos, Blocks.VINE.getDefaultState().with(VineBlock.getFacingProperty(direction),true),3);
     }
 }

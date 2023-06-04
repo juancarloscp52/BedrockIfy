@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.BedrockifyClientSettings;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -39,7 +40,7 @@ public class PaperDoll {
      * Render the player at the top left of the screen.
      * The player will be rendered only when the player is not riding another entity, and it is sneaking, running, using elytra, using an item, underwater, or using a shield.
      */
-    public void renderPaperDoll(MatrixStack matrixStack) {
+    public void renderPaperDoll(DrawContext drawContext) {
         settings = BedrockifyClient.getInstance().settings;
         if (!settings.isShowPaperDollEnabled())
             return;
@@ -63,18 +64,19 @@ public class PaperDoll {
 
             // If the difference between the current game ticks and showTicks is less than 100 ticks, draw the player entity.
             if ((!client.player.isRiding() && !client.player.isSleeping() && System.currentTimeMillis() - lastTimeShown < 2000))
-                drawPaperDoll(matrixStack);
+                drawPaperDoll(drawContext);
         }
     }
 
     /**
      * Draw the player entity in the specified position on screen.
      */
-    private void drawPaperDoll(MatrixStack matrixStack) {
+    private void drawPaperDoll(DrawContext drawContext) {
         ClientPlayerEntity player = client.player;
         if (player == null)
             return;
 
+        MatrixStack matrixStack = drawContext.getMatrices();
         matrixStack.push();
 
         int renderPosY = posY;

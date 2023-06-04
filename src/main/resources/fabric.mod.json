@@ -35,14 +35,13 @@
   ],
   "depends": {
     "fabricloader": ">=0.14.7",
-    "minecraft": "1.19.x",
+    "minecraft": "1.20.x",
     "java":">=17"
   },
   "suggests": {
-    "modmenu": ">=4.0.0"
+    "modmenu": ">=7.0.0"
   },
   "conflicts": {
-    "held-item-info": "*",
-    "modmenu": "<1.15.0"
+    "held-item-info": "*"
   }
 }

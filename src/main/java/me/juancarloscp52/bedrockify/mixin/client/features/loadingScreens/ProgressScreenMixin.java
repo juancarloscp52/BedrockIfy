@@ -2,9 +2,9 @@ package me.juancarloscp52.bedrockify.mixin.client.features.loadingScreens;
 
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.loadingScreens.LoadingScreenWidget;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ProgressScreen;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -25,25 +25,25 @@ public class ProgressScreenMixin extends Screen {
     /**
      * Renders the loading screen widgets with progress bar if necessary.
      */
-    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ProgressScreen;renderBackground(Lnet/minecraft/client/util/math/MatrixStack;)V"), cancellable = true)
-    public void renderLoadScreen(MatrixStack matrices, int mouseX, int mouseY, float delta, CallbackInfo info) {
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ProgressScreen;renderBackground(Lnet/minecraft/client/gui/DrawContext;)V"), cancellable = true)
+    public void renderLoadScreen(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo info) {
         if(!BedrockifyClient.getInstance().settings.isLoadingScreenEnabled()){
             return;
         }
-        this.renderBackground(matrices);
+        this.renderBackground(context);
         if (title != null) {
             if (this.task != null && this.progress != 0) {
-                LoadingScreenWidget.getInstance().render(matrices, client.getWindow().getScaledWidth() / 2, client.getWindow().getScaledHeight() / 2, this.title, this.task, this.progress);
+                LoadingScreenWidget.getInstance().render(context, client.getWindow().getScaledWidth() / 2, client.getWindow().getScaledHeight() / 2, this.title, this.task, this.progress);
             } else {
-                LoadingScreenWidget.getInstance().render(matrices, client.getWindow().getScaledWidth() / 2, client.getWindow().getScaledHeight() / 2, this.title, null, -1);
+                LoadingScreenWidget.getInstance().render(context, client.getWindow().getScaledWidth() / 2, client.getWindow().getScaledHeight() / 2, this.title, null, -1);
             }
         } else if (this.task != null && this.progress != 0) {
-            LoadingScreenWidget.getInstance().render(matrices, client.getWindow().getScaledWidth() / 2, client.getWindow().getScaledHeight() / 2, this.task, null, this.progress);
+            LoadingScreenWidget.getInstance().render(context, client.getWindow().getScaledWidth() / 2, client.getWindow().getScaledHeight() / 2, this.task, null, this.progress);
         } else {
-            LoadingScreenWidget.getInstance().render(matrices, client.getWindow().getScaledWidth() / 2, client.getWindow().getScaledHeight() / 2, Text.literal(""), null, -1);
+            LoadingScreenWidget.getInstance().render(context, client.getWindow().getScaledWidth() / 2, client.getWindow().getScaledHeight() / 2, Text.literal(""), null, -1);
         }
 
-        super.render(matrices, mouseX, mouseY, delta);
+        super.render(context, mouseX, mouseY, delta);
         info.cancel();
     }
 

@@ -3,7 +3,7 @@ package me.juancarloscp52.bedrockify.mixin.common.features.recipes;
 import com.google.common.collect.Lists;
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.common.features.recipes.DyeHelper;
-import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.FireworkRocketItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -36,8 +36,8 @@ public class FireworkStarRecipeMixin {
 
     @Shadow @Final private static Map<Item, FireworkRocketItem.Type> TYPE_MODIFIER_MAP;
 
-    @Inject(method = "matches(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/world/World;)Z",at=@At("HEAD"),cancellable = true)
-    public void matches(CraftingInventory craftingInventory, World world, CallbackInfoReturnable<Boolean> infoReturnable) {
+    @Inject(method = "matches(Lnet/minecraft/inventory/RecipeInputInventory;Lnet/minecraft/world/World;)Z",at=@At("HEAD"),cancellable = true)
+    public void matches(RecipeInputInventory craftingInventory, World world, CallbackInfoReturnable<Boolean> infoReturnable) {
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
             return;
         boolean bl = false;
@@ -90,8 +90,8 @@ public class FireworkStarRecipeMixin {
         infoReturnable.setReturnValue(bl && bl2);
     }
 
-    @Inject(method = "craft(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;",at=@At("HEAD"),cancellable = true)
-    public void craft(CraftingInventory craftingInventory, DynamicRegistryManager dynamicRegistryManager, CallbackInfoReturnable<ItemStack> cir) {
+    @Inject(method = "craft(Lnet/minecraft/inventory/RecipeInputInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;",at=@At("HEAD"),cancellable = true)
+    public void craft(RecipeInputInventory craftingInventory, DynamicRegistryManager dynamicRegistryManager, CallbackInfoReturnable<ItemStack> cir) {
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
             return;
         ItemStack itemStack = new ItemStack(Items.FIREWORK_STAR);

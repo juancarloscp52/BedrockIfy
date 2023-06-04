@@ -139,7 +139,7 @@ public class BedrockifyClient implements ClientModInitializer {
             });
         });
 
-        HudRenderCallback.EVENT.register((matrixStack, tickDelta) -> BedrockifyClient.getInstance().overlay.renderOverlay(matrixStack));
+        HudRenderCallback.EVENT.register((drawContext, tickDelta) -> BedrockifyClient.getInstance().overlay.renderOverlay(drawContext));
         ClientTickEvents.END_CLIENT_TICK.register(client-> {
             while (keyBinding.wasPressed()){
                 client.setScreen(settingsGUI.getConfigScreen(client.currentScreen,true));

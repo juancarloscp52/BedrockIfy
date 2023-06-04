@@ -13,12 +13,12 @@ public class SneakingShield {
         if(BedrockifyClient.getInstance().settings.isSneakingShieldEnabled() && sneaking && player !=null){
             ItemStack shield = player.getMainHandStack();
             if(shield!=null && shield.getItem() instanceof ShieldItem){
-                shield.use(player.world,player, Hand.MAIN_HAND);
+                shield.use(player.getWorld(),player, Hand.MAIN_HAND);
                 return;
             }
             shield = player.getOffHandStack();
             if(shield!=null && shield.getItem() instanceof ShieldItem){
-                shield.use(player.world,player, Hand.OFF_HAND);
+                shield.use(player.getWorld(),player, Hand.OFF_HAND);
             }
         }
     }

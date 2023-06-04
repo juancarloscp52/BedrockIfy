@@ -13,13 +13,13 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
  */
 public abstract class BossBarHudMixin {
 
-    @ModifyArg(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/hud/BossBarHud;renderBossBar(Lnet/minecraft/client/util/math/MatrixStack;IILnet/minecraft/entity/boss/BossBar;)V"),index = 2)
+    @ModifyArg(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/hud/BossBarHud;renderBossBar(Lnet/minecraft/client/gui/DrawContext;IILnet/minecraft/entity/boss/BossBar;)V"),index = 2)
     public int applyScreenBorderToBossBar(int y){
         return y + BedrockifyClient.getInstance().settings.getScreenSafeArea();
     }
 
-    @ModifyArg(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I"),index = 3)
-    public float applyScreenBorderToBossName(float y){
+    @ModifyArg(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)I"),index = 3)
+    public int applyScreenBorderToBossName(int y){
         return y + BedrockifyClient.getInstance().settings.getScreenSafeArea();
     }
 

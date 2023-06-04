@@ -4,7 +4,7 @@ import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.common.features.recipes.DyeHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.ShulkerBoxBlock;
-import net.minecraft.inventory.CraftingInventory;
+import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,8 +20,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(ShulkerBoxColoringRecipe.class)
 public class ShulkerBoxColoringRecipeMixin {
 
-    @Inject(method = "matches(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/world/World;)Z",at=@At("HEAD"),cancellable = true)
-    public void customMatches(CraftingInventory craftingInventory, World world, CallbackInfoReturnable<Boolean> info){
+    @Inject(method = "matches(Lnet/minecraft/inventory/RecipeInputInventory;Lnet/minecraft/world/World;)Z",at=@At("HEAD"),cancellable = true)
+    public void customMatches(RecipeInputInventory craftingInventory, World world, CallbackInfoReturnable<Boolean> infoReturnable){
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled()){
             return;
         }
@@ -35,22 +35,22 @@ public class ShulkerBoxColoringRecipeMixin {
                     ++i;
                 } else {
                     if (!(DyeHelper.isDyeableItem(itemStack.getItem()))) {
-                        info.setReturnValue(false);
+                        infoReturnable.setReturnValue(false);
                         return;
                     }
                     ++j;
                 }
 
                 if (j > 1 || i > 1) {
-                    info.setReturnValue(false);
+                    infoReturnable.setReturnValue(false);
                     return;
                 }
             }
         }
-        info.setReturnValue(i == 1 && j == 1);
+        infoReturnable.setReturnValue(i == 1 && j == 1);
     }
-    @Inject(method = "craft(Lnet/minecraft/inventory/CraftingInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;", at=@At("HEAD"),cancellable = true)
-    public void craft(CraftingInventory craftingInventory, DynamicRegistryManager dynamicRegistryManager, CallbackInfoReturnable<ItemStack> cir) {
+    @Inject(method = "craft(Lnet/minecraft/inventory/RecipeInputInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;", at=@At("HEAD"),cancellable = true)
+    public void craft(RecipeInputInventory craftingInventory, DynamicRegistryManager dynamicRegistryManager, CallbackInfoReturnable<ItemStack> cir) {
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled()){
             return;
         }

@@ -4,8 +4,8 @@ import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.HeldItemTooltips;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.hud.InGameHud;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Final;
@@ -25,15 +25,15 @@ public class ItemTooltipsMixin {
     /**
      * Draw custom tooltips for effects and enchantments before the heldItemTooltip is rendered.
      */
-    @Redirect(method = "renderHeldItemTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/font/TextRenderer;drawWithShadow(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/text/Text;FFI)I"))
-    private int drawCustomTooltips(TextRenderer fontRenderer, MatrixStack matrices, Text text, float x, float y, int color) {
-        return BedrockifyClient.getInstance().heldItemTooltips.drawItemWithCustomTooltips(fontRenderer, matrices, text, x, MinecraftClient.getInstance().getWindow().getScaledHeight() - 38, color, currentStack);
+    @Redirect(method = "renderHeldItemTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)I"))
+    private int drawCustomTooltips(DrawContext instance, TextRenderer textRenderer, Text text, int x, int y, int color) {
+        return BedrockifyClient.getInstance().heldItemTooltips.drawItemWithCustomTooltips(instance,textRenderer, text, x, MinecraftClient.getInstance().getWindow().getScaledHeight() - 38, color, currentStack);
     }
     /**
      * Draw custom tooltips for effects and enchantments before the heldItemTooltip is rendered.
      */
-    @Redirect(method = "renderHeldItemTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/hud/InGameHud;fill(Lnet/minecraft/client/util/math/MatrixStack;IIIII)V"))
-    private void drawCustomTooltips(MatrixStack matrices, int x1, int y1, int x2, int y2, int color) {}
+    @Redirect(method = "renderHeldItemTooltip", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;fill(IIIII)V"))
+    private void drawCustomTooltips(DrawContext instance, int x1, int y1, int x2, int y2, int color) {}
 
     /**
      * Show the item tooltip when changing from an item to another of the same type and name IFF different tooltips.

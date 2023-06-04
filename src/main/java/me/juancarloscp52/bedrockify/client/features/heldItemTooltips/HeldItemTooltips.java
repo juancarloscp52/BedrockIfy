@@ -9,11 +9,10 @@ import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.Pot
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.Tooltip;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.item.BundleTooltipData;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
@@ -35,7 +34,7 @@ public class HeldItemTooltips {
 
     private final int  tooltipSize = 6;
 
-    public int drawItemWithCustomTooltips(TextRenderer fontRenderer, MatrixStack matrices, Text text, float x, float y, int color, ItemStack currentStack) {
+    public int drawItemWithCustomTooltips(DrawContext drawContext, TextRenderer fontRenderer, Text text, float x, float y, int color, ItemStack currentStack) {
         final BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
         final int screenBorder = settings.getScreenSafeArea();
         int tooltipOffset = 0;
@@ -77,19 +76,19 @@ public class HeldItemTooltips {
             tooltipOffset = 12 * tooltips.size();
             //Render background behind tooltip.
             int maxLength = getMaxTooltipLength(tooltips,fontRenderer,currentStack);
-            renderBackground(matrices, y, screenBorder, tooltipOffset, maxLength, color >> 24 & 0xff);
+            renderBackground(drawContext, y, screenBorder, tooltipOffset, maxLength, color >> 24 & 0xff);
 
 
             int i = tooltips.size() - 1;
             for (Text elem : tooltips) {
                 // Render the tooltip.
-                renderTooltip(fontRenderer, matrices, y - screenBorder - (12 * i), color, ((MutableText)elem).formatted(Formatting.GRAY));
+                renderTooltip(drawContext, fontRenderer, y - screenBorder - (12 * i), color, ((MutableText)elem).formatted(Formatting.GRAY));
                 --i;
             }
         }
 
         // Render the item name.
-        return fontRenderer.drawWithShadow(matrices, text, x, y - tooltipOffset - screenBorder, color);
+        return drawContext.drawTextWithShadow(fontRenderer, text, (int)x, (int)(y - tooltipOffset - screenBorder), color);
     }
 
     /**
@@ -175,20 +174,20 @@ public class HeldItemTooltips {
         texts.forEach((current) -> instance.add(new PotionTooltip(current)));
     }
 
-    private void renderBackground(MatrixStack matrices, float y, int screenBorder, int tooltipOffset, int maxLength, int alpha) {
+    private void renderBackground(DrawContext drawContext, float y, int screenBorder, int tooltipOffset, int maxLength, int alpha) {
         MinecraftClient client = MinecraftClient.getInstance();
         int background = MathHelper.lerp(alpha / 255f, 0, MathHelper.ceil((255.0D * BedrockifyClient.getInstance().settings.heldItemTooltipBackground))) << 24;
-        DrawableHelper.fill(matrices, MathHelper.ceil((client.getWindow().getScaledWidth()-maxLength)/2f-3),MathHelper.ceil(y - tooltipOffset -5- screenBorder), MathHelper.ceil((client.getWindow().getScaledWidth()+maxLength)/2f+1),MathHelper.ceil(y - tooltipOffset -4- screenBorder),background);
-        DrawableHelper.fill(matrices,MathHelper.ceil((client.getWindow().getScaledWidth()-maxLength)/2f-3),MathHelper.ceil(y+12-screenBorder), MathHelper.ceil((client.getWindow().getScaledWidth()+maxLength)/2f+1),MathHelper.ceil(y+13-screenBorder),background);
-        DrawableHelper.fill(matrices,MathHelper.ceil((client.getWindow().getScaledWidth()-maxLength)/2f-4), MathHelper.ceil(y - tooltipOffset -4- screenBorder),MathHelper.ceil((client.getWindow().getScaledWidth()+maxLength)/2f+2), MathHelper.ceil(y+12-screenBorder),background);
+        drawContext.fill(MathHelper.ceil((client.getWindow().getScaledWidth()-maxLength)/2f-3),MathHelper.ceil(y - tooltipOffset -5- screenBorder), MathHelper.ceil((client.getWindow().getScaledWidth()+maxLength)/2f+1),MathHelper.ceil(y - tooltipOffset -4- screenBorder),background);
+        drawContext.fill(MathHelper.ceil((client.getWindow().getScaledWidth()-maxLength)/2f-3),MathHelper.ceil(y+12-screenBorder), MathHelper.ceil((client.getWindow().getScaledWidth()+maxLength)/2f+1),MathHelper.ceil(y+13-screenBorder),background);
+        drawContext.fill(MathHelper.ceil((client.getWindow().getScaledWidth()-maxLength)/2f-4), MathHelper.ceil(y - tooltipOffset -4- screenBorder),MathHelper.ceil((client.getWindow().getScaledWidth()+maxLength)/2f+2), MathHelper.ceil(y+12-screenBorder),background);
     }
 
     /**
      * Renders an item tooltip with the given text and height in screen.
      */
-    private void renderTooltip(TextRenderer fontRenderer, MatrixStack matrices, float y, int color, Text text) {
+    private void renderTooltip(DrawContext drawContext, TextRenderer fontRenderer, float y, int color, Text text) {
         int enchantX = (MinecraftClient.getInstance().getWindow().getScaledWidth() - fontRenderer.getWidth(text)) / 2;
-        fontRenderer.drawWithShadow(matrices, text, enchantX, y, color);
+        drawContext.drawTextWithShadow(fontRenderer, text, enchantX, (int)y, color);
     }
 
     private int getMaxTooltipLength(List<Text> tooltips, TextRenderer textRenderer, ItemStack itemStack){
