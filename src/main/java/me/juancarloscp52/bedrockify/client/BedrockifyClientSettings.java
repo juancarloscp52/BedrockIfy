@@ -27,7 +27,7 @@ public class BedrockifyClientSettings {
     }
 
     private final static List<Class<? extends Screen>> MINECRAFT_IGNORED_SCREENS = Arrays.asList(PackScreen.class, SocialInteractionsScreen.class);
-    public final static List<String> PANORAMA_IGNORED_SCREENS = Arrays.asList(".modmenu.gui.ModsScreen", ".iris.gui.", ".voicechat.gui",".modmanager.gui.", "yacl.gui.YACLScreen");
+    public final static List<String> PANORAMA_IGNORED_SCREENS = Arrays.asList(".modmenu.gui.ModsScreen", ".iris.gui.", ".voicechat.gui",".modmanager.gui.", "yacl.gui.YACLScreen", "yacl3.gui.YACLScreen");
     public boolean loadingScreen = true;
     public ButtonPosition bedrockIfyButtonPosition = ButtonPosition.BELOW_SLIDERS;
     public boolean showPositionHUD = true;
@@ -75,7 +75,8 @@ public class BedrockifyClientSettings {
 
     public List<String> panoramaIgnoredScreens = PANORAMA_IGNORED_SCREENS;
 
-    public boolean panoramaIgnoreScreen(Screen screen) {
+    public boolean panoramaIgnoreScreen() {
+        Screen screen = MinecraftClient.getInstance().currentScreen;
         if (screen != null) {
             // Checks if the screen is a Minecraft screen that would break in any case
             if (MINECRAFT_IGNORED_SCREENS.contains(screen.getClass()))

@@ -35,7 +35,7 @@ public abstract class TabNavigationWidgetMixin {
     @Inject(method = "render",at=@At("HEAD"),cancellable = true)
     public void render(DrawContext drawContext, int mouseX, int mouseY, float delta, CallbackInfo ci) {
 
-        if(!BedrockifyClient.getInstance().settings.cubeMapBackground)
+        if(!BedrockifyClient.getInstance().settings.cubeMapBackground || BedrockifyClient.getInstance().settings.panoramaIgnoreScreen())
             return;
 
         //Panorama background

@@ -54,6 +54,6 @@ public abstract class EntryListWidgetMixin {
     }
 
     private boolean shouldIgnoreScreen() {
-        return BedrockifyClient.getInstance().settings.panoramaIgnoreScreen(this.client.currentScreen);
+        return BedrockifyClient.getInstance().settings.panoramaIgnoreScreen();
     }
 }

@@ -13,15 +13,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Screen.class)
 public abstract class ScreenMixin {
-
-    @Shadow protected MinecraftClient client;
-
     /**
      * Renders the rotating cube map on screens instead of the dirt texture if enabled.
      */
     @Inject(method = "renderBackgroundTexture", at = @At("HEAD"), cancellable = true)
     public void renderTexture(DrawContext drawContext, CallbackInfo info) {
-        if(!BedrockifyClient.getInstance().settings.isCubemapBackgroundEnabled() || BedrockifyClient.getInstance().settings.panoramaIgnoreScreen(this.client.currentScreen) /*|| this.client.currentScreen.getClass().getName().contains(".modmanager.gui.") /* Mod Manager */)
+        if(!BedrockifyClient.getInstance().settings.isCubemapBackgroundEnabled() || BedrockifyClient.getInstance().settings.panoramaIgnoreScreen() /*|| this.client.currentScreen.getClass().getName().contains(".modmanager.gui.") /* Mod Manager */)
             return;
         BedrockifyRotatingCubeMapRenderer.getInstance().render(drawContext);
         info.cancel();

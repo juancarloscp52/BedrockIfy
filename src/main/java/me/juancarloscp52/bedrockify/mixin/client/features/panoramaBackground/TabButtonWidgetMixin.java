@@ -32,7 +32,7 @@ public abstract class TabButtonWidgetMixin extends ClickableWidget {
 
     @Inject(method = "renderButton", at=@At("HEAD"),cancellable = true)
     public void renderButton(DrawContext drawContext, int mouseX, int mouseY, float delta, CallbackInfo ci) {
-        if(!BedrockifyClient.getInstance().settings.cubeMapBackground)
+        if(!BedrockifyClient.getInstance().settings.cubeMapBackground || BedrockifyClient.getInstance().settings.panoramaIgnoreScreen())
             return;
         drawContext.drawNineSlicedTexture(TEXTURE, this.getX(), this.getY(), this.width, this.height, 2, 2, 2, 0, 130, 24, 0, this.getTextureV());
         if(!this.isCurrentTab()){
