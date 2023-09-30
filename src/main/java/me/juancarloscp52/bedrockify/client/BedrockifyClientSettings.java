@@ -55,7 +55,7 @@ public class BedrockifyClientSettings {
     public boolean savingOverlay = true;
     public boolean eatingAnimations = true;
     public boolean expTextStyle = true;
-    public boolean transparentHotBar = true;
+    public boolean bedrockToolbar = true;
     public int hudOpacity = 50;
     public boolean biggerIcons = true;
     public boolean sneakingShield = true;
@@ -101,8 +101,8 @@ public class BedrockifyClientSettings {
         return biggerIcons;
     }
 
-    public boolean isTransparentHotBarEnabled() {
-        return transparentHotBar;
+    public boolean isBedrockToolbarEnabled() {
+        return bedrockToolbar;
     }
 
     public boolean isEatingAnimationsEnabled() {

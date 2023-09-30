@@ -50,7 +50,6 @@
   "bedrockify.options.loadingScreen": "启用基岩版加载屏幕:",
   "bedrockify.options.expTextStyle": "经验等级文本样式:",
   "bedrockify.options.quickArmorSwap":"加载快速盔甲切换:",
-  "bedrockify.options.transparentToolBar":"透明的热键栏：",
   "bedrockify.options.biggerItems": "拖动时物品更大：",
   "bedrockify.options.dyingTrees": "启用垂死的/掉落的树木：",
   "bedrockify.options.sneakingShield": "潜行时使用盾牌：",

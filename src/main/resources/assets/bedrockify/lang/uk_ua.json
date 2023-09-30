@@ -51,7 +51,6 @@
   "bedrockify.options.loadingScreen": "Увімкнути екрани завантаження Bedrock Edition",
   "bedrockify.options.expTextStyle": "Стиль тексту рівня досвіду",
   "bedrockify.options.quickArmorSwap":"Увімкнути швидку заміну броні",
-  "bedrockify.options.transparentToolBar":"Напівпрозора панель швидкого доступу",
   "bedrockify.options.biggerItems": "Збільшення предметів при переміщенні",
   "bedrockify.options.dyingTrees": "Увімкнути помираючі дерева",
   "bedrockify.options.fallenTrees": "Увімкнути впалі дерева",

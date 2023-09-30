@@ -58,7 +58,6 @@
   "bedrockify.options.loadingScreen": "Экран загрузки из Bedrock:",
   "bedrockify.options.expTextStyle": "Стиль полоски опыта:",
   "bedrockify.options.quickArmorSwap":"Быстрая смена брони:",
-  "bedrockify.options.transparentToolBar":"Полупрозрачный хотбар:",
   "bedrockify.options.biggerItems": "Увелечение предмета при перетаскивании:",
   "bedrockify.options.dyingTrees": "Генерация мёртвых деревьев:",
   "bedrockify.options.fallenTrees": "Генерация упавших деревьев:",
