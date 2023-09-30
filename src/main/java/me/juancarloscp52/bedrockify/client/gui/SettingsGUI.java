@@ -105,8 +105,8 @@ public class SettingsGUI {
             //Item slot Highlight
             SubCategoryBuilder itemHighlight = entryBuilder.startSubCategory(Text.translatable("bedrockify.options.subCategory.inventoryHighlight"));
             itemHighlight.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.inventoryHighlight"), settingsClient.slotHighlight).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.slotHighlight=newValue).build());
-            itemHighlight.add(entryBuilder.startAlphaColorField(Text.translatable("bedrockify.options.inventoryHighlight.color1"), settingsClient.highLightColor1).setDefaultValue((255 << 8) + (255) + (255 << 16) + (255 << 24)).setSaveConsumer(newValue -> settingsClient.highLightColor1=newValue).build());
-            itemHighlight.add(entryBuilder.startAlphaColorField(Text.translatable("bedrockify.options.inventoryHighlight.color2"), settingsClient.highLightColor2).setDefaultValue(64 + (170 << 8) + (109 << 16) + (255 << 24)).setSaveConsumer(newValue -> settingsClient.highLightColor2=newValue).build());
+            itemHighlight.add(entryBuilder.startAlphaColorField(Text.translatable("bedrockify.options.inventoryHighlight.color1"), settingsClient.highLightColor1).setDefaultValue(0xffffffff).setSaveConsumer(newValue -> settingsClient.highLightColor1=newValue).build());
+            itemHighlight.add(entryBuilder.startAlphaColorField(Text.translatable("bedrockify.options.inventoryHighlight.color2"), settingsClient.highLightColor2).setDefaultValue(0x8955ba00).setSaveConsumer(newValue -> settingsClient.highLightColor2=newValue).build());
             gui.addEntry(itemHighlight.build());
 
             // Screen Safe Area

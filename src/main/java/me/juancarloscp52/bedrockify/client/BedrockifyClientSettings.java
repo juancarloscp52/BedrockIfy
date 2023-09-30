@@ -47,8 +47,8 @@ public class BedrockifyClientSettings {
     public boolean cubeMapBackground = true;
     public boolean bedrockChat = true;
     public boolean slotHighlight = true;
-    public int highLightColor1 = (255 << 8) + (255) + (255 << 16) + (255 << 24);
-    public int highLightColor2 = 64 + (170 << 8) + (109 << 16) + (255 << 24);
+    public int highLightColor1 = 0xffffffff;
+    public int highLightColor2 = 0x8955ba00;
     public float idleAnimation = 1;
     public double reacharoundBlockDistance = 0.5d;
     public int reacharoundPitchAngle = 25;
