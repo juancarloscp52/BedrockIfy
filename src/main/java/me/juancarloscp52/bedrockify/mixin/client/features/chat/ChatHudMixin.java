@@ -66,7 +66,7 @@ public abstract class ChatHudMixin {
     @Unique
     private int bedrockify$calcChatHudTopOffset() {
         final int safeArea = this.bedrockify$getSafeArea();
-        return settings.getPositionHUDHeight() + ((settings.getPositionHUDHeight() < 50) ? 50 : 0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + ((settings.getFPSHUDoption() == 2) ? 10 : 0) + safeArea;
+        return settings.getPositionHUDHeight() + ((settings.getPositionHUDHeight() < 50) ? 50 : 0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + ((settings.getFPSHUDoption() == 2) ? 10 : 0) + safeArea - 6;
     }
 
     @Inject(method = "getVisibleLineCount", at = @At("RETURN"), cancellable = true)
