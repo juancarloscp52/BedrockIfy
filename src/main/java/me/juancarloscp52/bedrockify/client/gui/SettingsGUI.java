@@ -11,9 +11,7 @@ import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import me.shedaniel.clothconfig2.impl.builders.SubCategoryBuilder;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.text.StringVisitable;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
+import net.minecraft.text.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.MathHelper;
 
@@ -151,9 +149,7 @@ public class SettingsGUI {
          *   Panorama Screen Category
          *
          */
-            panorama.addEntry(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.rotationalBackground"), settingsClient.cubeMapBackground).setDefaultValue(true).setTooltip(wrapLines(Text.translatable("bedrockify.options.rotationalBackground.tooltip"))).setSaveConsumer(newValue -> settingsClient.cubeMapBackground=newValue).build());
-            panorama.addEntry(entryBuilder.startStrList(Text.translatable("bedrockify.options.panorama.list"), settingsClient.panoramaIgnoredScreens).setDefaultValue(BedrockifyClientSettings.PANORAMA_IGNORED_SCREENS).setTooltip(wrapLines(Text.translatable("bedrockify.options.panorama.list.tooltip"))).setSaveConsumer(strings -> settingsClient.panoramaIgnoredScreens=strings).build());
-
+            panorama.addEntry(entryBuilder.startTextDescription(Text.translatable("bedrockify.options.panoramaScreens").styled(style -> style.withColor(MathHelper.packRgb(1,.2f,.2f)))).build());
         /*
          *
          *   Mixins Category

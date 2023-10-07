@@ -33,8 +33,6 @@
   "bedrockify.options.chatStyle.bedrock": "Бедрок",
   "bedrockify.options.chatStyle.vanilla": "Јава",
   "bedrockify.options.tooltips": "Описи предмета:",
-  "bedrockify.options.rotationalBackground": "Панорама на свим екранима:",
-  "bedrockify.options.rotationalBackground.tooltip": "ЕКСПЕРИМЕНТАЛНО: Омогућава ротацијску позадину насловног екрана на свим екранима. Може визуелно да поквари слику и подешавања других модова.",
   "bedrockify.options.inventoryHighlight": "Истакнути део предмета у складишту:",
   "bedrockify.options.inventoryHighlight.color1": "Позадина истакнутог дела предмета:",
   "bedrockify.options.inventoryHighlight.color2": "Истакнути део предмета у првом палну (предња страна):",

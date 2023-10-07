@@ -20,8 +20,6 @@
   "bedrockify.options.chatStyle.bedrock": "بيدروك",
   "bedrockify.options.chatStyle.vanilla": "فانيلا",
   "bedrockify.options.tooltips": "تلميحات أدوات العنصر:",
-  "bedrockify.options.rotationalBackground": "خلفية البانوراما علي جميع الشاشات:",
-  "bedrockify.options.rotationalBackground.tooltip": "تجريبي: لتمكين خلفية شاشة العنوان الدورانية على جميع الشاشات. قد يكسر بصريًا شاشات إعدادات المودات الأخرى.",
   "bedrockify.options.inventoryHighlight": "تسليط الضوء على فتحة عنصر المخزون:",
   "bedrockify.options.idleAnimation": "سرعة حركة اليد الخاملة:",
   "bedrockify.options.showBedrockIfyButton": "إظهار زر إعدادات BedrockIfy:",

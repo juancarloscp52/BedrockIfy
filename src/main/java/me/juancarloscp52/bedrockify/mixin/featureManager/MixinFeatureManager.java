@@ -24,7 +24,6 @@ public class MixinFeatureManager {
         features.put("client.features.heldItemTooltips",true);
         features.put("client.features.idleHandAnimations", true);
         features.put("client.features.loadingScreens", true);
-        features.put("client.features.panoramaBackground", true);
         features.put("client.features.pickupAnimations", true);
         features.put("client.features.reacharoundPlacement", true);
         features.put("client.features.savingOverlay", true);

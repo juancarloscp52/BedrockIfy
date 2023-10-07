@@ -2,12 +2,6 @@ package me.juancarloscp52.bedrockify.client;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.gui.screen.multiplayer.SocialInteractionsScreen;
-import net.minecraft.client.gui.screen.pack.PackScreen;
-
-import java.util.Arrays;
-import java.util.List;
 
 public class BedrockifyClientSettings {
 
@@ -26,8 +20,6 @@ public class BedrockifyClientSettings {
         }
     }
 
-    private final static List<Class<? extends Screen>> MINECRAFT_IGNORED_SCREENS = Arrays.asList(PackScreen.class, SocialInteractionsScreen.class);
-    public final static List<String> PANORAMA_IGNORED_SCREENS = Arrays.asList(".modmenu.gui.ModsScreen", ".iris.gui.", ".voicechat.gui",".modmanager.gui.", "yacl.gui.YACLScreen");
     public boolean loadingScreen = true;
     public ButtonPosition bedrockIfyButtonPosition = ButtonPosition.BELOW_SLIDERS;
     public boolean showPositionHUD = true;
@@ -44,7 +36,6 @@ public class BedrockifyClientSettings {
     public int positionHUDHeight = 50;
     public int screenSafeArea = 0;
     public boolean overlayIgnoresSafeArea = false;
-    public boolean cubeMapBackground = true;
     public boolean bedrockChat = true;
     public boolean slotHighlight = true;
     public int highLightColor1 = 0xffffffff;
@@ -72,26 +63,6 @@ public class BedrockifyClientSettings {
         return pickupAnimations;
     }
 
-
-    public List<String> panoramaIgnoredScreens = PANORAMA_IGNORED_SCREENS;
-
-    public boolean panoramaIgnoreScreen(Screen screen) {
-        if (screen != null) {
-            // Checks if the screen is a Minecraft screen that would break in any case
-            if (MINECRAFT_IGNORED_SCREENS.contains(screen.getClass()))
-                return true;
-
-            // Check If screen is in ignore list.
-            for (String screenName : panoramaIgnoredScreens) {
-                if (screen.getClass().getName().contains(screenName.trim()))
-                    return true;
-            }
-            // check for language reload screen.
-            return FabricLoader.getInstance().isModLoaded("languagereload") && screen.getClass().getName().contains("net.minecraft.class_426");
-        }
-        return false;
-    }
-
     public boolean isSneakingShieldEnabled() {
         return this.sneakingShield;
     }
@@ -107,10 +78,6 @@ public class BedrockifyClientSettings {
 
     public boolean isEatingAnimationsEnabled() {
         return eatingAnimations;
-    }
-
-    public boolean isCubemapBackgroundEnabled() {
-        return cubeMapBackground;
     }
 
     public boolean isLoadingScreenEnabled() {

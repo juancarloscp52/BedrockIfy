@@ -23,14 +23,6 @@ public class BedrockIfyMixinPlugin  implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        if(mixinClassName.contains("me.juancarloscp52.bedrockify.mixin.client.features.panoramaBackground") && FabricLoader.getInstance().isModLoaded("panorama_screens")){
-            LogManager.getLogger().info("BedrockIfy compatibility with Panorama Screens enabled.");
-            return false;
-        }
-        if(mixinClassName.equals("me.juancarloscp52.bedrockify.mixin.client.features.panoramaBackground.TitleScreenMixin") && FabricLoader.getInstance().isModLoaded("slight-gui-modifications")){
-            LogManager.getLogger().info("BedrockIfy compatibility with Slight gui modifications enabled.");
-            return false;
-        }
         if(mixinClassName.equals("me.juancarloscp52.bedrockify.mixin.common.features.fertilizableBlocks.SugarCaneBlockMixin") && FabricLoader.getInstance().isModLoaded("carpet-extra")){
             LogManager.getLogger().warn("BedrockIfy compatibility with \"Carpet Extra\" enabled.");
             LogManager.getLogger().warn("\t\\_ If you want to bonemeal sugar cane use carpet option /carpet betterBonemeal true");

@@ -33,8 +33,6 @@
   "bedrockify.options.chatStyle.bedrock": "Bedrock",
   "bedrockify.options.chatStyle.vanilla": "Java",
   "bedrockify.options.tooltips": "Item Tooltips:",
-  "bedrockify.options.rotationalBackground": "Fundo de Panorama em todas as telas:",
-  "bedrockify.options.rotationalBackground.tooltip": "EXPERIMENTAL: Ativa o fundo giratório da tela de título em todas as telas. Pode quebrar visualmente as telas de configurações de outros mod.",
   "bedrockify.options.inventoryHighlight": "Destaque de slot de item:",
   "bedrockify.options.idleAnimation": "Velocidade de animação da mão ociosa:",
   "bedrockify.options.showBedrockIfyButton": "Mostrar botão de configurações BedrockIfy:",

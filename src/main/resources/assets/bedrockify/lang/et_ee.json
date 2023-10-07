@@ -30,8 +30,6 @@
   "bedrockify.options.chatStyle.bedrock": "Bedrock",
   "bedrockify.options.chatStyle.vanilla": "Java",
   "bedrockify.options.tooltips": "Esemete vihjetekstid:",
-  "bedrockify.options.rotationalBackground": "Panoraamtaustad igal kuval:",
-  "bedrockify.options.rotationalBackground.tooltip": "KATSETUSJÄRGUS: Lubab avamenüü pöörleva tausta igal ekraanikuval. Võib teiste modide seadistuskuvasid visuaalselt lõhkuda.",
   "bedrockify.options.inventoryHighlight": "Seljakoti esemelahtri esiletõst:",
   "bedrockify.options.idleAnimation": "Tegevusetu käe animatsioonikiirus:",
   "bedrockify.options.showBedrockIfyButton": "BedrockIfy seadistusnupu kuva:",

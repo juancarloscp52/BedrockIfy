@@ -64,6 +64,10 @@ dependencies {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 	include "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}"
+	modImplementation "maven.modrinth:panorama-screens:${project.panoramascreens_version}"
+	include "maven.modrinth:panorama-screens:${project.panoramascreens_version}"
+
+
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	modCompileOnly("squeek.appleskin:appleskin-fabric:${project.apple_skin}:api") {
 		transitive = false
