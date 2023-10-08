@@ -11,12 +11,14 @@ import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.ColorHelper;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Environment(EnvType.CLIENT)
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
+    @Unique
     private int screenBorder;
 
     /**
@@ -30,18 +32,30 @@ public abstract class InGameHudMixin {
     /**
      * Render the item Hotbar applying the screen border distance and transparency.
      */
-    @Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"))
-    private void drawTextureHotbar(DrawContext drawContext, Identifier texture, int x, int y, int u, int v, int width, int height) {
+    @Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"))
+    private void drawTextureHotbar(DrawContext drawContext, Identifier texture, int x, int y, int width, int height) {
         if((width ==29 && height == 24) || width == 182){
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, BedrockifyClient.getInstance().hudOpacity.getHudOpacity(true));
-            drawContext.drawTexture(texture, x, y - screenBorder, u, v, width, height);
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+            drawContext.drawGuiTexture(texture, x, y - screenBorder, width, height);
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false));
+        }else{
+            drawContext.drawGuiTexture(texture, x, y - screenBorder, width, height);
+            drawContext.fill(x,y + height - screenBorder,x+width,y+height+1 - screenBorder, ColorHelper.Argb.getArgb(255,0,0,0));
+        }
+    }
+    @Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIIIIII)V"))
+    private void drawTextureHotbar(DrawContext drawContext, Identifier texture, int i, int j, int k, int l, int x, int y, int width, int height) {
+        if((width ==29 && height == 24) || width == 182){
+            RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, BedrockifyClient.getInstance().hudOpacity.getHudOpacity(true));
+            drawContext.drawGuiTexture(texture, i, j, k, l, x, y - screenBorder, width, height);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false));
         }else{
             boolean raisedEnabled = FabricLoader.getInstance().isModLoaded("raised");
-            drawContext.drawTexture(texture, x, y - screenBorder, u, v, width, (width  == 24 && !raisedEnabled) ? height+2 : height);
+            drawContext.drawGuiTexture(texture, i, j, k, l, x, y - screenBorder, width, (width  == 24 && !raisedEnabled) ? height+2 : height);
         }
     }
-
     /**
      * Render the items in the Hotbar with the screen border distance.
      */
@@ -53,8 +67,13 @@ public abstract class InGameHudMixin {
     /**
      * Apply screen border offset to experience bars.
      */
-    @ModifyArg(method = "renderExperienceBar", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"),index = 2)
+    @ModifyArg(method = "renderExperienceBar", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"),index = 2)
     public int modifyTextureExperienceBar(int y){
+        return y - screenBorder;
+    }
+
+    @ModifyArg(method = "renderExperienceBar", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIIIIII)V"),index = 6)
+    public int modifyTextureExperienceBar2(int y){
         return y - screenBorder;
     }
 
@@ -77,15 +96,22 @@ public abstract class InGameHudMixin {
     /**
      * Apply screen border offset to mount bars.
      */
-    @ModifyArg(method = "renderMountJumpBar", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"),index = 2)
+    @ModifyArg(method = "renderMountJumpBar", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIIIIII)V"),index = 6)
     public int modifyTextureMountJumpBar(int y){
+        return y-screenBorder;
+    }
+    /**
+     * Apply screen border offset to mount bars.
+     */
+    @ModifyArg(method = "renderMountJumpBar", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"),index = 2)
+    public int modifyTextureMountJumpBar2(int y){
         return y-screenBorder;
     }
 
     /**
      * Apply screen border offset to mount health bars.
      */
-    @ModifyArg(method = "renderMountHealth", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"),index = 2)
+    @ModifyArg(method = "renderMountHealth", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"),index = 2)
     public int modifyTextureMountHealth(int y){
         return y-screenBorder;
     }
@@ -93,7 +119,7 @@ public abstract class InGameHudMixin {
     /**
      * Apply screen border offset to status bars.
      */
-    @ModifyArg(method = "renderStatusBars", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Lnet/minecraft/util/Identifier;IIIIII)V"),index = 2)
+    @ModifyArg(method = "renderStatusBars", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"),index = 2)
     public int modifyTextureStatusBar(int y){
         return y - screenBorder;
     }

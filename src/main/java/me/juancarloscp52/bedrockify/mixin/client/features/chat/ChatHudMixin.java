@@ -27,7 +27,6 @@ public abstract class ChatHudMixin {
     @Shadow @Final private List<ChatHudLine.Visible> visibleMessages;
     @Shadow protected abstract boolean isChatFocused();
     @Shadow public abstract double getChatScale();
-    @Shadow public abstract int getWidth();
     @Shadow @Final private MinecraftClient client;
     @Shadow private int scrolledLines;
     @Shadow public abstract int getVisibleLineCount();
@@ -71,7 +70,7 @@ public abstract class ChatHudMixin {
 
     @Inject(method = "getVisibleLineCount", at = @At("RETURN"), cancellable = true)
     private void bedrockify$modifyLineCount(CallbackInfoReturnable<Integer> cir) {
-        if (!settings.isBedrockChatEnabled() || client.options.debugEnabled) {
+        if (!settings.isBedrockChatEnabled() || client.inGameHud.getDebugHud().shouldShowDebugHud()) {
             return;
         }
 
@@ -86,7 +85,7 @@ public abstract class ChatHudMixin {
      */
     @Inject(method = "render", at = @At("HEAD"))
     private void bedrockify$gatherInfo(DrawContext drawContext, int ticks, int mouseX, int mouseY, CallbackInfo ci) {
-        if (!settings.isBedrockChatEnabled() || client.options.debugEnabled) {
+        if (!settings.isBedrockChatEnabled() || client.inGameHud.getDebugHud().shouldShowDebugHud()) {
             return;
         }
 
@@ -107,7 +106,7 @@ public abstract class ChatHudMixin {
     @ModifyArgs(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V", ordinal = 0))
     private void bedrockify$moveChatHud(Args args) {
         args.set(0, (float) args.get(0) + this.bedrockify$getSafeArea());
-        if (settings.isBedrockChatEnabled() && !client.options.debugEnabled) {
+        if (settings.isBedrockChatEnabled() && !client.inGameHud.getDebugHud().shouldShowDebugHud()) {
             args.set(1, this.bottomY);
         }
     }
@@ -148,13 +147,13 @@ public abstract class ChatHudMixin {
 
     @Inject(method = "toChatLineY", at = @At("RETURN"), cancellable = true)
     private void bedrockify$calcChatLineY(double mouseY, CallbackInfoReturnable<Double> cir) {
-        if (!settings.isBedrockChatEnabled() || client.options.debugEnabled) {
+        if (!settings.isBedrockChatEnabled() || client.inGameHud.getDebugHud().shouldShowDebugHud()) {
             return;
         }
 
         final int topY = this.bedrockify$calcChatHudTopOffset();
         final int lines = Math.min(this.getVisibleLineCount(), this.visibleMessages.size() - this.scrolledLines) + 1;
-        final double position = topY + lines * this.getLineHeight() - mouseY;
+        final double position = topY + lines * this.getLineHeight() - mouseY-6;
         cir.setReturnValue(position / (this.getChatScale() * this.getLineHeight()));
     }
 

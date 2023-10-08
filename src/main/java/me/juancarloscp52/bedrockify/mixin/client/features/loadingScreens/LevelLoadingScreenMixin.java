@@ -32,7 +32,7 @@ public abstract class LevelLoadingScreenMixin extends Screen {
     public void render(DrawContext context, int mouseX, int mouseY, float delta, CallbackInfo info) {
         if(!BedrockifyClient.getInstance().settings.isLoadingScreenEnabled())
             return;
-        this.renderBackground(context);
+        this.renderBackground(context, mouseX, mouseY, delta);
         int xPosition = this.width / 2;
         int yPosition = this.height / 2;
         LoadingScreenWidget.getInstance().render(context, xPosition, yPosition, Text.translatable("menu.generatingLevel"), null, this.progressProvider.getProgressPercentage());

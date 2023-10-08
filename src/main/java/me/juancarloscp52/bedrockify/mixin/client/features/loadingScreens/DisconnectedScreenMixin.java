@@ -43,13 +43,12 @@ public class DisconnectedScreenMixin extends Screen {
     /**
      * Renders the loading screen widget.
      */
-    @Inject(method = "render", at = @At("HEAD"), cancellable = true)
-    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta, CallbackInfo info) {
+    @Override
+    public void render(DrawContext drawContext, int mouseX, int mouseY, float delta) {
         if(!BedrockifyClient.getInstance().settings.isLoadingScreenEnabled())
             return;
-        this.renderBackground(drawContext);
+        this.renderBackground(drawContext,mouseX,mouseY,delta);
         LoadingScreenWidget.getInstance().render(drawContext, width / 2, height / 2, this.title, this.reason, -1);
         super.render(drawContext, mouseX, mouseY, delta);
-        info.cancel();
     }
 }

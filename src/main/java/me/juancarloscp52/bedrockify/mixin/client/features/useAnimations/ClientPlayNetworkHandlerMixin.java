@@ -11,9 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.s2c.play.InventoryS2CPacket;
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket;
 import net.minecraft.screen.PlayerScreenHandler;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -21,8 +19,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Environment(EnvType.CLIENT)
 @Mixin(ClientPlayNetworkHandler.class)
 public abstract class ClientPlayNetworkHandlerMixin {
-    @Shadow
-    private @Final MinecraftClient client;
 
     /**
      * Animate always by receiving S2C packet.<br>
@@ -32,7 +28,7 @@ public abstract class ClientPlayNetworkHandlerMixin {
      */
     @Inject(method = "onScreenHandlerSlotUpdate", at = @At("RETURN"))
     private void bedrockify$animateAlwaysSlotUpdate(ScreenHandlerSlotUpdateS2CPacket packet, CallbackInfo ci) {
-        final ItemStack itemStack = packet.getItemStack();
+        final ItemStack itemStack = packet.getStack();
         final int slotIdx = packet.getSlot();
         if (packet.getSyncId() != 0 && !PlayerScreenHandler.isInHotbar(slotIdx) || itemStack == null) {
             return;
@@ -49,7 +45,7 @@ public abstract class ClientPlayNetworkHandlerMixin {
      */
     @Inject(method = "onInventory", at = @At("RETURN"))
     private void bedrockify$animateAlwaysInventory(InventoryS2CPacket packet, CallbackInfo ci) {
-        final PlayerEntity player = this.client.player;
+        final PlayerEntity player = MinecraftClient.getInstance().player;
         if (packet.getSyncId() != 0 || player == null) {
             return;
         }

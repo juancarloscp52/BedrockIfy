@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(FlowerBlock.class)
 public class FlowerBlockMixin implements Fertilizable {
     @Override
-    public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state) {
         return !state.isOf(Blocks.WITHER_ROSE);
     }
 

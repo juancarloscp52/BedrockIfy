@@ -36,10 +36,6 @@ public class BedrockIfyMixinPlugin  implements IMixinConfigPlugin {
             LogManager.getLogger().info("The mod \"OptiFabric\" has been detected. This mod is not totally compatible with BedrockIfy. BedrockIfy Bedrock Shading is now disabled.");
             return false;
         }
-        if (mixinClassName.contains("me.juancarloscp52.bedrockify.mixin.client.compat.sodium")) {
-            // Workaround of https://github.com/CaffeineMC/sodium-fabric/issues/895
-            return FabricLoader.getInstance().isModLoaded("sodium");
-        }
         if (mixinClassName.equals("me.juancarloscp52.bedrockify.mixin.client.features.sheepColors.SheepWoolFeatureRendererMixin") && FabricLoader.getInstance().isModLoaded("optifabric")) {
             LogManager.getLogger().info("The mod \"OptiFabric\" has been detected. This mod is not totally compatible with BedrockIfy. BedrockIfy Sheep Colors is now disabled.");
             return false;

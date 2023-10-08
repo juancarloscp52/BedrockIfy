@@ -12,11 +12,12 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(SugarCaneBlock.class)
 public class SugarCaneBlockMixin implements Fertilizable {
     @Override
-    public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state, boolean isClient) {
+    public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state) {
         return true;
     }
 
@@ -40,12 +41,14 @@ public class SugarCaneBlockMixin implements Fertilizable {
         }
     }
 
+    @Unique
     protected int countSugarCaneAbove(BlockView world, BlockPos pos) {
         int i;
         for (i = 0; i < 16 && world.getBlockState(pos.up(i + 1)).isOf(Blocks.SUGAR_CANE); ++i) { }
         return i;
     }
 
+    @Unique
     protected int countSugarCaneBelow(BlockView world, BlockPos pos) {
         int i;
         for (i = 0; i < 16 && world.getBlockState(pos.down(i + 1)).isOf(Blocks.SUGAR_CANE); ++i) { }

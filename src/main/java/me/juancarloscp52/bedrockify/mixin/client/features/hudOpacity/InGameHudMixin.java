@@ -17,6 +17,7 @@ public class InGameHudMixin {
     public void setShaderColorOpacity(float tickDelta, DrawContext context, CallbackInfo ci){
         RenderSystem.setShaderColor(1,1,1,BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false));
     }
+
     @Inject(method = "renderHotbar", at = @At("RETURN"))
     public void resetShaderColorOpacity(float tickDelta, DrawContext context, CallbackInfo ci){
         RenderSystem.setShaderColor(1,1,1,1);
