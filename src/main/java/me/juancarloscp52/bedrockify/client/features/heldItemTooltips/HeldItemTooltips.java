@@ -89,7 +89,7 @@ public class HeldItemTooltips {
         }
 
         // Render the item name.
-        return original.call(fontRenderer, text, (int) x, (int) y - tooltipOffset - screenBorder, color);
+        return original.call(drawContext, fontRenderer, text, (int) x, (int) y - tooltipOffset - screenBorder, color);
     }
 
     /**
