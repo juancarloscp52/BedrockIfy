@@ -39,6 +39,7 @@ sourceSets {
 }
 
 repositories {
+	mavenCentral()
 	maven {
 		name = 'TerraformersMC'
 		url = 'https://maven.terraformersmc.com/'
@@ -59,12 +60,12 @@ dependencies {
 
 	// Dependancies
 	modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
-	modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
+	include(modApi("me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}") {
 		exclude(group: "net.fabricmc.fabric-api")
-	}
-	include "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}"
-	modImplementation "maven.modrinth:panorama-screens:${project.panoramascreens_version}"
-	include "maven.modrinth:panorama-screens:${project.panoramascreens_version}"
+	})
+
+	include(annotationProcessor(modApi("io.github.llamalad7:mixinextras-fabric:${project.mixin_extras_version}")))
+	include(modImplementation("maven.modrinth:panorama-screens:${project.panoramascreens_version}"))
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	modCompileOnly("squeek.appleskin:appleskin-fabric:${project.apple_skin}:api") {
