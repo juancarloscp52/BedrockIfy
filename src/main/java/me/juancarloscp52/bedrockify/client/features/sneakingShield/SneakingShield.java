@@ -7,7 +7,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
 import net.minecraft.util.Hand;
 
-public class SneakingShield {
+public final class SneakingShield {
+    private SneakingShield() {}
+
     public static void tryActivation(boolean sneaking){
         PlayerEntity player = MinecraftClient.getInstance().player;
         if(BedrockifyClient.getInstance().settings.isSneakingShieldEnabled() && sneaking && player !=null){
