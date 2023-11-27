@@ -158,8 +158,8 @@ public class SettingsGUI {
          *
          */
             mixins.addEntry(entryBuilder.startTextDescription(Text.translatable("bedrockify.options.mixins.description")).build());
-            for(Map.Entry<String, Boolean> elem : MixinFeatureManager.features.entrySet()){
-                mixins.addEntry(entryBuilder.startBooleanToggle(Text.translatable(elem.getKey()), elem.getValue()).setDefaultValue(true).setSaveConsumer(newValue -> MixinFeatureManager.features.put(elem.getKey(),newValue)).build());
+            for(Map.Entry<String, Boolean> elem : MixinFeatureManager.FEATURES.entrySet()){
+                mixins.addEntry(entryBuilder.startBooleanToggle(Text.translatable(elem.getKey()), elem.getValue()).setDefaultValue(true).setSaveConsumer(newValue -> MixinFeatureManager.FEATURES.put(elem.getKey(),newValue)).build());
             }
 
 

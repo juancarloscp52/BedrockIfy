@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.1-SNAPSHOT'
+	id 'fabric-loom' version '1.4-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -104,8 +104,9 @@ tasks.withType(JavaCompile).configureEach {
 // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
 // if it is present.
 // If you remove this task, sources will not be generated.
-task sourcesJar(type: Jar, dependsOn: classes) {
-	classifier = "sources"
+tasks.register("sourcesJar", Jar) {
+	dependsOn classes
+	archiveClassifier = "sources"
 	from sourceSets.main.allSource
 }
 

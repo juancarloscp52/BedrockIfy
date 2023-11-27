@@ -1,5 +1,7 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.bedrockShading.lightBlock;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.VertexConsumer;
@@ -25,10 +27,10 @@ public class FluidRendererMixin {
         this.isLuminous = 0 < world.getLuminance(pos); //state.isIn(FluidTags.LAVA);
     }
 
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/BlockRenderView;getBrightness(Lnet/minecraft/util/math/Direction;Z)F"))
-    private float getLavaShade(BlockRenderView blockRenderView, Direction direction, boolean shaded) {
+    @WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/BlockRenderView;getBrightness(Lnet/minecraft/util/math/Direction;Z)F"))
+    private float getLavaShade(BlockRenderView instance, Direction direction, boolean shaded, Operation<Float> original) {
         if(!BedrockifyClient.getInstance().settings.bedrockShading)
-            return blockRenderView.getBrightness(direction,shaded);
+            return original.call(instance, direction, shaded);
 
         return BedrockifyClient.getInstance().bedrockBlockShading.getLiquidShade(direction,isLuminous);
     }

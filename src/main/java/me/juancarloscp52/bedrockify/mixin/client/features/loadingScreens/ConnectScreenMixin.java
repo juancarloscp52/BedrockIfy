@@ -1,5 +1,7 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.loadingScreens;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.loadingScreens.LoadingScreenWidget;
 import net.minecraft.client.MinecraftClient;
@@ -34,22 +36,22 @@ public class ConnectScreenMixin extends Screen {
     /**
      * Draws the loading screen widget.
      */
-    @Redirect(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawCenteredTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)V"))
-    public void drawLoadingScreenWidget(DrawContext drawContext, TextRenderer textRenderer, Text text, int x, int y, int color) {
+    @WrapOperation(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawCenteredTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)V"))
+    public void drawLoadingScreenWidget(DrawContext instance, TextRenderer textRenderer, Text text, int centerX, int y, int color, Operation<Void> original) {
         if(BedrockifyClient.getInstance().settings.isLoadingScreenEnabled()){
-            LoadingScreenWidget.getInstance().render(drawContext, MinecraftClient.getInstance().getWindow().getScaledWidth() / 2, MinecraftClient.getInstance().getWindow().getScaledHeight() / 2, Text.literal(text.getString()), null, -1);
+            LoadingScreenWidget.getInstance().render(instance, MinecraftClient.getInstance().getWindow().getScaledWidth() / 2, MinecraftClient.getInstance().getWindow().getScaledHeight() / 2, Text.literal(text.getString()), null, -1);
         }else{
-            drawContext.drawCenteredTextWithShadow(textRenderer, text, x, y, color);
+            original.call(instance, textRenderer, text, centerX, y, color);
         }
     }
 
     /**
      * Move the cancel bottom down.
      */
-    @Redirect(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ConnectScreen;addDrawableChild(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;"))
-    public <T extends Element & Drawable & Selectable> T addDrawableChild(ConnectScreen connectScreen, T drawableElement) {
+    @WrapOperation(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ConnectScreen;addDrawableChild(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;"))
+    public <T extends Element & Drawable & Selectable> T addDrawableChild(ConnectScreen connectScreen, T drawableElement, Operation<T> original) {
         if(BedrockifyClient.getInstance().settings.isLoadingScreenEnabled()){
-            return (T) this.addDrawableChild(ButtonWidget.builder(ScreenTexts.CANCEL, (buttonWidget) -> {
+            return original.call(connectScreen, ButtonWidget.builder(ScreenTexts.CANCEL, (buttonWidget) -> {
                 this.connectingCancelled = true;
                 if (this.connection != null) {
                     this.connection.disconnect(Text.translatable("connect.aborted"));
@@ -57,7 +59,7 @@ public class ConnectScreenMixin extends Screen {
                 this.client.setScreen(this.parent);
             }).position(this.width / 2 - 100, (int) Math.ceil(MinecraftClient.getInstance().getWindow().getScaledHeight() * 0.75D)).width(200).build());
         }else{
-            return this.addDrawableChild(drawableElement);
+            return original.call(connectScreen, drawableElement);
         }
     }
 }

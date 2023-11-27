@@ -1,5 +1,6 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.bedrockShading.sunGlare;
 
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockSunGlareShading;
 import net.minecraft.client.MinecraftClient;
@@ -60,7 +61,16 @@ public abstract class WorldRendererMixin {
      * Modify the Sun radius from stored delta.<br>
      * Original radius is <code>30.0F</code>.
      */
-    @ModifyConstant(method = RENDER_SKY_METHOD_SIGNATURE, constant = @Constant(floatValue = 30.0f, ordinal = 0))
+    @ModifyExpressionValue(
+            method = RENDER_SKY_METHOD_SIGNATURE,
+            at = @At(
+                    value = "CONSTANT",
+                    args = {
+                            "floatValue=30.0F"
+                    },
+                    ordinal = 0
+            )
+    )
     private float bedrockify$modifySunRadius(float original) {
         if (!BedrockifyClient.getInstance().bedrockSunGlareShading.shouldApplyShading() || this.sunRadiusDelta >= 1f) {
             return original;
