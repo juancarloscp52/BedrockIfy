@@ -11,7 +11,6 @@ import net.minecraft.client.gui.screen.DownloadingTerrainScreen;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(DownloadingTerrainScreen.class)
 public class DownloadingTerrainScreenMixin {

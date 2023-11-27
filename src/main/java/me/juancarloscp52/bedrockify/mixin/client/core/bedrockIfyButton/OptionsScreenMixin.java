@@ -7,7 +7,6 @@ import me.juancarloscp52.bedrockify.client.BedrockifyClientSettings;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.EmptyWidget;
 import net.minecraft.client.gui.widget.GridWidget;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.text.Text;
