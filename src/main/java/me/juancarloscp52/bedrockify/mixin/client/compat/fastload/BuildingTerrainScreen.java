@@ -42,9 +42,9 @@ public abstract class BuildingTerrainScreen {
 
         if (this.getLoadedChunkCount() == 0 && this.getBuiltChunkCount() == 0) {
             LoadingScreenWidget.getInstance().render(new DrawContext(client,client.getBufferBuilders().getEntityVertexConsumers()),client.getWindow().getScaledWidth() / 2, client.getWindow().getScaledHeight() / 2, Text.translatable("fastload.buildingTerrain.starting"), null, -1);
-        }else{
+        } else {
             Text content = screenTemplate.copyContentOnly().append("\n").append(this.preparingChunks.getString() + ": " + loadedChunksString).append("\n").append(this.buildingChunks.getString() + ": " + builtChunksString);
-            int progress = (int)Math.ceil((this.getBuiltChunkCount()/this.loadingAreaGoal)*100);
+            int progress = this.getBuiltChunkCount() / this.loadingAreaGoal * 100;
             LoadingScreenWidget.getInstance().render(new DrawContext(client,client.getBufferBuilders().getEntityVertexConsumers()), client.getWindow().getScaledWidth() / 2, client.getWindow().getScaledHeight() / 2, this.screenName, content, progress);
         }
 

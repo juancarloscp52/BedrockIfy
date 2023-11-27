@@ -21,6 +21,5 @@ public abstract class ArmorDyeRecipeMixin {
         }
 
         cir.setReturnValue(false);
-        cir.cancel();
     }
 }

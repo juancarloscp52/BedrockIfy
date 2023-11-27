@@ -5,6 +5,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -13,7 +14,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class MinecraftClientMixin {
 
     @Shadow public Screen currentScreen;
-    long newTime=0;
+    @Unique
+    private long newTime =0;
+
     @Inject(method = "render", at=@At("HEAD"))
     private void computeDeltaTime(boolean tick, CallbackInfo ci){
         long oldTime = newTime;

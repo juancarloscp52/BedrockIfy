@@ -13,7 +13,7 @@ public class KeyboardInputMixin extends Input {
 
     //Feature disabled, not working
     @Inject(method = "tick",at=@At("TAIL"))
-    private void checkShield(boolean slowDown, CallbackInfo ci){
+    private void checkShield(boolean slowDown, float slowDownFactor, CallbackInfo ci){
         SneakingShield.tryActivation(this.sneaking);
     }
 

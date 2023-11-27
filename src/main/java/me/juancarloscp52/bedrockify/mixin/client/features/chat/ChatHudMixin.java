@@ -1,5 +1,6 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.chat;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.BedrockifyClientSettings;
 import net.minecraft.client.MinecraftClient;
@@ -68,16 +69,15 @@ public abstract class ChatHudMixin {
         return settings.getPositionHUDHeight() + ((settings.getPositionHUDHeight() < 50) ? 50 : 0) + (settings.isShowPositionHUDEnabled() ? 10 : 0) + ((settings.getFPSHUDoption() == 2) ? 10 : 0) + safeArea - 6;
     }
 
-    @Inject(method = "getVisibleLineCount", at = @At("RETURN"), cancellable = true)
-    private void bedrockify$modifyLineCount(CallbackInfoReturnable<Integer> cir) {
+    @ModifyReturnValue(method = "getVisibleLineCount", at = @At("RETURN"))
+    private int bedrockify$modifyLineCount(int original) {
         if (!settings.isBedrockChatEnabled() || client.inGameHud.getDebugHud().shouldShowDebugHud()) {
-            return;
+            return original;
         }
 
-        final int original = cir.getReturnValue();
         final int height = this.client.getWindow().getScaledHeight() - this.bedrockify$calcChatHudTopOffset();
         final int lines = MathHelper.ceil((float) height / this.getLineHeight()) - 3;
-        cir.setReturnValue(Math.min(original, lines));
+        return Math.min(original, lines);
     }
 
     /**
@@ -157,9 +157,8 @@ public abstract class ChatHudMixin {
         cir.setReturnValue(position / (this.getChatScale() * this.getLineHeight()));
     }
 
-    @Inject(method = "toChatLineX", at = @At("RETURN"), cancellable = true)
-    private void bedrockify$calcChatLineX(double mouseX, CallbackInfoReturnable<Double> cir) {
-        final double original = cir.getReturnValue();
-        cir.setReturnValue(original - this.bedrockify$getSafeArea());
+    @ModifyReturnValue(method = "toChatLineX", at = @At("RETURN"))
+    private double bedrockify$calcChatLineX(double original, double mouseX) {
+        return original - this.bedrockify$getSafeArea();
     }
 }

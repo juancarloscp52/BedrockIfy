@@ -28,7 +28,7 @@ public abstract class HandledScreenMixin {
     protected int y;
 
     @Shadow
-    abstract boolean isPointOverSlot(Slot slot, double pointX, double pointY);
+    protected abstract boolean isPointOverSlot(Slot slot, double pointX, double pointY);
 
     @Inject(method = "drawSlotHighlight", at = @At("HEAD"), cancellable = true)
     private static void bedrockify$cancelVanillaHighlight(DrawContext context, int x, int y, int z, CallbackInfo ci) {

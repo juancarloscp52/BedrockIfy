@@ -1,6 +1,7 @@
 package me.juancarloscp52.bedrockify.client.features.heldItemTooltips;
 
 import com.google.common.collect.Lists;
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.BedrockifyClientSettings;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.ContainerTooltip;
@@ -34,7 +35,7 @@ public class HeldItemTooltips {
 
     private final int  tooltipSize = 6;
 
-    public int drawItemWithCustomTooltips(DrawContext drawContext, TextRenderer fontRenderer, Text text, float x, float y, int color, ItemStack currentStack) {
+    public int drawItemWithCustomTooltips(DrawContext drawContext, TextRenderer fontRenderer, Text text, float x, float y, int color, ItemStack currentStack, Operation<Integer> original) {
         final BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
         final int screenBorder = settings.getScreenSafeArea();
         int tooltipOffset = 0;
@@ -88,7 +89,7 @@ public class HeldItemTooltips {
         }
 
         // Render the item name.
-        return drawContext.drawTextWithShadow(fontRenderer, text, (int)x, (int)(y - tooltipOffset - screenBorder), color);
+        return original.call(drawContext, fontRenderer, text, (int) x, (int) y - tooltipOffset - screenBorder, color);
     }
 
     /**
@@ -99,7 +100,7 @@ public class HeldItemTooltips {
     public List<Tooltip> getTooltips(ItemStack currentStack) {
         final Item item = currentStack.getItem();
         final List<Tooltip> result = Lists.newArrayList();
-        //If the item is a enchanted book, retrieve the enchantments.
+        //If the item is an enchanted book, retrieve the enchantments.
         if (item == Items.ENCHANTED_BOOK || currentStack.hasEnchantments()) {
             generateTooltipsFromEnchantMap(EnchantmentHelper.get(currentStack), result);
             //If the item has a potion effects, retrieve them.
@@ -113,10 +114,8 @@ public class HeldItemTooltips {
             if(compoundTag != null && compoundTag.contains("Items", 9)){
                 generateTooltipsFromShulkerBox(compoundTag, result);
             }
-        } else if(item instanceof BundleItem){
-            if(currentStack.getTooltipData().isPresent() && currentStack.isOf(Items.BUNDLE)){
+        } else if(item instanceof BundleItem && currentStack.getTooltipData().isPresent() && currentStack.isOf(Items.BUNDLE)){
                 generateTooltipsFromContainer(((BundleTooltipData)currentStack.getTooltipData().get()).getInventory(), result);
-            }
         }
         return result;
     }
