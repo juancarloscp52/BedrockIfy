@@ -9,20 +9,17 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.cauldron.CauldronBehavior;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Map;
-
 public abstract class AbstractBECauldronBlock extends AbstractCauldronBlock implements BlockEntityProvider {
-    public AbstractBECauldronBlock(Settings settings, Map<Item, CauldronBehavior> behaviorMap) {
+    public AbstractBECauldronBlock(Settings settings, CauldronBehavior.CauldronBehaviorMap behaviorMap) {
         super(settings, behaviorMap);
     }
 
@@ -36,7 +33,7 @@ public abstract class AbstractBECauldronBlock extends AbstractCauldronBlock impl
     }
 
     @Override
-    public ItemStack getPickStack(BlockView world, BlockPos pos, BlockState state) {
+    public ItemStack getPickStack(WorldView world, BlockPos pos, BlockState state) {
         return new ItemStack(Blocks.CAULDRON);
     }
 

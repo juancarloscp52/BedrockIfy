@@ -8,8 +8,8 @@ import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Selectable;
-import net.minecraft.client.gui.screen.ConnectScreen;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.gui.screen.multiplayer.ConnectScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.screen.ScreenTexts;
@@ -46,7 +46,7 @@ public class ConnectScreenMixin extends Screen {
     /**
      * Move the cancel bottom down.
      */
-    @Redirect(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/ConnectScreen;addDrawableChild(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;"))
+    @Redirect(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screen/multiplayer/ConnectScreen;addDrawableChild(Lnet/minecraft/client/gui/Element;)Lnet/minecraft/client/gui/Element;"))
     public <T extends Element & Drawable & Selectable> T addDrawableChild(ConnectScreen connectScreen, T drawableElement) {
         if(BedrockifyClient.getInstance().settings.isLoadingScreenEnabled()){
             return (T) this.addDrawableChild(ButtonWidget.builder(ScreenTexts.CANCEL, (buttonWidget) -> {

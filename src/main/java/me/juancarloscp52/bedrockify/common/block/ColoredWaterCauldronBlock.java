@@ -1,12 +1,10 @@
 package me.juancarloscp52.bedrockify.common.block;
 
+import com.mojang.serialization.MapCodec;
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.common.block.cauldron.BedrockCauldronBehavior;
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronProperties;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.LeveledCauldronBlock;
+import net.minecraft.block.*;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
 import net.minecraft.util.math.BlockPos;
@@ -19,6 +17,8 @@ import net.minecraft.world.event.GameEvent;
  * Dye items for which {@link net.minecraft.item.DyeableItem} is implemented.
  */
 public class ColoredWaterCauldronBlock extends AbstractBECauldronBlock {
+    public static final MapCodec<ColoredWaterCauldronBlock> CODEC = ColoredWaterCauldronBlock.createCodec(ColoredWaterCauldronBlock::new);
+
     public static final IntProperty LEVEL = BedrockCauldronProperties.LEVEL_6;
     public static final int MAX_LEVEL = BedrockCauldronProperties.MAX_LEVEL_6;
 
@@ -42,6 +42,11 @@ public class ColoredWaterCauldronBlock extends AbstractBECauldronBlock {
     @Override
     public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
         return (int) Math.ceil((float) state.get(LEVEL) / MAX_LEVEL * LeveledCauldronBlock.MAX_LEVEL);
+    }
+
+    @Override
+    protected MapCodec<? extends AbstractCauldronBlock> getCodec() {
+        return CODEC;
     }
 
     @Override

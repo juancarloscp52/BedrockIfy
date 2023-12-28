@@ -40,8 +40,8 @@ import java.util.Optional;
  * Defines the behavior of Bedrock's Cauldron.
  */
 public interface BedrockCauldronBehavior {
-    Map<Item, CauldronBehavior> POTION_CAULDRON_BEHAVIOR = CauldronBehavior.createMap();
-    Map<Item, CauldronBehavior> COLORED_WATER_CAULDRON_BEHAVIOR = CauldronBehavior.createMap();
+    CauldronBehavior.CauldronBehaviorMap POTION_CAULDRON_BEHAVIOR = CauldronBehavior.createMap("potion");
+    CauldronBehavior.CauldronBehaviorMap COLORED_WATER_CAULDRON_BEHAVIOR = CauldronBehavior.createMap("dye");
 
     CauldronBehavior DYE_ITEM_BY_COLORED_WATER = (state, world, pos, player, hand, stack) -> {
         if (state == null || world == null || pos == null || !Bedrockify.getInstance().settings.bedrockCauldron) {
@@ -469,28 +469,28 @@ public interface BedrockCauldronBehavior {
     static void registerBehavior() {
         // Behavior of the dye item for water cauldron.
         Registries.ITEM.stream().filter(item -> item instanceof DyeItem).forEach(dyeItem -> {
-            CauldronBehavior.WATER_CAULDRON_BEHAVIOR.putIfAbsent(dyeItem, DYE_WATER);
-            COLORED_WATER_CAULDRON_BEHAVIOR.putIfAbsent(dyeItem, DYE_WATER);
+            CauldronBehavior.WATER_CAULDRON_BEHAVIOR.map().putIfAbsent(dyeItem, DYE_WATER);
+            COLORED_WATER_CAULDRON_BEHAVIOR.map().putIfAbsent(dyeItem, DYE_WATER);
         });
 
         // Behavior of the colored cauldron.
         Registries.ITEM.stream().filter(item -> item instanceof DyeableItem).forEach(item -> {
-            COLORED_WATER_CAULDRON_BEHAVIOR.putIfAbsent(item, DYE_ITEM_BY_COLORED_WATER);
+            COLORED_WATER_CAULDRON_BEHAVIOR.map().putIfAbsent(item, DYE_ITEM_BY_COLORED_WATER);
         });
-        COLORED_WATER_CAULDRON_BEHAVIOR.putIfAbsent(Items.BUCKET, FILL_BUCKET_WITH_COLORED_WATER);
-        COLORED_WATER_CAULDRON_BEHAVIOR.putIfAbsent(Items.GLASS_BOTTLE, PICK_COLORED_WATER);
-        CauldronBehavior.registerBucketBehavior(COLORED_WATER_CAULDRON_BEHAVIOR);
+        COLORED_WATER_CAULDRON_BEHAVIOR.map().putIfAbsent(Items.BUCKET, FILL_BUCKET_WITH_COLORED_WATER);
+        COLORED_WATER_CAULDRON_BEHAVIOR.map().putIfAbsent(Items.GLASS_BOTTLE, PICK_COLORED_WATER);
+        CauldronBehavior.registerBucketBehavior(COLORED_WATER_CAULDRON_BEHAVIOR.map());
 
         // Behavior of the potion.
         Registries.ITEM.stream().filter(item -> item instanceof PotionItem).forEach(potionItem -> {
-            CauldronBehavior.EMPTY_CAULDRON_BEHAVIOR.putIfAbsent(potionItem, PLACE_POTION_FLUID);
-            POTION_CAULDRON_BEHAVIOR.putIfAbsent(potionItem, PLACE_POTION_FLUID);
+            CauldronBehavior.EMPTY_CAULDRON_BEHAVIOR.map().putIfAbsent(potionItem, PLACE_POTION_FLUID);
+            POTION_CAULDRON_BEHAVIOR.map().putIfAbsent(potionItem, PLACE_POTION_FLUID);
             // Allows to accept any potion type for the Water Cauldron.
-            CauldronBehavior.WATER_CAULDRON_BEHAVIOR.putIfAbsent(potionItem, PLACE_WATER_BY_POTION);
-            COLORED_WATER_CAULDRON_BEHAVIOR.putIfAbsent(potionItem, PLACE_WATER_BY_POTION);
+            CauldronBehavior.WATER_CAULDRON_BEHAVIOR.map().putIfAbsent(potionItem, PLACE_WATER_BY_POTION);
+            COLORED_WATER_CAULDRON_BEHAVIOR.map().putIfAbsent(potionItem, PLACE_WATER_BY_POTION);
         });
-        POTION_CAULDRON_BEHAVIOR.putIfAbsent(Items.GLASS_BOTTLE, PICK_POTION_FLUID);
-        POTION_CAULDRON_BEHAVIOR.putIfAbsent(Items.ARROW, TIPPED_ARROW_WITH_POTION);
-        registerEvaporateBucketBehavior(POTION_CAULDRON_BEHAVIOR);
+        POTION_CAULDRON_BEHAVIOR.map().putIfAbsent(Items.GLASS_BOTTLE, PICK_POTION_FLUID);
+        POTION_CAULDRON_BEHAVIOR.map().putIfAbsent(Items.ARROW, TIPPED_ARROW_WITH_POTION);
+        registerEvaporateBucketBehavior(POTION_CAULDRON_BEHAVIOR.map());
     }
 }

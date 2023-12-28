@@ -1,13 +1,11 @@
 package me.juancarloscp52.bedrockify.common.block;
 
+import com.mojang.serialization.MapCodec;
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.common.block.cauldron.BedrockCauldronBehavior;
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronBlocks;
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronProperties;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.LeveledCauldronBlock;
+import net.minecraft.block.*;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.state.StateManager;
@@ -22,6 +20,8 @@ import net.minecraft.world.event.GameEvent;
  * Allows to keep the potion fluid.
  */
 public class PotionCauldronBlock extends AbstractBECauldronBlock {
+
+    public static final MapCodec<PotionCauldronBlock> CODEC = PotionCauldronBlock.createCodec(PotionCauldronBlock::new);
     public static final IntProperty LEVEL = BedrockCauldronProperties.LEVEL_8;
     public static final int MAX_LEVEL = BedrockCauldronProperties.MAX_LEVEL_8;
     public static final int BOTTLE_LEVEL = 3;
@@ -47,6 +47,11 @@ public class PotionCauldronBlock extends AbstractBECauldronBlock {
     @Override
     public int getComparatorOutput(BlockState state, World world, BlockPos pos) {
         return (int) Math.ceil((float) state.get(LEVEL) / MAX_LEVEL * LeveledCauldronBlock.MAX_LEVEL);
+    }
+
+    @Override
+    protected MapCodec<? extends AbstractCauldronBlock> getCodec() {
+        return CODEC;
     }
 
     @Override
