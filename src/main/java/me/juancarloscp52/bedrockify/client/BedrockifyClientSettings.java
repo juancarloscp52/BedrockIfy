@@ -30,8 +30,8 @@ public class BedrockifyClientSettings {
     public boolean showPaperDoll = true;
     public boolean showChunkMap = false;
     public boolean reacharound = true;
-    public boolean reacharoundSneaking = true;
-    public boolean reacharoundIndicator = true;
+    public boolean reacharoundSneaking = false;
+    public boolean reacharoundIndicator = false;
     public boolean reacharoundMultiplayer = true;
     public int positionHUDHeight = 50;
     public int screenSafeArea = 0;
@@ -41,8 +41,6 @@ public class BedrockifyClientSettings {
     public int highLightColor1 = 0xffffffff;
     public int highLightColor2 = 0x8955ba00;
     public float idleAnimation = 1;
-    public double reacharoundBlockDistance = 0.5d;
-    public int reacharoundPitchAngle = 25;
     public boolean savingOverlay = true;
     public boolean eatingAnimations = true;
     public boolean expTextStyle = true;
@@ -103,14 +101,6 @@ public class BedrockifyClientSettings {
 
     public byte getFPSHUDoption() {
         return FPSHUD;
-    }
-
-    public double getReacharoundBlockDistance() {
-        return reacharoundBlockDistance;
-    }
-
-    public int getReacharoundPitchAngle() {
-        return reacharoundPitchAngle;
     }
 
     public boolean isShowPaperDollEnabled() {

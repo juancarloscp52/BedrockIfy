@@ -36,8 +36,6 @@
   "bedrockify.options.reachAround.multiplayer": "Strategia sięgnij-dookoła w trybie wieloosobowym:",
   "bedrockify.options.recipes": "Użyj przepisów tworzenia z Bedrocka:",
   "bedrockify.options.recipes.tooltip": "Musisz ponownie otworzyć świat, aby zaaplikować zmiany.",
-  "bedrockify.options.reachAround.pitch": "Minimalne odchylenie ręki ręki:",
-  "bedrockify.options.reachAround.distance": "Maximalna odległość od bloku:",
   "bedrockify.options.chatStyle": "Styl czatu:",
   "bedrockify.options.chatStyle.bedrock": "Bedrock",
   "bedrockify.options.chatStyle.vanilla": "Java",
