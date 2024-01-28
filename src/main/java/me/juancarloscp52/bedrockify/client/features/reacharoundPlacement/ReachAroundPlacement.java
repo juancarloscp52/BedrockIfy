@@ -27,7 +27,7 @@ public class ReachAroundPlacement {
     }
 
     public boolean canReachAround() {
-        if (client.player == null || client.world == null || client.crosshairTarget == null || client.interactionManager == null)
+        if (client.player == null || client.world == null || client.crosshairTarget == null)
             return false;
 
         // crosshairTarget must be MISS.
