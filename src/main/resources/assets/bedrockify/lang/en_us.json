@@ -36,8 +36,6 @@
   "bedrockify.options.reachAround.multiplayer": "Multiplayer Reach-Around:",
   "bedrockify.options.recipes": "Use Bedrock Crafting Recipes:",
   "bedrockify.options.recipes.tooltip": "Must re-open world to apply changes.",
-  "bedrockify.options.reachAround.pitch": "Minimum Pitch Angle:",
-  "bedrockify.options.reachAround.distance": "Maximum Distance from the Block Border:",
   "bedrockify.options.chatStyle": "Chat Style:",
   "bedrockify.options.chatStyle.bedrock": "Bedrock",
   "bedrockify.options.chatStyle.vanilla": "Java",

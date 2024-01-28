@@ -1,15 +1,17 @@
 package me.juancarloscp52.bedrockify.client.features.reacharoundPlacement;
 
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.FluidBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.Optional;
 
 public class ReachAroundPlacement {
     private final MinecraftClient client;
@@ -41,15 +43,15 @@ public class ReachAroundPlacement {
             return false;
         }
         // Player may be flying, climbing the ladder or vines, or on the Fluid with sneaking.
-        if (!player.isOnGround() || !isSolidBlock(client.world.getBlockState(player.getSteppingPos()))) {
+        if (!player.isOnGround()) {
             return false;
         }
-        // There is already a block at the ReachAround target position.
-        if (isSolidBlock(client.world.getBlockState(targetPos))) {
+        // There is a non-replaceable block at the ReachAround target position.
+        if (!client.world.getBlockState(targetPos).isReplaceable()) {
             return false;
         }
 
-        return player.getPitch() > BedrockifyClient.getInstance().settings.getReacharoundPitchAngle() && checkRelativeBlockPosition();
+        return getRaycastIntersection(player).isPresent();
     }
 
     /**
@@ -62,28 +64,18 @@ public class ReachAroundPlacement {
     }
 
     /**
-     * Helper method that checks the BlockState is not AIR and FLUIDS.
-     *
-     * @param blockState The target blockState.
-     * @return <code>true</code> if the block is not AIR and FLUIDS.
+     * Draws a vector from the player's eyes to the end of the reach distance, in the direction the player is facing. We can use this to check if the block is valid for placement.
+     * @return The position of the intersection between the raycast and the surface of the target block.
+     * @author axialeaa
      */
-    private static boolean isSolidBlock(@NotNull BlockState blockState) {
-        return !blockState.isAir() && !(blockState.getBlock() instanceof FluidBlock);
-    }
-
-    private boolean checkRelativeBlockPosition() {
-        if (client.player == null)
-            return false;
-        return checkRelativeBlockPosition((client.player.getPos().getX() - client.player.getBlockPos().getX()), client.player.getHorizontalFacing().getUnitVector().x()) || checkRelativeBlockPosition((client.player.getPos().getZ() - client.player.getBlockPos().getZ()), client.player.getHorizontalFacing().getUnitVector().z());
-    }
-
-    private boolean checkRelativeBlockPosition(double pos, float direction) {
-        double distance = BedrockifyClient.getInstance().settings.getReacharoundBlockDistance();
-        if (direction > 0) {
-            return 1-pos < distance;
-        } else if (direction < 0) {
-            return pos < distance;
+    private Optional<Vec3d> getRaycastIntersection(@NotNull Entity player) {
+        if (client.interactionManager == null) {
+            return Optional.empty(); // Redundant in 1.20.5+
         }
-        return false;
+
+        Vec3d rayStartPos = player.getEyePos();
+        Vec3d rayEndPos = player.getRotationVec(1.0F).multiply(client.interactionManager.getReachDistance()).add(rayStartPos);
+                                                                    // player.getBlockInteractionRange() in 1.20.5+
+        return new Box(getFacingSteppingBlockPos(player)).raycast(rayStartPos, rayEndPos);
     }
 }

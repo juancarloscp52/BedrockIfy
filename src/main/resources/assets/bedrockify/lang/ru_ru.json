@@ -28,8 +28,6 @@
   "bedrockify.options.reachAround.multiplayer": "Использовать на серверах:",
   "bedrockify.options.recipes": "Использовать рецепты из Bedrock:",
   "bedrockify.options.recipes.tooltip": "Нужно перезайти в мир для применения изменений.",
-  "bedrockify.options.reachAround.pitch": "Минимальный угол наклона головы:",
-  "bedrockify.options.reachAround.distance": "Максимальное расстояние до края блока:",
   "bedrockify.options.chatStyle": "Стиль чата:",
   "bedrockify.options.chatStyle.bedrock": "Bedrock",
   "bedrockify.options.chatStyle.vanilla": "Java",

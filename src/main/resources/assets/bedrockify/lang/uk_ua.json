@@ -28,8 +28,6 @@
   "bedrockify.options.reachAround.multiplayer": "Використовувати у мережі",
   "bedrockify.options.recipes": "Використовувати рецепти майстрування з Bedrock Edition",
   "bedrockify.options.recipes.tooltip": "Щоб застосувати зміни, потрібно повторно відкрити світ.",
-  "bedrockify.options.reachAround.pitch": "Мінімальний кут розміщення",
-  "bedrockify.options.reachAround.distance": "Максимальна відстань від ребра блока",
   "bedrockify.options.chatStyle": "Стиль чату",
   "bedrockify.options.chatStyle.bedrock": "Bedrock",
   "bedrockify.options.chatStyle.vanilla": "Java",

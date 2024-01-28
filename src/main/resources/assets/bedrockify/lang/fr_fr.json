@@ -27,8 +27,6 @@
   "bedrockify.options.reachAround.multiplayer": "Placement de proximité en multijoueur:",
   "bedrockify.options.recipes": "Utiliser les recettes de fabrication Bedrock:",
   "bedrockify.options.recipes.tooltip": "Vous devez rouvrir le monde pour appliquer les modifications.",
-  "bedrockify.options.reachAround.pitch": "Angle de tangage minimum:",
-  "bedrockify.options.reachAround.distance": "Distance maximale depuis le bord du bloc :",
   "bedrockify.options.chatStyle": "Style du chat:",
   "bedrockify.options.chatStyle.bedrock": "Bedrock",
   "bedrockify.options.chatStyle.vanilla": "Java",

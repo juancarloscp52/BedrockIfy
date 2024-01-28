@@ -27,8 +27,6 @@
   "bedrockify.options.reachAround.multiplayer": "多人游戏四周放置:",
   "bedrockify.options.recipes": "使用基岩版合成配方：",
   "bedrockify.options.recipes.tooltip": "必须重新加载世界以应用更改。",
-  "bedrockify.options.reachAround.pitch": "最小俯仰角：",
-  "bedrockify.options.reachAround.distance": "从方块边缘的最大距离：",
   "bedrockify.options.chatStyle": "聊天框样式:",
   "bedrockify.options.chatStyle.bedrock": "基岩版",
   "bedrockify.options.chatStyle.vanilla": "Java 版",
