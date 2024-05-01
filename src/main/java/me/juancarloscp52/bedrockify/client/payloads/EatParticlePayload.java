@@ -37,7 +37,7 @@ public final class EatParticlePayload extends AbstractVelocityParticlePayload {
     }
 
     public void setItemStack(ItemStack itemStack) {
-        this.itemStack = itemStack;
+        this.itemStack = itemStack.copy();
     }
 
     public static final class EatParticleHandler implements ClientPlayNetworking.PlayPayloadHandler<EatParticlePayload> {

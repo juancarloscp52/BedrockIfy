@@ -11,7 +11,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.FireworkStarFadeRecipe;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
@@ -76,7 +75,6 @@ public class FireworkStarFadeRecipeMixin {
 
         if (itemStack != null && !list.isEmpty()) {
             itemStack.apply(DataComponentTypes.FIREWORK_EXPLOSION, FireworkExplosionComponent.DEFAULT, list, FireworkExplosionComponent::withFadeColors);
-//            itemStack.getOrCreateSubNbt("Explosion").putIntArray("FadeColors", list);
             cir.setReturnValue(itemStack);
         } else {
             cir.setReturnValue(ItemStack.EMPTY);

@@ -30,12 +30,12 @@ if __name__ == '__main__':
         if 'item' in struct['result']:
             struct['result']['id'] = struct['result']['item']
             del struct['result']['item']
-            replaced = true
+            replaced = True
         elif type(struct['result']) is str:
             _result = struct['result']
             struct['result'] = {}
             struct['result']['id'] = _result
-            replaced = true
+            replaced = True
 
     if replaced:
         if args.test:

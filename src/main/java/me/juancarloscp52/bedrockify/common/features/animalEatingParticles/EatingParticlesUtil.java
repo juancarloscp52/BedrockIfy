@@ -27,7 +27,7 @@ public class EatingParticlesUtil {
             vec3d2 = vec3d2.add(entity.getX(), entity.getEyeY(), entity.getZ());
             particlePayload.setPosition(vec3d2);
             particlePayload.setVelocity(vec3d);
-            particlePayload.setItemStack(stack.copy());
+            particlePayload.setItemStack(stack);
             PlayerLookup.world((ServerWorld) player.getWorld()).forEach(serverPlayerEntity ->
                     ServerPlayNetworking.send(serverPlayerEntity, particlePayload));
         }

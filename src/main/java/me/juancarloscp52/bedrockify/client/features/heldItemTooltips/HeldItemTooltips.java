@@ -1,7 +1,6 @@
 package me.juancarloscp52.bedrockify.client.features.heldItemTooltips;
 
 import com.google.common.collect.Lists;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.BedrockifyClientSettings;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.ContainerTooltip;
@@ -15,25 +14,17 @@ import net.minecraft.client.item.BundleTooltipData;
 import net.minecraft.client.item.TooltipType;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.component.DataComponentTypes;
-import net.minecraft.component.type.ContainerComponent;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.inventory.Inventories;
 import net.minecraft.item.*;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 public class HeldItemTooltips {
 
@@ -106,7 +97,7 @@ public class HeldItemTooltips {
         final List<Tooltip> result = Lists.newArrayList();
         //If the item is a enchanted book, retrieve the enchantments.
         if (item == Items.ENCHANTED_BOOK || currentStack.hasEnchantments()) {
-            generateTooltipsFromEnchantMap(EnchantmentHelper.getEnchantments(currentStack).getEnchantmentsMap(), result);
+            EnchantmentHelper.getEnchantments(currentStack).getEnchantmentsMap().forEach(enchantment -> result.add(new EnchantmentTooltip(enchantment.getKey().value(), enchantment.getIntValue())));
             //If the item has a potion effects, retrieve them.
         } else if (item instanceof PotionItem || item instanceof TippedArrowItem) {
             List<Text> generated = Lists.newArrayList();
@@ -141,16 +132,6 @@ public class HeldItemTooltips {
             if(!item.isEmpty())
                 instance.add(new ContainerTooltip(item));
         }
-    }
-
-    /**
-     * Gets a tooltip list from the given enchantment map.
-     *
-     * @param enchantments enchantment map of an item.
-     * @param instance Where the list of {@link Tooltip} is stored.
-     */
-    private static void generateTooltipsFromEnchantMap(Set<Object2IntMap.Entry<RegistryEntry<Enchantment>>> enchantments, List<Tooltip> instance) {
-        enchantments.forEach(enchantment -> instance.add(new EnchantmentTooltip(enchantment.getKey().value(), enchantment.getIntValue())));
     }
 
     /**

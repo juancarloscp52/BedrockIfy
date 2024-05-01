@@ -22,8 +22,8 @@ public class Bedrockify implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
     public BedrockifySettings settings;
     private static Bedrockify instance;
-    public static EatParticlePayload EAT_PARTICLE_PAYLOAD = new EatParticlePayload();
-    public static CauldronParticlePayload CAULDRON_PARTICLE_PAYLOAD = new CauldronParticlePayload();
+    public static final EatParticlePayload EAT_PARTICLE_PAYLOAD = new EatParticlePayload();
+    public static final CauldronParticlePayload CAULDRON_PARTICLE_PAYLOAD = new CauldronParticlePayload();
     public static Bedrockify getInstance() {
         return instance;
     }

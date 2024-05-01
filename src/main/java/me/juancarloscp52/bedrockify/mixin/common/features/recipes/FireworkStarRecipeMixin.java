@@ -12,7 +12,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.FireworkStarRecipe;
 import net.minecraft.recipe.Ingredient;
-import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
@@ -96,7 +95,6 @@ public class FireworkStarRecipeMixin {
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
             return;
         ItemStack itemStack = new ItemStack(Items.FIREWORK_STAR);
-//        NbtCompound compoundTag = itemStack.getOrCreateSubNbt("Explosion");
         FireworkExplosionComponent.Type type = FireworkExplosionComponent.Type.SMALL_BALL;
         IntList list = new IntArrayList();
         boolean hasTwinkleMod = false;
