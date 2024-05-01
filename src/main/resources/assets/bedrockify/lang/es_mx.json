@@ -74,7 +74,6 @@
   "bedrockify.options.fireAspectLight.tooltip": "Hacer click derecho sobre bloques como dinamita y velas con una herramienta encantada con Aspecto Ígneo lo encendera/activará.",
   "bedrockify.options.mixins.description": "En esta categoria puedes activar/desactivar mixins para ciertas características. Deshabilitar mixins deshabilitará la caracteristica que cubre. Puedes deshabilitar mixins para intentar mejorar la compatibilidad con otros mods.\n§4¡Por favor, no cambie estos ajustes salvo que sepa lo que está haciendo!",
   "bedrockify.options.disableFlyingMomentum": "Deshabilitar momento al volar",
-  "bedrockify.options.panoramaScreens": "Para acceder a la configuracion de pantalla rotacional, por favor abre la configuracion del mod Panorama Screens en Mod Menu.",
   "bedrockify.options.elytraStop": "Parar vuelo de Élitros:",
   "bedrockify.options.elytraStop.tooltip": "Presiona espacio para parar el vuelo con élitros estando en el aire.",
   "bedrockify.options.hudOpacity": "Opacidad del HUD:",

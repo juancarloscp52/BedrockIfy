@@ -38,7 +38,6 @@ public class SettingsGUI {
         ConfigCategory gameplay = builder.getOrCreateCategory(Text.translatable("bedrockify.options.categories.gameplay"));
         ConfigCategory gui = builder.getOrCreateCategory(Text.translatable("bedrockify.options.categories.gui"));
         ConfigCategory visualImprovements = builder.getOrCreateCategory(Text.translatable("bedrockify.options.categories.visualImprovements"));
-        ConfigCategory panorama = builder.getOrCreateCategory(Text.translatable("bedrockify.options.categories.panoramaScreens"));
         ConfigCategory mixins = builder.getOrCreateCategory(Text.translatable("bedrockify.options.categories.mixins"));
 
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
@@ -146,12 +145,6 @@ public class SettingsGUI {
                 BedrockifyClient.getInstance().bedrockSunGlareShading.onSunlightIntensityChanged();
             }).build());
 
-        /*
-         *
-         *   Panorama Screen Category
-         *
-         */
-            panorama.addEntry(entryBuilder.startTextDescription(Text.translatable("bedrockify.options.panoramaScreens").styled(style -> style.withColor(MathHelper.packRgb(1,.2f,.2f)))).build());
         /*
          *
          *   Mixins Category
