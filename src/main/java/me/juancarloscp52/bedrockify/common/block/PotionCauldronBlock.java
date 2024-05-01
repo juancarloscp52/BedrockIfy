@@ -6,7 +6,9 @@ import me.juancarloscp52.bedrockify.common.block.cauldron.BedrockCauldronBehavio
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronBlocks;
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronProperties;
 import net.minecraft.block.*;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particle.EntityEffectParticleEffect;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.IntProperty;
@@ -75,16 +77,19 @@ public class PotionCauldronBlock extends AbstractBECauldronBlock {
 
         world.getBlockEntity(pos, BedrockCauldronBlocks.WATER_CAULDRON_ENTITY).ifPresent(blockEntity -> {
             final int effectColor = blockEntity.getTintColor();
-            final double red = ((effectColor >> 16) & 0xff) / 255.;
-            final double green = ((effectColor >> 8) & 0xff) / 255.;
-            final double blue = (effectColor & 0xff) / 255.;
+            final float red = ((effectColor >> 16) & 0xff) / 255.f;
+            final float green = ((effectColor >> 8) & 0xff) / 255.f;
+            final float blue = (effectColor & 0xff) / 255.f;
             final double offsetY;
             if (state.getBlock() instanceof PotionCauldronBlock potionCauldronBlock) {
                 offsetY = potionCauldronBlock.getFluidHeight(state);
             } else {
                 offsetY = 0.5;
             }
-            world.addParticle(ParticleTypes.ENTITY_EFFECT, pos.getX() + 0.45 + random.nextDouble() * 0.2, pos.getY() + offsetY, pos.getZ() + 0.45 + random.nextDouble() * 0.2, red, green, blue);
+            final double x = pos.getX() + 0.45 + random.nextDouble() * 0.2;
+            final double y = pos.getY() + offsetY;
+            final double z = pos.getZ() + 0.45 + random.nextDouble() * 0.2;
+            world.addParticle(EntityEffectParticleEffect.create(ParticleTypes.ENTITY_EFFECT, red, green, blue), x, y, z, red, green, blue);
         });
     }
 

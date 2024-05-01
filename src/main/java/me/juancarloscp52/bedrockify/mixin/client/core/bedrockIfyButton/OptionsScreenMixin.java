@@ -5,15 +5,14 @@ import me.juancarloscp52.bedrockify.client.BedrockifyClientSettings;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.option.OptionsScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.EmptyWidget;
+import net.minecraft.client.gui.widget.DirectionalLayoutWidget;
 import net.minecraft.client.gui.widget.GridWidget;
-import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
@@ -22,34 +21,39 @@ import java.util.function.Supplier;
 @Mixin(OptionsScreen.class)
 public abstract class OptionsScreenMixin extends Screen {
 
-    @Shadow protected abstract ButtonWidget createButton(Text message, Supplier<Screen> screenSupplier);
+//    @Shadow protected abstract ButtonWidget createButton(Text message, Supplier<Screen> screenSupplier);
 
     protected OptionsScreenMixin(Text title) {
         super(title);
     }
 
+    @Unique
+    private ButtonWidget.Builder bedrockify$settingsButtonBuilder() {
+        return ButtonWidget.builder(Text.translatable("bedrockify.options.settings"),button -> this.client.setScreen(BedrockifyClient.getInstance().settingsGUI.getConfigScreen(this,this.client.world != null)));
+    }
+
     /**
      * Add bedrockify settings button to the game options screen.
      */
-    @Inject(method = "init", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/widget/GridWidget$Adder;add(Lnet/minecraft/client/gui/widget/Widget;)Lnet/minecraft/client/gui/widget/Widget;", ordinal = 10,shift = At.Shift.AFTER),locals = LocalCapture.CAPTURE_FAILHARD)
-    public void addBedrockIfyButton(CallbackInfo ci, GridWidget gridWidget, GridWidget.Adder adder){
+    @Inject(method = "init", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/widget/GridWidget$Adder;add(Lnet/minecraft/client/gui/widget/Widget;)Lnet/minecraft/client/gui/widget/Widget;", ordinal = 9,shift = At.Shift.AFTER),locals = LocalCapture.CAPTURE_FAILHARD)
+    public void addBedrockIfyButtonInGrid(CallbackInfo ci, DirectionalLayoutWidget directionalLayoutWidget, DirectionalLayoutWidget directionalLayoutWidget2, GridWidget gridWidget, GridWidget.Adder adder){
         BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
         if(settings.bedrockIfyButtonPosition == BedrockifyClientSettings.ButtonPosition.IN_GRID){
-            adder.add(this.createButton(Text.translatable("bedrockify.options.settings"),() -> BedrockifyClient.getInstance().settingsGUI.getConfigScreen(this,this.client.world != null)));
+            adder.add(bedrockify$settingsButtonBuilder().build());
         }
     }
 
-    @Redirect(method = "init", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/widget/GridWidget$Adder;add(Lnet/minecraft/client/gui/widget/Widget;I)Lnet/minecraft/client/gui/widget/Widget;", ordinal = 0))
-    public <T extends Widget> T addBedrockIfyButton(GridWidget.Adder adder, T widget, int occupiedColumns){
+    @Inject(method = "init", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/widget/GridWidget$Adder;add(Lnet/minecraft/client/gui/widget/Widget;)Lnet/minecraft/client/gui/widget/Widget;", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD)
+    public void addBedrockIfyButtonBelowSliders(CallbackInfo ci, DirectionalLayoutWidget directionalLayoutWidget, DirectionalLayoutWidget directionalLayoutWidget2, GridWidget gridWidget, GridWidget.Adder adder) {
         BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
-        if(settings.bedrockIfyButtonPosition == BedrockifyClientSettings.ButtonPosition.BELOW_SLIDERS)
-            return (T) adder.add(ButtonWidget.builder(Text.translatable("bedrockify.options.settings"),button -> this.client.setScreen(BedrockifyClient.getInstance().settingsGUI.getConfigScreen(this,this.client.world != null))).width(310).build(), occupiedColumns);
-        return (T) adder.add(EmptyWidget.ofHeight(26), 2);
+        if(settings.bedrockIfyButtonPosition == BedrockifyClientSettings.ButtonPosition.BELOW_SLIDERS) {
+            adder.add(bedrockify$settingsButtonBuilder().width(310).build(), 2);
+        }
     }
     @Inject(method = "init", at = @At("RETURN"))
     public void addBedrockIfyButton(CallbackInfo ci){
         BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
-        ButtonWidget.Builder bedrockIfyButton = ButtonWidget.builder(Text.translatable("bedrockify.options.settings"), button -> this.client.setScreen(BedrockifyClient.getInstance().settingsGUI.getConfigScreen(this,this.client.world != null))).width(150);
+        ButtonWidget.Builder bedrockIfyButton = bedrockify$settingsButtonBuilder().width(150);
         switch (settings.bedrockIfyButtonPosition){
             case DISABLED:
             case IN_GRID:

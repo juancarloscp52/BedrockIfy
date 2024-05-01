@@ -13,7 +13,7 @@
     }
   ],
   "result": {
-    "item": "minecraft:light_gray_dye",
-    "count": 3
+    "count": 3,
+    "id": "minecraft:light_gray_dye"
   }
 }

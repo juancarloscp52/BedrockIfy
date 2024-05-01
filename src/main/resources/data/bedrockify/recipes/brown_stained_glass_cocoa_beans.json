@@ -15,7 +15,7 @@
     }
   },
   "result": {
-    "item": "minecraft:brown_stained_glass",
-    "count": 8
+    "count": 8,
+    "id": "minecraft:brown_stained_glass"
   }
 }

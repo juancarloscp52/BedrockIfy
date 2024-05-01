@@ -15,7 +15,7 @@
     }
   },
   "result": {
-    "item": "minecraft:blue_stained_glass_pane",
-    "count": 8
+    "count": 8,
+    "id": "minecraft:blue_stained_glass_pane"
   }
 }

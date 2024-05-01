@@ -15,7 +15,7 @@
     }
   },
   "result": {
-    "item": "minecraft:white_terracotta",
-    "count": 8
+    "count": 8,
+    "id": "minecraft:white_terracotta"
   }
 }

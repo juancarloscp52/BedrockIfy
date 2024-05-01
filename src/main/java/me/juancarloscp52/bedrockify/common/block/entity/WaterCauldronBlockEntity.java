@@ -6,6 +6,8 @@ import me.juancarloscp52.bedrockify.common.features.cauldron.ColorBlenderHelper;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.PotionContentsComponent;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,9 +16,8 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionUtil;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.Nullable;
@@ -59,10 +60,18 @@ public class WaterCauldronBlockEntity extends BlockEntity {
     }
 
     public void setPotion(ItemStack potionItem) {
+        final var component = potionItem.get(DataComponentTypes.POTION_CONTENTS);
+        if (component == null) {
+            return;
+        }
+        var optionalPotion = component.potion();
+        if (optionalPotion.isEmpty()) {
+            return;
+        }
+        var potion = optionalPotion.get();
         this.potionTypeId = Registries.ITEM.getId(potionItem.getItem());
-        final Potion potion = PotionUtil.getPotion(potionItem);
-        this.fluidId = Registries.POTION.getId(potion);
-        this.setTintColor(PotionUtil.getColor(potion));
+        this.fluidId = Registries.POTION.getId(potion.value());
+        this.setTintColor(PotionContentsComponent.getColor(potion));
     }
 
     public <T extends DyeItem> void blendDyeItem(T item) {
@@ -94,10 +103,10 @@ public class WaterCauldronBlockEntity extends BlockEntity {
         } else if (Registries.BLOCK.get(this.getFluidId()) instanceof ColoredWaterCauldronBlock) {
             valid = true;
         } else {
-            final Potion potion = Registries.POTION.get(this.getFluidId());
-            if (!Objects.equals(Registries.POTION.getId(potion), Registries.POTION.getDefaultId())) {
+            var potionEntry = Registries.POTION.getEntry(this.getFluidId());
+            if (potionEntry.isPresent()) {
                 valid = true;
-                this.setTintColor(PotionUtil.getColor(potion));
+                this.setTintColor(PotionContentsComponent.getColor(potionEntry.get()));
             }
         }
         if (!valid) {
@@ -112,8 +121,8 @@ public class WaterCauldronBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
+    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
+        super.readNbt(nbt, registryLookup);
 
         this.tintColor = nbt.getInt(KEY_FLUID_TINT);
         this.fluidId = Identifier.tryParse(nbt.getString(KEY_FLUID_ITEM));
@@ -123,12 +132,12 @@ public class WaterCauldronBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt) {
+    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registryLookup) {
         nbt.putInt(KEY_FLUID_TINT, this.tintColor);
         nbt.putString(KEY_FLUID_ITEM, (this.fluidId == null) ? "<NULL>" : this.fluidId.toString());
         nbt.putString(KEY_POTION_TYPE, (this.potionTypeId == null) ? "<NULL>" : this.potionTypeId.toString());
 
-        super.writeNbt(nbt);
+        super.writeNbt(nbt, registryLookup);
     }
 
     @Nullable
@@ -138,7 +147,7 @@ public class WaterCauldronBlockEntity extends BlockEntity {
     }
 
     @Override
-    public NbtCompound toInitialChunkDataNbt() {
-        return createNbt();
+    public NbtCompound toInitialChunkDataNbt(RegistryWrapper.WrapperLookup registryLookup) {
+        return createNbt(registryLookup);
     }
 }

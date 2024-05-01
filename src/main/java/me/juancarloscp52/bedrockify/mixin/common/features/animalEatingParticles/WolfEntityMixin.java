@@ -14,9 +14,11 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(WolfEntity.class)
 public class WolfEntityMixin {
 
-    @Inject(method = "interactMob",at=@At(value = "INVOKE",target = "Lnet/minecraft/util/math/random/Random;nextInt(I)I"))
+    @Inject(method = "interactMob",at=@At(value = "RETURN", ordinal = 0))
     public void interactMob(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir){
-        EatingParticlesUtil.spawnItemParticles(player,player.getStackInHand(hand),((AnimalEntity)(Object)this));
+        if (cir.getReturnValue() == ActionResult.CONSUME) {
+            EatingParticlesUtil.spawnItemParticles(player, player.getStackInHand(hand), ((AnimalEntity) (Object) this));
+        }
     }
     @Inject(method = "interactMob",at=@At(value = "INVOKE",target = "Lnet/minecraft/entity/passive/WolfEntity;heal(F)V"))
     public void interactMobOnHeal(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir){

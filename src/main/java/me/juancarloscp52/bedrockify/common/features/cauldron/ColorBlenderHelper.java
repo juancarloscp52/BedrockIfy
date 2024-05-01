@@ -1,10 +1,13 @@
 package me.juancarloscp52.bedrockify.common.features.cauldron;
 
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.DyedColorComponent;
 import net.minecraft.item.DyeItem;
-import net.minecraft.item.DyeableItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.tag.ItemTags;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * Used by {@link me.juancarloscp52.bedrockify.common.block.ColoredWaterCauldronBlock}.
@@ -14,32 +17,30 @@ public final class ColorBlenderHelper {
     }
 
     /**
-     * The mostly same as {@link DyeableItem#blendAndSetColor}.<br>
-     * Blend the color, and set it as the {@link DyeableItem} color.
+     * The mostly same as {@link DyedColorComponent#setColor(ItemStack, List)}.<br>
+     * Blend the color, and set it as the {@link ItemStack} color.
      *
      * @param base   The base stack of DyeableItem.
      * @param colors Target colors to mix.
      * @return Blended item stack.
      */
     public static ItemStack blendColors(ItemStack base, int... colors) {
-        if (!(base.getItem() instanceof final DyeableItem baseDyeable)) {
+        if (!base.isIn(ItemTags.DYEABLE)) {
             return base;
         }
+        DyedColorComponent dyedColorComponent = base.get(DataComponentTypes.DYED_COLOR);
 
         final int[] blendArray;
-        if (baseDyeable.hasColor(base)) {
-            blendArray = Arrays.copyOf(colors, colors.length + 1);
-            blendArray[blendArray.length - 1] = baseDyeable.getColor(base);
-        } else {
-            blendArray = colors;
-        }
+        blendArray = Arrays.copyOf(colors, colors.length + 1);
+        blendArray[blendArray.length - 1] = DyedColorComponent.getColor(base, 0xFFA06540);
 
-        baseDyeable.setColor(base, blendColors(blendArray));
+        boolean showInTooltip = dyedColorComponent == null || dyedColorComponent.showInTooltip();
+        base.set(DataComponentTypes.DYED_COLOR, new DyedColorComponent(blendColors(blendArray), showInTooltip));
         return base;
     }
 
     /**
-     * This logic is based on {@link DyeableItem#blendAndSetColor}.
+     * This logic is based on {@link DyedColorComponent#setColor(ItemStack, List)}.
      *
      * @param blender Target colors to mix.
      * @return The blended color.

@@ -11,6 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.ShulkerBoxColoringRecipe;
 import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -49,8 +50,8 @@ public class ShulkerBoxColoringRecipeMixin {
         }
         infoReturnable.setReturnValue(i == 1 && j == 1);
     }
-    @Inject(method = "craft(Lnet/minecraft/inventory/RecipeInputInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;", at=@At("HEAD"),cancellable = true)
-    public void craft(RecipeInputInventory craftingInventory, DynamicRegistryManager dynamicRegistryManager, CallbackInfoReturnable<ItemStack> cir) {
+    @Inject(method = "craft(Lnet/minecraft/inventory/RecipeInputInventory;Lnet/minecraft/registry/RegistryWrapper$WrapperLookup;)Lnet/minecraft/item/ItemStack;", at=@At("HEAD"),cancellable = true)
+    public void craft(RecipeInputInventory craftingInventory, RegistryWrapper.WrapperLookup wrapperLookup, CallbackInfoReturnable<ItemStack> cir) {
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled()){
             return;
         }
@@ -69,11 +70,7 @@ public class ShulkerBoxColoringRecipeMixin {
             }
         }
 
-        ItemStack itemStack3 = ShulkerBoxBlock.getItemStack(dyeItem.getColor());
-        if (itemStack.hasNbt()) {
-            itemStack3.setNbt(itemStack.getNbt().copy());
-        }
-
-        cir.setReturnValue(itemStack3);
+        Block block = ShulkerBoxBlock.get(dyeItem.getColor());
+        cir.setReturnValue(itemStack.copyComponentsToNewStack(block, 1));
     }
 }

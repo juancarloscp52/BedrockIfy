@@ -4,7 +4,7 @@ import me.juancarloscp52.bedrockify.Bedrockify;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.vehicle.TntMinecartEntity;
 import net.minecraft.item.EnchantedBookItem;
@@ -25,9 +25,9 @@ public class PlayerEntityMixin {
     private ActionResult interact(Entity entity, PlayerEntity player, Hand hand){
         if(entity instanceof TntMinecartEntity tntMinecart && Bedrockify.getInstance().settings.fireAspectLight){
             ItemStack itemStack = player.getStackInHand(hand);
-            if(null != itemStack && !tntMinecart.isPrimed()  && (((itemStack.hasEnchantments() || itemStack.getItem() instanceof EnchantedBookItem) && EnchantmentHelper.get(itemStack).containsKey(Enchantments.FIRE_ASPECT)) || (itemStack.isOf(Items.FLINT_AND_STEEL) || itemStack.isOf(Items.FIRE_CHARGE)))){
+            if(null != itemStack && !tntMinecart.isPrimed()  && (((itemStack.hasEnchantments() || itemStack.getItem() instanceof EnchantedBookItem) && EnchantmentHelper.getEnchantments(itemStack).getEnchantments().stream().anyMatch(e -> e.value() == Enchantments.FIRE_ASPECT)) || (itemStack.isOf(Items.FLINT_AND_STEEL) || itemStack.isOf(Items.FIRE_CHARGE)))){
                 tntMinecart.prime();
-                itemStack.damage(1, player,((e) -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND)));
+                itemStack.damage(1, player, LivingEntity.getSlotForHand(hand));
                 player.getWorld().playSound(player, player.getBlockPos(), SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1.0F, player.getWorld().getRandom().nextFloat() * 0.4F + 0.8F);
                 return ActionResult.SUCCESS;
             }

@@ -1,14 +1,18 @@
 package me.juancarloscp52.bedrockify.mixin.common.features.recipes;
 
-import com.google.common.collect.Lists;
+import it.unimi.dsi.fastutil.ints.IntArrayList;
+import it.unimi.dsi.fastutil.ints.IntList;
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.common.features.recipes.DyeHelper;
+import net.minecraft.component.DataComponentTypes;
+import net.minecraft.component.type.FireworkExplosionComponent;
 import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.FireworkStarFadeRecipe;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -16,8 +20,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.List;
 
 @Mixin(FireworkStarFadeRecipe.class)
 public class FireworkStarFadeRecipeMixin {
@@ -54,11 +56,11 @@ public class FireworkStarFadeRecipeMixin {
         infoReturnable.setReturnValue(bl2 && bl);
     }
 
-    @Inject(method = "craft(Lnet/minecraft/inventory/RecipeInputInventory;Lnet/minecraft/registry/DynamicRegistryManager;)Lnet/minecraft/item/ItemStack;",at=@At("HEAD"),cancellable = true)
-    public void craft(RecipeInputInventory craftingInventory, DynamicRegistryManager dynamicRegistryManager, CallbackInfoReturnable<ItemStack> cir) {
+    @Inject(method = "craft(Lnet/minecraft/inventory/RecipeInputInventory;Lnet/minecraft/registry/RegistryWrapper$WrapperLookup;)Lnet/minecraft/item/ItemStack;",at=@At("HEAD"),cancellable = true)
+    public void craft(RecipeInputInventory craftingInventory, RegistryWrapper.WrapperLookup wrapperLookup, CallbackInfoReturnable<ItemStack> cir) {
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
             return;
-        List<Integer> list = Lists.newArrayList();
+        IntList list = new IntArrayList();
         ItemStack itemStack = null;
 
         for(int i = 0; i < craftingInventory.size(); ++i) {
@@ -73,7 +75,8 @@ public class FireworkStarFadeRecipeMixin {
         }
 
         if (itemStack != null && !list.isEmpty()) {
-            itemStack.getOrCreateSubNbt("Explosion").putIntArray("FadeColors", list);
+            itemStack.apply(DataComponentTypes.FIREWORK_EXPLOSION, FireworkExplosionComponent.DEFAULT, list, FireworkExplosionComponent::withFadeColors);
+//            itemStack.getOrCreateSubNbt("Explosion").putIntArray("FadeColors", list);
             cir.setReturnValue(itemStack);
         } else {
             cir.setReturnValue(ItemStack.EMPTY);

@@ -1,12 +1,14 @@
 package me.juancarloscp52.bedrockify;
 
 import com.google.gson.Gson;
+import me.juancarloscp52.bedrockify.client.payloads.CauldronParticlePayload;
+import me.juancarloscp52.bedrockify.client.payloads.EatParticlePayload;
 import me.juancarloscp52.bedrockify.common.block.cauldron.BedrockCauldronBehavior;
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronBlocks;
 import me.juancarloscp52.bedrockify.common.features.worldGeneration.DyingTrees;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
-import net.minecraft.util.Identifier;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,8 +22,8 @@ public class Bedrockify implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger();
     public BedrockifySettings settings;
     private static Bedrockify instance;
-    public static final Identifier EAT_PARTICLES = new Identifier(MOD_ID, "eat-particles");
-    public static final Identifier CAULDRON_ACTION_PARTICLES = new Identifier(MOD_ID, "cauldron_particles");
+    public static EatParticlePayload EAT_PARTICLE_PAYLOAD = new EatParticlePayload();
+    public static CauldronParticlePayload CAULDRON_PARTICLE_PAYLOAD = new CauldronParticlePayload();
     public static Bedrockify getInstance() {
         return instance;
     }
@@ -33,6 +35,8 @@ public class Bedrockify implements ModInitializer {
         instance = this;
         DyingTrees.registerTrees();
         BedrockCauldronBlocks.register();
+        PayloadTypeRegistry.playS2C().register(Bedrockify.EAT_PARTICLE_PAYLOAD.getId(), EatParticlePayload.CODEC);
+        PayloadTypeRegistry.playS2C().register(Bedrockify.CAULDRON_PARTICLE_PAYLOAD.getId(), CauldronParticlePayload.CODEC);
         ServerLifecycleEvents.SERVER_STARTED.register(server -> BedrockCauldronBehavior.registerBehavior());
     }
 

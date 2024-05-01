@@ -80,7 +80,7 @@ public abstract class InGameHudMixin {
     /**
      * Apply screen border offset to experience bar text.
      */
-    @Redirect(method = "renderExperienceBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawText(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;IIIZ)I"))
+    @Redirect(method = "renderExperienceLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawText(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;IIIZ)I"))
     private int drawExperienceBar(DrawContext drawContext, TextRenderer textRenderer, String text, int x, int y, int color, boolean shadow) {
         int alpha = (int) Math.ceil(BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false)*255);
 
@@ -133,6 +133,14 @@ public abstract class InGameHudMixin {
     }
 
     /**
+     * Apply screen border offset to food bars.
+     */
+    @ModifyArg(method = "renderStatusBars", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/hud/InGameHud;renderFood(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/entity/player/PlayerEntity;II)V"),index = 2)
+    private int modifyTextureStatusBarsFood(int y){
+        return y-screenBorder;
+    }
+
+    /**
      * Render the status effect overlay with the screen border distance applied.
      */
     @ModifyVariable(method = "renderStatusEffectOverlay", at = @At("STORE"),ordinal = 2)
@@ -145,7 +153,7 @@ public abstract class InGameHudMixin {
     }
 
     // Apply screen borders to Titles, subtitles and other messages.
-    @ModifyArg(method = "render", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)I",ordinal = 0),index = 3)
+    @ModifyArg(method = "renderTitleAndSubtitle", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)I",ordinal = 0),index = 3)
     public int modifyOverlayMessage(int y){
         return y-screenBorder;
     }
