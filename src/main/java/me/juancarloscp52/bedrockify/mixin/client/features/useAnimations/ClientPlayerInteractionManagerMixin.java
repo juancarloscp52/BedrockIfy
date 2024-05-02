@@ -25,7 +25,7 @@ public abstract class ClientPlayerInteractionManagerMixin {
      */
     @Inject(method = "interactItem", at = @At("RETURN"))
     private void bedrockify$consumeItem(PlayerEntity player, Hand hand, CallbackInfoReturnable<ActionResult> cir) {
-        if (player == null) {
+        if (player == null || cir.getReturnValue() != ActionResult.SUCCESS) {
             return;
         }
 
