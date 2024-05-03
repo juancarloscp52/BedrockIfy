@@ -1,7 +1,7 @@
 package me.juancarloscp52.bedrockify.common.block.cauldron;
 
 import me.juancarloscp52.bedrockify.Bedrockify;
-import me.juancarloscp52.bedrockify.client.payloads.CauldronParticlePayload;
+import me.juancarloscp52.bedrockify.common.payloads.CauldronParticlePayload;
 import me.juancarloscp52.bedrockify.common.block.ColoredWaterCauldronBlock;
 import me.juancarloscp52.bedrockify.common.block.PotionCauldronBlock;
 import me.juancarloscp52.bedrockify.common.block.entity.WaterCauldronBlockEntity;

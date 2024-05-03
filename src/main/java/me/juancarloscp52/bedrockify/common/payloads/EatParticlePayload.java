@@ -1,4 +1,4 @@
-package me.juancarloscp52.bedrockify.client.payloads;
+package me.juancarloscp52.bedrockify.common.payloads;
 
 import me.juancarloscp52.bedrockify.Bedrockify;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;

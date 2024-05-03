@@ -1,4 +1,4 @@
-package me.juancarloscp52.bedrockify.client.payloads;
+package me.juancarloscp52.bedrockify.common.payloads;
 
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.packet.CustomPayload;

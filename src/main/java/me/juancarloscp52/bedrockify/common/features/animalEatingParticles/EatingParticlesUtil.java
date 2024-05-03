@@ -1,6 +1,6 @@
 package me.juancarloscp52.bedrockify.common.features.animalEatingParticles;
 
-import me.juancarloscp52.bedrockify.client.payloads.EatParticlePayload;
+import me.juancarloscp52.bedrockify.common.payloads.EatParticlePayload;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.entity.passive.AnimalEntity;

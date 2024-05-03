@@ -12,8 +12,8 @@ import me.juancarloscp52.bedrockify.client.features.sheepColors.SheepSkinResourc
 import me.juancarloscp52.bedrockify.client.features.worldColorNoise.WorldColorNoiseSampler;
 import me.juancarloscp52.bedrockify.client.gui.Overlay;
 import me.juancarloscp52.bedrockify.client.gui.SettingsGUI;
-import me.juancarloscp52.bedrockify.client.payloads.CauldronParticlePayload;
-import me.juancarloscp52.bedrockify.client.payloads.EatParticlePayload;
+import me.juancarloscp52.bedrockify.common.payloads.CauldronParticlePayload;
+import me.juancarloscp52.bedrockify.common.payloads.EatParticlePayload;
 import me.juancarloscp52.bedrockify.common.block.cauldron.BedrockCauldronBehavior;
 import me.juancarloscp52.bedrockify.common.block.entity.WaterCauldronBlockEntity;
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronBlocks;

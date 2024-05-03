@@ -1,8 +1,8 @@
 package me.juancarloscp52.bedrockify;
 
 import com.google.gson.Gson;
-import me.juancarloscp52.bedrockify.client.payloads.CauldronParticlePayload;
-import me.juancarloscp52.bedrockify.client.payloads.EatParticlePayload;
+import me.juancarloscp52.bedrockify.common.payloads.CauldronParticlePayload;
+import me.juancarloscp52.bedrockify.common.payloads.EatParticlePayload;
 import me.juancarloscp52.bedrockify.common.block.cauldron.BedrockCauldronBehavior;
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronBlocks;
 import me.juancarloscp52.bedrockify.common.features.worldGeneration.DyingTrees;
