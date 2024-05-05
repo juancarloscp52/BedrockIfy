@@ -27,8 +27,6 @@
   "bedrockify.options.reachAround.multiplayer": "Дохват около са више играча:",
   "bedrockify.options.recipes": "Користи бедрок рецепте за прављење:",
   "bedrockify.options.recipes.tooltip": "Мораш поново отворити свет да се измене примене.",
-  "bedrockify.options.reachAround.pitch": "Минимални угао нагиба:",
-  "bedrockify.options.reachAround.distance": "Максимална удаљеност од границе блока:",
   "bedrockify.options.chatStyle": "Стил чета:",
   "bedrockify.options.chatStyle.bedrock": "Бедрок",
   "bedrockify.options.chatStyle.vanilla": "Јава",

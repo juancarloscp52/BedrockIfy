@@ -36,8 +36,6 @@
   "bedrockify.options.reachAround.multiplayer": "Đặt khối gần cạnh khi chơi mạng:",
   "bedrockify.options.recipes": "Dùng công thức chế tạo của Bedrock:",
   "bedrockify.options.recipes.tooltip": "Cần mở lại thế giới để áp dụng thay đổi.",
-  "bedrockify.options.reachAround.pitch": "Góc nghiêng tối thiểu:",
-  "bedrockify.options.reachAround.distance": "Khoảng cách tối đa từ viền khối:",
   "bedrockify.options.chatStyle": "Kiểu Chat:",
   "bedrockify.options.chatStyle.bedrock": "Bedrock",
   "bedrockify.options.chatStyle.vanilla": "Java",

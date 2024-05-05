@@ -53,8 +53,6 @@
   "bedrockify.options.pickupAnimations": "Animación de objetos en Hotbar:",
   "bedrockify.options.pickupAnimations.tooltip": "Habilita las animaciones de la edición bedrock mostradas en la barra de objetos cuando recoges, usas o dañas objetos.",
   "bedrockify.options.loadingScreen": "Usar pantallas de carga de la edición Bedrock:",
-  "bedrockify.options.reachAround.pitch": "Ángulo de inclinación mínimo:",
-  "bedrockify.options.reachAround.distance": "Distancia máxima desde el borde del bloque:",
   "bedrockify.options.inventoryHighlight.color1": "Color de fondo de resalto de slot:",
   "bedrockify.options.inventoryHighlight.color2": "Color principal de resalto de slot:",
   "bedrockify.options.expTextStyle": "Estilo de texto de experiencia:",

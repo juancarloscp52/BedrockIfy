@@ -27,8 +27,6 @@
   "bedrockify.options.reachAround.multiplayer": "Alcance Multiplayer:",
   "bedrockify.options.recipes": "Use Receitas de Criação de Bedrock:",
   "bedrockify.options.recipes.tooltip": "Deve reabrir o mundo para aplicar as mudanças.",
-  "bedrockify.options.reachAround.pitch": "Angulo minimo de inclinação:",
-  "bedrockify.options.reachAround.distance": "Distância máxima da borda do bloco:",
   "bedrockify.options.chatStyle": "Estilo do Chat:",
   "bedrockify.options.chatStyle.bedrock": "Bedrock",
   "bedrockify.options.chatStyle.vanilla": "Java",

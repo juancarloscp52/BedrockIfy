@@ -27,8 +27,6 @@
   "bedrockify.options.reachAround.multiplayer": "Çoklu Oyuncuda Öne Blok Koyma:",
   "bedrockify.options.recipes": "Bedrock Üretim Tariflerini Kullan:",
   "bedrockify.options.recipes.tooltip": "Değişikliklerin uygulanması için dünyaya yeniden girilmeli.",
-  "bedrockify.options.reachAround.pitch": "Minimum Eğim Açısı:",
-  "bedrockify.options.reachAround.distance": "Blok Sınırından Maksimum Mesafe:",
   "bedrockify.options.chatStyle": "Sohbet Stili:",
   "bedrockify.options.chatStyle.bedrock": "Bedrock",
   "bedrockify.options.chatStyle.vanilla": "Java",

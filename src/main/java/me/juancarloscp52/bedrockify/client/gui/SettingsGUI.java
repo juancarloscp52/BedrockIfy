@@ -54,12 +54,10 @@ public class SettingsGUI {
             reachAround.add(entryBuilder.startTextDescription(Text.translatable("bedrockify.options.subCategory.Reach-Around.description")).build());
             reachAround.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.reachAround"), settingsClient.reacharound).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.reacharound=newValue).build());
             reachAround.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.reachAround.multiplayer"), settingsClient.reacharoundMultiplayer).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.reacharoundMultiplayer=newValue).build());
-            reachAround.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.reachAround.sneaking"), settingsClient.reacharoundSneaking).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.reacharoundSneaking=newValue).build());
-            reachAround.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.reachAround.indicator"), settingsClient.reacharoundIndicator).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.reacharoundIndicator=newValue).build());
-            reachAround.add(entryBuilder.startIntSlider(Text.translatable("bedrockify.options.reachAround.pitch"), settingsClient.reacharoundPitchAngle, 0,90).setDefaultValue(25).setSaveConsumer(newValue -> settingsClient.reacharoundPitchAngle=newValue).build());
-            reachAround.add(entryBuilder.startIntSlider(Text.translatable("bedrockify.options.reachAround.distance"), MathHelper.floor(settingsClient.reacharoundBlockDistance*100), 0,100).setTextGetter((integer -> Text.literal(String.valueOf(integer/100d)))).setDefaultValue(75).setSaveConsumer(newValue -> settingsClient.reacharoundBlockDistance=newValue/100d).build());
+            reachAround.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.reachAround.sneaking"), settingsClient.reacharoundSneaking).setDefaultValue(false).setSaveConsumer(newValue -> settingsClient.reacharoundSneaking=newValue).build());
+            reachAround.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.reachAround.indicator"), settingsClient.reacharoundIndicator).setDefaultValue(false).setSaveConsumer(newValue -> settingsClient.reacharoundIndicator=newValue).build());
             gameplay.addEntry(reachAround.build());
-
+        
             // Dying and Fallen Trees.
             gameplay.addEntry(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.dyingTrees"), settingsCommon.dyingTrees).setDefaultValue(true).setSaveConsumer(newValue -> settingsCommon.dyingTrees=newValue).build());
             gameplay.addEntry(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.fallenTrees"), settingsCommon.fallenTrees).setDefaultValue(true).setSaveConsumer(newValue -> settingsCommon.fallenTrees=newValue).build());
