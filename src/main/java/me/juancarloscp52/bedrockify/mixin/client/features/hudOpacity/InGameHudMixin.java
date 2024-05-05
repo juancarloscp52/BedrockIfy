@@ -30,7 +30,7 @@ public class InGameHudMixin {
         RenderSystem.setShaderColor(1,1,1,BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false));
     }
 
-    @Inject(method = "render", at=@At(value = "HEAD"/*,target = "Lcom/mojang/blaze3d/systems/RenderSystem;enableDepthTest(V)V"*/))
+    @Inject(method = "render", at=@At("HEAD"))
     public void setShaderColorOpacity2(DrawContext context, float tickDelta, CallbackInfo ci){
         RenderSystem.setShaderColor(1,1,1,BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false));
     }
