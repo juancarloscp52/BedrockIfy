@@ -153,7 +153,7 @@ public abstract class ChatHudMixin {
 
         final int topY = this.bedrockify$calcChatHudTopOffset();
         final int lines = Math.min(this.getVisibleLineCount(), this.visibleMessages.size() - this.scrolledLines) + 1;
-        final double position = topY + lines * this.getLineHeight() - mouseY-6;
+        final double position = topY + lines * this.getLineHeight() - mouseY-1;
         cir.setReturnValue(position / (this.getChatScale() * this.getLineHeight()));
     }
 
