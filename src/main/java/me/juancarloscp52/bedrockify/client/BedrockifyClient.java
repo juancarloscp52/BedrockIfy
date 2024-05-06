@@ -12,6 +12,8 @@ import me.juancarloscp52.bedrockify.client.features.sheepColors.SheepSkinResourc
 import me.juancarloscp52.bedrockify.client.features.worldColorNoise.WorldColorNoiseSampler;
 import me.juancarloscp52.bedrockify.client.gui.Overlay;
 import me.juancarloscp52.bedrockify.client.gui.SettingsGUI;
+import me.juancarloscp52.bedrockify.common.payloads.CauldronParticlePayload;
+import me.juancarloscp52.bedrockify.common.payloads.EatParticlePayload;
 import me.juancarloscp52.bedrockify.common.block.cauldron.BedrockCauldronBehavior;
 import me.juancarloscp52.bedrockify.common.block.entity.WaterCauldronBlockEntity;
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronBlocks;
@@ -28,14 +30,8 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.packet.c2s.play.ClientCommandC2SPacket;
-import net.minecraft.particle.ItemStackParticleEffect;
-import net.minecraft.particle.ParticleEffect;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.registry.Registries;
 import net.minecraft.resource.ResourceType;
-import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
@@ -106,38 +102,9 @@ public class BedrockifyClient implements ClientModInitializer {
         }
 
 
-        ClientPlayNetworking.registerGlobalReceiver(Bedrockify.EAT_PARTICLES, (client, handler, buf, responseSender) -> {
-            ItemStack stack = buf.readItemStack();
-            double x = buf.readDouble();
-            double y = buf.readDouble();
-            double z = buf.readDouble();
-            double velx = buf.readDouble();
-            double vely = buf.readDouble();
-            double velz = buf.readDouble();
+        ClientPlayNetworking.registerGlobalReceiver(Bedrockify.EAT_PARTICLE_PAYLOAD.getId(), new EatParticlePayload.EatParticleHandler());
 
-            client.execute(() -> {
-                if(null != client.world)
-                    client.world.addParticle(new ItemStackParticleEffect(ParticleTypes.ITEM, stack),x,y,z,velx,vely,velz);
-            });
-        });
-
-        ClientPlayNetworking.registerGlobalReceiver(Bedrockify.CAULDRON_ACTION_PARTICLES, (client, handler, buf, responseSender) -> {
-            final Identifier particleId = buf.readIdentifier();
-            final double x = buf.readDouble();
-            final double y = buf.readDouble();
-            final double z = buf.readDouble();
-            final double vx = buf.readDouble();
-            final double vy = buf.readDouble();
-            final double vz = buf.readDouble();
-            if (!(Registries.PARTICLE_TYPE.get(particleId) instanceof final ParticleEffect particle)) {
-                return;
-            }
-            client.send(() -> {
-                if (client.world != null) {
-                    client.world.addParticle(particle, x, y, z, vx, vy, vz);
-                }
-            });
-        });
+        ClientPlayNetworking.registerGlobalReceiver(Bedrockify.CAULDRON_PARTICLE_PAYLOAD.getId(), new CauldronParticlePayload.CauldronParticleHandler());
 
         HudRenderCallback.EVENT.register((drawContext, tickDelta) -> BedrockifyClient.getInstance().overlay.renderOverlay(drawContext));
         ClientTickEvents.END_CLIENT_TICK.register(client-> {

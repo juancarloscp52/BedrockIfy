@@ -84,14 +84,14 @@ public abstract class ChatHudMixin {
      * Use bedrock-like chat if enabled.
      */
     @Inject(method = "render", at = @At("HEAD"))
-    private void bedrockify$gatherInfo(DrawContext drawContext, int ticks, int mouseX, int mouseY, CallbackInfo ci) {
+    private void bedrockify$gatherInfo(DrawContext context, int currentTick, int mouseX, int mouseY, boolean focused, CallbackInfo ci) {
         if (!settings.isBedrockChatEnabled() || client.inGameHud.getDebugHud().shouldShowDebugHud()) {
             return;
         }
 
         int notifications = 0;
         for (ChatHudLine.Visible line : this.visibleMessages) {
-            if (ticks - line.addedTime() < 200) {
+            if (currentTick - line.addedTime() < 200) {
                 ++notifications;
             }
         }

@@ -1,6 +1,6 @@
 package me.juancarloscp52.bedrockify.common.features.worldGeneration;
 
-import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.VineBlock;
@@ -13,7 +13,7 @@ import net.minecraft.world.gen.treedecorator.TreeDecoratorType;
 public class FullTrunkVineTreeDecorator extends TreeDecorator {
     public static final FullTrunkVineTreeDecorator INSTANCE = new FullTrunkVineTreeDecorator();
 
-    public static final Codec<FullTrunkVineTreeDecorator> CODEC = Codec.unit(() -> INSTANCE);
+    public static final MapCodec<FullTrunkVineTreeDecorator> CODEC = MapCodec.unit(() -> INSTANCE);
 
     protected TreeDecoratorType<?> getType() {
         return DyingTrees.VINE_DECORATOR;

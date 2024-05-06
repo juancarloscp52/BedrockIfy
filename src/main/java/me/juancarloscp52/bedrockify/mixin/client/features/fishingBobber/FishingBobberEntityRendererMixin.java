@@ -12,8 +12,6 @@ import net.minecraft.client.render.entity.EntityRendererFactory;
 import net.minecraft.client.render.entity.FishingBobberEntityRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.projectile.FishingBobberEntity;
-import org.joml.Matrix3f;
-import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -30,7 +28,7 @@ public abstract class FishingBobberEntityRendererMixin extends EntityRenderer<Fi
     }
 
     @Inject(method = "vertex", at = @At("HEAD"), cancellable = true)
-    private static void bedrockify$cancelOriginalBobberRendering(VertexConsumer buffer, Matrix4f matrix, Matrix3f normalMatrix, int light, float x, int y, int u, int v, CallbackInfo ci) {
+    private static void bedrockify$cancelOriginalBobberRendering(VertexConsumer buffer, MatrixStack.Entry matrix, int light, float x, int y, int u, int v, CallbackInfo ci) {
         if (!BedrockifyClient.getInstance().settings.fishingBobber3D) {
             return;
         }

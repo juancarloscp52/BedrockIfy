@@ -5,7 +5,6 @@ import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockSunGla
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.WorldRenderer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Final;
@@ -26,7 +25,7 @@ public abstract class WorldRendererMixin {
     @Unique
     private float sunRadiusDelta = 1f;
     @Unique
-    private static final String RENDER_SKY_METHOD_SIGNATURE = "renderSky(Lnet/minecraft/client/util/math/MatrixStack;Lorg/joml/Matrix4f;FLnet/minecraft/client/render/Camera;ZLjava/lang/Runnable;)V";
+    private static final String RENDER_SKY_METHOD_SIGNATURE = "renderSky(Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;FLnet/minecraft/client/render/Camera;ZLjava/lang/Runnable;)V";
 
     /**
      * Inject and Observe the reload event to be compatible with Iris shaders.
@@ -40,7 +39,7 @@ public abstract class WorldRendererMixin {
      * Calculate the angle difference between Camera and Sun, and Store the delta including the rain factor.
      */
     @Inject(method = RENDER_SKY_METHOD_SIGNATURE, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;getSkyColor(Lnet/minecraft/util/math/Vec3d;F)Lnet/minecraft/util/math/Vec3d;"))
-    private void bedrockify$updateSunAngleDiff(MatrixStack matrices, Matrix4f projectionMatrix, float tickDelta, Camera camera, boolean bl, Runnable runnable, CallbackInfo ci) {
+    private void bedrockify$updateSunAngleDiff(Matrix4f matrices, Matrix4f projectionMatrix, float tickDelta, Camera camera, boolean bl, Runnable runnable, CallbackInfo ci) {
         if (this.client.world == null) {
             return;
         }

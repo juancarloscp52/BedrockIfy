@@ -77,6 +77,7 @@ public class BedrockIfyWorldGenBootstrap {
     static void placedFeatures(Registerable<PlacedFeature> registry){
         RegistryEntryLookup<ConfiguredFeature<?,?>> configuredFeatureLookup = registry.getRegistryLookup(RegistryKeys.CONFIGURED_FEATURE);
         initializeTreePlacedFeatures(configuredFeatureLookup);
+
         registry.register(DyingTrees.DYING_BIRCH_TREE_PF,PLACED_DYING_BIRCH_TREE);
         registry.register(DyingTrees.DYING_OAK_TREE_PF,PLACED_DYING_OAK_TREE);
         registry.register(DyingTrees.DYING_OAK_TREE_PLAINS_PF,PLACED_DYING_OAK_TREE_PLAINS);

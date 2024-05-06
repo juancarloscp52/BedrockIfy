@@ -27,6 +27,7 @@
     "client.features.loadingScreens.ConnectScreenMixin",
     "client.features.loadingScreens.DisconnectedScreenMixin",
     "client.features.loadingScreens.DownloadingTerrainScreenMixin",
+    "client.features.loadingScreens.ExtendScreenMixin",
     "client.features.loadingScreens.LevelLoadingScreenMixin",
     "client.features.loadingScreens.ProgressScreenMixin",
     "client.features.loadingScreens.SaveLevelScreenMixin",
