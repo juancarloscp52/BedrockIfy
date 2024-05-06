@@ -46,7 +46,6 @@
   "bedrockify.options.quickArmorSwap":"加载快速盔甲切换:",
   "bedrockify.options.biggerItems": "拖动时物品更大：",
   "bedrockify.options.dyingTrees": "启用垂死的/掉落的树木：",
-  "bedrockify.options.sneakingShield": "潜行时使用盾牌：",
   "bedrockify.options.mixins.description": "在此类别中，你可以为特定的特性启用、禁用mixin。禁用mixin会禁用有关的特性。禁用mixin可以提高与其他模组的兼容性。\n§4请不要更改这些设置，除非你知道你在做什么！",
   "bedrockify.loadingTips.1":"用海草来吸引和喂养海龟。",
   "bedrockify.loadingTips.2":"保护小海龟免受有敌意生物的伤害！",

@@ -46,7 +46,6 @@
   "bedrockify.options.quickArmorSwap":"Activer l'échange d'armure rapide:",
   "bedrockify.options.biggerItems": "Objets plus gros en faisant glisser:",
   "bedrockify.options.dyingTrees": "Activer les arbres mourants/tombés:",
-  "bedrockify.options.sneakingShield": "Utiliser le bouclier en se faufilant:",
   "bedrockify.options.mixins.description": "Dans cette catégorie, vous pouvez activer/désactiver les mixins pour certaines fonctionnalités. La désactivation des mixins désactivera également leurs fonctionnalités associées. Les mixins peuvent être désactivés afin d'améliorer la compatibilité avec d'autres mods.\n§4Veuillez ne pas modifier ces paramètres à moins que vous ne sachiez ce que vous faites !",
   "bedrockify.loadingTips.1":"Utilisez l'herbe marine pour attirer et élever des tortues de mer.",
   "bedrockify.loadingTips.2":"Protégez les bébés tortues des créatures hostiles!",

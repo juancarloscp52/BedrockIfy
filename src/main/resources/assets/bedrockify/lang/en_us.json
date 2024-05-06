@@ -67,7 +67,6 @@
   "bedrockify.options.dyingTrees": "Enable Dying Trees:",
   "bedrockify.options.fallenTrees": "Enable Fallen Trees:",
   "bedrockify.options.fernBonemeal": "Enable fern bonemeal generation:",
-  "bedrockify.options.sneakingShield": "Use Shield While Sneaking:",
   "bedrockify.options.bedrockShading": "Use Bedrock Shading:",
   "bedrockify.options.bedrockShading.tooltip": "This includes the feature of Light Block Shading, Sunlight Glare and Sky Color Attenuation.",
   "bedrockify.options.sunlightIntensity": "Sunlight Intensity:",

@@ -56,7 +56,6 @@
   "bedrockify.options.dyingTrees": "Генерация мёртвых деревьев:",
   "bedrockify.options.fallenTrees": "Генерация упавших деревьев:",
   "bedrockify.options.fernBonemeal": "Выращивание папоротника используя костную муку:",
-  "bedrockify.options.sneakingShield": "Использовать щит в присяде:",
   "bedrockify.options.bedrockShading": "Использовать освещение из Bedrock:",
   "bedrockify.options.bedrockShading.tooltip": "Это включает в себя затенение световых блоков, солнечного света и затухание цвета неба.",
   "bedrockify.options.sunlightIntensity": "Интенсивность солнечного света:",

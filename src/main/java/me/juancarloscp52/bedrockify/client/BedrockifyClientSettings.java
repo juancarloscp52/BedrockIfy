@@ -47,7 +47,6 @@ public class BedrockifyClientSettings {
     public boolean bedrockToolbar = true;
     public int hudOpacity = 50;
     public boolean biggerIcons = true;
-    public boolean sneakingShield = true;
     public boolean bedrockShading = true;
     public boolean disableFlyingMomentum = true;
     public boolean elytraStop = true;
@@ -60,11 +59,6 @@ public class BedrockifyClientSettings {
     public boolean isPickupAnimationsEnabled() {
         return pickupAnimations;
     }
-
-    public boolean isSneakingShieldEnabled() {
-        return this.sneakingShield;
-    }
-
 
     public boolean isBiggerIconsEnabled() {
         return biggerIcons;

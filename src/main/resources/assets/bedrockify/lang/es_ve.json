@@ -63,7 +63,6 @@
   "bedrockify.options.dyingTrees": "Arboles muertos:",
   "bedrockify.options.fallenTrees": "Arboles caidos:",
   "bedrockify.options.fernBonemeal": "Permitir polvo de huesos en helechos:",
-  "bedrockify.options.sneakingShield": "Activar escudo al agacharse:",
   "bedrockify.options.bedrockShading": "Usar sombreado de edición Bedrock:",
   "bedrockify.options.bedrockShading.tooltip": "Incluido sombreado de bloques luminosos y atenuación de brillo solar.",
   "bedrockify.options.sunlightIntensity": "Intensidad de atenuación:",

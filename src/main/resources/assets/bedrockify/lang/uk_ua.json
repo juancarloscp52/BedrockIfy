@@ -49,7 +49,6 @@
   "bedrockify.options.dyingTrees": "Увімкнути помираючі дерева",
   "bedrockify.options.fallenTrees": "Увімкнути впалі дерева",
   "bedrockify.options.fernBonemeal": "Генерація папороті за допомогою кісткового борошна",
-  "bedrockify.options.sneakingShield": "Використовувати щит крадькома",
   "bedrockify.options.bedrockShading": "Використовувати освітлення Bedrock Edition",
   "bedrockify.options.fireAspectLight": "Використовувати Силу вогню для підпалення",
   "bedrockify.options.fireAspectLight.tooltip": "Натискання ПКМ на такі блоки, як свічки та динаміт, за допомогою інструмента, зачарованого на Силу вогню, підпалюватиме ці блоки.",

@@ -57,7 +57,6 @@
   "bedrockify.options.dyingTrees": "Aktiviere sterbene Bäume:",
   "bedrockify.options.fallenTrees": "Aktiviere fallende Bäume:",
   "bedrockify.options.fernBonemeal": "Aktiviere Erzeugung von Farnknochenmehl:",
-  "bedrockify.options.sneakingShield": "Benutze Schutzschild beim Schleichen:",
   "bedrockify.options.bedrockShading": "Benutze Bedrock Schattierung:",
   "bedrockify.options.bedrockShading.tooltip": "Dazu gehören die Funktionen Lichtschutz, Blendung durch Sonnenlicht und Dämpfung der Himmelsfarbe.",
   "bedrockify.options.sunlightIntensity": "Intensität des Sonnenlichts:",
