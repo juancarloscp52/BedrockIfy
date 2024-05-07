@@ -1,0 +1,129 @@
+
+name: Publish BedrockIfy to CurseForge and Modrinth
+
+on:
+  workflow_dispatch:
+    inputs:
+      curseforge:
+        description: 'Publish to Curseforge'
+        default: true
+        type: boolean
+      modrinth:
+        description: 'Publish to Modrinth'
+        default: true
+        type: boolean
+      github:
+        description: 'Publish to GitHub'
+        default: true
+        type: boolean
+      minecraftVersion:
+        description: 'Minecraft Version. Ex: [1.20.2,1.21)'
+        default: '[1.20.6,1.21]'
+        required: true
+      javaVersion:
+        description: 'Publish java version'
+        required: true
+        default: 21
+        type: number
+      modVersion:
+        required: true
+        default: '1.9.2+mc1.20.6'
+        description: 'Mod version string. Ex: 1.9.2+mc1.20.6'
+        type: string
+      releaseName:
+        required: true
+        default: '[1.20.6] Bedrockify 1.9.2'
+        description: 'Mod publish name. Ex: [1.20.6] Bedrockify 1.9.2'
+        type: string
+
+env:
+  MINECRAFT_VERSION: ${{ inputs.minecraftVersion }}
+  JAVA_VERSION: ${{ inputs.javaVersion }}
+  VERSION: ${{ inputs.modVersion }}
+  RELEASE_NAME: ${{ inputs.releaseName }}
+  MODRINTH_TOKEN: ${{ secrets.PUBLISH_MODRINTH_TOKEN }}
+  CURSEFORGE_TOKEN: ${{ secrets.PUBLISH_CURSEFORGE_TOKEN }}
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Environment Variables
+        run: env
+
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: "temurin"
+          java-version: "${{env.JAVA_VERSION}}"
+
+      - name: Make Gradle Wrapper Executable
+        if: ${{ runner.os != 'Windows' }}
+        run: chmod +x ./gradlew
+
+      - name: Build
+        run: ./gradlew clean build
+
+      - name: Publish (CurseForge)
+        if: ${{ inputs.curseforge }}
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          curseforge-id: 403858
+          curseforge-token: "${{env.CURSEFORGE_TOKEN}}"
+
+          name: "${{env.RELEASE_NAME}}"
+          version: "${{env.VERSION}}"
+          version-type: release
+          changelog-file: changelog.md
+          dependencies: |
+            fabric-api(required)
+
+          loaders: "fabric"
+          game-versions: "${{env.MINECRAFT_VERSION}}"
+          java: "${{env.JAVA_VERSION}}"
+
+      - name: Publish (Modrinth)
+        if: ${{ inputs.modrinth }}
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+          modrinth-id: ox3rDp1B
+          modrinth-token: "${{env.MODRINTH_TOKEN}}"
+          modrinth-featured: true
+
+          name: "${{env.RELEASE_NAME}}"
+          version: "${{env.VERSION}}"
+          version-type: release
+          changelog-file: changelog.md
+          dependencies: |
+            fabric-api(required)
+
+          loaders: "$fabric"
+          game-versions: "${{env.MINECRAFT_VERSION}}"
+          java: "${{env.JAVA_VERSION}}"
+
+      - name: Publish (Github)
+        if: ${{ inputs.github }}
+        uses: Kir-Antipov/mc-publish@v3.3
+        with:
+
+          github-token: "${{secrets.PUBLISH_GITHUB_TOKEN}}"
+          github-tag: "${{env.VERSION}}"
+
+          name: "${{env.RELEASE_NAME}}"
+          version: "${{env.VERSION}}"
+          version-type: release
+          changelog-file: changelog.md
+          dependencies: |
+            fabric-api(required)
+
+          loaders: "$fabric"
+          game-versions: "${{env.MINECRAFT_VERSION}}"
+          java: "${{env.JAVA_VERSION}}"

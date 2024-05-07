@@ -1,0 +1,16 @@
+## [1.9.2] - 2024-05-07
+
+Available versions:
+-   Fabric: 1.20.6+
+
+### Changed
+
+-   1.20.6 Port by @lonefelidae16.
+-   Reach around block placement has been reworked and now uses ray-casting in order to be more accurate and close to Bedrock Edition implementation. (@axialeaa)
+-   Removed fastload compatibility since the mod is no longer maintained to current versions.
+-   Panorama-Screens is no longer bundled with bedrockIfy since its main functionality has been implemented in game by mojang.
+
+### Fixed
+
+-   Fixed IdleHandAnimations animation being accelerated when holding items in both hands. (@lonefelidae16)
+-   Fixed small bedrock chat mouse hover offset.
