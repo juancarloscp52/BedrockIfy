@@ -1,3 +1,12 @@
+## [1.9.3] - 2024-05-08
+
+Available versions:
+-   Fabric: 1.20.6+
+
+### Fixed
+
+-   Fixed #339 - Armor bars not rendering correctly with screen safe area enabled
+
 ## [1.9.2] - 2024-05-07
 
 Available versions:
