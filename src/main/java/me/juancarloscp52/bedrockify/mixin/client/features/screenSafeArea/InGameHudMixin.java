@@ -131,7 +131,13 @@ public abstract class InGameHudMixin {
     private int modifyTextureStatusBarsHearts(int y){
         return y-screenBorder;
     }
-
+    /**
+     * Apply screen border offset to armor bars.
+     */
+    @ModifyArg(method = "renderStatusBars", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/hud/InGameHud;renderArmor(Lnet/minecraft/client/gui/DrawContext;Lnet/minecraft/entity/player/PlayerEntity;IIII)V"), index = 2)
+    private int modifyTextureStatusBarsArmor(int i){
+        return i-screenBorder;
+    }
     /**
      * Apply screen border offset to food bars.
      */
