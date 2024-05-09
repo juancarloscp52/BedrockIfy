@@ -27,7 +27,7 @@ public class HeldItemRendererMixin {
         if (MinecraftClient.getInstance().isPaused()) {
             return;
         }
-        timer += tickDelta * 0.05f;
+        timer += BedrockifyClient.getInstance().deltaTime * 0.000000002f;
         if (timer > ONE_CYCLE) {
             // Prevents float overflow
             timer = (float) MathHelper.floorMod(timer, ONE_CYCLE);
