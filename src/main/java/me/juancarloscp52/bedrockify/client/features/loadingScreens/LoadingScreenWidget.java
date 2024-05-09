@@ -19,7 +19,7 @@ import java.util.Random;
 public class LoadingScreenWidget {
 
     private static LoadingScreenWidget instance = null;
-    private static final int TIPS_NUM = 62;
+    private static final int TIPS_NUM = 107;
     private final Identifier WIDGET_TEXTURE = new Identifier("bedrockify", "textures/gui/bedrockify_widgets.png");
     private Text tip;
     private static final List<Integer> EXCLUDED_TIPS = Lists.asList(15,new Integer[]{23,28,29,32,33,34,35,62});
@@ -54,7 +54,7 @@ public class LoadingScreenWidget {
             }else{
                 if(EXCLUDED_TIPS.contains(random))
                     return getTip();
-                tip = Text.translatable("bedrockify.loadingTips." + random);//Text.literal(tipTextSupplier.getRandomTip());
+                tip = Text.translatable("bedrockify.loadingTips." + random);
             }
             lastTipUpdate = System.currentTimeMillis();
         }
