@@ -1,3 +1,16 @@
+## [1.9.4] - 2024-05-08
+
+Available versions:
+-   Fabric: 1.20.6+
+
+### Changed
+
+-   Updated loading tooltips for most languages.
+
+### Fixed
+
+-   Fixed #342 - Idle hand animation speed no longer bound to framerate
+
 ## [1.9.3] - 2024-05-08
 
 Available versions:
