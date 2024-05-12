@@ -50,6 +50,7 @@
     "common.features.animalEatingParticles.WolfEntityMixin",
     "common.features.cauldron.ArmorDyeRecipeMixin",
     "common.features.cauldron.CauldronBehaviorMixin",
+    "common.workaround.cauldron.TagGroupLoaderMixin",
     "common.features.fernBonemeal.GrassBlockMixin",
     "common.features.fertilizableBlocks.FlowerBlockMixin",
     "common.features.fertilizableBlocks.SugarCaneBlockMixin",

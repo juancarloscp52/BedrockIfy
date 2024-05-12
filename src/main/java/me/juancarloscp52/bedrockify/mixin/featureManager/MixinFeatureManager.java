@@ -14,6 +14,8 @@ import java.util.Map;
 
 public class MixinFeatureManager {
 
+    public static final String FEAT_CAULDRON = "common.features.cauldron";
+
     public static Map<String, Boolean> features = new HashMap<>();
     static {
         features.put("client.core.clientRenderTimer", true);
@@ -39,7 +41,7 @@ public class MixinFeatureManager {
         features.put("common.features.fireAspect", true);
         features.put("common.features.fertilizableBlocks", true);
         features.put("common.features.animalEatingParticles", true);
-        features.put("common.features.cauldron", true);
+        features.put(FEAT_CAULDRON, true);
         features.put("common.features.fernBonemeal", true);
         features.put("client.features.hudOpacity", true);
         features.put("client.features.editionBranding", true);
@@ -50,7 +52,7 @@ public class MixinFeatureManager {
         mixin = mixin.replace("me.juancarloscp52.bedrockify.mixin.","");
         String [] split = mixin.split("\\.");
         mixin = mixin.replace("."+split[split.length-1],"");
-        if(mixin.contains("worldGeneration")){
+        if(mixin.contains("worldGeneration") || mixin.contains("workaround")){
             return true;
         }
         return features.get(mixin);
