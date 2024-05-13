@@ -27,7 +27,7 @@ public final class BedrockSunGlareShading {
      * See also the unittest package <code>me.juancarloscp52.bedrockify.test.client.features.bedrockShading.sunGlare</code>.
      */
     private static final Map<String, ClassMethodHolder> MOD_ID_CLASS_MAP = Util.make(Maps.newHashMap(), (map) -> {
-        map.put("iris", new ClassMethodHolder("net.coderbot.iris.Iris", "getCurrentPack", new Object[0], (pack) -> {
+        map.put("iris", new ClassMethodHolder("net.irisshaders.iris.Iris", "getCurrentPack", new Object[0], (pack) -> {
             return ((Optional<?>) pack).isPresent();
         }));
     });
