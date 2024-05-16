@@ -1,3 +1,17 @@
+## [1.9.5] - 2024-05-16
+
+Available versions:
+-   Fabric: 1.20.6+
+
+### Changed
+
+-   Remove Cauldrons when mixin is disabled to allow compatibility with local multiplayer where conencting clients dont use bedrockify (by lonefelidae16)
+-   Third person eating animation is now more accurate to bedrock edition (by MidyGamy)
+
+### Fixed
+
+-   Fixed sun glare compatibility with Iris while shaders are disabled. (By lonefelidae16)
+
 ## [1.9.4] - 2024-05-08
 
 Available versions:
