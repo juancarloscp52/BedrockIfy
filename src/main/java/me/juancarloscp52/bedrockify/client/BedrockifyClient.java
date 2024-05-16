@@ -12,11 +12,12 @@ import me.juancarloscp52.bedrockify.client.features.sheepColors.SheepSkinResourc
 import me.juancarloscp52.bedrockify.client.features.worldColorNoise.WorldColorNoiseSampler;
 import me.juancarloscp52.bedrockify.client.gui.Overlay;
 import me.juancarloscp52.bedrockify.client.gui.SettingsGUI;
-import me.juancarloscp52.bedrockify.common.payloads.CauldronParticlePayload;
-import me.juancarloscp52.bedrockify.common.payloads.EatParticlePayload;
 import me.juancarloscp52.bedrockify.common.block.cauldron.BedrockCauldronBehavior;
 import me.juancarloscp52.bedrockify.common.block.entity.WaterCauldronBlockEntity;
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronBlocks;
+import me.juancarloscp52.bedrockify.common.payloads.CauldronParticlePayload;
+import me.juancarloscp52.bedrockify.common.payloads.EatParticlePayload;
+import me.juancarloscp52.bedrockify.mixin.featureManager.MixinFeatureManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -81,20 +82,22 @@ public class BedrockifyClient implements ClientModInitializer {
         // Register 3D Bobber Entity.
         EntityModelLayerRegistry.registerModelLayer(FishingBobber3DModel.MODEL_LAYER, FishingBobber3DModel::generateModel);
 
-        // Register the Color Tint of Potion-filled and Colored Cauldron Block.
-        ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
-            if (world == null || pos == null) {
-                return -1;
-            }
+        // Register the Color Tint of Potion-filled and Colored Cauldron Block if enabled.
+        if (MixinFeatureManager.features.get(MixinFeatureManager.FEAT_CAULDRON)) {
+            ColorProviderRegistry.BLOCK.register((state, world, pos, tintIndex) -> {
+                if (world == null || pos == null) {
+                    return -1;
+                }
 
-            final Optional<WaterCauldronBlockEntity> entity = world.getBlockEntity(pos, BedrockCauldronBlocks.WATER_CAULDRON_ENTITY);
-            return entity.map(WaterCauldronBlockEntity::getTintColor).orElse(-1);
-        }, BedrockCauldronBlocks.POTION_CAULDRON, BedrockCauldronBlocks.COLORED_WATER_CAULDRON);
+                final Optional<WaterCauldronBlockEntity> entity = world.getBlockEntity(pos, BedrockCauldronBlocks.WATER_CAULDRON_ENTITY);
+                return entity.map(WaterCauldronBlockEntity::getTintColor).orElse(-1);
+            }, BedrockCauldronBlocks.POTION_CAULDRON, BedrockCauldronBlocks.COLORED_WATER_CAULDRON);
 
-        // Lazy initialization of Bedrock's cauldron behavior after all the registries are ready.
-        ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
-            BedrockCauldronBehavior.registerBehavior();
-        });
+            // Lazy initialization of Bedrock's cauldron behavior after all the registries are ready.
+            ClientLifecycleEvents.CLIENT_STARTED.register(client -> {
+                BedrockCauldronBehavior.registerBehavior();
+            });
+        }
 
         // Register sheared sheep texture dynamically.
         if (!FabricLoader.getInstance().isModLoaded("optifabric")) {

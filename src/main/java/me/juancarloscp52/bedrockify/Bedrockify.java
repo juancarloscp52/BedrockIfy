@@ -1,11 +1,12 @@
 package me.juancarloscp52.bedrockify;
 
 import com.google.gson.Gson;
-import me.juancarloscp52.bedrockify.common.payloads.CauldronParticlePayload;
-import me.juancarloscp52.bedrockify.common.payloads.EatParticlePayload;
 import me.juancarloscp52.bedrockify.common.block.cauldron.BedrockCauldronBehavior;
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronBlocks;
 import me.juancarloscp52.bedrockify.common.features.worldGeneration.DyingTrees;
+import me.juancarloscp52.bedrockify.common.payloads.CauldronParticlePayload;
+import me.juancarloscp52.bedrockify.common.payloads.EatParticlePayload;
+import me.juancarloscp52.bedrockify.mixin.featureManager.MixinFeatureManager;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
@@ -34,10 +35,12 @@ public class Bedrockify implements ModInitializer {
         loadSettings();
         instance = this;
         DyingTrees.registerTrees();
-        BedrockCauldronBlocks.register();
         PayloadTypeRegistry.playS2C().register(Bedrockify.EAT_PARTICLE_PAYLOAD.getId(), EatParticlePayload.CODEC);
         PayloadTypeRegistry.playS2C().register(Bedrockify.CAULDRON_PARTICLE_PAYLOAD.getId(), CauldronParticlePayload.CODEC);
-        ServerLifecycleEvents.SERVER_STARTED.register(server -> BedrockCauldronBehavior.registerBehavior());
+        if (MixinFeatureManager.features.get(MixinFeatureManager.FEAT_CAULDRON)) {
+            BedrockCauldronBlocks.register();
+            ServerLifecycleEvents.SERVER_STARTED.register(server -> BedrockCauldronBehavior.registerBehavior());
+        }
     }
 
     public void loadSettings() {
