@@ -23,7 +23,6 @@ public class PlayerEntityModelMixin <T extends LivingEntity> extends BipedEntity
     @Shadow @Final public ModelPart rightSleeve;
 
     @Shadow @Final public ModelPart leftSleeve;
-    float prevPitch = 0;
 
     public PlayerEntityModelMixin(ModelPart root) {
         super(root);
@@ -42,24 +41,37 @@ public class PlayerEntityModelMixin <T extends LivingEntity> extends BipedEntity
         }
     }
 
+    final float itemStartTime = 8f/20f; //in second
+    final float itemIntervalTime = 4f/20f; //in second
+
     private void playEatingAnimation(LivingEntity livingEntity, Hand hand, ItemStack itemStack, float ticks, boolean right){
-        if(isEatingWithHand(livingEntity,hand,itemStack)){
-            if(livingEntity.getItemUseTime() == 1){
-                prevPitch = 0;
-            }
-            prevPitch = MathHelper.lerp(0.15f, prevPitch, 1.5f);
-            if(right){
-                this.rightArm.pitch = -prevPitch + (MathHelper.cos(ticks*1.5f) *0.15f);
-                this.rightArm.yaw=-0.3f;
-                this.rightArm.roll = 0.32f;
-                this.rightSleeve.copyTransform(rightArm);
-            }else{
-                this.leftArm.pitch = -prevPitch + (MathHelper.cos(ticks*1.5f) *0.15f);
-                this.leftArm.yaw=0.3f;
-                this.leftArm.roll = 0.32f;
-                this.leftSleeve.copyTransform(rightArm);
-            }
+        if(!isEatingWithHand(livingEntity,hand,itemStack)){
+            return;
         }
+        float smoothingTicks = false ? (float) (ticks - Math.floor(ticks)) : 0; //if you want to add an option for spothing the anim, it's already here, just replace the false
+        float itemStartProgress = Math.min(livingEntity.getItemUseTime() + smoothingTicks, 20f*itemStartTime)/20f/itemStartTime;
+        float itemIntervalProgress = (livingEntity.getItemUseTime()/20f < itemStartTime) ? 0.0f : (((livingEntity.getItemUseTime() - (int) itemStartTime*20) % (int) (itemIntervalTime*20)) + smoothingTicks)*itemIntervalTime;
+        float animPitch = itemStartProgress * -degToMatAngle(60.0f) + itemIntervalProgress * degToMatAngle(11.25f);
+        float animYaw = itemStartProgress * -degToMatAngle(22.5f) + itemIntervalProgress * degToMatAngle(11.25f);
+        float animRoll = itemStartProgress * -degToMatAngle(5.625f) + itemIntervalProgress * degToMatAngle(11.25f);
+
+        if(right){
+            this.rightArm.pitch += animPitch;
+            this.rightArm.yaw += animYaw;
+            this.rightArm.roll += animRoll;
+            this.rightSleeve.copyTransform(rightArm);
+        }
+        else {
+            this.leftArm.pitch += animPitch;
+            this.leftArm.yaw -= animYaw;
+            this.leftArm.roll += animRoll;
+            this.leftSleeve.copyTransform(leftArm);
+        }
+    }
+
+    private float degToMatAngle(float angle)
+    {
+        return (float) 7.07*angle/360;
     }
 
     private boolean isEatingWithHand(LivingEntity livingEntity, Hand hand, ItemStack itemStack){
