@@ -15,7 +15,7 @@ import java.io.InputStream;
 public class SheepSkinResource implements SimpleSynchronousResourceReloadListener {
     public static Identifier TEXTURE_SHEARED = null;
 
-    private static final Identifier TEXTURE_SHEEP_SKIN = new Identifier("textures/entity/sheep/sheep.png");
+    private static final Identifier TEXTURE_SHEEP_SKIN = Identifier.of("textures/entity/sheep/sheep.png");
     /**
      * Specify the step to check texture resolution.<br>
      * The texture resolution is considered to be this multiple using {@link Math#ceil}.
@@ -24,7 +24,7 @@ public class SheepSkinResource implements SimpleSynchronousResourceReloadListene
 
     @Override
     public Identifier getFabricId() {
-        return new Identifier(Bedrockify.MOD_ID, "textures/entity/sheep_sheared");
+        return Identifier.of(Bedrockify.MOD_ID, "textures/entity/sheep_sheared");
     }
 
     /**

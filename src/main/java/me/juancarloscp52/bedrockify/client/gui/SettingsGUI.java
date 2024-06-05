@@ -15,7 +15,6 @@ import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
 
 import java.util.List;
 import java.util.Map;
@@ -33,7 +32,7 @@ public class SettingsGUI {
             MixinFeatureManager.saveMixinSettings();
         });
 
-        builder.setDefaultBackgroundTexture(new Identifier("minecraft:textures/block/bedrock.png"));
+        builder.setDefaultBackgroundTexture(Identifier.of("minecraft:textures/block/bedrock.png"));
         // Create Categories
         ConfigCategory gameplay = builder.getOrCreateCategory(Text.translatable("bedrockify.options.categories.gameplay"));
         ConfigCategory gui = builder.getOrCreateCategory(Text.translatable("bedrockify.options.categories.gui"));

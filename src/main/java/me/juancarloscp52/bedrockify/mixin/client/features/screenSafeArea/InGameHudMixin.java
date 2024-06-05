@@ -59,7 +59,7 @@ public abstract class InGameHudMixin {
     /**
      * Render the items in the Hotbar with the screen border distance.
      */
-    @ModifyArg(method = "renderHotbar", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/hud/InGameHud;renderHotbarItem(Lnet/minecraft/client/gui/DrawContext;IIFLnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/item/ItemStack;I)V"),index = 2)
+    @ModifyArg(method = "renderHotbar", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/hud/InGameHud;renderHotbarItem(Lnet/minecraft/client/gui/DrawContext;IILnet/minecraft/client/render/RenderTickCounter;Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/item/ItemStack;I)V"),index = 2)
     public int modifyHotbarItemPossition(int y){
         return y-screenBorder;
     }
@@ -159,7 +159,7 @@ public abstract class InGameHudMixin {
     }
 
     // Apply screen borders to Titles, subtitles and other messages.
-    @ModifyArg(method = "renderTitleAndSubtitle", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithShadow(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;III)I",ordinal = 0),index = 3)
+    @ModifyArg(method = "renderTitleAndSubtitle", at = @At(value = "INVOKE",target = "Lnet/minecraft/client/gui/DrawContext;drawTextWithBackground(Lnet/minecraft/client/font/TextRenderer;Lnet/minecraft/text/Text;IIII)I", ordinal = 0),index = 3)
     public int modifyOverlayMessage(int y){
         return y-screenBorder;
     }

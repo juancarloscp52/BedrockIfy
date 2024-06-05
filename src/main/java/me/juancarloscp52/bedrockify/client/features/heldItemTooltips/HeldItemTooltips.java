@@ -10,13 +10,13 @@ import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.Too
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.item.BundleTooltipData;
-import net.minecraft.client.item.TooltipType;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.*;
+import net.minecraft.item.tooltip.BundleTooltipData;
+import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -97,7 +97,8 @@ public class HeldItemTooltips {
         final List<Tooltip> result = Lists.newArrayList();
         //If the item is a enchanted book, retrieve the enchantments.
         if (item == Items.ENCHANTED_BOOK || currentStack.hasEnchantments()) {
-            EnchantmentHelper.getEnchantments(currentStack).getEnchantmentsMap().forEach(enchantment -> result.add(new EnchantmentTooltip(enchantment.getKey().value(), enchantment.getIntValue())));
+            var enchantmentsComponent = EnchantmentHelper.getEnchantments(currentStack);
+            enchantmentsComponent.getEnchantments().forEach(enchantment -> result.add(new EnchantmentTooltip(enchantment.value(), enchantmentsComponent.getLevel(enchantment))));
             //If the item has a potion effects, retrieve them.
         } else if (item instanceof PotionItem || item instanceof TippedArrowItem) {
             List<Text> generated = Lists.newArrayList();

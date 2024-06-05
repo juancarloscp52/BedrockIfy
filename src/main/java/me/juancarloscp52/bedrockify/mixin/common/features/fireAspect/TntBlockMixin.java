@@ -35,7 +35,7 @@ public abstract class TntBlockMixin {
         if(!Bedrockify.getInstance().settings.fireAspectLight)
             return;
         ItemStack itemStack = player.getStackInHand(hand);
-        if(null != itemStack && (itemStack.hasEnchantments() || itemStack.getItem() instanceof EnchantedBookItem) && EnchantmentHelper.getEnchantments(itemStack).getEnchantments().stream().anyMatch(e -> e.value() == Enchantments.FIRE_ASPECT)){
+        if(null != itemStack && (itemStack.hasEnchantments() || itemStack.getItem() instanceof EnchantedBookItem) && EnchantmentHelper.getEnchantments(itemStack).getEnchantments().stream().anyMatch(e -> e == Enchantments.FIRE_ASPECT)){
             primeTnt(world,pos);
             world.setBlockState(pos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL | Block.REDRAW_ON_MAIN_THREAD);
             itemStack.damage(1, player, LivingEntity.getSlotForHand(hand));

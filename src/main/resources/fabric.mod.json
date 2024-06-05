@@ -34,8 +34,8 @@
     "bedrockify.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.14.7",
-    "minecraft": "1.20.x",
+    "fabricloader": ">=0.15.7",
+    "minecraft": "1.21.x",
     "java":">=17"
   },
   "suggests": {

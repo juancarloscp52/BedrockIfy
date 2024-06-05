@@ -32,7 +32,7 @@ public class CampfireBlockMixin {
         if(!Bedrockify.getInstance().settings.fireAspectLight)
             return;
         ItemStack itemStack = player.getStackInHand(hand);
-        if(null != itemStack && (itemStack.hasEnchantments() || itemStack.getItem() instanceof EnchantedBookItem) && EnchantmentHelper.getEnchantments(itemStack).getEnchantments().stream().anyMatch(e -> e.value() == Enchantments.FIRE_ASPECT)){
+        if(null != itemStack && (itemStack.hasEnchantments() || itemStack.getItem() instanceof EnchantedBookItem) && EnchantmentHelper.getEnchantments(itemStack).getEnchantments().stream().anyMatch(e -> e == Enchantments.FIRE_ASPECT)){
             if(!CampfireBlock.isLitCampfire(state) && CampfireBlock.canBeLit(state)){
                 if(world.setBlockState(pos, state.with(Properties.LIT, true), Block.NOTIFY_ALL | Block.REDRAW_ON_MAIN_THREAD)){
                     itemStack.damage(1, player, LivingEntity.getSlotForHand(hand));

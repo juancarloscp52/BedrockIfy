@@ -9,14 +9,15 @@ import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.projectile.FishingBobberEntity;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.ColorHelper;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FishingBobber3DModel<T extends FishingBobberEntity> extends EntityModel<T> {
-    public static final EntityModelLayer MODEL_LAYER = new EntityModelLayer(new Identifier(Bedrockify.MOD_ID, "fishing_hook"), "main");
-    public static final Identifier TEXTURE = new Identifier(Bedrockify.MOD_ID, "textures/entity/fishing_hook.png");
+    public static final EntityModelLayer MODEL_LAYER = new EntityModelLayer(Identifier.of(Bedrockify.MOD_ID, "fishing_hook"), "main");
+    public static final Identifier TEXTURE = Identifier.of(Bedrockify.MOD_ID, "textures/entity/fishing_hook.png");
     public static final RenderLayer RENDER_LAYER = RenderLayer.getEntityTranslucent(TEXTURE);
 
     private static final String NAME_HEAD_X = "head_axis_x";
@@ -54,8 +55,8 @@ public class FishingBobber3DModel<T extends FishingBobberEntity> extends EntityM
     }
 
     @Override
-    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, float red, float green, float blue, float alpha) {
-        this.black.forEach(modelPart -> modelPart.render(matrices, vertices, light, overlay, 0f, 0f, 0f, alpha));
-        this.textured.forEach(modelPart -> modelPart.render(matrices, vertices, light, overlay, red, green, blue, alpha));
+    public void render(MatrixStack matrices, VertexConsumer vertices, int light, int overlay, int color) {
+        this.black.forEach(modelPart -> modelPart.render(matrices, vertices, light, overlay, ColorHelper.Argb.getArgb(ColorHelper.Argb.getAlpha(color),0,0,0)));
+        this.textured.forEach(modelPart -> modelPart.render(matrices, vertices, light, overlay, color));
     }
 }

@@ -20,9 +20,9 @@ public final class BedrockCauldronBlocks {
     public static final BlockEntityType<WaterCauldronBlockEntity> WATER_CAULDRON_ENTITY = FabricBlockEntityTypeBuilder.create(WaterCauldronBlockEntity::new, POTION_CAULDRON, COLORED_WATER_CAULDRON).build();
 
     public static void register() {
-        Registry.register(Registries.BLOCK, new Identifier(Bedrockify.MOD_ID, "potion_cauldron"), POTION_CAULDRON);
-        Registry.register(Registries.BLOCK, new Identifier(Bedrockify.MOD_ID, "colored_water_cauldron"), COLORED_WATER_CAULDRON);
+        Registry.register(Registries.BLOCK, Identifier.of(Bedrockify.MOD_ID, "potion_cauldron"), POTION_CAULDRON);
+        Registry.register(Registries.BLOCK, Identifier.of(Bedrockify.MOD_ID, "colored_water_cauldron"), COLORED_WATER_CAULDRON);
 
-        Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(Bedrockify.MOD_ID, "water_cauldron_entity"), WATER_CAULDRON_ENTITY);
+        Registry.register(Registries.BLOCK_ENTITY_TYPE, Identifier.of(Bedrockify.MOD_ID, "water_cauldron_entity"), WATER_CAULDRON_ENTITY);
     }
 }

@@ -10,7 +10,7 @@ import net.minecraft.util.math.MathHelper;
 
 public class SavingOverlay{
 
-    private final Identifier WIDGET_TEXTURE = new Identifier("bedrockify", "textures/gui/bedrockify_widgets.png");
+    private final Identifier WIDGET_TEXTURE = Identifier.of("bedrockify", "textures/gui/bedrockify_widgets.png");
     private boolean saving = false;
     private long timer=0;
     private float renderTimer=0;

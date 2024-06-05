@@ -1,12 +1,12 @@
 package me.juancarloscp52.bedrockify.common.block.cauldron;
 
 import me.juancarloscp52.bedrockify.Bedrockify;
-import me.juancarloscp52.bedrockify.common.payloads.CauldronParticlePayload;
 import me.juancarloscp52.bedrockify.common.block.ColoredWaterCauldronBlock;
 import me.juancarloscp52.bedrockify.common.block.PotionCauldronBlock;
 import me.juancarloscp52.bedrockify.common.block.entity.WaterCauldronBlockEntity;
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronBlocks;
 import me.juancarloscp52.bedrockify.common.features.cauldron.ColorBlenderHelper;
+import me.juancarloscp52.bedrockify.common.payloads.CauldronParticlePayload;
 import net.fabricmc.fabric.api.networking.v1.PlayerLookup;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.BlockState;

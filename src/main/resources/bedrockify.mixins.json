@@ -50,7 +50,6 @@
     "common.features.animalEatingParticles.WolfEntityMixin",
     "common.features.cauldron.ArmorDyeRecipeMixin",
     "common.features.cauldron.CauldronBehaviorMixin",
-    "common.workaround.cauldron.TagGroupLoaderMixin",
     "common.features.fernBonemeal.GrassBlockMixin",
     "common.features.fertilizableBlocks.FlowerBlockMixin",
     "common.features.fertilizableBlocks.SugarCaneBlockMixin",
@@ -63,7 +62,8 @@
     "common.features.recipes.FireworkStarRecipeMixin",
     "common.features.recipes.RecipeManagerMixin",
     "common.features.recipes.ShulkerBoxColoringRecipeMixin",
-    "common.features.worldGeneration.TreeConfiguredFeaturesInvoker"
+    "common.features.worldGeneration.TreeConfiguredFeaturesInvoker",
+    "common.workaround.cauldron.TagGroupLoaderMixin"
   ],
   "injectors": {
     "defaultRequire": 1

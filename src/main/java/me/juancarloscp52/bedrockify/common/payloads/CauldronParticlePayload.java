@@ -32,7 +32,7 @@ public final class CauldronParticlePayload extends AbstractVelocityParticlePaylo
 
     @Override
     public Id<CauldronParticlePayload> getId() {
-        return new Id<>(new Identifier(Bedrockify.MOD_ID, "cauldron_particles"));
+        return new Id<>(Identifier.of(Bedrockify.MOD_ID, "cauldron_particles"));
     }
 
     public void setParticleType(Identifier particleType) {

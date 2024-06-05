@@ -6,12 +6,12 @@ import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.common.features.recipes.DyeHelper;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FireworkExplosionComponent;
-import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.FireworkStarRecipe;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
@@ -36,8 +36,8 @@ public class FireworkStarRecipeMixin {
 
     @Shadow @Final private static Map<Item, FireworkExplosionComponent.Type> TYPE_MODIFIER_MAP;
 
-    @Inject(method = "matches(Lnet/minecraft/inventory/RecipeInputInventory;Lnet/minecraft/world/World;)Z",at=@At("HEAD"),cancellable = true)
-    public void matches(RecipeInputInventory craftingInventory, World world, CallbackInfoReturnable<Boolean> infoReturnable) {
+    @Inject(method = "matches(Lnet/minecraft/recipe/input/CraftingRecipeInput;Lnet/minecraft/world/World;)Z",at=@At("HEAD"),cancellable = true)
+    public void matches(CraftingRecipeInput craftingInventory, World world, CallbackInfoReturnable<Boolean> infoReturnable) {
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
             return;
         boolean bl = false;
@@ -46,8 +46,8 @@ public class FireworkStarRecipeMixin {
         boolean bl4 = false;
         boolean bl5 = false;
 
-        for(int i = 0; i < craftingInventory.size(); ++i) {
-            ItemStack itemStack = craftingInventory.getStack(i);
+        for(int i = 0; i < craftingInventory.getSize(); ++i) {
+            ItemStack itemStack = craftingInventory.getStackInSlot(i);
             if (!itemStack.isEmpty()) {
                 if (TYPE_MODIFIER.test(itemStack)) {
                     if (bl3) {
@@ -90,8 +90,8 @@ public class FireworkStarRecipeMixin {
         infoReturnable.setReturnValue(bl && bl2);
     }
 
-    @Inject(method = "craft(Lnet/minecraft/inventory/RecipeInputInventory;Lnet/minecraft/registry/RegistryWrapper$WrapperLookup;)Lnet/minecraft/item/ItemStack;",at=@At("HEAD"),cancellable = true)
-    public void craft(RecipeInputInventory craftingInventory, RegistryWrapper.WrapperLookup wrapperLookup, CallbackInfoReturnable<ItemStack> cir) {
+    @Inject(method = "craft(Lnet/minecraft/recipe/input/CraftingRecipeInput;Lnet/minecraft/registry/RegistryWrapper$WrapperLookup;)Lnet/minecraft/item/ItemStack;",at=@At("HEAD"),cancellable = true)
+    public void craft(CraftingRecipeInput craftingInventory, RegistryWrapper.WrapperLookup wrapperLookup, CallbackInfoReturnable<ItemStack> cir) {
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
             return;
         ItemStack itemStack = new ItemStack(Items.FIREWORK_STAR);
@@ -100,8 +100,8 @@ public class FireworkStarRecipeMixin {
         boolean hasTwinkleMod = false;
         boolean hasTrailMod = false;
 
-        for(int i = 0; i < craftingInventory.size(); ++i) {
-            ItemStack itemStack2 = craftingInventory.getStack(i);
+        for(int i = 0; i < craftingInventory.getSize(); ++i) {
+            ItemStack itemStack2 = craftingInventory.getStackInSlot(i);
             if (!itemStack2.isEmpty()) {
                 if (TYPE_MODIFIER.test(itemStack2)) {
                     type = TYPE_MODIFIER_MAP.get(itemStack2.getItem());

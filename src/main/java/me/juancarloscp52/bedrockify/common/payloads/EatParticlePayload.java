@@ -33,7 +33,7 @@ public final class EatParticlePayload extends AbstractVelocityParticlePayload {
 
     @Override
     public Id<EatParticlePayload> getId() {
-        return new Id<>(new Identifier(Bedrockify.MOD_ID, "eat-particles"));
+        return new Id<>(Identifier.of(Bedrockify.MOD_ID, "eat-particles"));
     }
 
     public void setItemStack(ItemStack itemStack) {

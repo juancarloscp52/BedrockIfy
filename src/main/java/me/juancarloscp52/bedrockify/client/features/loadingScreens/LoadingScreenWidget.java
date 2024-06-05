@@ -20,7 +20,7 @@ public class LoadingScreenWidget {
 
     private static LoadingScreenWidget instance = null;
     private static final int TIPS_NUM = 107;
-    private final Identifier WIDGET_TEXTURE = new Identifier("bedrockify", "textures/gui/bedrockify_widgets.png");
+    private final Identifier WIDGET_TEXTURE = Identifier.of("bedrockify", "textures/gui/bedrockify_widgets.png");
     private Text tip;
     private static final List<Integer> EXCLUDED_TIPS = Lists.asList(15,new Integer[]{23,28,29,32,33,34,35,62});
     private long lastTipUpdate = 0;

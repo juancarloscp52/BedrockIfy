@@ -39,7 +39,7 @@ public abstract class RecipeManagerMixin {
             Map.Entry<Identifier, JsonElement> elem = mapIterator.next();
             if(elem.getKey().getNamespace().equals("bedrockify") && (!exceptions.contains(elem.getKey().getPath()) || !Bedrockify.getInstance().settings.isBedrockRecipesEnabled())){
                 if(Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
-                    bedrockifyRecipes.put(new Identifier("minecraft", elem.getKey().getPath()), elem.getValue());
+                    bedrockifyRecipes.put(Identifier.of("minecraft", elem.getKey().getPath()), elem.getValue());
                 mapIterator.remove();
             }
         }

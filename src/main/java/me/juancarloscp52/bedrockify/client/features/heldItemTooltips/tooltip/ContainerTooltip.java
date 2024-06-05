@@ -5,7 +5,7 @@ import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 
 public class ContainerTooltip extends Tooltip {
-
+    String translationKey;
 
     public ContainerTooltip(ItemStack item){
         this.translationKey = item.getTranslationKey();

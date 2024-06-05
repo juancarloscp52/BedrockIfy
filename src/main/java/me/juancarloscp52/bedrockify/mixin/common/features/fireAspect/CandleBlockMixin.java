@@ -32,7 +32,7 @@ public class CandleBlockMixin {
         if(!Bedrockify.getInstance().settings.fireAspectLight)
             return;
         ItemStack itemStack = player.getStackInHand(hand);
-        if(player.getAbilities().allowModifyWorld && null != itemStack && (itemStack.hasEnchantments() || itemStack.getItem() instanceof EnchantedBookItem) && EnchantmentHelper.getEnchantments(itemStack).getEnchantments().stream().anyMatch(e -> e.value() == Enchantments.FIRE_ASPECT)){
+        if(player.getAbilities().allowModifyWorld && null != itemStack && (itemStack.hasEnchantments() || itemStack.getItem() instanceof EnchantedBookItem) && EnchantmentHelper.getEnchantments(itemStack).getEnchantments().stream().anyMatch(e -> e == Enchantments.FIRE_ASPECT)){
             if(!CandleBlock.isLitCandle(state) && CandleBlock.canBeLit(state)){
                 if(world.setBlockState(pos, state.with(Properties.LIT, true), Block.NOTIFY_ALL | Block.REDRAW_ON_MAIN_THREAD)){
                     itemStack.damage(1, player, LivingEntity.getSlotForHand(hand));

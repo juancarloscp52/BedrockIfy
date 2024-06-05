@@ -25,6 +25,12 @@ public class HudOpacity {
     public void tick(){
         if(inactiveTicks< maxInactiveTicks)
             inactiveTicks++;
+
+        if(MinecraftClient.getInstance().currentScreen!=null) {
+            resetTicks();
+            currentOpacity = 1;
+        }
+
         if(MinecraftClient.getInstance().player!= null){
             int selectedSlot = MinecraftClient.getInstance().player.getInventory().selectedSlot;
             if(selectedSlot != previousSelectedSlot){

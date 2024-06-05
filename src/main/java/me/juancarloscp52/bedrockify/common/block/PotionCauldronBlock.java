@@ -6,7 +6,6 @@ import me.juancarloscp52.bedrockify.common.block.cauldron.BedrockCauldronBehavio
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronBlocks;
 import me.juancarloscp52.bedrockify.common.features.cauldron.BedrockCauldronProperties;
 import net.minecraft.block.*;
-import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.EntityEffectParticleEffect;
 import net.minecraft.particle.ParticleTypes;

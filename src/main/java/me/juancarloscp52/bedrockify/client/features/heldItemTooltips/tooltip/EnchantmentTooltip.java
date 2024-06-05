@@ -6,8 +6,10 @@ import net.minecraft.text.Text;
 
 public class EnchantmentTooltip extends Tooltip {
     boolean showLevels=true;
+    MutableText text;
+
     public EnchantmentTooltip(Enchantment enchantment, int level){
-        this.translationKey = enchantment.getTranslationKey();
+        this.text = enchantment.description().copy();
         this.primaryValue = level;
         if(enchantment.getMaxLevel()==1)
             showLevels=false;
@@ -15,7 +17,7 @@ public class EnchantmentTooltip extends Tooltip {
 
     @Override
     public MutableText getTooltipText(){
-        MutableText tooltip = Text.translatable(this.translationKey);
+        MutableText tooltip =text;
         if(showLevels)
             tooltip.append(" ").append(Text.translatable("enchantment.level." + primaryValue));
         return tooltip;

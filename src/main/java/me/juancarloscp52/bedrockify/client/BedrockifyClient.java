@@ -115,7 +115,7 @@ public class BedrockifyClient implements ClientModInitializer {
                 client.setScreen(settingsGUI.getConfigScreen(client.currentScreen,true));
             }
             hudOpacity.tick();
-            bedrockSunGlareShading.tick(client.getTickDelta());
+            bedrockSunGlareShading.tick(client.getRenderTickCounter().getTickDelta(true));
 
             // Stop flying drift
             if(settings.disableFlyingMomentum && null != client.player && client.player.getAbilities().flying){
@@ -151,7 +151,7 @@ public class BedrockifyClient implements ClientModInitializer {
                 settings = gson.fromJson(fileReader, BedrockifyClientSettings.class);
                 fileReader.close();
             } catch (IOException e) {
-                LOGGER.warn("Could not load bedrockIfy settings: " + e.getLocalizedMessage());
+                LOGGER.warn("Could not load bedrockIfy settings: {}", e.getLocalizedMessage());
             }
         } else {
             settings = new BedrockifyClientSettings();
@@ -169,7 +169,7 @@ public class BedrockifyClient implements ClientModInitializer {
             fileWriter.write(gson.toJson(settings));
             fileWriter.close();
         } catch (IOException e) {
-            LOGGER.warn("Could not save bedrockIfy settings: " + e.getLocalizedMessage());
+            LOGGER.warn("Could not save bedrockIfy settings: {}", e.getLocalizedMessage());
         }
     }
 }

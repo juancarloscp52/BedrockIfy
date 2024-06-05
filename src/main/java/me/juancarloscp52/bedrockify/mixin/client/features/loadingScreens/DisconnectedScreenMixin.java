@@ -8,6 +8,7 @@ import net.minecraft.client.gui.screen.DisconnectedScreen;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.screen.TitleScreen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.network.DisconnectionInfo;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,7 +23,7 @@ public class DisconnectedScreenMixin extends Screen {
     @Shadow @Final private Text buttonLabel;
     @Shadow @Final private Screen parent;
     @Shadow @Final private static Text TO_TITLE_TEXT;
-    @Shadow @Final private Text reason;
+    @Shadow @Final private DisconnectionInfo info;
 
 
     protected DisconnectedScreenMixin(Text title) {
@@ -48,6 +49,6 @@ public class DisconnectedScreenMixin extends Screen {
         super.render(drawContext, mouseX, mouseY, delta);
         if(!BedrockifyClient.getInstance().settings.isLoadingScreenEnabled())
             return;
-        LoadingScreenWidget.getInstance().render(drawContext, width / 2, height / 2, this.title, this.reason, -1);
+        LoadingScreenWidget.getInstance().render(drawContext, width / 2, height / 2, this.title, this.info.reason(), -1);
     }
 }

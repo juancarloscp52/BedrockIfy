@@ -6,11 +6,11 @@ import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.common.features.recipes.DyeHelper;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FireworkExplosionComponent;
-import net.minecraft.inventory.RecipeInputInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.recipe.FireworkStarFadeRecipe;
 import net.minecraft.recipe.Ingredient;
+import net.minecraft.recipe.input.CraftingRecipeInput;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
@@ -24,15 +24,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class FireworkStarFadeRecipeMixin {
     @Shadow @Final private static Ingredient INPUT_STAR;
 
-    @Inject(method = "matches(Lnet/minecraft/inventory/RecipeInputInventory;Lnet/minecraft/world/World;)Z",at=@At("HEAD"),cancellable = true)
-    public void matches(RecipeInputInventory craftingInventory, World world, CallbackInfoReturnable<Boolean> infoReturnable) {
+    @Inject(method = "matches(Lnet/minecraft/recipe/input/CraftingRecipeInput;Lnet/minecraft/world/World;)Z",at=@At("HEAD"),cancellable = true)
+    public void matches(CraftingRecipeInput craftingRecipeInput, World world, CallbackInfoReturnable<Boolean> infoReturnable) {
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
             return;
         boolean bl = false;
         boolean bl2 = false;
 
-        for(int i = 0; i < craftingInventory.size(); ++i) {
-            ItemStack itemStack = craftingInventory.getStack(i);
+        for(int i = 0; i < craftingRecipeInput.getSize(); ++i) {
+            ItemStack itemStack = craftingRecipeInput.getStackInSlot(i);
             if (!itemStack.isEmpty()) {
                 if (DyeHelper.isDyeableItem(itemStack.getItem())) {
                     bl = true;
@@ -55,15 +55,15 @@ public class FireworkStarFadeRecipeMixin {
         infoReturnable.setReturnValue(bl2 && bl);
     }
 
-    @Inject(method = "craft(Lnet/minecraft/inventory/RecipeInputInventory;Lnet/minecraft/registry/RegistryWrapper$WrapperLookup;)Lnet/minecraft/item/ItemStack;",at=@At("HEAD"),cancellable = true)
-    public void craft(RecipeInputInventory craftingInventory, RegistryWrapper.WrapperLookup wrapperLookup, CallbackInfoReturnable<ItemStack> cir) {
+    @Inject(method = "craft(Lnet/minecraft/recipe/input/CraftingRecipeInput;Lnet/minecraft/registry/RegistryWrapper$WrapperLookup;)Lnet/minecraft/item/ItemStack;",at=@At("HEAD"),cancellable = true)
+    public void craft(CraftingRecipeInput craftingRecipeInput, RegistryWrapper.WrapperLookup wrapperLookup, CallbackInfoReturnable<ItemStack> cir) {
         if(!Bedrockify.getInstance().settings.isBedrockRecipesEnabled())
             return;
         IntList list = new IntArrayList();
         ItemStack itemStack = null;
 
-        for(int i = 0; i < craftingInventory.size(); ++i) {
-            ItemStack itemStack2 = craftingInventory.getStack(i);
+        for(int i = 0; i < craftingRecipeInput.getSize(); ++i) {
+            ItemStack itemStack2 = craftingRecipeInput.getStackInSlot(i);
             Item item = itemStack2.getItem();
             if (DyeHelper.isDyeableItem(item)) {
                 list.add(DyeHelper.getDyeItem(item).getColor().getFireworkColor());
