@@ -28,6 +28,7 @@ public class SavingOverlay{
             renderTimer+= BedrockifyClient.getInstance().deltaTime*0.000000001f;
             drawContext.drawTexture(WIDGET_TEXTURE, client.getWindow().getScaledWidth()-(19+settings.getScreenSafeArea()), 5 + settings.getScreenSafeArea() + MathHelper.floor(MathHelper.abs(MathHelper.sin(renderTimer * 3.1415926F) * 6)), 16, 100, 12, 15);
             RenderSystem.setShaderColor(1,1,1,1);
+            RenderSystem.disableBlend();
         }
     }
 
