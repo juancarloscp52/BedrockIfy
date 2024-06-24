@@ -48,11 +48,11 @@ public interface BedrockCauldronBehavior {
 
     CauldronBehavior DYE_ITEM_BY_COLORED_WATER = (state, world, pos, player, hand, stack) -> {
         if (state == null || world == null || pos == null || !Bedrockify.getInstance().settings.bedrockCauldron) {
-            return ItemActionResult.FAIL;
+            return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
         if (!stack.isIn(ItemTags.DYEABLE)) {
-            return ItemActionResult.FAIL;
+            return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
         Optional<WaterCauldronBlockEntity> entity = retrieveCauldronEntity(world, pos);
@@ -74,12 +74,12 @@ public interface BedrockCauldronBehavior {
 
     CauldronBehavior DYE_WATER = (state, world, pos, player, hand, stack) -> {
         if (state == null || world == null || pos == null || !Bedrockify.getInstance().settings.bedrockCauldron) {
-            return ItemActionResult.FAIL;
+            return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
         Item item = stack.getItem();
         if (!(item instanceof DyeItem dyeItem)) {
-            return ItemActionResult.FAIL;
+            return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
         Optional<WaterCauldronBlockEntity> entity = world.getBlockEntity(pos, BedrockCauldronBlocks.WATER_CAULDRON_ENTITY);
@@ -119,7 +119,7 @@ public interface BedrockCauldronBehavior {
      */
     CauldronBehavior PLACE_WATER_BY_POTION = (state, world, pos, player, hand, stack) -> {
         if (state == null || world == null || pos == null || !Bedrockify.getInstance().settings.bedrockCauldron) {
-            return ItemActionResult.FAIL;
+            return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
         var component = stack.get(DataComponentTypes.POTION_CONTENTS);
         if (component != null && !component.matches(Potions.WATER)) {
@@ -159,7 +159,7 @@ public interface BedrockCauldronBehavior {
      */
     CauldronBehavior PICK_POTION_FLUID = (state, world, pos, player, hand, stack) -> {
         if (state == null || world == null || pos == null || !Bedrockify.getInstance().settings.bedrockCauldron) {
-            return ItemActionResult.FAIL;
+            return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
         Optional<WaterCauldronBlockEntity> entity = retrieveCauldronEntity(world, pos);
@@ -197,23 +197,23 @@ public interface BedrockCauldronBehavior {
      */
     CauldronBehavior PLACE_POTION_FLUID = (state, world, pos, player, hand, stack) -> {
         if (state == null || world == null || pos == null || !Bedrockify.getInstance().settings.bedrockCauldron) {
-            return ItemActionResult.FAIL;
+            return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
         if (!(stack.getItem() instanceof PotionItem)) {
-            return ItemActionResult.FAIL;
+            return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
         var component = stack.get(DataComponentTypes.POTION_CONTENTS);
         if (component == null) {
-            return ItemActionResult.FAIL;
+            return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
         var optionalPotion = component.potion();
         if (optionalPotion.isEmpty()) {
-            return ItemActionResult.FAIL;
+            return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
         var potionEntry = optionalPotion.get();
-        if (potionEntry.value().getEffects().isEmpty() && !potionEntry.matches(potion -> potion == Potions.WATER)) {
+        if (potionEntry.value().getEffects().isEmpty() && !component.matches(Potions.WATER)) {
             // Prevent to place the fluid of Awkward Potion, Mundane Potion, etc.
             return ItemActionResult.SUCCESS;
         }
@@ -275,11 +275,11 @@ public interface BedrockCauldronBehavior {
      */
     CauldronBehavior TIPPED_ARROW_WITH_POTION = (state, world, pos, player, hand, stack) -> {
         if (state == null || world == null || pos == null || !Bedrockify.getInstance().settings.bedrockCauldron) {
-            return ItemActionResult.FAIL;
+            return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
         if (!stack.isOf(Items.ARROW)) {
-            return ItemActionResult.FAIL;
+            return ItemActionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
 
         Optional<WaterCauldronBlockEntity> entity = retrieveCauldronEntity(world, pos);
@@ -472,30 +472,44 @@ public interface BedrockCauldronBehavior {
      * This method needs to be executed after all the registries are ready.
      */
     static void registerBehavior() {
+        final var dyeableBehaviorMap = COLORED_WATER_CAULDRON_BEHAVIOR.map();
+        final var potionBehaviorMap = POTION_CAULDRON_BEHAVIOR.map();
+        final var vanillaWaterBehaviorMap = CauldronBehavior.WATER_CAULDRON_BEHAVIOR.map();
+        final var vanillaEmptyBehaviorMap = CauldronBehavior.EMPTY_CAULDRON_BEHAVIOR.map();
+
+        // Clear all modded maps and get ready to enter the world.
+        Registries.ITEM.stream().filter(item -> item instanceof DyeItem).forEach(vanillaWaterBehaviorMap::remove);
+        Registries.ITEM.stream().filter(item -> item instanceof PotionItem).forEach(potionItem -> {
+            vanillaEmptyBehaviorMap.remove(potionItem);
+            vanillaWaterBehaviorMap.remove(potionItem);
+        });
+        dyeableBehaviorMap.clear();
+        potionBehaviorMap.clear();
+
         // Behavior of the dye item for water cauldron.
         Registries.ITEM.stream().filter(item -> item instanceof DyeItem).forEach(dyeItem -> {
-            CauldronBehavior.WATER_CAULDRON_BEHAVIOR.map().putIfAbsent(dyeItem, DYE_WATER);
-            COLORED_WATER_CAULDRON_BEHAVIOR.map().putIfAbsent(dyeItem, DYE_WATER);
+            vanillaWaterBehaviorMap.putIfAbsent(dyeItem, DYE_WATER);
+            dyeableBehaviorMap.putIfAbsent(dyeItem, DYE_WATER);
         });
 
         // Behavior of the colored cauldron.
-        Registries.ITEM.stream().filter(item -> new ItemStack(item).isIn(ItemTags.DYEABLE)).forEach(item -> {
-            COLORED_WATER_CAULDRON_BEHAVIOR.map().putIfAbsent(item, DYE_ITEM_BY_COLORED_WATER);
+        Registries.ITEM.stream().filter(item -> item.getDefaultStack().isIn(ItemTags.DYEABLE)).forEach(item -> {
+            dyeableBehaviorMap.putIfAbsent(item, DYE_ITEM_BY_COLORED_WATER);
         });
-        COLORED_WATER_CAULDRON_BEHAVIOR.map().putIfAbsent(Items.BUCKET, FILL_BUCKET_WITH_COLORED_WATER);
-        COLORED_WATER_CAULDRON_BEHAVIOR.map().putIfAbsent(Items.GLASS_BOTTLE, PICK_COLORED_WATER);
-        CauldronBehavior.registerBucketBehavior(COLORED_WATER_CAULDRON_BEHAVIOR.map());
+        dyeableBehaviorMap.putIfAbsent(Items.BUCKET, FILL_BUCKET_WITH_COLORED_WATER);
+        dyeableBehaviorMap.putIfAbsent(Items.GLASS_BOTTLE, PICK_COLORED_WATER);
+        CauldronBehavior.registerBucketBehavior(dyeableBehaviorMap);
 
         // Behavior of the potion.
         Registries.ITEM.stream().filter(item -> item instanceof PotionItem).forEach(potionItem -> {
-            CauldronBehavior.EMPTY_CAULDRON_BEHAVIOR.map().putIfAbsent(potionItem, PLACE_POTION_FLUID);
-            POTION_CAULDRON_BEHAVIOR.map().putIfAbsent(potionItem, PLACE_POTION_FLUID);
+            vanillaEmptyBehaviorMap.putIfAbsent(potionItem, PLACE_POTION_FLUID);
+            potionBehaviorMap.putIfAbsent(potionItem, PLACE_POTION_FLUID);
             // Allows to accept any potion type for the Water Cauldron.
-            CauldronBehavior.WATER_CAULDRON_BEHAVIOR.map().putIfAbsent(potionItem, PLACE_WATER_BY_POTION);
-            COLORED_WATER_CAULDRON_BEHAVIOR.map().putIfAbsent(potionItem, PLACE_WATER_BY_POTION);
+            vanillaWaterBehaviorMap.putIfAbsent(potionItem, PLACE_WATER_BY_POTION);
+            dyeableBehaviorMap.putIfAbsent(potionItem, PLACE_WATER_BY_POTION);
         });
-        POTION_CAULDRON_BEHAVIOR.map().putIfAbsent(Items.GLASS_BOTTLE, PICK_POTION_FLUID);
-        POTION_CAULDRON_BEHAVIOR.map().putIfAbsent(Items.ARROW, TIPPED_ARROW_WITH_POTION);
-        registerEvaporateBucketBehavior(POTION_CAULDRON_BEHAVIOR.map());
+        potionBehaviorMap.putIfAbsent(Items.GLASS_BOTTLE, PICK_POTION_FLUID);
+        potionBehaviorMap.putIfAbsent(Items.ARROW, TIPPED_ARROW_WITH_POTION);
+        registerEvaporateBucketBehavior(potionBehaviorMap);
     }
 }

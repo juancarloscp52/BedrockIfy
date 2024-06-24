@@ -25,9 +25,18 @@ public class PotionCauldronBlock extends AbstractBECauldronBlock {
     public static final MapCodec<PotionCauldronBlock> CODEC = PotionCauldronBlock.createCodec(PotionCauldronBlock::new);
     public static final IntProperty LEVEL = BedrockCauldronProperties.LEVEL_8;
     public static final int MAX_LEVEL = BedrockCauldronProperties.MAX_LEVEL_8;
+    /**
+     * The level to increase/decrease using a Glass Bottle.
+     */
     public static final int BOTTLE_LEVEL = 3;
+    /**
+     * The level to decrease when creating tipped arrows.
+     */
     public static final int ARROW_TIP_LEVEL_PER_STEP = 2;
 
+    /**
+     * How many Max Item Stacks are to be divided.
+     */
     private static final int ARROW_TIP_STEP = 4;
 
     public PotionCauldronBlock(Settings settings) {
@@ -127,7 +136,7 @@ public class PotionCauldronBlock extends AbstractBECauldronBlock {
 
     /**
      * Gets the maximum number of available stack count for creating Tipped Arrow.<br>
-     * This calculation is based on {@link PotionCauldronBlock#ARROW_TIP_STEP} and {@link PotionCauldronBlock#ARROW_TIP_LEVEL_PER_STEP}.
+     * This calculation is based on {@link #ARROW_TIP_STEP} and {@link #ARROW_TIP_LEVEL_PER_STEP}.
      * The result is as follows:<br>
      * <ul>
      *     <li>fluid: 2 - Potion 1x<br>
@@ -159,7 +168,7 @@ public class PotionCauldronBlock extends AbstractBECauldronBlock {
 
     /**
      * Gets the level to decrease the fluid.<br>
-     * This calculation is based on {@link PotionCauldronBlock#ARROW_TIP_STEP} and {@link PotionCauldronBlock#ARROW_TIP_LEVEL_PER_STEP}.
+     * This calculation is based on {@link #ARROW_TIP_STEP} and {@link #ARROW_TIP_LEVEL_PER_STEP}.
      * The result is as follows:<br>
      * <ul>
      *     <li>count: 16<br>
@@ -188,11 +197,11 @@ public class PotionCauldronBlock extends AbstractBECauldronBlock {
 
     /**
      * Returns the step count.<br>
-     * The count will be divided by {@link PotionCauldronBlock#ARROW_TIP_STEP} for the maximum number that can retrieve by {@link ItemStack#getMaxCount}.<br>
-     * Default is <code>16</code>.
+     * The count will be divided by {@link #ARROW_TIP_STEP} for the maximum number that can retrieve by {@link ItemStack#getMaxCount}.<br>
+     * Default return value is <code>16</code>.
      *
      * @param itemStack Target item stack.
-     * @return Divided by {@link PotionCauldronBlock#ARROW_TIP_STEP}.
+     * @return Divided by {@link #ARROW_TIP_STEP}.
      */
     private static int getArrowTipStepCount(ItemStack itemStack) {
         return (int) Math.ceil((float) itemStack.getMaxCount() / ARROW_TIP_STEP);
