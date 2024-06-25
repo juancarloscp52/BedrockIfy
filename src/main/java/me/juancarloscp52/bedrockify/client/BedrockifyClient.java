@@ -112,7 +112,7 @@ public class BedrockifyClient implements ClientModInitializer {
         HudRenderCallback.EVENT.register((drawContext, tickDelta) -> BedrockifyClient.getInstance().overlay.renderOverlay(drawContext));
         ClientTickEvents.END_CLIENT_TICK.register(client-> {
             while (keyBinding.wasPressed()){
-                client.setScreen(settingsGUI.getConfigScreen(client.currentScreen,true));
+                client.setScreen(settingsGUI.getConfigScreen(client.currentScreen));
             }
             hudOpacity.tick();
             bedrockSunGlareShading.tick(client.getRenderTickCounter().getTickDelta(true));

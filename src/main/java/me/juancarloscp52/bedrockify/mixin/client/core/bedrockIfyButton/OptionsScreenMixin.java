@@ -25,7 +25,7 @@ public abstract class OptionsScreenMixin extends Screen {
 
     @Unique
     private ButtonWidget.Builder bedrockify$settingsButtonBuilder() {
-        return ButtonWidget.builder(Text.translatable("bedrockify.options.settings"),button -> this.client.setScreen(BedrockifyClient.getInstance().settingsGUI.getConfigScreen(this,this.client.world != null)));
+        return ButtonWidget.builder(Text.translatable("bedrockify.options.settings"),button -> this.client.setScreen(BedrockifyClient.getInstance().settingsGUI.getConfigScreen(this)));
     }
 
     /**

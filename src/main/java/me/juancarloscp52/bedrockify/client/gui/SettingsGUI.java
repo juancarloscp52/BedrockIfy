@@ -24,7 +24,7 @@ public class SettingsGUI {
     BedrockifyClientSettings settingsClient = BedrockifyClient.getInstance().settings;
     BedrockifySettings settingsCommon = Bedrockify.getInstance().settings;
 
-    public Screen getConfigScreen(Screen parent, boolean isTransparent){
+    public Screen getConfigScreen(Screen parent){
         ConfigBuilder builder = ConfigBuilder.create().setParentScreen(parent).setTitle(Text.translatable("bedrockify.options.settings"));
         builder.setSavingRunnable(()-> {
             Bedrockify.getInstance().saveSettings();
@@ -154,12 +154,12 @@ public class SettingsGUI {
 
 
 
-        return builder.setTransparentBackground(isTransparent).build();
+        return builder.setTransparentBackground(true).build();
     }
 
     public Text[] wrapLines(Text text){
         List<StringVisitable> lines = MinecraftClient.getInstance().textRenderer.getTextHandler().wrapLines(text,Math.max(MinecraftClient.getInstance().getWindow().getScaledWidth()/2 - 43,170), Style.EMPTY);
-        lines.get(0).getString();
+        lines.getFirst().getString();
         Text[] textLines = new Text[lines.size()];
         for (int i = 0; i < lines.size(); i++) {
             textLines[i]=Text.literal(lines.get(i).getString());
