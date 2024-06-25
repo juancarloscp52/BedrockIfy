@@ -1,3 +1,12 @@
+## [1.9.6] - 2024-06-25
+
+Available versions:
+-   Fabric: 1.21
+
+### Changed
+
+-   Updated to 1.21! 
+
 ## [1.9.5] - 2024-05-16
 
 Available versions:
