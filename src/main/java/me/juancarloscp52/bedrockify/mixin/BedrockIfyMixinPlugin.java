@@ -40,6 +40,10 @@ public class BedrockIfyMixinPlugin  implements IMixinConfigPlugin {
             LogManager.getLogger().info("The mod \"OptiFabric\" has been detected. This mod is not totally compatible with BedrockIfy. BedrockIfy Sheep Colors is now disabled.");
             return false;
         }
+        if (mixinClassName.contains("me.juancarloscp52.bedrockify.mixin.client.features.eatingAnimations") && FabricLoader.getInstance().isModLoaded("notenoughanimations")) {
+            LogManager.getLogger().info("The mod \"Not Enough Animations\" has been detected. This mod is not totally compatible with BedrockIfy. BedrockIfy Eating Animations is now disabled.");
+            return false;
+        }
 
         return MixinFeatureManager.isFeatureEnabled(mixinClassName);
     }

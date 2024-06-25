@@ -236,7 +236,7 @@ public final class BedrockSunGlareShading {
 
         final float sunSetRiseFactor = (this.sunVector3f.y < 0) ? this.sunVector3f.y * -5f : 0;
         final Camera camera = this.client.gameRenderer.getCamera();
-        final Vector3f cameraVec3f = new Vector3f(0, 0, 1).rotate(camera.getRotation()).normalize();
+        final Vector3f cameraVec3f = new Vector3f(0, 0, -1).rotate(camera.getRotation()).normalize();
 
         this.sunAngleDiff = Math.clamp(clampMin, clampMax, (Math.safeAcos(cameraVec3f.dot(this.sunVector3f)) - 0.15f) * 2.f + sunSetRiseFactor);
     }
