@@ -15,7 +15,6 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.*;
-import net.minecraft.item.tooltip.BundleTooltipData;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.screen.ScreenTexts;
 import net.minecraft.text.MutableText;
@@ -105,14 +104,15 @@ public class HeldItemTooltips {
             // Lingering Potion has its own multiplier of duration, and it is hardcoded.
             item.appendTooltip(currentStack, Item.TooltipContext.DEFAULT, generated, TooltipType.BASIC);
             generateTooltipsForPotion(generated, result);
-        } else if(item.toString().contains("shulker_box")){
+        } else if(currentStack.getComponents().contains(DataComponentTypes.CONTAINER)){
             var container = currentStack.getComponents().get(DataComponentTypes.CONTAINER);
             if(container != null){
                 generateTooltipsFromContainer(container.stream().toList(), result);
             }
-        } else if(item instanceof BundleItem){
-            if(currentStack.getTooltipData().isPresent() && currentStack.isOf(Items.BUNDLE)){
-                generateTooltipsFromContainer(((BundleTooltipData)currentStack.getTooltipData().get()).contents().stream().toList(), result);
+        } else if (currentStack.getComponents().contains(DataComponentTypes.BUNDLE_CONTENTS)){
+            var container = currentStack.getComponents().get(DataComponentTypes.BUNDLE_CONTENTS);
+            if(container != null){
+                generateTooltipsFromContainer(container.stream().toList(), result);
             }
         }
         return result;
