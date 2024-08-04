@@ -6,6 +6,7 @@ Available versions:
 ### Changed
 
 -   Add container Tooltips to any item with Container or bundle components (Fix #326 Fix #356)
+-   Added Traditional Chinese translation (yichifauzi)
 
 ## [1.9.6] - 2024-06-25
 
