@@ -18,7 +18,7 @@ on:
         type: boolean
       minecraftVersion:
         description: 'Minecraft Version. Ex: [1.20.2,1.21)'
-        default: '[1.20.6,1.21]'
+        default: '[1.21,1.22)'
         required: true
       javaVersion:
         description: 'Publish java version'
@@ -27,12 +27,12 @@ on:
         type: number
       modVersion:
         required: true
-        default: '1.9.2+mc1.20.6'
+        default: '1.9.7+mc1.21'
         description: 'Mod version string. Ex: 1.9.2+mc1.20.6'
         type: string
       releaseName:
         required: true
-        default: '[1.20.6] Bedrockify 1.9.2'
+        default: '[1.21] Bedrockify 1.9.7'
         description: 'Mod publish name. Ex: [1.20.6] Bedrockify 1.9.2'
         type: string
 

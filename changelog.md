@@ -1,3 +1,12 @@
+## [1.9.7] - 2024-08-04
+
+Available versions:
+-   Fabric: 1.21
+
+### Changed
+
+-   Add container Tooltips to any item with Container or bundle components (Fix #326 Fix #356)
+
 ## [1.9.6] - 2024-06-25
 
 Available versions:
