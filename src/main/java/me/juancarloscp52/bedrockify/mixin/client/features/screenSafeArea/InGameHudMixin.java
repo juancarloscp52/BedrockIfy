@@ -34,15 +34,16 @@ public abstract class InGameHudMixin {
      */
     @Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"))
     private void drawTextureHotbar(DrawContext drawContext, Identifier texture, int x, int y, int width, int height) {
-        if((width ==29 && height == 24) || width == 182){
+        if(texture.equals(Identifier.ofVanilla("hud/hotbar_selection"))){
+            drawContext.drawGuiTexture(texture, x, y - screenBorder, width, height);
+            if(BedrockifyClient.getInstance().settings.hotBarOverhang)
+                drawContext.fill(x,y + height - screenBorder,x+width,y+height+1 - screenBorder, ColorHelper.Argb.getArgb(255,0,0,0));
+        }else{
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, BedrockifyClient.getInstance().hudOpacity.getHudOpacity(true));
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
             drawContext.drawGuiTexture(texture, x, y - screenBorder, width, height);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false));
-        }else{
-            drawContext.drawGuiTexture(texture, x, y - screenBorder, width, height);
-            drawContext.fill(x,y + height - screenBorder,x+width,y+height+1 - screenBorder, ColorHelper.Argb.getArgb(255,0,0,0));
         }
     }
     @Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIIIIII)V"))
@@ -56,6 +57,7 @@ public abstract class InGameHudMixin {
             drawContext.drawGuiTexture(texture, i, j, k, l, x, y - screenBorder, width, (width  == 24 && !raisedEnabled) ? height+2 : height);
         }
     }
+
     /**
      * Render the items in the Hotbar with the screen border distance.
      */

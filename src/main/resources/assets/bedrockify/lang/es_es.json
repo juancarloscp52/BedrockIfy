@@ -9,6 +9,7 @@
   "bedrockify.options.withBackground": "Con fondo",
   "bedrockify.options.settings": "Ajustes de BedrockIfy",
   "bedrockify.options.screenSafeArea": "Área segura de pantalla:",
+  "bedrockify.options.HotBarOverhang": "Mostrar sobresaliente del selector de hotbar:",
   "bedrockify.options.ignoreBorder": "Overlay ignorará el área segura:",
   "bedrockify.options.coordinatesPosition": "Posición del texto de coordenadas:",
   "bedrockify.options.showCoordinates": "Mostrar coordenadas:",

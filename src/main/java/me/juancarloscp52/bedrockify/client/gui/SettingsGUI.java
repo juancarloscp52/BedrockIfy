@@ -108,6 +108,7 @@ public class SettingsGUI {
             // Screen Safe Area
             SubCategoryBuilder screenSafeArea = entryBuilder.startSubCategory(Text.translatable("bedrockify.options.subCategory.screenSafeArea"));
             screenSafeArea.add(entryBuilder.startIntSlider(Text.translatable("bedrockify.options.screenSafeArea"), settingsClient.screenSafeArea,0,30).setDefaultValue(0).setSaveConsumer((newValue)-> settingsClient.screenSafeArea=newValue).build());
+            screenSafeArea.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.HotBarOverhang"), settingsClient.hotBarOverhang).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.hotBarOverhang = newValue).build());
             screenSafeArea.add(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.ignoreBorder"), settingsClient.overlayIgnoresSafeArea).setDefaultValue(false).setSaveConsumer(newValue -> settingsClient.overlayIgnoresSafeArea=newValue).build());
             gui.addEntry(screenSafeArea.build());
 
