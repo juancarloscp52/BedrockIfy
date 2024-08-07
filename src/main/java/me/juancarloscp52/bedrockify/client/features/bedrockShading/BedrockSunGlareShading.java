@@ -250,6 +250,6 @@ public final class BedrockSunGlareShading {
     }
 
     public void onSunlightIntensityChanged() {
-        this.skyAttenuation = MathHelper.clampedLerp(1f, 0.35f, BedrockifyClient.getInstance().settings.sunlightIntensity / 100f);
+        this.skyAttenuation = MathHelper.clampedLerp(1f, 0.60f, BedrockifyClient.getInstance().settings.sunlightIntensity / 100f);
     }
 }

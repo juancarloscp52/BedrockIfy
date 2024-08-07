@@ -34,13 +34,16 @@ public abstract class ClientWorldMixin {
 
         final float rainGradient = this.client.world.getRainGradient(tickDelta);
         final float angleDiff = sunGlareShading.getSunAngleDiff();
-        final float multiplier = MathHelper.clampedLerp(sunGlareShading.getSkyAttenuation(), 1f, angleDiff + rainGradient);
-        if (MathHelper.approximatelyEquals(multiplier, 1f)) {
+
+        // Closer to the Sun, Darken the Sky, based on camera angle. Use a different multiplier for each channel in order to better match bedrock edition sky color.
+        final float multiplierBlue = MathHelper.clampedLerp(sunGlareShading.getSkyAttenuation(), 1f, angleDiff + rainGradient);
+        if (MathHelper.approximatelyEquals(multiplierBlue, 1f)) {
             return;
         }
+        final float multiplierRed = MathHelper.clampedLerp(sunGlareShading.getSkyAttenuation()-0.16f, 1f, angleDiff + rainGradient);
+        final float multiplierGreen = MathHelper.clampedLerp(sunGlareShading.getSkyAttenuation()-0.06f, 1f, angleDiff + rainGradient);
 
-        // Closer to the Sun, Darker the Sky, based on camera angle.
         final Vec3d colorVec3d = cir.getReturnValue();
-        cir.setReturnValue(colorVec3d.multiply(multiplier, multiplier, multiplier + (1f - multiplier) * 0.45f));
+        cir.setReturnValue(colorVec3d.multiply(multiplierRed, multiplierGreen, multiplierBlue));
     }
 }
