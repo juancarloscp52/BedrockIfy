@@ -1,5 +1,7 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.screenSafeArea;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.systems.RenderSystem;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.fabricmc.api.EnvType;
@@ -32,29 +34,29 @@ public abstract class InGameHudMixin {
     /**
      * Render the item Hotbar applying the screen border distance and transparency.
      */
-    @Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"))
-    private void drawTextureHotbar(DrawContext drawContext, Identifier texture, int x, int y, int width, int height) {
+    @WrapOperation(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIII)V"))
+    private void drawTextureHotbar(DrawContext drawContext, Identifier texture, int x, int y, int width, int height, Operation<Void> original) {
         if(texture.equals(Identifier.ofVanilla("hud/hotbar_selection"))){
-            drawContext.drawGuiTexture(texture, x, y - screenBorder, width, height);
+            original.call(drawContext, texture, x, y - screenBorder, width, height);
             if(BedrockifyClient.getInstance().settings.hotBarOverhang)
                 drawContext.fill(x,y + height - screenBorder,x+width,y+height+1 - screenBorder, ColorHelper.Argb.getArgb(255,0,0,0));
         }else{
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, BedrockifyClient.getInstance().hudOpacity.getHudOpacity(true));
             RenderSystem.enableBlend();
             RenderSystem.defaultBlendFunc();
-            drawContext.drawGuiTexture(texture, x, y - screenBorder, width, height);
+            original.call(drawContext,texture, x, y - screenBorder, width, height);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false));
         }
     }
-    @Redirect(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIIIIII)V"))
-    private void drawTextureHotbar(DrawContext drawContext, Identifier texture, int i, int j, int k, int l, int x, int y, int width, int height) {
+    @WrapOperation(method = "renderHotbar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawGuiTexture(Lnet/minecraft/util/Identifier;IIIIIIII)V"))
+    private void drawTextureHotbar(DrawContext drawContext, Identifier texture, int i, int j, int k, int l, int x, int y, int width, int height, Operation<Void> original) {
         if((width ==29 && height == 24) || width == 182){
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, BedrockifyClient.getInstance().hudOpacity.getHudOpacity(true));
-            drawContext.drawGuiTexture(texture, i, j, k, l, x, y - screenBorder, width, height);
+            original.call(drawContext, texture, i, j, k, l, x, y - screenBorder, width, height);
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false));
         }else{
             boolean raisedEnabled = FabricLoader.getInstance().isModLoaded("raised");
-            drawContext.drawGuiTexture(texture, i, j, k, l, x, y - screenBorder, width, (width  == 24 && !raisedEnabled) ? height+2 : height);
+            original.call(drawContext, texture, i, j, k, l, x, y - screenBorder, width, (width  == 24 && !raisedEnabled) ? height+2 : height);
         }
     }
 
@@ -82,12 +84,12 @@ public abstract class InGameHudMixin {
     /**
      * Apply screen border offset to experience bar text.
      */
-    @Redirect(method = "renderExperienceLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawText(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;IIIZ)I"))
-    private int drawExperienceBar(DrawContext drawContext, TextRenderer textRenderer, String text, int x, int y, int color, boolean shadow) {
+    @WrapOperation(method = "renderExperienceLevel", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/DrawContext;drawText(Lnet/minecraft/client/font/TextRenderer;Ljava/lang/String;IIIZ)I"))
+    private int drawExperienceBar(DrawContext drawContext, TextRenderer textRenderer, String text, int x, int y, int color, boolean shadow, Operation<Integer> original) {
         int alpha = (int) Math.ceil(BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false)*255);
 
         if(!BedrockifyClient.getInstance().settings.isExpTextStyle()){
-            return drawContext.drawText(textRenderer, text, x, y-screenBorder, color | ((alpha) << 24),false);
+            return original.call(drawContext, textRenderer, text, x, y-screenBorder, color | ((alpha) << 24),false);
         }
 
         if(color == 0)
