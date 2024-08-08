@@ -1,12 +1,11 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.bedrockShading.sunGlare;
 
-import com.mojang.blaze3d.systems.RenderSystem;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockSunGlareShading;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.WorldRenderer;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
@@ -16,6 +15,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 
 @Mixin(WorldRenderer.class)
 public abstract class WorldRendererMixin {
@@ -68,14 +68,17 @@ public abstract class WorldRendererMixin {
         return MathHelper.clampedLerp(original * 1.3f, original, this.sunRadiusDelta);
     }
 
-    @Redirect(method = "renderSky", at=@At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V",ordinal = 2))
-    private void bedrockify$modifySunIntensity(float red, float green, float blue, float alpha){
+
+    @ModifyArgs(method = "renderSky", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V", ordinal = 2))
+    private void bedrockify$modifySunIntensity(Args args){
         float value = MathHelper.clampedLerp(2.0f, 1.0f, this.sunRadiusDelta);
-        RenderSystem.setShaderColor(value,value,value,alpha);
+        args.set(0,value);
+        args.set(1,value);
+        args.set(2,value);
     }
 
-    @Redirect(method = "renderClouds", at=@At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;getCloudsColor(F)Lnet/minecraft/util/math/Vec3d;"))
-    private Vec3d a(ClientWorld instance, float tickDelta){
-        return instance.getCloudsColor(tickDelta).multiply(MathHelper.clampedLerp(0.8d, 1.0d, this.sunRadiusDelta));
+    @ModifyExpressionValue(method = "renderClouds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;getCloudsColor(F)Lnet/minecraft/util/math/Vec3d;"))
+    private Vec3d bedrockify$darkenClouds(Vec3d original){
+        return original.multiply(MathHelper.clampedLerp(0.8d, 1.0d, this.sunRadiusDelta));
     }
 }
