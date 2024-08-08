@@ -27,7 +27,7 @@ public abstract class SheepWoolFeatureRendererMixin extends FeatureRenderer<Shee
 
     @Inject(method = "render(Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;ILnet/minecraft/entity/passive/SheepEntity;FFFFFF)V", at = @At("RETURN"))
     private void bedrockify$renderWoolColorAfterShearing(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int light, SheepEntity sheepEntity, float limbAngle, float limbDistance, float tickDelta, float animationProgress, float headYaw, float headPitch, CallbackInfo ci) {
-        if (!sheepEntity.isSheared() || !BedrockifyClient.getInstance().settings.sheepColors || SheepSkinResource.TEXTURE_SHEARED == null) {
+        if (!BedrockifyClient.getInstance().settings.sheepColors || SheepSkinResource.TEXTURE_SHEARED == null) {
             return;
         }
 
