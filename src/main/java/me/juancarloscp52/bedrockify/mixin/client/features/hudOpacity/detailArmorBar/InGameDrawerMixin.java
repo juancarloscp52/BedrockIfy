@@ -4,13 +4,14 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.redlimerl.detailab.render.InGameDrawer;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Pseudo;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@Pseudo
 @Mixin(InGameDrawer.class)
 public class InGameDrawerMixin {
 
