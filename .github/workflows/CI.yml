@@ -1,0 +1,41 @@
+name: Build Bedrockify dev
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+        with:
+          submodules: true
+
+      - name: Get Commit hash
+        run: echo "SHORT_SHA=`echo ${GITHUB_SHA} | cut -c1-8`" >> $GITHUB_ENV
+
+      - name: Change Mod Version
+        uses: dschanoeh/change-property@v1
+        with:
+          file: gradle.properties
+          property: mod_version
+          value: "dev-${{env.SHORT_SHA}}"
+
+      - name: Setup Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: "temurin"
+          java-version: 21
+
+      - name: Make Gradle Wrapper Executable
+        if: ${{ runner.os != 'Windows' }}
+        run: chmod +x ./gradlew
+
+      - name: Build
+        run: ./gradlew clean build
+
+      - name: Publish BedrockIfy
+        uses: actions/upload-artifact@v4
+        with:
+          name: "BedrockIfy Dev ${{env.SHORT_SHA}}"
+          path: ${{github.workspace}}/build/libs/*.jar
