@@ -41,7 +41,8 @@
     "client.features.useAnimations.ClientPlayerEntityMixin",
     "client.features.useAnimations.ClientPlayerInteractionManagerMixin",
     "client.features.useAnimations.ClientPlayNetworkHandlerMixin",
-    "client.features.worldColorNoise.BiomeColorsMixin"
+    "client.features.worldColorNoise.BiomeColorsMixin",
+    "client.features.hudOpacity.appleskin.HUDOverlayHandlerMixin"
   ],
   "mixins": [
     "common.features.animalEatingParticles.AnimalEntityMixin",

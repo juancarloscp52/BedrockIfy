@@ -44,6 +44,7 @@ public class MixinFeatureManager {
         features.put(FEAT_CAULDRON, true);
         features.put("common.features.fernBonemeal", true);
         features.put("client.features.hudOpacity", true);
+        features.put("client.features.hudOpacity.appleskin", true);
         features.put("client.features.editionBranding", true);
 
     }

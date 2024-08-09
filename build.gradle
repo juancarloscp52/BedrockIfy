@@ -49,7 +49,6 @@ repositories {
 }
 
 dependencies {
-	//to change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
@@ -65,8 +64,7 @@ dependencies {
 	}
 	include "me.shedaniel.cloth:cloth-config-fabric:${project.cloth_config_version}"
 
-	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
-	modCompileOnly("squeek.appleskin:appleskin-fabric:${project.apple_skin}:api") {
+	modCompileOnly ("squeek.appleskin:appleskin-fabric:${project.apple_skin}") {
 		transitive = false
 	}
 
@@ -83,14 +81,6 @@ processResources {
 	filesMatching("fabric.mod.json") {
 		expand "version": project.version
 	}
-//	from(sourceSets.main.resources.srcDirs) {
-//		include "fabric.mod.json"
-//		expand "version": project.version
-//	}
-//
-//	from(sourceSets.main.resources.srcDirs) {
-//		exclude "fabric.mod.json"
-//	}
 }
 
 tasks.withType(JavaCompile).configureEach {
