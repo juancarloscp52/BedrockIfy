@@ -67,6 +67,7 @@ dependencies {
 	modCompileOnly ("squeek.appleskin:appleskin-fabric:${project.apple_skin}") {
 		transitive = false
 	}
+	modImplementation  "maven.modrinth:detail-armor-bar:${project.dab_version}"
 
 	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.1'
 	modTestImplementation "maven.modrinth:iris:${project.iris_version}"

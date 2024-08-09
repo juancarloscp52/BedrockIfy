@@ -22,6 +22,7 @@
     "client.features.hudOpacity.InGameHudMixin",
     "client.features.hudOpacity.ItemRendererMixin",
     "client.features.hudOpacity.SubtitlesHudMixin",
+    "client.features.hudOpacity.appleskin.HUDOverlayHandlerMixin",
     "client.features.idleHandAnimations.HeldItemRendererMixin",
     "client.features.loadingScreens.ConnectScreenMixin",
     "client.features.loadingScreens.DisconnectedScreenMixin",
@@ -36,13 +37,15 @@
     "client.features.screenSafeArea.BossBarHudMixin",
     "client.features.screenSafeArea.InGameHudMixin",
     "client.features.screenSafeArea.SubtitlesHudMixin",
+    "client.features.screenSafeArea.detailArmorBar.ArmorBarRendererMixin",
+    "client.features.hudOpacity.detailArmorBar.ArmorBarRendererMixin",
+    "client.features.hudOpacity.detailArmorBar.InGameDrawerMixin",
     "client.features.sheepColors.SheepWoolFeatureRendererMixin",
     "client.features.slotHighlight.HandledScreenMixin",
     "client.features.useAnimations.ClientPlayerEntityMixin",
     "client.features.useAnimations.ClientPlayerInteractionManagerMixin",
     "client.features.useAnimations.ClientPlayNetworkHandlerMixin",
-    "client.features.worldColorNoise.BiomeColorsMixin",
-    "client.features.hudOpacity.appleskin.HUDOverlayHandlerMixin"
+    "client.features.worldColorNoise.BiomeColorsMixin"
   ],
   "mixins": [
     "common.features.animalEatingParticles.AnimalEntityMixin",

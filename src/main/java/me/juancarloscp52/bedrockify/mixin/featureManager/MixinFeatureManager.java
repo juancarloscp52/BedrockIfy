@@ -30,6 +30,7 @@ public class MixinFeatureManager {
         features.put("client.features.reacharoundPlacement", true);
         features.put("client.features.savingOverlay", true);
         features.put("client.features.screenSafeArea", true);
+        features.put("client.features.screenSafeArea.detailArmorBar", true);
         features.put("client.features.slotHighlight", true);
         features.put("client.features.sheepColors", true);
         features.put("client.features.worldColorNoise",true);
@@ -45,6 +46,7 @@ public class MixinFeatureManager {
         features.put("common.features.fernBonemeal", true);
         features.put("client.features.hudOpacity", true);
         features.put("client.features.hudOpacity.appleskin", true);
+        features.put("client.features.hudOpacity.detailArmorBar", true);
         features.put("client.features.editionBranding", true);
 
     }
