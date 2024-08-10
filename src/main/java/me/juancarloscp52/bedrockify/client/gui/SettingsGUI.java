@@ -132,6 +132,7 @@ public class SettingsGUI {
          *
          */
             visualImprovements.addEntry(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.fishingBobber3D"), settingsClient.fishingBobber3D).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.fishingBobber3D=newValue).build());
+            visualImprovements.addEntry(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.babyVillagerHeads"), settingsClient.babyVillagerHeads).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.babyVillagerHeads=newValue).build());
             visualImprovements.addEntry(entryBuilder.startSelector(Text.translatable("bedrockify.options.idleAnimation"), new Float []{0.0f,0.5f,1.0f,1.5f,2.0f,2.5f,3.0f,4.0f}, settingsClient.idleAnimation).setDefaultValue(1.0f).setNameProvider((value)-> Text.literal("x"+ value)).setSaveConsumer((newValue)-> settingsClient.idleAnimation=newValue).build());
             visualImprovements.addEntry(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.eatingAnimations"), settingsClient.eatingAnimations).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.eatingAnimations=newValue).build());
             visualImprovements.addEntry(entryBuilder.startBooleanToggle(Text.translatable("bedrockify.options.bedrockShading"), settingsClient.bedrockShading).setTooltip(wrapLines(Text.translatable("bedrockify.options.bedrockShading.tooltip"))).setDefaultValue(true).setSaveConsumer(newValue -> {

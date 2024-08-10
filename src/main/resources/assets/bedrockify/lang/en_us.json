@@ -79,6 +79,7 @@
   "bedrockify.options.elytraStop": "Elytra Flight Cancelling:",
   "bedrockify.options.hudOpacity": "Hud Opacity:",
   "bedrockify.options.fishingBobber3D": "3D Fishing Bobber:",
+  "bedrockify.options.babyVillagerHeads": "Bigger Baby Villager Heads:",
   "bedrockify.options.elytraStop.tooltip": "Press space while flying with elytra to stop flying mid air.",
   "bedrockify.options.bedrockCauldron": "Bedrock Cauldron functionality:",
   "bedrockify.options.bedrockCauldron.tooltip": "Toggles Bedrock Cauldron functionality, enabling cauldrons to hold tinted water and potions. Disabling this option won't remove cauldrons holding the new special liquids that already exist in the world.",
