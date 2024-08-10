@@ -35,10 +35,10 @@
   "depends": {
     "fabricloader": ">=0.15.7",
     "minecraft": "1.21.x",
-    "java":">=17"
+    "java":">=21"
   },
   "suggests": {
-    "modmenu": ">=7.0.0"
+    "modmenu": ">=11.0.0"
   },
   "conflicts": {
     "held-item-info": "*"

@@ -1,3 +1,24 @@
+## [1.10] - 2024-08-10
+
+Available versions:
+-   Fabric: 1.21
+### Added
+
+-   Added Big Baby villager heads (#354).
+    
+### Changed/Fixed
+
+-   Added compatibility with "Detail Armor Bar" mod for Screen safe area and Hud opacity (Fix #279).
+-   Fixed compatibility with AppleSkin mod for Screen safe area and Hud opacity (Fix #278).
+-   Added option to hide hotbar selector overhang (black line below the selector that is visible with custom resource packs) (Fix #361).
+-   Improved Sun Glare fidelity to better match bedrock edition (Fix #359):
+    - Sun gets brighter.
+    - Sky darkens with a bluer tint.
+    - Clouds darkens a bit.
+-   Apply sheep color to sheep heads before shearing (Fix #264).
+-   Some features have been rewritten to use less invasive mixins, hopefully improving inter-mod compatibility.
+
+
 ## [1.9.7] - 2024-08-04
 
 Available versions:
