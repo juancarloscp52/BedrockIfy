@@ -1,3 +1,12 @@
+## [1.10.1] - 2024-08-11
+
+Available versions:
+-   Fabric: 1.21
+### Changed/Fixed
+
+-   Fixed sodium compatibility.
+-   Do not load compat mixins when mod is not present.
+
 ## [1.10] - 2024-08-10
 
 Available versions:
@@ -17,7 +26,6 @@ Available versions:
     - Clouds darkens a bit.
 -   Apply sheep color to sheep heads before shearing (Fix #264).
 -   Some features have been rewritten to use less invasive mixins, hopefully improving inter-mod compatibility.
-
 
 ## [1.9.7] - 2024-08-04
 
