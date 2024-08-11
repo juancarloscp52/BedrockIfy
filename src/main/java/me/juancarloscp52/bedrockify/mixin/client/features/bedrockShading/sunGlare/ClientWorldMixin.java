@@ -44,4 +44,11 @@ public abstract class ClientWorldMixin {
 
         return original.multiply(multiplierRed, multiplierGreen, multiplierBlue);
     }
+
+    @ModifyReturnValue(method = "getCloudsColor", at = @At("RETURN"))
+    private Vec3d bedrockify$modifyCloudsColor(Vec3d original) {
+        BedrockSunGlareShading sunGlareShading = BedrockifyClient.getInstance().bedrockSunGlareShading;
+        return original.multiply(MathHelper.clampedLerp(0.8d, 1.0d, sunGlareShading.getSunRadiusDelta()));
+    }
+
 }

@@ -36,6 +36,7 @@ public final class BedrockSunGlareShading {
     private ShaderState shaderState = ShaderState.UNSPECIFIED;
     private float skyAttenuation;
     private float sunAngleDiff;
+    private float sunRadiusDelta;
     private final Vector3f sunVector3f;
     private final MinecraftClient client;
 
@@ -239,6 +240,24 @@ public final class BedrockSunGlareShading {
         final Vector3f cameraVec3f = new Vector3f(0, 0, -1).rotate(camera.getRotation()).normalize();
 
         this.sunAngleDiff = Math.clamp(clampMin, clampMax, (Math.safeAcos(cameraVec3f.dot(this.sunVector3f)) - 0.15f) * 2.f + sunSetRiseFactor);
+    }
+
+    public void updateSunRadiusDelta(float tickDelta){
+        if(MinecraftClient.getInstance().world == null)
+            return;
+
+        final float rainGradient = MinecraftClient.getInstance().world.getRainGradient(tickDelta);
+        if (MathHelper.approximatelyEquals(rainGradient, 1f) || !this.shouldApplyShading()) {
+            this.sunRadiusDelta = 1f;
+            return;
+        }
+
+        this.updateAngleDiff();
+        this.sunRadiusDelta = this.getSunAngleDiff() + rainGradient;
+    }
+
+    public float getSunRadiusDelta() {
+        return this.sunRadiusDelta;
     }
 
     public float getSunAngleDiff() {

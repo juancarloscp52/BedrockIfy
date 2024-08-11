@@ -1,13 +1,11 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.bedrockShading.sunGlare;
 
-import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockSunGlareShading;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
 import org.joml.Matrix4f;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -22,8 +20,6 @@ public abstract class WorldRendererMixin {
     @Shadow
     private @Final MinecraftClient client;
 
-    @Unique
-    private float sunRadiusDelta = 1f;
     @Unique
     private static final String RENDER_SKY_METHOD_SIGNATURE = "renderSky(Lorg/joml/Matrix4f;Lorg/joml/Matrix4f;FLnet/minecraft/client/render/Camera;ZLjava/lang/Runnable;)V";
 
@@ -43,16 +39,8 @@ public abstract class WorldRendererMixin {
         if (this.client.world == null) {
             return;
         }
-
         final BedrockSunGlareShading sunGlareShading = BedrockifyClient.getInstance().bedrockSunGlareShading;
-        final float rainGradient = this.client.world.getRainGradient(tickDelta);
-        if (MathHelper.approximatelyEquals(rainGradient, 1f) || !sunGlareShading.shouldApplyShading()) {
-            this.sunRadiusDelta = 1f;
-            return;
-        }
-
-        sunGlareShading.updateAngleDiff();
-        this.sunRadiusDelta = sunGlareShading.getSunAngleDiff() + rainGradient;
+        sunGlareShading.updateSunRadiusDelta(tickDelta);
     }
 
     /**
@@ -61,24 +49,21 @@ public abstract class WorldRendererMixin {
      */
     @ModifyConstant(method = RENDER_SKY_METHOD_SIGNATURE, constant = @Constant(floatValue = 30.0f, ordinal = 0))
     private float bedrockify$modifySunRadius(float original) {
-        if (!BedrockifyClient.getInstance().bedrockSunGlareShading.shouldApplyShading() || this.sunRadiusDelta >= 1f) {
+        BedrockSunGlareShading sunGlareShading = BedrockifyClient.getInstance().bedrockSunGlareShading;
+        if (!sunGlareShading.shouldApplyShading() || sunGlareShading.getSunRadiusDelta() >= 1f) {
             return original;
         }
 
-        return MathHelper.clampedLerp(original * 1.3f, original, this.sunRadiusDelta);
+        return MathHelper.clampedLerp(original * 1.3f, original, sunGlareShading.getSunRadiusDelta());
     }
-
 
     @ModifyArgs(method = "renderSky", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/systems/RenderSystem;setShaderColor(FFFF)V", ordinal = 2))
     private void bedrockify$modifySunIntensity(Args args){
-        float value = MathHelper.clampedLerp(2.0f, 1.0f, this.sunRadiusDelta);
+        BedrockSunGlareShading sunGlareShading = BedrockifyClient.getInstance().bedrockSunGlareShading;
+        float value = MathHelper.clampedLerp(2.0f, 1.0f, sunGlareShading.getSunRadiusDelta());
         args.set(0,value);
         args.set(1,value);
         args.set(2,value);
     }
 
-    @ModifyExpressionValue(method = "renderClouds", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/world/ClientWorld;getCloudsColor(F)Lnet/minecraft/util/math/Vec3d;"))
-    private Vec3d bedrockify$darkenClouds(Vec3d original){
-        return original.multiply(MathHelper.clampedLerp(0.8d, 1.0d, this.sunRadiusDelta));
-    }
 }
