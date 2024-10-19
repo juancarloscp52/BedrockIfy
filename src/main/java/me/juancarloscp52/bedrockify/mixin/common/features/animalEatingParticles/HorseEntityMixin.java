@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AbstractHorseEntity.class)
 public class HorseEntityMixin{
 
-    @Inject(method = "interactHorse",at=@At("HEAD"))
+    @Inject(method = "interactHorse",at=@At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;decrementUnlessCreative(ILnet/minecraft/entity/LivingEntity;)V"))
     public void eat (PlayerEntity player, ItemStack stack, CallbackInfoReturnable<ActionResult> cir){
         EatingParticlesUtil.spawnItemParticles(player, stack, ((AnimalEntity)(Object)this));
     }
