@@ -2,3 +2,4 @@ accessWidener v1 named
 
 accessible method net/minecraft/world/gen/treedecorator/TreeDecoratorType register (Ljava/lang/String;Lcom/mojang/serialization/MapCodec;)Lnet/minecraft/world/gen/treedecorator/TreeDecoratorType;
 accessible method net/minecraft/block/CandleCakeBlock isHittingCandle (Lnet/minecraft/util/hit/BlockHitResult;)Z
+accessible method net/minecraft/client/gui/DrawContext drawSpriteRegion (Ljava/util/function/Function;Lnet/minecraft/client/texture/Sprite;IIIIIIIII)V #Hud Opacity InGameHudMixin

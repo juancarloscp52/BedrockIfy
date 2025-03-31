@@ -34,7 +34,7 @@ public class BedrockifyClientSettings {
     public boolean reacharoundIndicator = false;
     public boolean reacharoundMultiplayer = true;
     public int positionHUDHeight = 50;
-    public int screenSafeArea = 0;
+    public int screenSafeArea = 2;
     public boolean overlayIgnoresSafeArea = false;
     public boolean bedrockChat = true;
     public boolean slotHighlight = true;
