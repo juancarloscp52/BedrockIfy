@@ -1,3 +1,11 @@
+## [1.10.3] - 2025-03-31
+
+Available versions:
+-   Fabric: 1.21.4
+### Changed/Fixed
+
+-   Fixed Hud Opacity feature.
+
 ## [1.10.2] - 2025-02-26
 
 Available versions:
