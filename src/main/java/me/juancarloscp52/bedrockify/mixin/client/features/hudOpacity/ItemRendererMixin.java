@@ -14,6 +14,6 @@ public abstract class ItemRendererMixin {
             at = @At("HEAD"),
             argsOnly = true)
     private static RenderLayer bedrockify$applyTranslucencyForBakedItemModel(RenderLayer original) {
-        return TexturedRenderLayers.getItemEntityTranslucentCull();
+        return TexturedRenderLayers.getItemEntityTranslucentCull(); //TODO: ADD EXCEPTION FOR VISUAL OVERHAUL MOD ITEMS OR ENTIRELY
     }
 }

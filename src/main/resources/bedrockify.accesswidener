@@ -4,3 +4,15 @@ accessible method net/minecraft/world/gen/treedecorator/TreeDecoratorType regist
 accessible method net/minecraft/block/CandleCakeBlock isHittingCandle (Lnet/minecraft/util/hit/BlockHitResult;)Z
 accessible class net/minecraft/client/render/block/BlockModelRenderer$LightmapCache
 accessible method net/minecraft/client/gui/DrawContext drawSpriteRegion (Ljava/util/function/Function;Lnet/minecraft/client/texture/Sprite;IIIIIIIII)V  #HudOpacity InGameHudMixin
+extendable method net/minecraft/client/gui/widget/EntryListWidget getEntryAtPosition (DD)Lnet/minecraft/client/gui/widget/EntryListWidget$Entry;
+accessible field net/minecraft/client/gui/widget/TextFieldWidget editable Z #Bedrockify Text field render
+accessible field net/minecraft/client/gui/widget/TextFieldWidget selectionStart I  #Bedrockify Text field render
+accessible field net/minecraft/client/gui/widget/TextFieldWidget firstCharacterIndex I  #Bedrockify Text field render
+accessible field net/minecraft/client/gui/widget/TextFieldWidget textRenderer Lnet/minecraft/client/font/TextRenderer; #Bedrockify Text field render
+accessible field net/minecraft/client/gui/widget/TextFieldWidget selectionEnd I #Bedrockify Text field render
+accessible field net/minecraft/client/gui/widget/TextFieldWidget renderTextProvider Ljava/util/function/BiFunction; #Bedrockify Text field render
+accessible method net/minecraft/client/gui/widget/TextFieldWidget getMaxLength ()I #Bedrockify Text field render
+accessible field net/minecraft/client/gui/widget/TextFieldWidget placeholder Lnet/minecraft/text/Text; #Bedrockify Text field render
+accessible method net/minecraft/client/gui/widget/TextFieldWidget drawSelectionHighlight (Lnet/minecraft/client/gui/DrawContext;IIII)V #Bedrockify Text field render
+accessible field net/minecraft/client/gui/widget/TextFieldWidget lastSwitchFocusTime J
+extendable method net/minecraft/client/gui/widget/TextFieldWidget onChanged (Ljava/lang/String;)V #Text Field BedrockIfy color field
