@@ -1,6 +1,5 @@
 package me.juancarloscp52.bedrockify.client.features.heldItemTooltips;
 
-import com.google.common.collect.Lists;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.BedrockifyClientSettings;
 import me.juancarloscp52.bedrockify.client.features.heldItemTooltips.tooltip.ContainerTooltip;
@@ -63,38 +62,34 @@ public class HeldItemTooltips {
             y-=16;
         }
 
-        // Draw item tooltips if the option is enabled.
-        if(settings.heldItemTooltips) {
-            // Get the current held item tooltips and convert to Text.
-            final List<Component> tooltips = Lists.newArrayList();
-            for (Tooltip tooltip : getTooltips(currentStack)) {
-                tooltips.add(tooltip.getTooltipText());
-            }
-            // Limit the maximum number of shown tooltips to tooltipSize.
-            final boolean showMoreTooltip = (tooltips.size() > TOOLTIP_SIZE);
-            if (showMoreTooltip) {
-                // Store the number of items.
-                final int xMore = tooltips.size() - (TOOLTIP_SIZE -1);
-                // Trim tooltips.
-                tooltips.subList(TOOLTIP_SIZE - 1, tooltips.size()).clear();
-                // Add the "and x more..." tooltip.
-                tooltips.add(Component.translatable("item.container.more_items", xMore).withStyle(ChatFormatting.GRAY));
-            }
-
-            tooltipOffset = 12 * tooltips.size();
-            //Render background behind tooltip.
-            int maxLength = getMaxTooltipLength(tooltips,fontRenderer,currentStack);
-            renderBackground(drawContext, y, screenBorder, tooltipOffset, maxLength, color >> 24 & 0xff);
-
-
-            int i = tooltips.size() - 1;
-            for (Component elem : tooltips) {
-                // Render the tooltip.
-                renderTooltip(drawContext, fontRenderer, y - screenBorder - (12 * i), color, ((MutableComponent)elem).withStyle(ChatFormatting.GRAY));
-                --i;
-            }
+        // Get the current held item tooltips and convert to Text.
+        final List<Component> tooltips = new ArrayList<>();
+        for (Tooltip tooltip : getTooltips(currentStack)) {
+            tooltips.add(tooltip.getTooltipText());
+        }
+        // Limit the maximum number of shown tooltips to tooltipSize.
+        final boolean showMoreTooltip = (tooltips.size() > TOOLTIP_SIZE);
+        if (showMoreTooltip) {
+            // Store the number of items.
+            final int xMore = tooltips.size() - (TOOLTIP_SIZE -1);
+            // Trim tooltips.
+            tooltips.subList(TOOLTIP_SIZE - 1, tooltips.size()).clear();
+            // Add the "and x more..." tooltip.
+            tooltips.add(Component.translatable("item.container.more_items", xMore).withStyle(ChatFormatting.GRAY));
         }
 
+        tooltipOffset = 12 * tooltips.size();
+        //Render background behind tooltip.
+        int maxLength = getMaxTooltipLength(tooltips,fontRenderer,currentStack);
+        renderBackground(drawContext, y, screenBorder, tooltipOffset, maxLength, color >> 24 & 0xff);
+
+
+        int i = tooltips.size() - 1;
+        for (Component elem : tooltips) {
+            // Render the tooltip.
+            renderTooltip(drawContext, fontRenderer, y - screenBorder - (12 * i), color, ((MutableComponent)elem).withStyle(ChatFormatting.GRAY));
+            --i;
+        }
         // Render the item name.
         drawContext.drawString(fontRenderer, text, (int)x, (int)(y - tooltipOffset - screenBorder), color);
     }
@@ -106,7 +101,7 @@ public class HeldItemTooltips {
      */
     public static List<Tooltip> getTooltips(ItemStack currentStack) {
         final Item item = currentStack.getItem();
-        final List<Tooltip> result = Lists.newArrayList();
+        final List<Tooltip> result = new ArrayList<>();
         if (item == Items.ENCHANTED_BOOK || currentStack.isEnchanted()) {
             var enchantmentsComponent = EnchantmentHelper.getEnchantmentsForCrafting(currentStack);
             enchantmentsComponent.keySet().forEach(enchantment -> result.add(new EnchantmentTooltip(enchantment.value(), enchantmentsComponent.getLevel(enchantment))));
