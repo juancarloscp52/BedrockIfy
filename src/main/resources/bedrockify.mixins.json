@@ -24,6 +24,7 @@
     "client.features.fishingBobber.FishingBobberEntityRendererMixin",
     "client.features.heldItemTooltips.ItemTooltipsMixin",
     "client.features.hudOpacity.BossBarHudMixin",
+    "client.features.hudOpacity.GuiGraphicsAccessor",
     "client.features.hudOpacity.ExperienceBarMixin",
     "client.features.hudOpacity.GuiRendererMixin",
     "client.features.hudOpacity.InGameHudMixin",
