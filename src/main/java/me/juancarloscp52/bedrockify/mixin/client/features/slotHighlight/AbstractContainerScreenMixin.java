@@ -11,12 +11,13 @@ import net.minecraft.client.gui.screens.inventory.LoomScreen;
 import net.minecraft.client.gui.screens.inventory.MerchantScreen;
 import net.minecraft.client.gui.screens.inventory.StonecutterScreen;
 import net.minecraft.world.inventory.Slot;
+
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(AbstractContainerScreen.class)
@@ -25,61 +26,43 @@ public abstract class AbstractContainerScreenMixin {
     private static final int LINE_RENDER_WIDTH = 1;
     @Unique
     private static final int SLOT_RENDER_SIZE = 16;
-    @Unique
-    private Slot currentSlot;
 
     @Shadow
-    protected int leftPos;
-    @Shadow
-    protected int topPos;
+    protected @Nullable Slot hoveredSlot;
 
-    @Shadow
-    abstract boolean isHovering(Slot slot, double pointX, double pointY);
-
-    @Inject(method = {"extractSlotHighlightBack", "extractSlotHighlightFront"}, at = @At("HEAD"), cancellable = true)
-    private static void bedrockify$cancelVanillaHighlight(CallbackInfo ci) {
+    @Inject(method = "extractSlotHighlightFront", at = @At("HEAD"), cancellable = true)
+    private void bedrockify$cancelVanillaHighlightFront(GuiGraphicsExtractor graphics, CallbackInfo ci) {
         BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
         if (settings.isSlotHighlightEnabled()) {
             ci.cancel();
         }
     }
 
-    @ModifyVariable(method = "extractContents", at = @At("STORE"))
-    private Slot bedrockify$storeSlotInLoop(Slot slot) {
-        this.currentSlot = slot;
-        return slot;
-    }
-
-    /**
-     * Draw the current slot in green.
-     */
-    @Inject(method = "extractContents", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/inventory/AbstractContainerScreen;extractSlotHighlightBack(Lnet/minecraft/client/gui/GuiGraphicsExtractor;)V"))
-    private void bedrockify$customHighlightColor(GuiGraphicsExtractor drawContext, int mouseX, int mouseY, float delta, CallbackInfo ci) {
+    @Inject(method = "extractSlotHighlightBack", at = @At("HEAD"), cancellable = true)
+    private void bedrockify$replaceVanillaHighlightBack(GuiGraphicsExtractor graphics, CallbackInfo ci) {
         BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
-        if (!settings.isSlotHighlightEnabled() || this.currentSlot == null) {
+        if (!settings.isSlotHighlightEnabled() || hoveredSlot == null || !hoveredSlot.isHighlightable()) {
             return;
         }
-        if (!this.isHovering(currentSlot, mouseX, mouseY) || !currentSlot.isActive()) {
-            return;
-        }
+        ci.cancel();
 
         final AbstractContainerScreen<?> $this = AbstractContainerScreen.class.cast(this);
         final int highlight1 = settings.getHighLightColor1();
         final int highlight2 = settings.getHighLightColor2();
 
         final int expandStartX, expandStartY, expandEndX, expandEndY;
-        if (($this instanceof AbstractFurnaceScreen && currentSlot.index == 2) ||
-                ($this instanceof CraftingScreen && currentSlot.index == 0) ||
-                ($this instanceof StonecutterScreen && currentSlot.index == 1) ||
-                ($this instanceof CartographyTableScreen && currentSlot.index == 2)
+        if (($this instanceof AbstractFurnaceScreen && hoveredSlot.index == 2) ||
+                ($this instanceof CraftingScreen && hoveredSlot.index == 0) ||
+                ($this instanceof StonecutterScreen && hoveredSlot.index == 1) ||
+                ($this instanceof CartographyTableScreen && hoveredSlot.index == 2)
         ) {
             expandStartX = expandEndX = 4;
             expandStartY = expandEndY = 4;
-        } else if ($this instanceof LoomScreen && currentSlot.index == 3) {
+        } else if ($this instanceof LoomScreen && hoveredSlot.index == 3) {
             expandStartX = expandEndX = 4;
             expandStartY = 4;
             expandEndY = 4;
-        } else if ($this instanceof MerchantScreen && currentSlot.index == 2) {
+        } else if ($this instanceof MerchantScreen && hoveredSlot.index == 2) {
             expandStartX = expandEndX = 4;
             expandStartY = 4;
             expandEndY = 4;
@@ -87,10 +70,10 @@ public abstract class AbstractContainerScreenMixin {
             expandStartX = expandEndX = expandStartY = expandEndY = 0;
         }
 
-        final int fillStartX = currentSlot.x - expandStartX;
-        final int fillStartY = currentSlot.y - expandStartY;
-        final int fillEndX = currentSlot.x + expandEndX + SLOT_RENDER_SIZE;
-        final int fillEndY = currentSlot.y + expandEndY + SLOT_RENDER_SIZE;
+        final int fillStartX = hoveredSlot.x - expandStartX;
+        final int fillStartY = hoveredSlot.y - expandStartY;
+        final int fillEndX = hoveredSlot.x + expandEndX + SLOT_RENDER_SIZE;
+        final int fillEndY = hoveredSlot.y + expandEndY + SLOT_RENDER_SIZE;
         final int outlineLeftX = fillStartX - LINE_RENDER_WIDTH;
         final int outlineTopY = fillStartY - LINE_RENDER_WIDTH;
         final int outlineRightX = fillEndX + LINE_RENDER_WIDTH;
@@ -98,16 +81,16 @@ public abstract class AbstractContainerScreenMixin {
 
         // ** outlines
         // Top-horizontal
-        drawContext.fill(outlineLeftX, outlineTopY, outlineRightX, outlineTopY + LINE_RENDER_WIDTH, highlight1);
+        graphics.fill(outlineLeftX, outlineTopY, outlineRightX, outlineTopY + LINE_RENDER_WIDTH, highlight1);
         // Bottom-horizontal
-        drawContext.fill(outlineLeftX, outlineBottomY - LINE_RENDER_WIDTH, outlineRightX, outlineBottomY, highlight1);
+        graphics.fill(outlineLeftX, outlineBottomY - LINE_RENDER_WIDTH, outlineRightX, outlineBottomY, highlight1);
         // Left-vertical
-        drawContext.fill(outlineLeftX, outlineTopY, outlineLeftX + LINE_RENDER_WIDTH, outlineBottomY, highlight1);
+        graphics.fill(outlineLeftX, outlineTopY, outlineLeftX + LINE_RENDER_WIDTH, outlineBottomY, highlight1);
         // Right-vertical
-        drawContext.fill(outlineRightX - LINE_RENDER_WIDTH, outlineTopY, outlineRightX, outlineBottomY, highlight1);
+        graphics.fill(outlineRightX - LINE_RENDER_WIDTH, outlineTopY, outlineRightX, outlineBottomY, highlight1);
         // ** end of outlines
 
         // highlight
-        drawContext.fill(fillStartX, fillStartY, fillEndX, fillEndY, highlight2);
+        graphics.fill(fillStartX, fillStartY, fillEndX, fillEndY, highlight2);
     }
 }
