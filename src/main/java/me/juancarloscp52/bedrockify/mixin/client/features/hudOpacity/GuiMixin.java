@@ -5,6 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.pipeline.RenderPipeline;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.hudOpacity.HudOpacity;
+import me.juancarloscp52.bedrockify.client.features.hudOpacity.IGuiItemOpacity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.Gui;
@@ -43,15 +44,13 @@ public class GuiMixin {
 
     @WrapOperation(method = "extractSlot", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;itemDecorations(Lnet/minecraft/client/gui/Font;Lnet/minecraft/world/item/ItemStack;II)V"))
     private void bedrockify$applyOpacityToStackCount(GuiGraphicsExtractor instance, Font font, ItemStack itemStack, int x, int y, Operation<Void> original) {
-        if (!itemStack.isEmpty() && instance instanceof GuiGraphicsAccessor accessor) {
-            instance.pose().pushMatrix();
-            accessor.invokeItemBar(itemStack, x, y);
-            accessor.invokeItemCooldown(itemStack, x, y);
-            if (itemStack.getCount() != 1) {
-                String stackCount = String.valueOf(itemStack.getCount());
-                instance.text(font, stackCount, x + 19 - 2 - font.width(stackCount), y + 6 + 3, ARGB.white(hudOpacity.getHudOpacity(false)), true);
-            }
-            instance.pose().popMatrix();
+        IGuiItemOpacity iGuiItemOpacity = (instance instanceof IGuiItemOpacity) ? (IGuiItemOpacity) instance : null;
+        if (iGuiItemOpacity != null) {
+            iGuiItemOpacity.setOpacity(hudOpacity.getHudOpacity(false));
+        }
+        original.call(instance, font, itemStack, x, y);
+        if (iGuiItemOpacity != null) {
+            iGuiItemOpacity.setOpacity(1f);
         }
     }
 

@@ -24,7 +24,7 @@
     "client.features.heldItemTooltips.ItemTooltipsMixin",
     "client.features.hudOpacity.BossHealthOverlayMixin",
     "client.features.hudOpacity.ExperienceBarRendererMixin",
-    "client.features.hudOpacity.GuiGraphicsAccessor",
+    "client.features.hudOpacity.GuiGraphicsExtractorMixin",
     "client.features.hudOpacity.GuiMixin",
     "client.features.hudOpacity.GuiRendererMixin",
     "client.features.hudOpacity.JumpableVehicleBarRendererMixin",
