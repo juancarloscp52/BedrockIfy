@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 @Mixin(GuiGraphicsExtractor.class)
 public abstract class GuiGraphicsExtractorMixin implements IGuiItemOpacity {
     @Unique
-    private float opacity;
+    private float opacity = 1f;
 
     @Override
     public void setOpacity(float opacity) {
@@ -25,11 +25,13 @@ public abstract class GuiGraphicsExtractorMixin implements IGuiItemOpacity {
 
     @ModifyArg(method = "itemBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;fill(Lcom/mojang/blaze3d/pipeline/RenderPipeline;IIIII)V"), index = 5)
     private int bedrockify$modifyItemBarOpacity(int original) {
-        return ARGB.color(this.opacity, original);
+        final float alpha = ARGB.alpha(original) / 255f;
+        return ARGB.color(this.opacity * alpha, original);
     }
 
     @ModifyArg(method = "itemCount", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;text(Lnet/minecraft/client/gui/Font;Ljava/lang/String;IIIZ)V"), index = 4)
     private int bedrockify$modifyItemCountOpacity(int original) {
-        return ARGB.color(this.opacity, original);
+        final float alpha = ARGB.alpha(original) / 255f;
+        return ARGB.color(this.opacity * alpha, original);
     }
 }
