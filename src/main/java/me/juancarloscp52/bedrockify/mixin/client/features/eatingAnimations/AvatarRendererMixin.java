@@ -36,6 +36,9 @@ public abstract class AvatarRendererMixin<AvatarlikeEntity extends Avatar & Clie
 
     @Unique
     private boolean bedrockify$checkEatingAction(AvatarlikeEntity entity, AvatarRenderState state, InteractionHand hand, ItemStack itemStack) {
-        return entity.isUsingItem() && state.useItemHand == hand && (itemStack.getUseAnimation() == ItemUseAnimation.EAT || itemStack.getUseAnimation() == ItemUseAnimation.DRINK);
+        return entity.isUsingItem() &&
+                entity.getUseItem().is(itemStack.getItem()) &&
+                state.useItemHand == hand &&
+                (itemStack.getUseAnimation() == ItemUseAnimation.EAT || itemStack.getUseAnimation() == ItemUseAnimation.DRINK);
     }
 }
