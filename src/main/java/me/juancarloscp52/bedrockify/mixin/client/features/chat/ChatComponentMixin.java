@@ -12,7 +12,8 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.*;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
@@ -60,7 +61,7 @@ public abstract class ChatComponentMixin {
 
     @ModifyReturnValue(method = "getLinesPerPage", at = @At("RETURN"))
     private int bedrockify$modifyLineCount(int original) {
-        if (!settings.isBedrockChatEnabled() || minecraft.gui.getDebugOverlay().showDebugScreen()) {
+        if (!settings.isBedrockChatEnabled() || minecraft.getDebugOverlay().showDebugScreen()) {
             return original;
         }
 
@@ -71,7 +72,7 @@ public abstract class ChatComponentMixin {
 
     @ModifyExpressionValue(method = "extractRenderState(Lnet/minecraft/client/gui/components/ChatComponent$ChatGraphicsAccess;IILnet/minecraft/client/gui/components/ChatComponent$DisplayMode;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/Mth;floor(F)I"))
     private int bedrockify$moveChatHud(int original) {
-        if (!settings.isBedrockChatEnabled() || minecraft.gui.getDebugOverlay().showDebugScreen()) {
+        if (!settings.isBedrockChatEnabled() || minecraft.getDebugOverlay().showDebugScreen()) {
             return original;
         }
 
@@ -83,7 +84,7 @@ public abstract class ChatComponentMixin {
      */
     @Inject(method = "extractRenderState(Lnet/minecraft/client/gui/components/ChatComponent$ChatGraphicsAccess;IILnet/minecraft/client/gui/components/ChatComponent$DisplayMode;)V", at = @At("HEAD"))
     private void bedrockify$gatherInfo(ChatComponent.ChatGraphicsAccess backend, int windowHeight, int currentTick, ChatComponent.DisplayMode displayMode, CallbackInfo ci) {
-        if (!settings.isBedrockChatEnabled() || minecraft.gui.getDebugOverlay().showDebugScreen()) {
+        if (!settings.isBedrockChatEnabled() || minecraft.getDebugOverlay().showDebugScreen()) {
             return;
         }
 

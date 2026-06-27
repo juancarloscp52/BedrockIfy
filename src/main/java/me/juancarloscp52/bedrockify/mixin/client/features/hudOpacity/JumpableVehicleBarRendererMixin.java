@@ -6,14 +6,14 @@ import com.mojang.blaze3d.pipeline.RenderPipeline;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.hudOpacity.HudOpacity;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.gui.contextualbar.JumpableVehicleBarRenderer;
+import net.minecraft.client.gui.contextualbar.JumpableVehicleBar;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
-@Mixin(value = JumpableVehicleBarRenderer.class, priority = 500)
+@Mixin(value = JumpableVehicleBar.class, priority = 500)
 public abstract class JumpableVehicleBarRendererMixin {
     @Unique
     private final HudOpacity hudOpacity = BedrockifyClient.getInstance().hudOpacity;

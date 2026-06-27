@@ -26,7 +26,7 @@ public class HudOpacity {
         if(inactiveTicks< maxInactiveTicks)
             inactiveTicks++;
 
-        if(Minecraft.getInstance().screen !=null) {
+        if(Minecraft.getInstance().gui.screen() !=null) {
             resetTicks();
             currentOpacity = 1;
         }

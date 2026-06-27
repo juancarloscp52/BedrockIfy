@@ -20,7 +20,6 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(ConnectScreen.class)
 public class ConnectScreenMixin extends Screen {
@@ -58,9 +57,9 @@ public class ConnectScreenMixin extends Screen {
                 if (this.connection != null) {
                     this.connection.disconnect(Component.translatable("connect.aborted"));
                 }
-                this.minecraft.setScreen(this.parent);
+                this.minecraft.gui.setScreen(this.parent);
             }).pos(this.width / 2 - 100, (int) Math.ceil(Minecraft.getInstance().getWindow().getGuiScaledHeight() * 0.75D)).width(200).build());
-        }else{
+        } else {
             return original.call(instance, drawableElement);
         }
     }

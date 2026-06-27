@@ -115,7 +115,7 @@ public class BedrockifyClient implements ClientModInitializer {
         HudElementRegistry.addLast(Identifier.fromNamespaceAndPath(Bedrockify.MOD_ID, "overlay"), (context, tickCounter) -> BedrockifyClient.getInstance().overlay.renderOverlay(context));
         ClientTickEvents.END_CLIENT_TICK.register(client-> {
             while (keyBinding.consumeClick()){
-                client.setScreen(settingsGUI.getConfigScreen(client.screen));
+                client.gui.setScreen(settingsGUI.getConfigScreen(client.gui.screen()));
             }
             hudOpacity.tick();
             bedrockSunGlareShading.tick(client.getDeltaTracker().getGameTimeDeltaPartialTick(true));

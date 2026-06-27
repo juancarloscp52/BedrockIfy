@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_16",
   "plugin": "me.juancarloscp52.bedrockify.mixin.BedrockIfyMixinPlugin",
   "client": [
+    "client.core.bedrockIfyButton.ExtendScreenMixin",
     "client.core.bedrockIfyButton.OptionsScreenMixin",
     "client.core.clientRenderTimer.MinecraftMixin",
     "client.features.bedrockShading.lightBlock.AbstractTerrainRenderContextMixin",

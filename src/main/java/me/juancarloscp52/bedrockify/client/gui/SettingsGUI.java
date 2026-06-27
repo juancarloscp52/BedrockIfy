@@ -136,7 +136,7 @@ public class SettingsGUI {
             visualImprovements.addEntry(entryBuilder.startBooleanToggle(Component.translatable("bedrockify.options.eatingAnimations"), settingsClient.eatingAnimations).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.eatingAnimations=newValue).build());
             visualImprovements.addEntry(entryBuilder.startBooleanToggle(Component.translatable("bedrockify.options.bedrockShading"), settingsClient.bedrockShading).setTooltip(wrapLines(Component.translatable("bedrockify.options.bedrockShading.tooltip"))).setDefaultValue(true).setSaveConsumer(newValue -> {
                 settingsClient.bedrockShading=newValue;
-                Minecraft.getInstance().levelRenderer.allChanged();
+                Minecraft.getInstance().levelRenderer.resetLevelRenderData();
             }).build());
             visualImprovements.addEntry(entryBuilder.startIntSlider(Component.translatable("bedrockify.options.sunlightIntensity"), settingsClient.sunlightIntensity,0,100).setTooltip(wrapLines(Component.translatable("bedrockify.options.sunlightIntensity.tooltip"))).setDefaultValue(50).setSaveConsumer(newValue -> {
                 settingsClient.sunlightIntensity = newValue;

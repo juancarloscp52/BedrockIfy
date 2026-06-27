@@ -1,11 +1,11 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.idleHandAnimations;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemInHandRenderer;
-import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.util.Mth;
+import net.minecraft.world.entity.HumanoidArm;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,7 +20,7 @@ public class ItemInHandRendererMixin {
     @Unique
     private static final float ONE_CYCLE = 2 * Mth.PI;
 
-    @Inject(method = "renderHandsWithItems(FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/player/LocalPlayer;I)V", at = @At("HEAD"))
+    @Inject(method = "submitHandsWithItems(FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/player/LocalPlayer;I)V", at = @At("HEAD"))
     private void bedrockify$updateSwayDelta(CallbackInfo ci) {
         if (Minecraft.getInstance().isPaused()) {
             return;

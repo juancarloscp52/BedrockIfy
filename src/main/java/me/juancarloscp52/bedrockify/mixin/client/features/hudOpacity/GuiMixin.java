@@ -8,8 +8,8 @@ import me.juancarloscp52.bedrockify.client.features.hudOpacity.HudOpacity;
 import me.juancarloscp52.bedrockify.client.features.hudOpacity.IGuiItemOpacity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.Hud;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.item.ItemStack;
@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyConstant;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(value = Gui.class, priority = 500)
+@Mixin(value = Hud.class, priority = 500)
 public class GuiMixin {
 
     @Unique

@@ -23,7 +23,7 @@ public abstract class GuiGraphicsExtractorMixin implements IGuiItemOpacity {
         return this.opacity;
     }
 
-    @ModifyArg(method = "itemBar", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;fill(Lcom/mojang/blaze3d/pipeline/RenderPipeline;IIIII)V"), index = 5)
+    @ModifyArg(method = {"itemBar", "itemCooldown"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;fill(Lcom/mojang/blaze3d/pipeline/RenderPipeline;IIIII)V"), index = 5)
     private int bedrockify$modifyItemBarOpacity(int original) {
         final float alpha = ARGB.alpha(original) / 255f;
         return ARGB.color(this.opacity * alpha, original);

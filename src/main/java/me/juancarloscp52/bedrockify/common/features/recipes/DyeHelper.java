@@ -17,13 +17,13 @@ public class DyeHelper {
         if (item instanceof DyeItem)
             return Optional.of((DyeItem) item);
         if (item instanceof BoneMealItem)
-            return Optional.of((DyeItem) Items.WHITE_DYE);
+            return Optional.of((DyeItem) Items.DYE.white());
         if (item.equals(Items.INK_SAC))
-            return Optional.of((DyeItem) Items.BLACK_DYE);
+            return Optional.of((DyeItem) Items.DYE.black());
         if (item.equals(Items.LAPIS_LAZULI))
-            return Optional.of((DyeItem) Items.BLUE_DYE);
+            return Optional.of((DyeItem) Items.DYE.blue());
         if (item.equals(Items.COCOA_BEANS))
-            return Optional.of((DyeItem) Items.BROWN_DYE);
+            return Optional.of((DyeItem) Items.DYE.brown());
         return Optional.empty();
     }
 

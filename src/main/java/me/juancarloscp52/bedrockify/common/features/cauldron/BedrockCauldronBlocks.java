@@ -39,7 +39,7 @@ public final class BedrockCauldronBlocks {
     }
 
     static {
-        POTION_CAULDRON = prepare(ID_POTION_CAULDRON, PotionCauldronBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.CAULDRON).emissiveRendering((state, world, pos) -> true));
+        POTION_CAULDRON = prepare(ID_POTION_CAULDRON, PotionCauldronBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.CAULDRON).emissiveRendering((state) -> true));
         COLORED_WATER_CAULDRON = prepare(ID_COLORED_WATER_CAULDRON, ColoredWaterCauldronBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.CAULDRON));
 
         WATER_CAULDRON_ENTITY = FabricBlockEntityTypeBuilder.create(WaterCauldronBlockEntity::new, POTION_CAULDRON, COLORED_WATER_CAULDRON).build();

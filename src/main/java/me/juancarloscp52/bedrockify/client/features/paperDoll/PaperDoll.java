@@ -40,7 +40,7 @@ public class PaperDoll {
         if (!settings.isShowPaperDollEnabled())
             return;
 
-        if (this.client.screen instanceof InventoryScreen || this.client.screen instanceof CreativeModeInventoryScreen) {
+        if (this.client.gui.screen() instanceof InventoryScreen || this.client.gui.screen() instanceof CreativeModeInventoryScreen) {
             return;
         }
 
@@ -91,7 +91,7 @@ public class PaperDoll {
             renderBottomPosY = textPosY;
         } else {
             renderBottomPosY = textPosY + size * 2 + 5;
-            if (settings.getFPSHUDoption()==2)
+            if (settings.getFPSHUDoption() == 2)
                 renderBottomPosY += 10;
             if (settings.isShowPositionHUDEnabled())
                 renderBottomPosY += 10;
@@ -106,11 +106,11 @@ public class PaperDoll {
         else if (player.isSwimming()) {
             offsetY = -2;
         }
-        int safeArea = settings.overlayIgnoresSafeArea? 0 : settings.getScreenSafeArea();
+        int safeArea = settings.overlayIgnoresSafeArea ? 0 : settings.getScreenSafeArea();
         int x1 = posX + safeArea;
         int y2 = renderBottomPosY + safeArea;
         int x2 = x1 + Mth.ceil(size * 3.25f);
-        int y1 = Math.max(safeArea,  y2 - size * 3);
+        int y1 = Math.max(safeArea, y2 - size * 3);
         drawContext.enableScissor(x1, y1, x2, y2);
 
         // Store previous entity rotations.
@@ -130,7 +130,7 @@ public class PaperDoll {
         player.yBodyRot = angle;
 
         Vector3f translation = new Vector3f(offsetX * SCREEN_PIXEL_TO_GL_SCALE, player.getBbHeight() * 0.5f + offsetY * SCREEN_PIXEL_TO_GL_SCALE, 0.0F);
-        Quaternionf rotation = new Quaternionf().rotateZ((float)Math.PI);
+        Quaternionf rotation = new Quaternionf().rotateZ((float) Math.PI);
 
         // Draw the entity.
         EntityRenderDispatcher entityRenderManager = Minecraft.getInstance().getEntityRenderDispatcher();
@@ -140,7 +140,7 @@ public class PaperDoll {
         entityRenderState.shadowPieces.clear();
         entityRenderState.outlineColor = 0;
 
-        drawContext.entity(entityRenderState, (float)size, translation, rotation, null, x1, y1, x2, y2);
+        drawContext.entity(entityRenderState, (float) size, translation, rotation, null, x1, y1, x2, y2);
 
         // Restore previous entity rotations.
         player.yBodyRot = bodyYaw;

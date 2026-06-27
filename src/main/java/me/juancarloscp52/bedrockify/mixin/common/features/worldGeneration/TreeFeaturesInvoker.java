@@ -1,9 +1,10 @@
 package me.juancarloscp52.bedrockify.mixin.common.features.worldGeneration;
 
 
-import net.minecraft.world.level.block.Block;
 import net.minecraft.data.worldgen.features.TreeFeatures;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.levelgen.feature.configurations.TreeConfiguration;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
@@ -11,7 +12,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 public interface TreeFeaturesInvoker {
 
     @Invoker("createStraightBlobTree")
-    static TreeConfiguration.TreeConfigurationBuilder invokeCreateStraightBlobTree(Block log, Block leaves, int baseHeight, int firstRandomHeight, int secondRandomHeight, int radius){
+    static TreeConfiguration.TreeConfigurationBuilder invokeCreateStraightBlobTree(Block oakLog, Block oakLeaves, int baseHeight, int heightRandA, int heightRandB, int blobRadius, BlockStateProvider belowTrunkProvider) {
         throw new AssertionError();
     }
 

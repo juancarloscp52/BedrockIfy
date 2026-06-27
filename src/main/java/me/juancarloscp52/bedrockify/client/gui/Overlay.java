@@ -29,7 +29,7 @@ public class Overlay {
 
     public void renderOverlay(GuiGraphicsExtractor drawContext) {
         // Only render the overlay if HUD is not hidden and debug is NOT enabled.
-        if (!client.gui.getDebugOverlay().showDebugScreen() && !client.options.hideGui){
+        if (!client.getDebugOverlay().showDebugScreen() && !client.gui.hud.isHidden()){
             this.renderText(drawContext);
             this.paperDoll.renderPaperDoll(drawContext);
             BedrockifyClient.getInstance().reachAroundPlacement.renderIndicator(drawContext);

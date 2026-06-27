@@ -4,10 +4,10 @@ import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.client.features.loadingScreens.LoadingScreenWidget;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.DisconnectedScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.TitleScreen;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.DisconnectionDetails;
 import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Final;
@@ -31,7 +31,7 @@ public abstract class DisconnectedScreenMixin extends ExtendScreenMixin {
     @Inject(method = "init", at=@At("HEAD"), cancellable = true)
     public void init(CallbackInfo ci){
         if(BedrockifyClient.getInstance().settings.isLoadingScreenEnabled()){
-            Button.Builder buttonWidget = this.minecraft.allowsMultiplayer() ? Button.builder(this.buttonText, button -> this.minecraft.setScreen(this.parent)) : Button.builder(TO_TITLE, button -> this.minecraft.setScreen(new TitleScreen()));
+            Button.Builder buttonWidget = this.minecraft.allowsMultiplayer() ? Button.builder(this.buttonText, button -> this.minecraft.gui.setScreen(this.parent)) : Button.builder(TO_TITLE, button -> this.minecraft.gui.setScreen(new TitleScreen()));
             this.addRenderableWidget(buttonWidget.pos(this.width / 2 - 100, (int) Math.ceil(Minecraft.getInstance().getWindow().getGuiScaledHeight() * 0.75D)).width(200).build());
             ci.cancel();
         }
