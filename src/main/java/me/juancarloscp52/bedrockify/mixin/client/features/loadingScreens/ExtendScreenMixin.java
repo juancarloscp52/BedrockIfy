@@ -11,9 +11,12 @@ import net.minecraft.network.chat.Component;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import java.util.List;
 
 @Mixin(Screen.class)
 public abstract class ExtendScreenMixin extends AbstractContainerEventHandler implements Renderable {
@@ -28,6 +31,9 @@ public abstract class ExtendScreenMixin extends AbstractContainerEventHandler im
 
     @Shadow
     protected abstract <T extends GuiEventListener & Renderable & NarratableEntry> T addRenderableWidget(final T widget);
+
+    @Accessor("renderables")
+    protected abstract List<Renderable> bedrockify$access_getRenderables();
 
     @Inject(method = "extractRenderStateWithTooltipAndSubtitles", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/screens/Screen;extractBackground(Lnet/minecraft/client/gui/GuiGraphicsExtractor;IIF)V", shift = At.Shift.AFTER), cancellable = true)
     protected void bedrockify$screenRender_AfterRenderBG(GuiGraphicsExtractor context, int mouseX, int mouseY, float delta, CallbackInfo ci) {

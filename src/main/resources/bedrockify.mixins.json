@@ -35,6 +35,7 @@
 
 
     "client.features.idleHandAnimations.ItemInHandRendererMixin",
+    "client.features.loadingScreens.fancyMenu.ConnectScreenMixin",
     "client.features.loadingScreens.ConnectScreenMixin",
     "client.features.loadingScreens.DisconnectedScreenMixin",
     "client.features.loadingScreens.ExtendScreenMixin",

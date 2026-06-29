@@ -39,6 +39,9 @@ public class BedrockIfyMixinPlugin  implements IMixinConfigPlugin {
         if(mixinClassName.contains("appleskin") && !FabricLoader.getInstance().isModLoaded("appleskin")){
             return false;
         }
+        if(mixinClassName.contains("fancyMenu") && !FabricLoader.getInstance().isModLoaded("fancymenu")){
+            return false;
+        }
         if(mixinClassName.contains("me.juancarloscp52.bedrockify.mixin.client.features.bedrockShading") && FabricLoader.getInstance().isModLoaded("optifabric")){
             LogManager.getLogger().info("The mod \"OptiFabric\" has been detected. This mod is not totally compatible with BedrockIfy. BedrockIfy Bedrock Shading is now disabled.");
             return false;
