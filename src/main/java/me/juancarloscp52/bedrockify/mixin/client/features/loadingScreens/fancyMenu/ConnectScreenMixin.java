@@ -2,7 +2,6 @@ package me.juancarloscp52.bedrockify.mixin.client.features.loadingScreens.fancyM
 
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import me.juancarloscp52.bedrockify.client.BedrockifyClient;
 import me.juancarloscp52.bedrockify.mixin.client.features.loadingScreens.ExtendScreenMixin;
 import net.minecraft.client.gui.components.Renderable;
 import net.minecraft.client.gui.screens.ConnectScreen;
@@ -20,7 +19,6 @@ public abstract class ConnectScreenMixin extends ExtendScreenMixin {
     private void bedrockify$ctor_compatFancyMenu(Operation<Void> original) {
         original.call();
         final List<Renderable> widgets = this.bedrockify$access_getRenderables();
-        BedrockifyClient.LOGGER.info("widgets = {}", widgets);
         widgets.removeIf(widget -> widget.getClass().getCanonicalName().equals("de.keksuccino.fancymenu.util.rendering.ui.widget.TextWidget"));
     }
 }
