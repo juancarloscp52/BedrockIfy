@@ -5,7 +5,9 @@
   "name": "BedrockIfy",
   "description": "BedrockIfy implements some Minecraft Bedrock features into Java edition.",
   "authors": [
-    "juancarloscp52",
+    "juancarloscp52"
+  ],
+  "contributors": [
     "lonefelidae16"
   ],
   "contact": {
@@ -26,22 +28,35 @@
     "fabric-datagen": [
       "me.juancarloscp52.bedrockify.datagen.BedrockIfyDatagen"
     ],
-    "modmenu": ["me.juancarloscp52.bedrockify.client.BedrockifyModMenu"]
+    "modmenu": [
+      "me.juancarloscp52.bedrockify.client.BedrockifyModMenu"
+    ]
   },
   "accessWidener": "bedrockify.accesswidener",
   "mixins": [
     "bedrockify.mixins.json"
   ],
   "depends": {
+    "cloth-config": "*",
     "fabricloader": ">=0.16.0",
     "fabric-api": "*",
     "minecraft": ">=1.21.9",
-    "java":">=21"
+    "java": ">=21"
   },
   "suggests": {
     "modmenu": ">=16.0.0"
   },
   "conflicts": {
     "held-item-info": "*"
+  },
+  "custom": {
+    "modmenu": {
+      "links": {
+        "modmenu.curseforge": "https://www.curseforge.com/minecraft/mc-mods/bedrockify",
+        "modmenu.donate": "https://www.paypal.com/paypalme/juancarloscp52",
+        "modmenu.github_releases": "https://github.com/juancarloscp52/BedrockIfy/releases",
+        "modmenu.modrinth": "https://modrinth.com/mod/bedrockify"
+      }
+    }
   }
 }
