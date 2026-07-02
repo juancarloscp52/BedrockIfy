@@ -80,11 +80,8 @@ public class SettingsGUI {
             SubCategoryBuilder bedrockOverlay = entryBuilder.startSubCategory(Component.translatable("bedrockify.options.subCategory.bedrockOverlay"));
             bedrockOverlay.add(entryBuilder.startTextDescription(Component.translatable("bedrockify.options.subCategory.bedrockOverlay.description")).build());
             bedrockOverlay.add(entryBuilder.startBooleanToggle(Component.translatable("bedrockify.options.showCoordinates"), settingsClient.showPositionHUD).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.showPositionHUD=newValue).build());
-            bedrockOverlay.add(entryBuilder.startSelector(Component.translatable("bedrockify.options.showFPS"), new Byte []{0,1,2}, settingsClient.FPSHUD).setDefaultValue((byte) 0).setNameProvider((value)-> switch (value) {
-                case 0 -> Component.translatable("bedrockify.options.off");
-                case 1 -> Component.translatable("bedrockify.options.withPosition");
-                default -> Component.translatable("bedrockify.options.underPosition");
-            }).setSaveConsumer((newValue)-> settingsClient.FPSHUD=newValue).build());
+            bedrockOverlay.add(entryBuilder.startEnumSelector(Component.translatable("bedrockify.options.showFPS"), BedrockifyClientSettings.FpsHudOption.class, settingsClient.FPSHUD).setDefaultValue(BedrockifyClientSettings.FpsHudOption.OFF).setEnumNameProvider(elem -> Component.translatable(((BedrockifyClientSettings.FpsHudOption) elem).translateKey)).setSaveConsumer((newValue)-> settingsClient.FPSHUD=newValue).build());
+            bedrockOverlay.add(entryBuilder.startBooleanToggle(Component.translatable("bedrockify.options.showDaysPlayed"), settingsClient.showDaysPlayed).setDefaultValue(false).setSaveConsumer(newValue -> settingsClient.showDaysPlayed = newValue).build());
             bedrockOverlay.add(entryBuilder.startIntSlider(Component.translatable("bedrockify.options.coordinatesPosition"), settingsClient.positionHUDHeight,0,100).setDefaultValue(50).setSaveConsumer((newValue)-> settingsClient.positionHUDHeight=newValue).build());
             bedrockOverlay.add(entryBuilder.startBooleanToggle(Component.translatable("bedrockify.options.showPaperDoll"), settingsClient.showPaperDoll).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.showPaperDoll=newValue).build());
             bedrockOverlay.add(entryBuilder.startBooleanToggle(Component.translatable("bedrockify.options.showSavingOverlay"), settingsClient.savingOverlay).setDefaultValue(true).setSaveConsumer(newValue -> settingsClient.savingOverlay=newValue).build());

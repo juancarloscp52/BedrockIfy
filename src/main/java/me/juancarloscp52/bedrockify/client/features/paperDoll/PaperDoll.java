@@ -90,11 +90,7 @@ public class PaperDoll {
         if (textPosY >= 2 * size + 10) {
             renderBottomPosY = textPosY;
         } else {
-            renderBottomPosY = textPosY + size * 2 + 5;
-            if (settings.getFPSHUDoption() == 2)
-                renderBottomPosY += 10;
-            if (settings.isShowPositionHUDEnabled())
-                renderBottomPosY += 10;
+            renderBottomPosY = textPosY + size * 2 + 6 + BedrockifyClient.getInstance().overlay.getTextsTopOffset();
         }
 
         // If the player is elytra flying, the entity must be manually centered depending on the pitch.

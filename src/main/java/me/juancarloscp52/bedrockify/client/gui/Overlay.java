@@ -9,9 +9,12 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.Mth;
+import net.minecraft.util.ARGB;
+import net.minecraft.world.clock.ClockManager;
+import net.minecraft.world.timeline.Timelines;
 
 import java.util.Objects;
+import java.util.Optional;
 
 public class Overlay {
 
@@ -19,7 +22,11 @@ public class Overlay {
     private final PaperDoll paperDoll;
     public final SavingOverlay savingOverlay;
     private Component fps;
-    private final int textPosX = 0;
+    private final BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
+
+    private static final int POSITION_TEXT_BG_HEIGHT = 12;
+    private static final int FPS_TEXT_BG_HEIGHT = 10;
+    private static final int DAYS_PLAYED_TEXT_BG_HEIGHT = 11;
 
     public Overlay(Minecraft client) {
         this.client = client;
@@ -37,46 +44,68 @@ public class Overlay {
         }
     }
 
+    public int getTextsTopOffset() {
+        return POSITION_TEXT_BG_HEIGHT +
+                this.getFpsTextHeight() +
+                DAYS_PLAYED_TEXT_BG_HEIGHT;
+    }
+
+    private int getFpsTextHeight() {
+        return (this.settings.getFPSHUDoption() == BedrockifyClientSettings.FpsHudOption.UNDER_POSITION) ? FPS_TEXT_BG_HEIGHT : 0;
+    }
+
     /**
      * Renders the text components for the player position and client fps.
      */
     private void renderText(GuiGraphicsExtractor drawContext) {
         fps = Component.translatable("bedrockify.hud.fps").append(String.valueOf(client.getFps()));
-        renderPositionText(drawContext);
-        renderFpsText(drawContext);
+        int y = settings.getPositionHUDHeight();
+        renderPositionText(drawContext, y);
+        if (settings.getFPSHUDoption() == BedrockifyClientSettings.FpsHudOption.UNDER_POSITION) {
+            y += POSITION_TEXT_BG_HEIGHT - 2;
+            renderFpsText(drawContext, y + 2);
+        }
+        renderDaysPlayedText(drawContext, y + POSITION_TEXT_BG_HEIGHT);
     }
 
-    private void renderPositionText(GuiGraphicsExtractor drawContext) {
-        BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
+    private void renderPositionText(GuiGraphicsExtractor drawContext, int y) {
         int screenBorder = settings.overlayIgnoresSafeArea ? 0 : settings.getScreenSafeArea();
-        int posY = settings.getPositionHUDHeight();
         if (!settings.isShowPositionHUDEnabled())
             return;
         BlockPos blockPos = Objects.requireNonNull(this.client.getCameraEntity(), "Camera Entity cannot be null.").blockPosition();
         MutableComponent position = Component.translatable("bedrockify.hud.position").append(Component.literal(" "+ blockPos.getX() + ", " + blockPos.getY() + ", " + blockPos.getZ()));
-        if(settings.getFPSHUDoption()==1)
+        if (settings.getFPSHUDoption() == BedrockifyClientSettings.FpsHudOption.WITH_POSITION)
             position.append(" ").append(fps);
         int positionWidth = client.font.width(position);
         float opacity = BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false);
-//        RenderSystem.setShaderColor(1,1,1,1);
-        drawContext.fill(textPosX + screenBorder, posY + screenBorder, textPosX + positionWidth + 6 + screenBorder, posY + 12 + screenBorder, Mth.ceil((255.0D * client.options.textBackgroundOpacity().get()) * opacity)<<24);
-        int alpha = (int) Math.ceil(opacity*255);
-        drawContext.text(client.font, position, textPosX + 3 + screenBorder, posY + 3 + screenBorder, 16777215 | ((alpha) << 24));
+        drawContext.fill(screenBorder, y + screenBorder, positionWidth + 6 + screenBorder, y + POSITION_TEXT_BG_HEIGHT + screenBorder, ARGB.black((float) (client.options.textBackgroundOpacity().get() * opacity)));
+        drawContext.text(client.font, position, 3 + screenBorder, y + 3 + screenBorder, ARGB.white(opacity));
     }
 
-    private void renderFpsText(GuiGraphicsExtractor drawContext) {
-        BedrockifyClientSettings settings = BedrockifyClient.getInstance().settings;
+    private void renderFpsText(GuiGraphicsExtractor drawContext, int y) {
         int screenBorder = settings.overlayIgnoresSafeArea ? 0 : settings.getScreenSafeArea();
-        int posY = settings.getPositionHUDHeight()+2;
-        boolean positionEnabled = settings.isShowPositionHUDEnabled();
-        if (settings.getFPSHUDoption()!=2)
-            return;
         int fpsCounterWidth = client.font.width(fps);
         float opacity = BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false);
-//        RenderSystem.setShaderColor(1,1,1,1);
-        drawContext.fill(textPosX + screenBorder, posY + (positionEnabled ? 10 : 0) + screenBorder, textPosX + fpsCounterWidth + 6 + screenBorder, posY + (positionEnabled ? 10 : 0) + 10 + screenBorder, Mth.ceil((255.0D * client.options.textBackgroundOpacity().get()) * opacity)<<24);
-        int alpha = (int) Math.ceil(opacity*255);
-        drawContext.text(client.font, fps, textPosX + 3 + screenBorder, posY + 1 + (positionEnabled ? 10 : 0) + screenBorder, 16777215 | ((alpha) << 24));
+        drawContext.fill(screenBorder, y + screenBorder, fpsCounterWidth + 6 + screenBorder, y + FPS_TEXT_BG_HEIGHT + screenBorder, ARGB.black((float) (client.options.textBackgroundOpacity().get() * opacity)));
+        drawContext.text(client.font, fps, 3 + screenBorder, y + 1 + screenBorder, ARGB.white(opacity));
     }
 
+    private void renderDaysPlayedText(GuiGraphicsExtractor drawContext, int y) {
+        if (!settings.isShowDaysPlayed()) {
+            return;
+        }
+        if (this.client.level == null) {
+            return;
+        }
+        final ClockManager clockManager = this.client.level.clockManager();
+        final Optional<Integer> days = this.client.level.registryAccess().get(Timelines.OVERWORLD_DAY).map(timelineReference -> timelineReference.value().getPeriodCount(clockManager));
+        if (days.isEmpty()) {
+            return;
+        }
+        final int screenBorder = settings.overlayIgnoresSafeArea ? 0 : settings.getScreenSafeArea();
+        final Component daysPlayed = Component.translatable("bedrockify.hud.daysPlayed", days.get());
+        final float opacity = BedrockifyClient.getInstance().hudOpacity.getHudOpacity(false);
+        drawContext.fill(screenBorder, y + screenBorder, this.client.font.width(daysPlayed) + 6 + screenBorder, y + DAYS_PLAYED_TEXT_BG_HEIGHT + screenBorder, ARGB.black((float) (client.options.textBackgroundOpacity().get() * opacity)));
+        drawContext.text(client.font, daysPlayed, 3 + screenBorder, y + 2 + screenBorder, ARGB.white(opacity));
+    }
 }

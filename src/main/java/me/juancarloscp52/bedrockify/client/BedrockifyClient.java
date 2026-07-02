@@ -1,6 +1,6 @@
 package me.juancarloscp52.bedrockify.client;
 
-import com.google.gson.Gson;
+import com.google.gson.*;
 import me.juancarloscp52.bedrockify.Bedrockify;
 import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockBlockShading;
 import me.juancarloscp52.bedrockify.client.features.bedrockShading.BedrockSunGlareShading;
@@ -39,11 +39,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.lwjgl.glfw.GLFW;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 public class BedrockifyClient implements ClientModInitializer {
@@ -65,6 +63,23 @@ public class BedrockifyClient implements ClientModInitializer {
     private static KeyMapping keyBinding;
 
     public BedrockifyClientSettings settings;
+
+    private static final Gson SETTINGS_ENUM_DESERIALIZER = new GsonBuilder()
+            .registerTypeAdapter(BedrockifyClientSettings.FpsHudOption.class, (JsonDeserializer<BedrockifyClientSettings.FpsHudOption>) (json, typeOfT, context) -> {
+                try {
+                    return BedrockifyClientSettings.FpsHudOption.valueOf(json.getAsString());
+                } catch (Exception ignore) {
+                }
+                return BedrockifyClientSettings.FpsHudOption.OFF;
+            })
+            .registerTypeAdapter(BedrockifyClientSettings.ButtonPosition.class, (JsonDeserializer<BedrockifyClientSettings.ButtonPosition>) (json, typeOfT, context) -> {
+                try {
+                    return BedrockifyClientSettings.ButtonPosition.valueOf(json.getAsString());
+                } catch (Exception ignore) {
+                }
+                return BedrockifyClientSettings.ButtonPosition.BELOW_SLIDERS;
+            })
+            .create();
 
     public static BedrockifyClient getInstance() {
         return instance;
@@ -148,16 +163,10 @@ public class BedrockifyClient implements ClientModInitializer {
 
     public void loadSettings() {
         File file = new File("./config/bedrockify/bedrockifyClient.json");
-        Gson gson = new Gson();
-        if (file.exists()) {
-            try {
-                FileReader fileReader = new FileReader(file);
-                settings = gson.fromJson(fileReader, BedrockifyClientSettings.class);
-                fileReader.close();
-            } catch (IOException e) {
-                LOGGER.warn("Could not load bedrockIfy settings: {}", e.getLocalizedMessage());
-            }
-        } else {
+        try (FileReader fileReader = new FileReader(file)) {
+            settings = Objects.requireNonNull(SETTINGS_ENUM_DESERIALIZER.fromJson(fileReader, BedrockifyClientSettings.class));
+        } catch (Exception e) {
+            LOGGER.warn("Could not load bedrockIfy settings: {}", e.getLocalizedMessage());
             settings = new BedrockifyClientSettings();
         }
     }
