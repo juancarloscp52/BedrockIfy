@@ -4,6 +4,7 @@
   "bedrockify.hud.position": "Position:",
   "bedrockify.hud.fps": "FPS:",
   "bedrockify.hud.daysPlayed": "Days played: %s",
+  "bedrockify.hud.tooManyToCount": "Too many to count!",
   "bedrockify.options.categories.gui": "Gui",
   "bedrockify.options.categories.gameplay": "Gameplay",
   "bedrockify.options.categories.visualImprovements": "Visual Improvements",

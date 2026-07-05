@@ -27,6 +27,7 @@ public class Overlay {
     private static final int POSITION_TEXT_BG_HEIGHT = 12;
     private static final int FPS_TEXT_BG_HEIGHT = 10;
     private static final int DAYS_PLAYED_TEXT_BG_HEIGHT = 11;
+    private static final int DAYS_PLAYED_COUNT_MAX = 89478;
 
     public Overlay(Minecraft client) {
         this.client = client;
@@ -98,7 +99,15 @@ public class Overlay {
             return;
         }
         final ClockManager clockManager = this.client.level.clockManager();
-        final Optional<Integer> days = this.client.level.registryAccess().get(Timelines.OVERWORLD_DAY).map(timelineReference -> timelineReference.value().getPeriodCount(clockManager));
+        final Optional<Component> days = this.client.level.registryAccess().get(Timelines.OVERWORLD_DAY)
+                .map(timelineReference -> {
+                    final int count = timelineReference.value().getPeriodCount(clockManager);
+                    if (count > DAYS_PLAYED_COUNT_MAX) {
+                        return Component.translatable("bedrockify.hud.tooManyToCount");
+                    } else {
+                        return Component.literal(String.valueOf(count));
+                    }
+                });
         if (days.isEmpty()) {
             return;
         }
