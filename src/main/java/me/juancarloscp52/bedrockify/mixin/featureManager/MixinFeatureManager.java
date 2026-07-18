@@ -49,8 +49,6 @@ public class MixinFeatureManager {
         features.put("client.features.hudOpacity.appleskin", true);
         features.put("client.features.hudOpacity.detailArmorBar", true);
         features.put("client.features.editionBranding", true);
-        features.put("client.features.babyVillagerHeads", true);
-
     }
 
     public static boolean isFeatureEnabled(String mixin){

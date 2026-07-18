@@ -67,7 +67,6 @@ public class BedrockifyClientSettings {
     public int sunlightIntensity = 50;
     public boolean hideEditionBranding = false;
     public boolean hotBarOverhang = true;
-    // public boolean babyVillagerHeads = false;
     public boolean bedrockCubeMap = false;
 
     public boolean isPickupAnimationsEnabled() {
