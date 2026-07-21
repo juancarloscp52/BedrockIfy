@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ItemInHandRenderer.class)
 public class ItemInHandRendererMixin {
     @Unique
-    float timer = 0;
+    float delta = 0;
     @Unique
     private static final float ONE_CYCLE = 2 * Mth.PI;
 
@@ -25,10 +25,10 @@ public class ItemInHandRendererMixin {
         if (Minecraft.getInstance().isPaused()) {
             return;
         }
-        timer += BedrockifyClient.getInstance().deltaTime * 0.000000002f;
-        if (timer > ONE_CYCLE) {
+        delta += BedrockifyClient.getInstance().deltaTime * 0.000000002f * BedrockifyClient.getInstance().settings.getIdleAnimation();
+        if (delta > ONE_CYCLE) {
             // Prevents float overflow
-            timer -= ONE_CYCLE;
+            delta -= ONE_CYCLE;
         }
     }
 
@@ -38,7 +38,7 @@ public class ItemInHandRendererMixin {
     @Inject(method = "applyItemArmTransform", at=@At("HEAD"),cancellable = true)
     public void applyEquipOffset (PoseStack matrices, HumanoidArm arm, float equipProgress, CallbackInfo info){
         int i = arm == HumanoidArm.RIGHT ? 1 : -1;
-        double breath = (i==1 ? Mth.sin(((timer))* BedrockifyClient.getInstance().settings.getIdleAnimation()) : Mth.cos((timer)* BedrockifyClient.getInstance().settings.getIdleAnimation()))*0.01D;
+        double breath = (i==1 ? Mth.sin(delta) : Mth.cos(delta))*0.01D;
         matrices.translate(((float)i * 0.56F), (-0.52F + equipProgress * -0.6F) + breath, -0.7200000286102295D);
         info.cancel();
     }
