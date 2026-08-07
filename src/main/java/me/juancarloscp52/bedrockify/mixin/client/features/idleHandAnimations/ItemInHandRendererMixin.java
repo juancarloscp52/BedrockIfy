@@ -1,7 +1,10 @@
 package me.juancarloscp52.bedrockify.mixin.client.features.idleHandAnimations;
 
+import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.mojang.blaze3d.vertex.PoseStack;
 import me.juancarloscp52.bedrockify.client.BedrockifyClient;
+import me.juancarloscp52.bedrockify.client.BedrockifyClientSettings;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ItemInHandRenderer;
 import net.minecraft.util.Mth;
@@ -16,31 +19,36 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ItemInHandRenderer.class)
 public class ItemInHandRendererMixin {
     @Unique
-    float timer = 0;
+    float delta = 0;
     @Unique
     private static final float ONE_CYCLE = 2 * Mth.PI;
+    @Unique
+    private final BedrockifyClientSettings bedrockifySettings = BedrockifyClient.getInstance().settings;
 
     @Inject(method = "submitHandsWithItems(FLcom/mojang/blaze3d/vertex/PoseStack;Lnet/minecraft/client/renderer/SubmitNodeCollector;Lnet/minecraft/client/player/LocalPlayer;I)V", at = @At("HEAD"))
     private void bedrockify$updateSwayDelta(CallbackInfo ci) {
         if (Minecraft.getInstance().isPaused()) {
             return;
         }
-        timer += BedrockifyClient.getInstance().deltaTime * 0.000000002f;
-        if (timer > ONE_CYCLE) {
+        this.delta += BedrockifyClient.getInstance().deltaTime * 0.000000002f * this.bedrockifySettings.getIdleAnimation();
+        if (this.delta > ONE_CYCLE) {
             // Prevents float overflow
-            timer -= ONE_CYCLE;
+            this.delta -= ONE_CYCLE;
         }
     }
 
     /**
      * Adds "breathing" idle animation to items in hand.
      */
-    @Inject(method = "applyItemArmTransform", at=@At("HEAD"),cancellable = true)
-    public void applyEquipOffset (PoseStack matrices, HumanoidArm arm, float equipProgress, CallbackInfo info){
-        int i = arm == HumanoidArm.RIGHT ? 1 : -1;
-        double breath = (i==1 ? Mth.sin(((timer))* BedrockifyClient.getInstance().settings.getIdleAnimation()) : Mth.cos((timer)* BedrockifyClient.getInstance().settings.getIdleAnimation()))*0.01D;
-        matrices.translate(((float)i * 0.56F), (-0.52F + equipProgress * -0.6F) + breath, -0.7200000286102295D);
-        info.cancel();
+    @WrapOperation(method = "applyItemArmTransform", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/vertex/PoseStack;translate(FFF)V"))
+    public void applyEquipOffset(PoseStack instance, float xOffset, float yOffset, float zOffset, Operation<Void> original, PoseStack poseStack, HumanoidArm arm) {
+        final float breath;
+        if (this.bedrockifySettings.getIdleAnimation() == 0f) {
+            breath = 0;
+        } else {
+            breath = ((arm == HumanoidArm.RIGHT) ? Mth.sin(this.delta) : Mth.cos(this.delta)) * 0.01f;
+        }
+        original.call(instance, xOffset, yOffset + breath, zOffset);
     }
 
 }
