@@ -47,11 +47,11 @@ public abstract class OptionsScreenMixin extends ExtendScreenMixin {
     }
 
     @Override
-    protected void bedrockify$injectAdded_AtHead(CallbackInfo ci) {
-        super.bedrockify$injectAdded_AtHead(ci);
+    protected void bedrockify$added(CallbackInfo ci) {
+        super.bedrockify$added(ci);
 
-        // Hide current widgets.
-        this.layout.visitChildren(element -> element.visitWidgets(widget -> widget.visible = false));
+        // Remove current widgets.
+        this.layout.removeChildren();
 
         // Execute Screen#clearWidgets and then OptionsScreen#init
         this.rebuildWidgets();

@@ -27,8 +27,8 @@ public abstract class ExtendScreenMixin {
     @Shadow
     protected abstract <T extends GuiEventListener & Renderable & NarratableEntry> T addRenderableWidget(final T widget);
 
-    @Inject(method = "added", at = @At("HEAD"))
-    protected void bedrockify$injectAdded_AtHead(CallbackInfo ci) {
+    @Inject(method = "init(II)V", at = @At("TAIL"))
+    protected void bedrockify$added(CallbackInfo ci) {
         // Empty body for overridable method.
     }
 }
